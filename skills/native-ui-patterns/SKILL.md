@@ -1,6 +1,8 @@
 ---
 name: native-ui-patterns
 description: Native UI patterns. Use when designing iOS or Android screens, reviewing platform fit, or adapting a flow between platforms.
+metadata:
+  internal: true
 ---
 
 # Native UI patterns
