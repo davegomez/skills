@@ -1,0 +1,126 @@
+{
+ "version": "v3",
+ "run": "T02-pi-2",
+ "model": "jev-1.13.0",
+ "jev": {
+  "B3": 0.16,
+  "B4": 0.05,
+  "B5": 0.29,
+  "B7": 0.07,
+  "B10": 0.02,
+  "T2a": 0.07,
+  "T2b": 0.05,
+  "T2c": 0.04,
+  "B2a": 0.29,
+  "B2b": 0.22,
+  "B6a": 0.34,
+  "B6b": 0.24
+ },
+ "qhashes": {
+  "B3": "463c7978126faccb",
+  "B4": "322f6e55fa8da47b",
+  "B5": "ee1fd76f9dd96853",
+  "B7": "4aa2de44fd7f79a1",
+  "B10": "ba31c9baaa8ac985",
+  "T2a": "942dcd2b7ef8ae8c",
+  "T2b": "8e29178de8e8a900",
+  "T2c": "4c1eeffecc1763f9",
+  "B2a": "29f216fee9bd3a64",
+  "B2b": "fc3cb99271d941e3",
+  "B6a": "23af799d9d47d91f",
+  "B6b": "d654712b85505433"
+ },
+ "requests": [
+  {
+   "checks": [
+    "B10",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "T2a",
+    "T2b",
+    "T2c"
+   ],
+   "input_tokens": 4500,
+   "raw_estimate": 23018,
+   "elapsed_s": 0.21,
+   "model": "jev-1.13.0",
+   "round": "v1"
+  },
+  {
+   "checks": [
+    "B2a",
+    "B2b",
+    "B6a",
+    "B6b"
+   ],
+   "input_tokens": 3255,
+   "raw_estimate": 4231,
+   "elapsed_s": 0.2,
+   "model": "jev-1.13.0",
+   "round": "r1",
+   "repeat": false
+  },
+  {
+   "checks": [
+    "B2a",
+    "B2b",
+    "B6a",
+    "B6b"
+   ],
+   "input_tokens": 3429,
+   "raw_estimate": 4478,
+   "elapsed_s": 0.21,
+   "model": "jev-1.13.0",
+   "round": "r2",
+   "repeat": false
+  }
+ ],
+ "history": [
+  {
+   "check": "B2",
+   "qhash": "f55c305f427e1ba7",
+   "round": "v1",
+   "p": 0.27
+  },
+  {
+   "check": "B6",
+   "qhash": "a5bf0bed0f0bf5ab",
+   "round": "v1",
+   "p": 0.41
+  },
+  {
+   "check": "B2a",
+   "qhash": "2ff9765931518709",
+   "round": "r1",
+   "p": 0.3
+  },
+  {
+   "check": "B2b",
+   "qhash": "cfc0df8181e59fb7",
+   "round": "r1",
+   "p": 0.26
+  },
+  {
+   "check": "B6a",
+   "qhash": "d20f19ee0a9a854e",
+   "round": "r1",
+   "p": 0.31
+  },
+  {
+   "check": "B6b",
+   "qhash": "960f8cd891802e07",
+   "round": "r1",
+   "p": 0.22
+  }
+ ],
+ "rounds": {
+  "B2a": "r2",
+  "B2b": "r2",
+  "B6a": "r2",
+  "B6b": "r2"
+ }
+}

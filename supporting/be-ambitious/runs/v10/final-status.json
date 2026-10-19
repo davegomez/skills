@@ -1,0 +1,38 @@
+{
+ "status": {
+  "T04-claude-1": "pass",
+  "T04-claude-2": "disputed",
+  "T04-claude-3": "disputed",
+  "T04-pi-1": "pass",
+  "T04-pi-2": "pass",
+  "T04-pi-3": "pass",
+  "T13-claude-1": "disputed",
+  "T13-claude-2": "fail",
+  "T13-claude-3": "fail",
+  "T13-pi-1": "disputed",
+  "T13-pi-2": "pass",
+  "T13-pi-3": "pass"
+ },
+ "detail": {
+  "T04-claude-2": [
+   "B2:disputed(review)"
+  ],
+  "T04-claude-3": [
+   "T4a:disputed(review)"
+  ],
+  "T13-claude-1": [
+   "B2:disputed(review)"
+  ],
+  "T13-claude-2": [
+   "B3:fail(review)",
+   "B6:fail(review)"
+  ],
+  "T13-claude-3": [
+   "B6:fail(review)"
+  ],
+  "T13-pi-1": [
+   "B6:disputed(review)",
+   "B2:disputed(review)"
+  ]
+ }
+}

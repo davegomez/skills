@@ -1,0 +1,21 @@
+In README.md replace the single exact string "npm instal" with "npm install". Change no other byte. Do not add a test file, run an install, or reformat the document.
+
+Before editing, check the dependencies:
+- Confirm README.md exists.
+- Confirm you have a pristine baseline to diff against: either version control showing README.md unmodified, or a copy written outside the project directory and deleted afterward.
+
+Locate the target safely. "npm instal" is a prefix of the correct "npm install", so a plain substring search also counts every correct occurrence, and a replace-all would turn each one into "npm installl".
+- Count only occurrences of "npm instal" that are not followed by "l".
+- Record the byte offset of each occurrence.
+- If the count is not exactly 1, stop and report the count and offsets without editing.
+
+Make the change as a single insertion of the byte "l" immediately after the matched "npm instal". Use an edit method that does not touch line endings (LF/CRLF), trailing whitespace, the final newline, encoding, or a BOM.
+
+Verify the change:
+- The diff contains exactly one replacement, "npm instal" → "npm install".
+- The new file is exactly 1 byte longer than the baseline.
+- Deleting the byte at the recorded insertion offset from the new file reproduces the baseline byte-for-byte (cmp exits 0).
+- A recount finds zero occurrences of "npm instal" not followed by "l".
+- The count of "npm installl" is unchanged from the baseline.
+
+Judge: report the diff, the before/after byte sizes, the cmp exit status after removing the inserted byte, and the recounts. Pass only if the diff shows exactly that one replacement, the size grows by exactly 1, cmp exits 0, and both recounts hold.

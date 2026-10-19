@@ -1,0 +1,446 @@
+[
+  {
+    "item": "D01",
+    "defect": false,
+    "confidence": 0.97,
+    "reason": "The separate approval lines address the two demonstrated loopholes, and \"after approval of training-only threshold selection\" explicitly ties freezing and read records to the selection repair rather than adding an unrelated operational step."
+  },
+  {
+    "item": "D02",
+    "defect": true,
+    "confidence": 0.99,
+    "reason": "The added \"`cmp -l` / byte sizes\" verification compares byte positions and size without establishing the complete expected insertion result, so it does not satisfy the required one-insertion verification."
+  },
+  {
+    "item": "D03",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The task is returned verbatim with the justification \"no concrete targeting or verification defect warrants additional methods or scope,\" so B4's changed-prompt judge requirement does not apply."
+  },
+  {
+    "item": "D04",
+    "defect": false,
+    "confidence": 0.95,
+    "reason": "\"Aim for Cohen's kappa of at least 0.85\" specifies a task-relevant agreement measure with independent recoding and met-or-missed reporting, not an arbitrary qualitative improvement ratio."
+  },
+  {
+    "item": "D05",
+    "defect": false,
+    "confidence": 0.96,
+    "reason": "The prompt labels its inferred outcome \"Assumption\" and explicitly checks metadata access, \"whether pg_stat_statements is already enabled,\" representative test capacity, analyst priorities, and deployment authorization."
+  },
+  {
+    "item": "D06",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"Without approval, retain the original procedure\" preserves the fixed requirements while the two separately gated repairs close demonstrated split and selection loopholes without adding analyses or statistical acceptance conditions."
+  },
+  {
+    "item": "D07",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "Both demonstrated loophole repairs appear on separate \"With my approval only:\" lines, while the additional precision and interval concerns are explicitly described as \"left unchanged.\""
+  },
+  {
+    "item": "D08",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The verbatim task and \"Unchanged: this is a small, clear request\" justification constitute an unchanged response, so an independent judge is not required by B4."
+  },
+  {
+    "item": "D09",
+    "defect": false,
+    "confidence": 0.97,
+    "reason": "\"I (the owner) review the deliverable and pass it only if\" introduces an independent, task-specific evidence rubric, while unavailable causal evidence remains explicitly unverified."
+  },
+  {
+    "item": "D10",
+    "defect": false,
+    "confidence": 0.95,
+    "reason": "\"First check: wait until the ticket text and ticket IDs are supplied\" checks the required inputs, the counting interpretation is marked as an assumption, and semantic review uses the owner rather than an assumed external reviewer."
+  },
+  {
+    "item": "D11",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only: enforce the no-holdout-tuning rule\" gates a provenance-only repair of the explicit rule the runner cannot detect, which Q9 permits."
+  },
+  {
+    "item": "D12",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The task is returned verbatim with \"No concrete targeting or verification defect warrants adding methods, goals, or review machinery,\" making T3c inapplicable rather than failed."
+  },
+  {
+    "item": "D13",
+    "defect": false,
+    "confidence": 0.94,
+    "reason": "The fixed procedure and numerical judge remain written in the prompt, while \"With my approval only: make the random split by customer rather than by row\" and the separately gated selection repair address the two demonstrated loopholes."
+  },
+  {
+    "item": "D14",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"Separate observation from evaluation,\" politeness-based redress, and the contempt-versus-over-softening checks each contribute a concrete revision practice rather than merely naming disciplines or personas."
+  },
+  {
+    "item": "D15",
+    "defect": false,
+    "confidence": 0.94,
+    "reason": "The inferred decision frame and data coverage are marked as assumptions, and \"a finance or analytics staff member other than the author is available\" explicitly checks the review dependency alongside exports and approved finance access."
+  },
+  {
+    "item": "D16",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"First check: the redacted notes are provided\" and the separate check that a team reviewer \"is available to review and is permitted to see these redacted notes\" establish the dependencies without inventing evidence."
+  },
+  {
+    "item": "D17",
+    "defect": true,
+    "confidence": 0.97,
+    "reason": "\"Treat the single Postgres server as a shared queue\" asserts a single-server topology that the task does not establish and that the prompt neither labels as an assumption nor checks."
+  },
+  {
+    "item": "D18",
+    "defect": false,
+    "confidence": 0.97,
+    "reason": "\"Change no other byte,\" the exact replacement, the required diff verification, and \"Do not add a test file, run an install, or reformat the document\" all survive, notwithstanding the separate verification-method defect."
+  },
+  {
+    "item": "D19",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"The manager reviews the output and passes it only if\" supplies a non-author reviewer, concrete candor and non-humiliation criteria, and an observable passing verdict."
+  },
+  {
+    "item": "D20",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only: before reading the holdout, freeze the model, baseline, and feature settings\" gates an allowed enforcement repair for the explicit no-tuning rule without adding an analysis."
+  },
+  {
+    "item": "D21",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Confirm access and permission\" covers the required artifacts and diagnostics, and the prompt also checks authorized benchmark capacity and unused validation inputs instead of assuming their availability."
+  },
+  {
+    "item": "D22",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only\" gates freezing, hashes, timestamps, and read logs that enforce the existing no-holdout-tuning rule, with review assigned to the already-required independent analyst."
+  },
+  {
+    "item": "D23",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"With my approval only: change paid hosting or CDN plans or settings that carry a cost\" gates paid changes, and no rebuild or framework migration is proposed."
+  },
+  {
+    "item": "D24",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"Do not deploy or purchase services without authorization\" restricts purchases, and the prompt proposes bottleneck-directed changes rather than an ungated rebuild or framework change."
+  },
+  {
+    "item": "D25",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only: close the enforcement gap\" limits the addition to freezing and holdout-read records, an expressly permitted repair of the existing no-tuning prohibition."
+  },
+  {
+    "item": "D26",
+    "defect": false,
+    "confidence": 0.92,
+    "reason": "The copyable task remains verbatim and is justified by \"the task text shows no targeting or verification defect,\" so B4 does not require a judge for a changed prompt."
+  },
+  {
+    "item": "D27",
+    "defect": false,
+    "confidence": 0.91,
+    "reason": "\"Capture raw Chrome performance traces and network waterfalls\" identifies concrete browser instrumentation and raw rendering evidence used for critical-path diagnosis rather than generic optimization advice."
+  },
+  {
+    "item": "D28",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only: analyze an owner-supplied, non-identifying aggregate comparison\" gates the additional analysis and explicitly forbids obtaining the data independently."
+  },
+  {
+    "item": "D29",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The fixed task and numerical judge remain intact, and the approval-gated \"freeze-and-read-log protocol to enforce the existing no-tuning rule\" is a permitted loophole repair rather than an added analysis."
+  },
+  {
+    "item": "D30",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "Export analysis, customer-success interviews, and the randomized pilot each have their own \"With my approval only:\" line, while purchasing data, scraping, and requesting production credentials remain prohibited."
+  },
+  {
+    "item": "D31",
+    "defect": true,
+    "confidence": 0.91,
+    "reason": "\"Set Airflow pools and max_active_tasks to the concurrency the database actually sustains\" permits pool changes without limiting them to dedicated resources or gating changes that affect other DAGs."
+  },
+  {
+    "item": "D32",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only: use a freeze-and-read-log protocol\" gates the permitted no-tuning enforcement repair and uses the already-required analyst rather than adding delegation."
+  },
+  {
+    "item": "D33",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"No new infrastructure spend and no changes to the report definitions\" remains explicit, and \"under 3 hours remains the required bar\" preserves the owner's acceptance threshold."
+  },
+  {
+    "item": "D34",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Compare retention and acquisition at the same incremental investment\" and \"calculate the break-even improvement\" give managerial accounting and decision analysis concrete contributions to the leadership decision."
+  },
+  {
+    "item": "D35",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"With my approval only: change Airflow pool sizes or global parallelism settings\" and the other approval lines gate shared configuration, production comparisons, incremental rebuilding, and schedule changes."
+  },
+  {
+    "item": "D36",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Identify the permitted change and execution windows before running diagnostics or applying changes\" confines the work to existing authorization without proposing an expansion requiring a separate approval ritual."
+  },
+  {
+    "item": "D37",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "The two repairs each have a \"With my approval only:\" line, while the \"reproducibility-audit rubric\" clarifies the already-required audit without adding analyses or changing the numerical judge."
+  },
+  {
+    "item": "D38",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Do not add analyses, metrics, thresholds, partitions, or inferential methods\" limits the changes to separately approved customer separation and threshold-selection repairs, with the fixed numerical acceptance condition retained."
+  },
+  {
+    "item": "D39",
+    "defect": true,
+    "confidence": 0.85,
+    "reason": "\"Reported as p50/p90 against the 4-hour baseline\" fixes the owner's approximate runtime report as the comparison baseline instead of conditioning that value on the raw baseline measurements requested earlier."
+  },
+  {
+    "item": "D40",
+    "defect": true,
+    "confidence": 0.99,
+    "reason": "\"Within a run that still publishes the full set as it does today\" invents the pipeline's current publication behavior, which is neither supplied by the task nor checked."
+  },
+  {
+    "item": "D41",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"The following are proposed, localized repairs, not authorization to depart from those instructions\" and the two separate approval lines preserve authority over both permitted loophole repairs."
+  },
+  {
+    "item": "D42",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only: before the holdout is read, freeze every chosen setting\" gates recordkeeping that enforces the explicit no-tuning rule without expanding the fixed analysis set."
+  },
+  {
+    "item": "D43",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"With my approval only: deliver a validation note as a separate file\" is allowed by Q4, and the second coder's involvement and resulting data sharing are also approval-gated."
+  },
+  {
+    "item": "D44",
+    "defect": false,
+    "confidence": 0.94,
+    "reason": "\"Keep the same two sets\" and the separately gated training-only threshold selection limit the repairs to the two demonstrated loopholes while preserving the fixed procedure and numerical judge."
+  },
+  {
+    "item": "D45",
+    "defect": false,
+    "confidence": 0.96,
+    "reason": "Server-wide settings, Airflow-wide configuration, early publication, and schedule changes are each behind \"With my approval only,\" and execution is limited to \"supported, authorized work.\""
+  },
+  {
+    "item": "D46",
+    "defect": false,
+    "confidence": 0.91,
+    "reason": "\"Requirements: use the existing Airflow and Postgres setup; no new infrastructure spend; no changes to the report definitions\" retains every explicit constraint, with under three hours still the required performance bar."
+  },
+  {
+    "item": "D47",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"With my approval only: change the hosting or CDN configuration or plan where the change adds cost\" gates paid services, and no rebuild or framework change is proposed."
+  },
+  {
+    "item": "D48",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Confirm authorized access\" and checks for safe test capacity, equivalent source states, and a representative confirmation workload keep required resources conditional rather than invented."
+  },
+  {
+    "item": "D49",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The verbatim task followed by \"no concrete targeting or verification defect warrants expanding it\" is a justified unchanged response, so B4's changed-prompt requirement is inapplicable."
+  },
+  {
+    "item": "D50",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"With my approval only\" separately gates customer-grouped splitting and training-only threshold selection, including freezing and read records, without authorizing unrelated methods or scope."
+  },
+  {
+    "item": "D51",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Red-team the draft twice\" specifies a drafting procedure rather than a hard improvement target, and the prompt assigns no arbitrary numeric ratio to qualitative quality."
+  },
+  {
+    "item": "D52",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "The two \"With my approval only:\" repairs address customer overlap and holdout-based selection, retain the fixed numerical judge, and introduce no additional analysis or partition."
+  },
+  {
+    "item": "D53",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"With my approval only: any paid change to hosting, CDN tier, or an image-optimization service\" gates paid changes, while the listed implementation fixes do not propose a rebuild or framework migration."
+  },
+  {
+    "item": "D54",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"Keep these scope, methods, and acceptance conditions unchanged\" accompanies the preserved fixed text and judge, with only separately approved repairs to the two demonstrated loopholes."
+  },
+  {
+    "item": "D55",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"With my approval only: any paid or plan-level change\" gates paid services, and the shared-template and asset optimizations do not introduce a rebuild or framework change."
+  },
+  {
+    "item": "D56",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The original fixed procedure and statistical judge survive, while \"freeze the model, baseline, features, and every setting chosen on training evidence\" is an approval-gated enforcement repair permitted by Q9."
+  },
+  {
+    "item": "D57",
+    "defect": false,
+    "confidence": 0.97,
+    "reason": "\"Check CDN cache headers and the hit ratio\" inspects existing delivery behavior, and the prompt proposes no rebuild, framework migration, or paid service requiring an additional approval line."
+  },
+  {
+    "item": "D58",
+    "defect": false,
+    "confidence": 0.92,
+    "reason": "\"Requirements: run on the existing Airflow and Postgres setup; no new infrastructure spend; no changes to the report definitions\" preserves the owner's constraints, with under three hours retained as the pass condition."
+  },
+  {
+    "item": "D59",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The poem task is returned verbatim with \"No concrete targeting or verification defect warrants adding methods, goals, or review machinery,\" so no changed-prompt judge is required."
+  },
+  {
+    "item": "D60",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Compare baseline and optimized outputs as multisets\" and \"Use fault injection\" give software verification concrete correctness contributions alongside critical-path optimization and complete analyst-ready timing."
+  },
+  {
+    "item": "D61",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "The fixed procedure and judge remain intact, while \"keep the random split\" with customer grouping and the separately approved training-only selection repair address only the demonstrated loopholes."
+  },
+  {
+    "item": "D62",
+    "defect": false,
+    "confidence": 0.97,
+    "reason": "Every repair is approval-gated, and \"after approval of training-only threshold selection\" confines the additional freezing and read records to enforcement of that permitted selection repair."
+  },
+  {
+    "item": "D63",
+    "defect": true,
+    "confidence": 0.94,
+    "reason": "\"The added judge is the manager, already the owner\" assumes an identity the task does not establish, and the prompt never checks the manager's availability as a separate reviewer."
+  },
+  {
+    "item": "D64",
+    "defect": false,
+    "confidence": 0.95,
+    "reason": "\"With my approval only\" separately gates the customer-level split and training-only selection repairs, while the already-requested analyst's availability and permission are checked before reliance on the audit."
+  },
+  {
+    "item": "D65",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Without approval, retain the stated split\" and \"retain the stated selection method\" preserve the fixed requirements, while approved repairs close the demonstrated loopholes without replacing the statistical judge."
+  },
+  {
+    "item": "D66",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Treat ‘about 4 hours’ as the reported baseline, not an independently verified measurement\" preserves evidence status, and the first checks cover access, resource limits, and authorized validation facilities."
+  },
+  {
+    "item": "D67",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Confirm authorized access\" and \"confirm that the existing environment can support safe baseline/output comparisons\" explicitly check the dependencies and leave unsupported claims unverified."
+  },
+  {
+    "item": "D68",
+    "defect": false,
+    "confidence": 0.96,
+    "reason": "\"First check: confirm access to the relevant DAGs, SQL, historical run logs, permitted Postgres diagnostics\" establishes the evidence dependencies, and missing comparison or timing facilities leave claims unverified."
+  },
+  {
+    "item": "D69",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The fixed methods and numerical acceptance condition remain written unchanged, and \"before reading the holdout, freeze the model, baseline, and feature settings\" is a separately approved enforcement repair allowed by Q9."
+  },
+  {
+    "item": "D70",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"Pick the precision-maximizing alert threshold on the training set\" and customer-grouped splitting are separately approval-gated repairs to the two demonstrated loopholes, while other concerns remain expressly unchanged."
+  },
+  {
+    "item": "D71",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"Do not assume that this evidence exists or that you can obtain it\" preserves uncertainty, and first checks establish churn definitions, dates, aggregate availability, and authorization before any analysis."
+  },
+  {
+    "item": "D72",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "\"The manager reviews the output and passes it only if\" supplies an external qualitative rubric covering candor, non-humiliation, factual restraint, and format rather than model self-approval or a fabricated percentage."
+  },
+  {
+    "item": "D73",
+    "defect": true,
+    "confidence": 0.99,
+    "reason": "\"Name the coder before any ticket text is shared with them\" does not check that the new independent coder is available and permitted to inspect the tickets before the work."
+  },
+  {
+    "item": "D74",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "\"Open coding,\" \"axial coding,\" the \"failure-mode distinction,\" and adversarial ticket reassignment each change the categorization practice or its checks for a stated benefit rather than merely supplying disciplinary labels."
+  }
+]

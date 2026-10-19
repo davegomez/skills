@@ -1,0 +1,52 @@
+[
+ {
+  "run": "T13-claude-1",
+  "check": "B6",
+  "reason": "jev p=0.50 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-claude-2",
+  "check": "B3",
+  "reason": "jev p=0.47 >= 0.37; L8 flag: no First check for: analyst"
+ },
+ {
+  "run": "T13-claude-2",
+  "check": "B6",
+  "reason": "jev p=0.56 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-pi-1",
+  "check": "B3",
+  "reason": "jev p=0.42 >= 0.37"
+ },
+ {
+  "run": "T13-pi-1",
+  "check": "B6",
+  "reason": "jev p=0.53 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-pi-2",
+  "check": "B6",
+  "reason": "jev p=0.50 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-pi-3",
+  "check": "B2",
+  "reason": "jev p=0.50 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-pi-3",
+  "check": "B3",
+  "reason": "jev p=0.44 >= 0.37"
+ },
+ {
+  "run": "T13-pi-3",
+  "check": "B6",
+  "reason": "jev p=0.55 >= 0.5 (uncalibrated); L7 flag: infrastructure,spend <- run a bounded original-versus-optimized replay on shared"
+ },
+ {
+  "run": "T13-pi-3",
+  "check": "B7",
+  "reason": "jev p=0.15 >= 0.14"
+ }
+]

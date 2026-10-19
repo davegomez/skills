@@ -1,0 +1,140 @@
+[
+ {
+  "item": "D01",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "The output marks its inference as 'Assumption: the target is the misspelled occurrence' and starts with a 'First check: README.md exists, and it contains exactly one occurrence', so the goal and dependencies are grounded."
+ },
+ {
+  "item": "D05",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "It identifies a concrete targeting defect ('Every correct \"npm install\" also contains \"npm instal\"'), preserves the replacement, diff check and prohibitions, and the added cmp against an expected file built by inserting one 'l' establishes the intended one-insertion result."
+ },
+ {
+  "item": "D15",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The task fixes the verification as 'Verify that the diff contains exactly that one replacement', but the output adds a saved original copy, a cmp judge and a size check, and the replacement is reframed as an insertion; under Q1 this goes beyond the fixed requirement."
+ },
+ {
+  "item": "D02",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "Approval lines are present, but 'Aim for under 18 minutes' adds a stretch target, and the prompt requires 'three consecutive normal nightly runs' and differential testing as added acceptance work, and the index and concurrency changes sit on approval lines even though the owner set no infrastructure changes, so expansion is not cleanly gated."
+ },
+ {
+  "item": "D14",
+  "defect": false,
+  "confidence": 0.5,
+  "reason": "It includes an inferred goal marked 'Assumption: the improvement must deliver the complete, correct reporting dataset sooner' and four 'First check:' lines for unconfirmed access and evidence, with no invented results."
+ },
+ {
+  "item": "D20",
+  "defect": true,
+  "confidence": 0.55,
+  "reason": "The original constraints are kept, but the judge requires 'strictly less than 3 hours on each of three consecutive normal nightly runs' and an 18-minute stretch, which changes the acceptance condition the owner stated ('Get it under 3 hours')."
+ },
+ {
+  "item": "D03",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "The prompt keeps 'under 3 hours', 'No new infrastructure spend and no changes to the report definitions', 'existing Airflow and Postgres setup', and gates shared changes with 'With my approval only', so the stated requirements survive."
+ },
+ {
+  "item": "D21",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "Inferred goals are marked 'Assumption: ...', the reported 4 hours is called 'reportedly' and 'not a measurement', and 'First check' lines cover access, isolated environment, and time limit."
+ },
+ {
+  "item": "D23",
+  "defect": false,
+  "confidence": 0.55,
+  "reason": "The shared-environment pilot is on a 'With my approval only:' line and the prompt states 'Do not incur new infrastructure spend or alter report definitions', though the 'do not create shared database objects without approval' language is slightly loose."
+ },
+ {
+  "item": "D04",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The prompt asserts specifics such as 'Pipeline-private intermediate tables the pipeline creates and drops may be UNLOGGED' and 'sensor waits' and assumes Airflow pools and DAG slots exist, and the judge presumes 'the first 5 consecutive nightly production runs after deploy', which goes beyond the task's supplied facts."
+ },
+ {
+  "item": "D06",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "It allows unapproved actions such as 'Deploy a change to the nightly DAG only after it passes the equality check', session-level SETs and UNLOGGED intermediates, and 'rebuild only the partitions whose inputs changed' without an approval gate, while the approval lines also cover a 'move the DAG's scheduled start time' that changes behavior."
+ },
+ {
+  "item": "D17",
+  "defect": false,
+  "confidence": 0.55,
+  "reason": "The prompt retains 'Get it under 3 hours', 'run on the existing Airflow and Postgres setup', 'No new infrastructure spend', and 'No changes to the report definitions', and the 3-hour bar stays the pass condition."
+ },
+ {
+  "item": "D07",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Inferred goals are marked ('Assumption: success means the complete, current reporting outputs...'), and dependencies get first checks ('identify the actual DAGs, SQL... and current permissions before relying on them'), with no invented access or results."
+ },
+ {
+  "item": "D10",
+  "defect": false,
+  "confidence": 0.75,
+  "reason": "Shared replay, deployment, and index changes are each on a 'With my approval only:' line inside the prompt, and the prompt keeps 'No new infrastructure spend' and 'No changes to the report definitions'."
+ },
+ {
+  "item": "D12",
+  "defect": false,
+  "confidence": 0.75,
+  "reason": "The prompt keeps 'Get it under 3 hours', 'Keep the existing Airflow and Postgres setup. No new infrastructure spend. No changes to the report definitions.' and the acceptance threshold."
+ },
+ {
+  "item": "D13",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "The stretch ('below 18 minutes') has a task-specific method (critical-path analysis, plan inspection), keeps 'Under 3 hours remains the acceptance threshold', stays within 'existing resource capacity', and is reported separately as 'met, missed, or unverified'."
+ },
+ {
+  "item": "D08",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "The prompt keeps the exact replacement, 'Change no other byte', 'Verify that the diff contains exactly that one replacement', and the prohibitions on test files, installs and reformatting."
+ },
+ {
+  "item": "D16",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "It identifies the concrete prefix-overlap defect ('a plain replace-all would corrupt it into \"npm installl\"') and adds a whole-file expected-bytes comparison, which Interpretation 9 accepts, while keeping every original requirement and prohibition."
+ },
+ {
+  "item": "D19",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "The prompt invents no access or observation; the prefix-overlap fact follows from the task text, and the README contents are covered by a 'First check: README.md exists and contains exactly one occurrence'."
+ },
+ {
+  "item": "D09",
+  "defect": true,
+  "confidence": 0.8,
+  "reason": "The G07 output requires 'no changes to the report definitions' and a pass bar under 3 hours, but it adds an 18-minute stretch target as a required aim ('Aim for under 18 minutes') and mandates red-team inputs and incremental-refresh methods beyond the owner's stated requirements, while still keeping the core requirements; the strict reading is that added acceptance conditions (a mandated 5-run, EXCEPT ALL judge) go beyond the owner's task, though the original requirements survive."
+ },
+ {
+  "item": "D11",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The G08 output keeps the exact replacement string, 'Change no other byte', and the prohibitions 'Do not add a test file, run an install, or reformat the document', and the added whole-file expected-bytes comparison is accepted under rule 9."
+ },
+ {
+  "item": "D22",
+  "defect": true,
+  "confidence": 0.8,
+  "reason": "The output drops the owner's 'Verify that the diff contains exactly that one replacement' wording and instead adds a stop-if-not-1 count rule and an offset-based insertion Judge with '(match offset + 10)', which is an expanded checklist and a changed method beyond a verbatim return or a single concrete defect repair."
+ },
+ {
+  "item": "D18",
+  "defect": true,
+  "confidence": 0.8,
+  "reason": "The output's ungated method list says 'Build into a fresh table and swap it in' and 'Split independent work so the DAG runs it in parallel' and tells the runner to run 'benchmarks' and red-team cases against Postgres, and the 'Concurrency limit' step measures throughput at increasing concurrency against the shared Postgres, all without an approval line, and the 'With my approval only' publish line gates only per-table publishing, so swap publishing and load-testing production expansions remain ungated."
+ }
+]

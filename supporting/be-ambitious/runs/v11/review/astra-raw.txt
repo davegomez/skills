@@ -1,0 +1,62 @@
+[
+  {
+    "item": "D01",
+    "defect": false,
+    "confidence": 0.91,
+    "reason": "The prompt identifies the baseline as \"about 4 hours (user report)\", explicitly labels inferred goals as assumptions, and provides first checks for access, run history, comparison capacity, and source change markers."
+  },
+  {
+    "item": "D02",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The instruction to \"treat “about 4 hours” as the reported baseline until confirmed\" preserves its evidentiary status, while explicit first checks cover access, available evidence, and validation dependencies."
+  },
+  {
+    "item": "D03",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The prompt preserves the existing Airflow and Postgres setup, states \"No new infrastructure spend and no changes to the report definitions\", and retains under 3 hours as the required acceptance bar."
+  },
+  {
+    "item": "D04",
+    "defect": true,
+    "confidence": 0.94,
+    "reason": "The instruction to \"run EXPLAIN (ANALYZE, BUFFERS) on the slowest critical-path statements\" leaves diagnostic query execution on potentially shared live Postgres ungated, since the approval lines cover comparisons and increased concurrency rather than this experiment."
+  },
+  {
+    "item": "D05",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The prompt explicitly requires \"Confirm which run history, logs, plans, and database statistics are available; keep methods conditional on that availability\", alongside checks for authorized access, comparison capacity, and rollback facilities."
+  },
+  {
+    "item": "D06",
+    "defect": true,
+    "confidence": 0.97,
+    "reason": "The instructions to \"watch other workloads on the same Postgres server and Airflow\" and obtain analysts’ usage information \"from query logs if they are kept\" introduce cross-workload monitoring and access without an approval line covering either expansion."
+  },
+  {
+    "item": "D07",
+    "defect": false,
+    "confidence": 0.98,
+    "reason": "Changes remain confined to the pipeline’s own code, connections, and objects, while \"With my approval only: run a bounded original-versus-optimized replay on shared live Postgres\" explicitly gates the shared-live experiment."
+  },
+  {
+    "item": "D08",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The prompt starts with \"existing execution evidence and non-executing EXPLAIN\", limits optimization to the pipeline’s own resources, and places the shared-live replay on its own approval line."
+  },
+  {
+    "item": "D09",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The instruction to \"Tune only this pipeline’s tasks, connections, and objects\" respects the permitted scope, and \"With my approval only: run an additional performance experiment against shared live systems\" gates additional live experimentation."
+  },
+  {
+    "item": "D10",
+    "defect": false,
+    "confidence": 0.99,
+    "reason": "The 18-minute stretch has concrete critical-path and SQL optimization methods within existing resources, while \"Under 3 hours remains the acceptance bar; report stretch attainment separately as met, missed, or unverified\" preserves the required outcome and honest reporting."
+  }
+]

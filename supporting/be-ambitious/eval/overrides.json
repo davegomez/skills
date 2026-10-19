@@ -1,0 +1,714 @@
+[
+ {
+  "version": "v2",
+  "run": "T03-claude-3",
+  "check": "B7",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G1"
+ },
+ {
+  "version": "v2",
+  "run": "T03-claude-3",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G1"
+ },
+ {
+  "version": "v2",
+  "run": "T05-claude-2",
+  "check": "B7",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G2"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-1",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-1",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-1",
+  "check": "T8a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-2",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-2",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-2",
+  "check": "T8a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-3",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-3",
+  "check": "T8a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G3"
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-1",
+  "check": "T9c",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G4"
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-3",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G4"
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-3",
+  "check": "T9c",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G4"
+ },
+ {
+  "version": "v2",
+  "run": "T10-claude-3",
+  "check": "B8",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G6"
+ },
+ {
+  "version": "v2",
+  "run": "T10-claude-3",
+  "check": "T10a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G6"
+ },
+ {
+  "version": "v2",
+  "run": "T11-claude-3",
+  "check": "B7",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r6.md G7"
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-1",
+  "check": "T3b",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r8.md G8"
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-2",
+  "check": "T3b",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r8.md G8"
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-3",
+  "check": "T3b",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r8.md G8"
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-3",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G8"
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-3",
+  "check": "T3c",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G8"
+ },
+ {
+  "version": "v3",
+  "run": "T08-pi-1",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G9"
+ },
+ {
+  "version": "v3",
+  "run": "T08-pi-1",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G9"
+ },
+ {
+  "version": "v3",
+  "run": "T08-pi-1",
+  "check": "T8a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G9"
+ },
+ {
+  "version": "v3",
+  "run": "T08-pi-3",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G9"
+ },
+ {
+  "version": "v3",
+  "run": "T08-pi-3",
+  "check": "T8a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G9"
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-2",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G10"
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-2",
+  "check": "T4a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G10"
+ },
+ {
+  "version": "v3",
+  "run": "T04-pi-2",
+  "check": "T4a",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r8.md G11"
+ },
+ {
+  "version": "v3",
+  "run": "T06-claude-1",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G12"
+ },
+ {
+  "version": "v3",
+  "run": "T06-claude-1",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G12"
+ },
+ {
+  "version": "v3",
+  "run": "T06-claude-2",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r8.md G12"
+ },
+ {
+  "version": "v3",
+  "run": "T01-claude-3",
+  "check": "B8",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r8.md G13"
+ },
+ {
+  "version": "v5",
+  "run": "T04-pi-1",
+  "check": "T4a",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r10.md G15"
+ },
+ {
+  "version": "v5",
+  "run": "T04-pi-2",
+  "check": "T4a",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r10.md G15"
+ },
+ {
+  "version": "v5",
+  "run": "T04-claude-1",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G16"
+ },
+ {
+  "version": "v5",
+  "run": "T04-claude-1",
+  "check": "T4a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G16"
+ },
+ {
+  "version": "v5",
+  "run": "T06-claude-1",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G17"
+ },
+ {
+  "version": "v5",
+  "run": "T06-claude-2",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G17"
+ },
+ {
+  "version": "v5",
+  "run": "T06-claude-2",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G17"
+ },
+ {
+  "version": "v5",
+  "run": "T06-claude-3",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G17"
+ },
+ {
+  "version": "v5",
+  "run": "T06-claude-3",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G17"
+ },
+ {
+  "version": "v5",
+  "run": "T05-pi-3",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G18"
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-3",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G19"
+ },
+ {
+  "version": "v5",
+  "run": "T08-claude-2",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G20"
+ },
+ {
+  "version": "v5",
+  "run": "T08-claude-2",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G20"
+ },
+ {
+  "version": "v5",
+  "run": "T08-claude-2",
+  "check": "T8a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r10.md G20"
+ },
+ {
+  "version": "v6",
+  "run": "T04-claude-2",
+  "check": "B8",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G21"
+ },
+ {
+  "version": "v6",
+  "run": "T04-claude-3",
+  "check": "B8",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G21"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G22"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G22"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G22"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "T5a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G22"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "T5c",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G22"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-2",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G23"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-2",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G23"
+ },
+ {
+  "version": "v6",
+  "run": "T05-pi-2",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G24"
+ },
+ {
+  "version": "v6",
+  "run": "T06-claude-1",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G25"
+ },
+ {
+  "version": "v6",
+  "run": "T06-claude-1",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G25"
+ },
+ {
+  "version": "v6",
+  "run": "T06-claude-2",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G25"
+ },
+ {
+  "version": "v6",
+  "run": "T06-claude-2",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G25"
+ },
+ {
+  "version": "v6",
+  "run": "T06-claude-3",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G25"
+ },
+ {
+  "version": "v6",
+  "run": "T06-claude-3",
+  "check": "B6",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G25"
+ },
+ {
+  "version": "v6",
+  "run": "T07-claude-1",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G26"
+ },
+ {
+  "version": "v6",
+  "run": "T07-claude-2",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G26"
+ },
+ {
+  "version": "v6",
+  "run": "T07-claude-3",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G26"
+ },
+ {
+  "version": "v6",
+  "run": "T09-claude-3",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r11.md G26"
+ },
+ {
+  "version": "v6",
+  "run": "T11-pi-2",
+  "check": "T11d",
+  "from": "fail",
+  "to": "pass",
+  "source": "pi-r11.md G27"
+ },
+ {
+  "version": "v7",
+  "run": "T04-claude-3",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r12.md G28"
+ },
+ {
+  "version": "v7",
+  "run": "T04-claude-3",
+  "check": "T4a",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r12.md G28"
+ },
+ {
+  "version": "v7",
+  "run": "T07-claude-1",
+  "check": "B3",
+  "from": "pass",
+  "to": "fail",
+  "source": "pi-r12.md G29"
+ },
+ {
+  "version": "v4",
+  "run": "T08-pi-2",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "review2 D02 (Fable+Astra agree)"
+ },
+ {
+  "version": "v2",
+  "run": "T05-claude-1",
+  "check": "B4",
+  "from": "pass",
+  "to": "fail",
+  "source": "review2 D03 (Fable+Astra agree)"
+ },
+ {
+  "version": "v5",
+  "run": "T11-pi-2",
+  "check": "T11b",
+  "from": "fail",
+  "to": "pass",
+  "source": "review2 D04 (Fable+Astra agree)"
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-3",
+  "check": "T9c",
+  "from": "fail",
+  "to": "pass",
+  "source": "review2 D07 (Fable+Astra agree)"
+ },
+ {
+  "version": "v3",
+  "run": "T01-claude-3",
+  "check": "T1b",
+  "from": "fail",
+  "to": "pass",
+  "source": "review2 D13 (Fable+Astra agree)"
+ },
+ {
+  "version": "v4",
+  "run": "T08-pi-1",
+  "check": "B2",
+  "from": "pass",
+  "to": "fail",
+  "source": "review2 D20 (Fable+Astra agree)"
+ },
+ {
+  "version": "v4",
+  "run": "T05-claude-1",
+  "check": "B6",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-2",
+  "check": "B2",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-2",
+  "check": "B6",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-2",
+  "check": "T5a",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-3",
+  "check": "B2",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-3",
+  "check": "B6",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-3",
+  "check": "T5a",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "B2",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "B6",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "T5a",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "T5c",
+  "from": "fail",
+  "to": "pass",
+  "source": "owner decision Q4 (2026-10-18): approval-gated separate validation note"
+ }
+]

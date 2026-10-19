@@ -1,0 +1,1 @@
+Tell me why customers churned last month. I have no raw event logs, CRM export, or database access to share right now. All I know is that the sales team thinks onboarding is the cause. Do not buy data, scrape customer information, or request production credentials.

@@ -1,0 +1,3 @@
+model=claude-opus-5-5 effort=high tools=none settings=project(empty) mcp=strict
+exit=0 bytes=    4335 skill_sha=5a97f2dae8ddab473b50b68f6f55707cce08963fc763451677da10b5b7fe0bbd
+session (captured by the harness): cwd=/tmp/ambition-runner; git rev-parse in cwd: fatal: not a git repository (or any of the parent directories): .git; visible entries in cwd: 0; date=2026-10-18; os=Darwin; Claude Code base prompt includes cwd, git-repo status, platform, and date

@@ -1,0 +1,24 @@
+{
+ "version": "v4",
+ "run": "T10-claude-1",
+ "model": "jev-1.13.0",
+ "jev": {
+  "B3": 0.13
+ },
+ "qhashes": {
+  "B3": "463c7978126faccb"
+ },
+ "requests": [
+  {
+   "checks": [
+    "B3"
+   ],
+   "input_tokens": 717,
+   "raw_estimate": 540,
+   "elapsed_s": 0.21,
+   "model": "jev-1.13.0",
+   "round": "v1"
+  }
+ ],
+ "history": []
+}

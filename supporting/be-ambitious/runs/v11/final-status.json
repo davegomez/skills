@@ -1,0 +1,17 @@
+{
+ "status": {
+  "T13-claude-1": "disputed",
+  "T13-claude-2": "fail",
+  "T13-pi-1": "pass",
+  "T13-pi-2": "pass",
+  "T13-pi-3": "pass"
+ },
+ "detail": {
+  "T13-claude-1": [
+   "B6:disputed(review)"
+  ],
+  "T13-claude-2": [
+   "B6:fail(review)"
+  ]
+ }
+}

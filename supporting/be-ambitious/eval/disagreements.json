@@ -1,0 +1,3062 @@
+[
+ {
+  "version": "v4",
+  "run": "T11-pi-2",
+  "check": "T11a",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.05,
+  "threshold": 0.07,
+  "confidence": 0.95
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-1",
+  "check": "B4",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.09,
+  "threshold": 0.36,
+  "confidence": 0.91
+ },
+ {
+  "version": "v3",
+  "run": "T11-claude-2",
+  "check": "B7",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.09,
+  "threshold": 0.14,
+  "confidence": 0.91
+ },
+ {
+  "version": "v4",
+  "run": "T03-claude-3",
+  "check": "T3b",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.09,
+  "threshold": 0.1,
+  "confidence": 0.91
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-3",
+  "check": "T3b",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.1,
+  "threshold": 0.14,
+  "confidence": 0.9
+ },
+ {
+  "version": "v2",
+  "run": "T04-claude-3",
+  "check": "T4c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.9,
+  "threshold": 0.12,
+  "confidence": 0.9
+ },
+ {
+  "version": "v7",
+  "run": "T07-claude-1",
+  "check": "T7a",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.1,
+  "threshold": 0.5,
+  "confidence": 0.9
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-1",
+  "check": "T4a",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.11,
+  "threshold": 0.13,
+  "confidence": 0.89
+ },
+ {
+  "version": "v6",
+  "run": "T04-claude-3",
+  "check": "T4c",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.12,
+  "threshold": 0.5,
+  "confidence": 0.88
+ },
+ {
+  "version": "v3",
+  "run": "T07-claude-3",
+  "check": "T7b",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.12,
+  "threshold": 0.5,
+  "confidence": 0.88
+ },
+ {
+  "version": "v7",
+  "run": "T11-pi-3",
+  "check": "T11d",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.13,
+  "threshold": 0.5,
+  "confidence": 0.87
+ },
+ {
+  "version": "v6",
+  "run": "T03-claude-2",
+  "check": "T3b",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.14,
+  "threshold": 0.19,
+  "confidence": 0.86
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-2",
+  "check": "T9b",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.14,
+  "threshold": 0.16,
+  "confidence": 0.86
+ },
+ {
+  "version": "v4",
+  "run": "T03-claude-3",
+  "check": "T3c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.85,
+  "threshold": 0.5,
+  "confidence": 0.85
+ },
+ {
+  "version": "v7",
+  "run": "T01-claude-2",
+  "check": "B4",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.17,
+  "threshold": 0.36,
+  "confidence": 0.83
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.81,
+  "threshold": 0.49,
+  "confidence": 0.81
+ },
+ {
+  "version": "v6",
+  "run": "T03-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.81,
+  "threshold": 0.36,
+  "confidence": 0.81
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-2",
+  "check": "B4",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.19,
+  "threshold": 0.36,
+  "confidence": 0.81
+ },
+ {
+  "version": "v7",
+  "run": "T04-claude-3",
+  "check": "B4",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.19,
+  "threshold": 0.36,
+  "confidence": 0.81
+ },
+ {
+  "version": "v5",
+  "run": "T08-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.81,
+  "threshold": 0.5,
+  "confidence": 0.81
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.8,
+  "threshold": 0.17,
+  "confidence": 0.8
+ },
+ {
+  "version": "v6",
+  "run": "T05-pi-3",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.21,
+  "threshold": 0.37,
+  "confidence": 0.79
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-2",
+  "check": "B4",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.21,
+  "threshold": 0.36,
+  "confidence": 0.79
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.78,
+  "threshold": 0.36,
+  "confidence": 0.78
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.78,
+  "threshold": 0.49,
+  "confidence": 0.78
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-2",
+  "check": "T3c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.78,
+  "threshold": 0.5,
+  "confidence": 0.78
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-1",
+  "check": "T9c",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.22,
+  "threshold": 0.5,
+  "confidence": 0.78
+ },
+ {
+  "version": "v3",
+  "run": "T06-claude-3",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.24,
+  "threshold": 0.41,
+  "confidence": 0.76
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.76,
+  "threshold": 0.49,
+  "confidence": 0.76
+ },
+ {
+  "version": "v5",
+  "run": "T08-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.75,
+  "threshold": 0.5,
+  "confidence": 0.75
+ },
+ {
+  "version": "v5",
+  "run": "T01-claude-2",
+  "check": "B7",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.25,
+  "threshold": 0.29,
+  "confidence": 0.75
+ },
+ {
+  "version": "v5",
+  "run": "T03-pi-3",
+  "check": "T3c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.74,
+  "threshold": 0.5,
+  "confidence": 0.74
+ },
+ {
+  "version": "v6",
+  "run": "T08-claude-1",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.27,
+  "threshold": 0.37,
+  "confidence": 0.73
+ },
+ {
+  "version": "v6",
+  "run": "T09-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.73,
+  "threshold": 0.5,
+  "confidence": 0.73
+ },
+ {
+  "version": "v2",
+  "run": "T11-claude-3",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.28,
+  "threshold": 0.37,
+  "confidence": 0.72
+ },
+ {
+  "version": "v4",
+  "run": "T06-claude-3",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.28,
+  "threshold": 0.37,
+  "confidence": 0.72
+ },
+ {
+  "version": "v3",
+  "run": "T08-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.71,
+  "threshold": 0.5,
+  "confidence": 0.71
+ },
+ {
+  "version": "v6",
+  "run": "T03-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.71,
+  "threshold": 0.5,
+  "confidence": 0.71
+ },
+ {
+  "version": "v3",
+  "run": "T06-claude-1",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.3,
+  "threshold": 0.41,
+  "confidence": 0.7
+ },
+ {
+  "version": "v5",
+  "run": "T08-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.7,
+  "threshold": 0.5,
+  "confidence": 0.7
+ },
+ {
+  "version": "v5",
+  "run": "T08-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.7,
+  "threshold": 0.5,
+  "confidence": 0.7
+ },
+ {
+  "version": "v4",
+  "run": "T05-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.69,
+  "threshold": 0.5,
+  "confidence": 0.69
+ },
+ {
+  "version": "v5",
+  "run": "T08-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.69,
+  "threshold": 0.5,
+  "confidence": 0.69
+ },
+ {
+  "version": "v2",
+  "run": "T06-claude-1",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.32,
+  "threshold": 0.37,
+  "confidence": 0.68
+ },
+ {
+  "version": "v5",
+  "run": "T08-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.68,
+  "threshold": 0.5,
+  "confidence": 0.68
+ },
+ {
+  "version": "v6",
+  "run": "T03-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.68,
+  "threshold": 0.5,
+  "confidence": 0.68
+ },
+ {
+  "version": "v3",
+  "run": "T09-claude-2",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.33,
+  "threshold": 0.41,
+  "confidence": 0.67
+ },
+ {
+  "version": "v6",
+  "run": "T09-claude-1",
+  "check": "T9a",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.33,
+  "threshold": 0.46,
+  "confidence": 0.67
+ },
+ {
+  "version": "v3",
+  "run": "T05-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.66,
+  "threshold": 0.5,
+  "confidence": 0.66
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-3",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.35,
+  "threshold": 0.41,
+  "confidence": 0.65
+ },
+ {
+  "version": "v5",
+  "run": "T04-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.65,
+  "threshold": 0.49,
+  "confidence": 0.65
+ },
+ {
+  "version": "v5",
+  "run": "T04-claude-1",
+  "check": "B4",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.36,
+  "threshold": 0.49,
+  "confidence": 0.64
+ },
+ {
+  "version": "v4",
+  "run": "T08-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.64,
+  "threshold": 0.5,
+  "confidence": 0.64
+ },
+ {
+  "version": "v6",
+  "run": "T08-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.64,
+  "threshold": 0.5,
+  "confidence": 0.64
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-1",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.37,
+  "threshold": 0.41,
+  "confidence": 0.63
+ },
+ {
+  "version": "v4",
+  "run": "T05-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.63,
+  "threshold": 0.37,
+  "confidence": 0.63
+ },
+ {
+  "version": "v5",
+  "run": "T06-claude-1",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.37,
+  "threshold": 0.41,
+  "confidence": 0.63
+ },
+ {
+  "version": "v5",
+  "run": "T06-claude-2",
+  "check": "B3",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.37,
+  "threshold": 0.41,
+  "confidence": 0.63
+ },
+ {
+  "version": "v3",
+  "run": "T08-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.63,
+  "threshold": 0.5,
+  "confidence": 0.63
+ },
+ {
+  "version": "v4",
+  "run": "T08-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.63,
+  "threshold": 0.5,
+  "confidence": 0.63
+ },
+ {
+  "version": "v2",
+  "run": "T02-claude-2",
+  "check": "T2a",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.37,
+  "threshold": 0.5,
+  "confidence": 0.63
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-3",
+  "check": "B4",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.38,
+  "threshold": 0.49,
+  "confidence": 0.62
+ },
+ {
+  "version": "v4",
+  "run": "T01-claude-3",
+  "check": "T1a",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.38,
+  "threshold": 0.5,
+  "confidence": 0.62
+ },
+ {
+  "version": "v2",
+  "run": "T04-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.61,
+  "threshold": 0.17,
+  "confidence": 0.61
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.61,
+  "threshold": 0.36,
+  "confidence": 0.61
+ },
+ {
+  "version": "v2",
+  "run": "T08-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.61,
+  "threshold": 0.55,
+  "confidence": 0.61
+ },
+ {
+  "version": "v4",
+  "run": "T08-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.61,
+  "threshold": 0.5,
+  "confidence": 0.61
+ },
+ {
+  "version": "v6",
+  "run": "T02-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.61,
+  "threshold": 0.5,
+  "confidence": 0.61
+ },
+ {
+  "version": "v7",
+  "run": "T03-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.61,
+  "threshold": 0.5,
+  "confidence": 0.61
+ },
+ {
+  "version": "v3",
+  "run": "T07-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.6,
+  "threshold": 0.41,
+  "confidence": 0.6
+ },
+ {
+  "version": "v7",
+  "run": "T09-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.6,
+  "threshold": 0.37,
+  "confidence": 0.6
+ },
+ {
+  "version": "v2",
+  "run": "T03-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.6,
+  "threshold": 0.17,
+  "confidence": 0.6
+ },
+ {
+  "version": "v2",
+  "run": "T05-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.6,
+  "threshold": 0.17,
+  "confidence": 0.6
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.6,
+  "threshold": 0.5,
+  "confidence": 0.6
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.6,
+  "threshold": 0.5,
+  "confidence": 0.6
+ },
+ {
+  "version": "v7",
+  "run": "T07-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.59,
+  "threshold": 0.37,
+  "confidence": 0.59
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.59,
+  "threshold": 0.17,
+  "confidence": 0.59
+ },
+ {
+  "version": "v2",
+  "run": "T08-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.59,
+  "threshold": 0.55,
+  "confidence": 0.59
+ },
+ {
+  "version": "v3",
+  "run": "T09-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.59,
+  "threshold": 0.5,
+  "confidence": 0.59
+ },
+ {
+  "version": "v5",
+  "run": "T03-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.59,
+  "threshold": 0.5,
+  "confidence": 0.59
+ },
+ {
+  "version": "v4",
+  "run": "T04-claude-1",
+  "check": "T4c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.59,
+  "threshold": 0.12,
+  "confidence": 0.59
+ },
+ {
+  "version": "v7",
+  "run": "T05-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.58,
+  "threshold": 0.37,
+  "confidence": 0.58
+ },
+ {
+  "version": "v4",
+  "run": "T05-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.58,
+  "threshold": 0.36,
+  "confidence": 0.58
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.58,
+  "threshold": 0.55,
+  "confidence": 0.58
+ },
+ {
+  "version": "v5",
+  "run": "T03-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.58,
+  "threshold": 0.5,
+  "confidence": 0.58
+ },
+ {
+  "version": "v3",
+  "run": "T07-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.57,
+  "threshold": 0.41,
+  "confidence": 0.57
+ },
+ {
+  "version": "v6",
+  "run": "T09-claude-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.57,
+  "threshold": 0.36,
+  "confidence": 0.57
+ },
+ {
+  "version": "v3",
+  "run": "T09-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.57,
+  "threshold": 0.5,
+  "confidence": 0.57
+ },
+ {
+  "version": "v6",
+  "run": "T08-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.57,
+  "threshold": 0.5,
+  "confidence": 0.57
+ },
+ {
+  "version": "v7",
+  "run": "T08-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.57,
+  "threshold": 0.5,
+  "confidence": 0.57
+ },
+ {
+  "version": "v5",
+  "run": "T01-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.56,
+  "threshold": 0.41,
+  "confidence": 0.56
+ },
+ {
+  "version": "v2",
+  "run": "T08-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.56,
+  "threshold": 0.55,
+  "confidence": 0.56
+ },
+ {
+  "version": "v3",
+  "run": "T08-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.56,
+  "threshold": 0.5,
+  "confidence": 0.56
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.56,
+  "threshold": 0.5,
+  "confidence": 0.56
+ },
+ {
+  "version": "v6",
+  "run": "T03-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.56,
+  "threshold": 0.5,
+  "confidence": 0.56
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.56,
+  "threshold": 0.5,
+  "confidence": 0.56
+ },
+ {
+  "version": "v7",
+  "run": "T05-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.56,
+  "threshold": 0.5,
+  "confidence": 0.56
+ },
+ {
+  "version": "v3",
+  "run": "T05-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.55,
+  "threshold": 0.36,
+  "confidence": 0.55
+ },
+ {
+  "version": "v4",
+  "run": "T03-claude-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.55,
+  "threshold": 0.36,
+  "confidence": 0.55
+ },
+ {
+  "version": "v5",
+  "run": "T03-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.55,
+  "threshold": 0.49,
+  "confidence": 0.55
+ },
+ {
+  "version": "v5",
+  "run": "T05-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.55,
+  "threshold": 0.49,
+  "confidence": 0.55
+ },
+ {
+  "version": "v7",
+  "run": "T05-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.55,
+  "threshold": 0.36,
+  "confidence": 0.55
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.55,
+  "threshold": 0.55,
+  "confidence": 0.55
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.55,
+  "threshold": 0.5,
+  "confidence": 0.55
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.41,
+  "confidence": 0.54
+ },
+ {
+  "version": "v3",
+  "run": "T09-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.41,
+  "confidence": 0.54
+ },
+ {
+  "version": "v4",
+  "run": "T08-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.5,
+  "confidence": 0.54
+ },
+ {
+  "version": "v4",
+  "run": "T08-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.5,
+  "confidence": 0.54
+ },
+ {
+  "version": "v6",
+  "run": "T05-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.5,
+  "confidence": 0.54
+ },
+ {
+  "version": "v7",
+  "run": "T03-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.5,
+  "confidence": 0.54
+ },
+ {
+  "version": "v7",
+  "run": "T08-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.5,
+  "confidence": 0.54
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-1",
+  "check": "T3c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.54,
+  "threshold": 0.5,
+  "confidence": 0.54
+ },
+ {
+  "version": "v4",
+  "run": "T01-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.37,
+  "confidence": 0.53
+ },
+ {
+  "version": "v5",
+  "run": "T04-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.49,
+  "confidence": 0.53
+ },
+ {
+  "version": "v3",
+  "run": "T03-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.5,
+  "confidence": 0.53
+ },
+ {
+  "version": "v4",
+  "run": "T09-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.5,
+  "confidence": 0.53
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.5,
+  "confidence": 0.53
+ },
+ {
+  "version": "v7",
+  "run": "T09-claude-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.5,
+  "confidence": 0.53
+ },
+ {
+  "version": "v4",
+  "run": "T01-claude-3",
+  "check": "T1c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.5,
+  "confidence": 0.53
+ },
+ {
+  "version": "v3",
+  "run": "T09-claude-1",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.53,
+  "threshold": 0.14,
+  "confidence": 0.53
+ },
+ {
+  "version": "v3",
+  "run": "T03-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.52,
+  "threshold": 0.5,
+  "confidence": 0.52
+ },
+ {
+  "version": "v3",
+  "run": "T05-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.52,
+  "threshold": 0.5,
+  "confidence": 0.52
+ },
+ {
+  "version": "v3",
+  "run": "T08-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.52,
+  "threshold": 0.5,
+  "confidence": 0.52
+ },
+ {
+  "version": "v4",
+  "run": "T05-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.52,
+  "threshold": 0.5,
+  "confidence": 0.52
+ },
+ {
+  "version": "v4",
+  "run": "T08-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.52,
+  "threshold": 0.5,
+  "confidence": 0.52
+ },
+ {
+  "version": "v6",
+  "run": "T02-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.52,
+  "threshold": 0.5,
+  "confidence": 0.52
+ },
+ {
+  "version": "v4",
+  "run": "T09-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.51,
+  "threshold": 0.37,
+  "confidence": 0.51
+ },
+ {
+  "version": "v4",
+  "run": "T03-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.51,
+  "threshold": 0.5,
+  "confidence": 0.51
+ },
+ {
+  "version": "v5",
+  "run": "T03-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.51,
+  "threshold": 0.5,
+  "confidence": 0.51
+ },
+ {
+  "version": "v7",
+  "run": "T05-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.51,
+  "threshold": 0.5,
+  "confidence": 0.51
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-1",
+  "check": "T9a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.51,
+  "threshold": 0.46,
+  "confidence": 0.51
+ },
+ {
+  "version": "v3",
+  "run": "T04-pi-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.41,
+  "confidence": 0.5
+ },
+ {
+  "version": "v4",
+  "run": "T01-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.37,
+  "confidence": 0.5
+ },
+ {
+  "version": "v5",
+  "run": "T02-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.41,
+  "confidence": 0.5
+ },
+ {
+  "version": "v5",
+  "run": "T07-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.41,
+  "confidence": 0.5
+ },
+ {
+  "version": "v6",
+  "run": "T09-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.37,
+  "confidence": 0.5
+ },
+ {
+  "version": "v5",
+  "run": "T07-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.49,
+  "confidence": 0.5
+ },
+ {
+  "version": "v7",
+  "run": "T07-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.36,
+  "confidence": 0.5
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-1",
+  "check": "B5",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.5,
+  "threshold": 0.55,
+  "confidence": 0.5
+ },
+ {
+  "version": "v3",
+  "run": "T03-claude-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.5,
+  "confidence": 0.5
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-1",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.5,
+  "confidence": 0.5
+ },
+ {
+  "version": "v6",
+  "run": "T09-pi-3",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.5,
+  "confidence": 0.5
+ },
+ {
+  "version": "v7",
+  "run": "T01-claude-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.5,
+  "confidence": 0.5
+ },
+ {
+  "version": "v7",
+  "run": "T02-pi-2",
+  "check": "B5",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.5,
+  "threshold": 0.5,
+  "confidence": 0.5
+ },
+ {
+  "version": "v2",
+  "run": "T02-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.49,
+  "threshold": 0.37,
+  "confidence": 0.49
+ },
+ {
+  "version": "v2",
+  "run": "T03-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.49,
+  "threshold": 0.17,
+  "confidence": 0.49
+ },
+ {
+  "version": "v4",
+  "run": "T05-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.49,
+  "threshold": 0.36,
+  "confidence": 0.49
+ },
+ {
+  "version": "v2",
+  "run": "T03-claude-2",
+  "check": "T3c",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.51,
+  "threshold": 0.65,
+  "confidence": 0.49
+ },
+ {
+  "version": "v3",
+  "run": "T01-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.41,
+  "confidence": 0.48
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.41,
+  "confidence": 0.48
+ },
+ {
+  "version": "v7",
+  "run": "T01-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.37,
+  "confidence": 0.48
+ },
+ {
+  "version": "v7",
+  "run": "T01-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.37,
+  "confidence": 0.48
+ },
+ {
+  "version": "v3",
+  "run": "T04-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.36,
+  "confidence": 0.48
+ },
+ {
+  "version": "v4",
+  "run": "T09-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.36,
+  "confidence": 0.48
+ },
+ {
+  "version": "v2",
+  "run": "T08-pi-3",
+  "check": "B5",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.52,
+  "threshold": 0.55,
+  "confidence": 0.48
+ },
+ {
+  "version": "v3",
+  "run": "T01-claude-3",
+  "check": "T1a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.38,
+  "confidence": 0.48
+ },
+ {
+  "version": "v4",
+  "run": "T09-claude-3",
+  "check": "T9a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.48,
+  "threshold": 0.46,
+  "confidence": 0.48
+ },
+ {
+  "version": "v4",
+  "run": "T09-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.47,
+  "threshold": 0.37,
+  "confidence": 0.47
+ },
+ {
+  "version": "v2",
+  "run": "T05-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.47,
+  "threshold": 0.17,
+  "confidence": 0.47
+ },
+ {
+  "version": "v3",
+  "run": "T01-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.46,
+  "threshold": 0.41,
+  "confidence": 0.46
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.46,
+  "threshold": 0.41,
+  "confidence": 0.46
+ },
+ {
+  "version": "v5",
+  "run": "T01-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.46,
+  "threshold": 0.41,
+  "confidence": 0.46
+ },
+ {
+  "version": "v5",
+  "run": "T07-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.46,
+  "threshold": 0.41,
+  "confidence": 0.46
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.46,
+  "threshold": 0.41,
+  "confidence": 0.46
+ },
+ {
+  "version": "v3",
+  "run": "T05-claude-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.46,
+  "threshold": 0.36,
+  "confidence": 0.46
+ },
+ {
+  "version": "v2",
+  "run": "T05-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.45,
+  "threshold": 0.37,
+  "confidence": 0.45
+ },
+ {
+  "version": "v3",
+  "run": "T09-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.45,
+  "threshold": 0.41,
+  "confidence": 0.45
+ },
+ {
+  "version": "v6",
+  "run": "T05-claude-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.45,
+  "threshold": 0.36,
+  "confidence": 0.45
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.44,
+  "threshold": 0.41,
+  "confidence": 0.44
+ },
+ {
+  "version": "v4",
+  "run": "T02-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.44,
+  "threshold": 0.37,
+  "confidence": 0.44
+ },
+ {
+  "version": "v6",
+  "run": "T09-pi-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.44,
+  "threshold": 0.37,
+  "confidence": 0.44
+ },
+ {
+  "version": "v7",
+  "run": "T02-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.44,
+  "threshold": 0.37,
+  "confidence": 0.44
+ },
+ {
+  "version": "v5",
+  "run": "T05-claude-2",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.44,
+  "threshold": 0.29,
+  "confidence": 0.44
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.43,
+  "threshold": 0.37,
+  "confidence": 0.43
+ },
+ {
+  "version": "v6",
+  "run": "T09-pi-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.43,
+  "threshold": 0.37,
+  "confidence": 0.43
+ },
+ {
+  "version": "v3",
+  "run": "T04-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.43,
+  "threshold": 0.36,
+  "confidence": 0.43
+ },
+ {
+  "version": "v4",
+  "run": "T04-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.43,
+  "threshold": 0.36,
+  "confidence": 0.43
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.43,
+  "threshold": 0.36,
+  "confidence": 0.43
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.43,
+  "threshold": 0.36,
+  "confidence": 0.43
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-2",
+  "check": "T9a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.43,
+  "threshold": 0.33,
+  "confidence": 0.43
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.42,
+  "threshold": 0.37,
+  "confidence": 0.42
+ },
+ {
+  "version": "v5",
+  "run": "T01-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.42,
+  "threshold": 0.41,
+  "confidence": 0.42
+ },
+ {
+  "version": "v2",
+  "run": "T05-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.42,
+  "threshold": 0.17,
+  "confidence": 0.42
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.41,
+  "threshold": 0.37,
+  "confidence": 0.41
+ },
+ {
+  "version": "v4",
+  "run": "T07-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.41,
+  "threshold": 0.37,
+  "confidence": 0.41
+ },
+ {
+  "version": "v7",
+  "run": "T01-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.41,
+  "threshold": 0.37,
+  "confidence": 0.41
+ },
+ {
+  "version": "v7",
+  "run": "T09-pi-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.41,
+  "threshold": 0.37,
+  "confidence": 0.41
+ },
+ {
+  "version": "v7",
+  "run": "T05-claude-3",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.41,
+  "threshold": 0.14,
+  "confidence": 0.41
+ },
+ {
+  "version": "v2",
+  "run": "T03-claude-1",
+  "check": "T3c",
+  "label": "fail",
+  "jev_says": "pass",
+  "p_defect": 0.59,
+  "threshold": 0.65,
+  "confidence": 0.41
+ },
+ {
+  "version": "v2",
+  "run": "T05-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.4,
+  "threshold": 0.37,
+  "confidence": 0.4
+ },
+ {
+  "version": "v4",
+  "run": "T01-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.4,
+  "threshold": 0.37,
+  "confidence": 0.4
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.4,
+  "threshold": 0.37,
+  "confidence": 0.4
+ },
+ {
+  "version": "v7",
+  "run": "T05-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.4,
+  "threshold": 0.36,
+  "confidence": 0.4
+ },
+ {
+  "version": "v4",
+  "run": "T09-claude-1",
+  "check": "T9c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.4,
+  "threshold": 0.22,
+  "confidence": 0.4
+ },
+ {
+  "version": "v4",
+  "run": "T05-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.37,
+  "confidence": 0.39
+ },
+ {
+  "version": "v4",
+  "run": "T07-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.37,
+  "confidence": 0.39
+ },
+ {
+  "version": "v6",
+  "run": "T01-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.37,
+  "confidence": 0.39
+ },
+ {
+  "version": "v6",
+  "run": "T03-pi-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.37,
+  "confidence": 0.39
+ },
+ {
+  "version": "v7",
+  "run": "T06-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.37,
+  "confidence": 0.39
+ },
+ {
+  "version": "v2",
+  "run": "T04-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.17,
+  "confidence": 0.39
+ },
+ {
+  "version": "v2",
+  "run": "T06-claude-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.17,
+  "confidence": 0.39
+ },
+ {
+  "version": "v4",
+  "run": "T09-claude-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.39,
+  "threshold": 0.36,
+  "confidence": 0.39
+ },
+ {
+  "version": "v2",
+  "run": "T01-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.38,
+  "threshold": 0.37,
+  "confidence": 0.38
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.38,
+  "threshold": 0.37,
+  "confidence": 0.38
+ },
+ {
+  "version": "v4",
+  "run": "T02-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.38,
+  "threshold": 0.37,
+  "confidence": 0.38
+ },
+ {
+  "version": "v4",
+  "run": "T03-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.38,
+  "threshold": 0.37,
+  "confidence": 0.38
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.38,
+  "threshold": 0.36,
+  "confidence": 0.38
+ },
+ {
+  "version": "v4",
+  "run": "T09-pi-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.37,
+  "threshold": 0.37,
+  "confidence": 0.37
+ },
+ {
+  "version": "v6",
+  "run": "T01-claude-1",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.37,
+  "threshold": 0.37,
+  "confidence": 0.37
+ },
+ {
+  "version": "v6",
+  "run": "T02-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.37,
+  "threshold": 0.37,
+  "confidence": 0.37
+ },
+ {
+  "version": "v6",
+  "run": "T02-claude-3",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.37,
+  "threshold": 0.37,
+  "confidence": 0.37
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-2",
+  "check": "B3",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.37,
+  "threshold": 0.37,
+  "confidence": 0.37
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-3",
+  "check": "T9c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.37,
+  "threshold": 0.22,
+  "confidence": 0.37
+ },
+ {
+  "version": "v2",
+  "run": "T02-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.36,
+  "threshold": 0.17,
+  "confidence": 0.36
+ },
+ {
+  "version": "v5",
+  "run": "T01-claude-3",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.35,
+  "threshold": 0.29,
+  "confidence": 0.35
+ },
+ {
+  "version": "v7",
+  "run": "T09-pi-3",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.35,
+  "threshold": 0.14,
+  "confidence": 0.35
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-1",
+  "check": "T9a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.34,
+  "threshold": 0.33,
+  "confidence": 0.34
+ },
+ {
+  "version": "v2",
+  "run": "T05-claude-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.33,
+  "threshold": 0.17,
+  "confidence": 0.33
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-1",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.33,
+  "threshold": 0.09,
+  "confidence": 0.33
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-2",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.33,
+  "threshold": 0.09,
+  "confidence": 0.33
+ },
+ {
+  "version": "v2",
+  "run": "T06-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.32,
+  "threshold": 0.17,
+  "confidence": 0.32
+ },
+ {
+  "version": "v2",
+  "run": "T01-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.31,
+  "threshold": 0.17,
+  "confidence": 0.31
+ },
+ {
+  "version": "v5",
+  "run": "T11-claude-1",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.31,
+  "threshold": 0.13,
+  "confidence": 0.31
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-2",
+  "check": "T9c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.3,
+  "threshold": 0.22,
+  "confidence": 0.3
+ },
+ {
+  "version": "v5",
+  "run": "T07-claude-1",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.29,
+  "threshold": 0.12,
+  "confidence": 0.29
+ },
+ {
+  "version": "v4",
+  "run": "T05-claude-1",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.28,
+  "threshold": 0.14,
+  "confidence": 0.28
+ },
+ {
+  "version": "v7",
+  "run": "T03-claude-2",
+  "check": "T3b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.27,
+  "threshold": 0.14,
+  "confidence": 0.27
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-3",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.27,
+  "threshold": 0.12,
+  "confidence": 0.27
+ },
+ {
+  "version": "v3",
+  "run": "T09-claude-3",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.25,
+  "threshold": 0.14,
+  "confidence": 0.25
+ },
+ {
+  "version": "v4",
+  "run": "T09-claude-1",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.25,
+  "threshold": 0.14,
+  "confidence": 0.25
+ },
+ {
+  "version": "v2",
+  "run": "T11-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.24,
+  "threshold": 0.17,
+  "confidence": 0.24
+ },
+ {
+  "version": "v3",
+  "run": "T04-pi-3",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.24,
+  "threshold": 0.13,
+  "confidence": 0.24
+ },
+ {
+  "version": "v2",
+  "run": "T01-claude-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.23,
+  "threshold": 0.17,
+  "confidence": 0.23
+ },
+ {
+  "version": "v2",
+  "run": "T04-claude-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.23,
+  "threshold": 0.17,
+  "confidence": 0.23
+ },
+ {
+  "version": "v2",
+  "run": "T03-claude-3",
+  "check": "T3b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.23,
+  "threshold": 0.14,
+  "confidence": 0.23
+ },
+ {
+  "version": "v5",
+  "run": "T07-pi-2",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.23,
+  "threshold": 0.12,
+  "confidence": 0.23
+ },
+ {
+  "version": "v4",
+  "run": "T09-claude-3",
+  "check": "T9c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.23,
+  "threshold": 0.22,
+  "confidence": 0.23
+ },
+ {
+  "version": "v2",
+  "run": "T06-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.22,
+  "threshold": 0.17,
+  "confidence": 0.22
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.22,
+  "threshold": 0.17,
+  "confidence": 0.22
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.22,
+  "threshold": 0.17,
+  "confidence": 0.22
+ },
+ {
+  "version": "v2",
+  "run": "T11-claude-2",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.22,
+  "threshold": 0.09,
+  "confidence": 0.22
+ },
+ {
+  "version": "v6",
+  "run": "T11-claude-3",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.22,
+  "threshold": 0.13,
+  "confidence": 0.22
+ },
+ {
+  "version": "v4",
+  "run": "T04-pi-3",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.22,
+  "threshold": 0.11,
+  "confidence": 0.22
+ },
+ {
+  "version": "v5",
+  "run": "T04-claude-2",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.22,
+  "threshold": 0.11,
+  "confidence": 0.22
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-3",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.21,
+  "threshold": 0.17,
+  "confidence": 0.21
+ },
+ {
+  "version": "v4",
+  "run": "T11-claude-1",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.21,
+  "threshold": 0.13,
+  "confidence": 0.21
+ },
+ {
+  "version": "v5",
+  "run": "T11-pi-2",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.21,
+  "threshold": 0.13,
+  "confidence": 0.21
+ },
+ {
+  "version": "v5",
+  "run": "T04-pi-1",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.21,
+  "threshold": 0.11,
+  "confidence": 0.21
+ },
+ {
+  "version": "v5",
+  "run": "T04-pi-2",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.21,
+  "threshold": 0.11,
+  "confidence": 0.21
+ },
+ {
+  "version": "v2",
+  "run": "T01-claude-2",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.2,
+  "threshold": 0.09,
+  "confidence": 0.2
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-3",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.2,
+  "threshold": 0.14,
+  "confidence": 0.2
+ },
+ {
+  "version": "v5",
+  "run": "T09-claude-1",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.2,
+  "threshold": 0.16,
+  "confidence": 0.2
+ },
+ {
+  "version": "v6",
+  "run": "T04-claude-3",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.2,
+  "threshold": 0.11,
+  "confidence": 0.2
+ },
+ {
+  "version": "v2",
+  "run": "T01-pi-1",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.19,
+  "threshold": 0.17,
+  "confidence": 0.19
+ },
+ {
+  "version": "v2",
+  "run": "T09-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.19,
+  "threshold": 0.17,
+  "confidence": 0.19
+ },
+ {
+  "version": "v3",
+  "run": "T11-claude-2",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.19,
+  "threshold": 0.13,
+  "confidence": 0.19
+ },
+ {
+  "version": "v3",
+  "run": "T04-pi-1",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.19,
+  "threshold": 0.13,
+  "confidence": 0.19
+ },
+ {
+  "version": "v5",
+  "run": "T07-claude-3",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.18,
+  "threshold": 0.12,
+  "confidence": 0.18
+ },
+ {
+  "version": "v5",
+  "run": "T11-claude-2",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.18,
+  "threshold": 0.13,
+  "confidence": 0.18
+ },
+ {
+  "version": "v2",
+  "run": "T05-pi-2",
+  "check": "B4",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.17,
+  "threshold": 0.17,
+  "confidence": 0.17
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-1",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.17,
+  "threshold": 0.12,
+  "confidence": 0.17
+ },
+ {
+  "version": "v3",
+  "run": "T11-claude-3",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.17,
+  "threshold": 0.13,
+  "confidence": 0.17
+ },
+ {
+  "version": "v4",
+  "run": "T11-pi-1",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.17,
+  "threshold": 0.13,
+  "confidence": 0.17
+ },
+ {
+  "version": "v5",
+  "run": "T04-pi-3",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.17,
+  "threshold": 0.11,
+  "confidence": 0.17
+ },
+ {
+  "version": "v4",
+  "run": "T07-claude-1",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.12,
+  "confidence": 0.16
+ },
+ {
+  "version": "v2",
+  "run": "T09-claude-3",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.14,
+  "confidence": 0.16
+ },
+ {
+  "version": "v4",
+  "run": "T11-claude-3",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.13,
+  "confidence": 0.16
+ },
+ {
+  "version": "v5",
+  "run": "T11-claude-3",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.13,
+  "confidence": 0.16
+ },
+ {
+  "version": "v5",
+  "run": "T11-pi-3",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.13,
+  "confidence": 0.16
+ },
+ {
+  "version": "v6",
+  "run": "T11-pi-2",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.13,
+  "confidence": 0.16
+ },
+ {
+  "version": "v3",
+  "run": "T04-claude-3",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.13,
+  "confidence": 0.16
+ },
+ {
+  "version": "v4",
+  "run": "T04-pi-1",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.16,
+  "threshold": 0.11,
+  "confidence": 0.16
+ },
+ {
+  "version": "v4",
+  "run": "T07-claude-3",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.15,
+  "threshold": 0.12,
+  "confidence": 0.15
+ },
+ {
+  "version": "v6",
+  "run": "T07-claude-2",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.15,
+  "threshold": 0.12,
+  "confidence": 0.15
+ },
+ {
+  "version": "v2",
+  "run": "T11-claude-3",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.15,
+  "threshold": 0.13,
+  "confidence": 0.15
+ },
+ {
+  "version": "v7",
+  "run": "T04-claude-2",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.15,
+  "threshold": 0.11,
+  "confidence": 0.15
+ },
+ {
+  "version": "v2",
+  "run": "T02-claude-1",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.09,
+  "confidence": 0.14
+ },
+ {
+  "version": "v4",
+  "run": "T07-pi-2",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.12,
+  "confidence": 0.14
+ },
+ {
+  "version": "v7",
+  "run": "T07-claude-2",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.12,
+  "confidence": 0.14
+ },
+ {
+  "version": "v4",
+  "run": "T09-pi-1",
+  "check": "T9b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.14,
+  "confidence": 0.14
+ },
+ {
+  "version": "v2",
+  "run": "T11-claude-1",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.13,
+  "confidence": 0.14
+ },
+ {
+  "version": "v3",
+  "run": "T11-claude-1",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.13,
+  "confidence": 0.14
+ },
+ {
+  "version": "v6",
+  "run": "T11-pi-1",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.13,
+  "confidence": 0.14
+ },
+ {
+  "version": "v6",
+  "run": "T11-pi-3",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.13,
+  "confidence": 0.14
+ },
+ {
+  "version": "v4",
+  "run": "T04-claude-2",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.14,
+  "threshold": 0.11,
+  "confidence": 0.14
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-2",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.09,
+  "confidence": 0.13
+ },
+ {
+  "version": "v2",
+  "run": "T04-claude-2",
+  "check": "T4c",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.12,
+  "confidence": 0.13
+ },
+ {
+  "version": "v4",
+  "run": "T07-claude-2",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.12,
+  "confidence": 0.13
+ },
+ {
+  "version": "v4",
+  "run": "T07-pi-3",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.12,
+  "confidence": 0.13
+ },
+ {
+  "version": "v7",
+  "run": "T07-claude-3",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.12,
+  "confidence": 0.13
+ },
+ {
+  "version": "v2",
+  "run": "T11-claude-2",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.13,
+  "confidence": 0.13
+ },
+ {
+  "version": "v4",
+  "run": "T11-claude-2",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.13,
+  "confidence": 0.13
+ },
+ {
+  "version": "v6",
+  "run": "T11-claude-2",
+  "check": "T11d",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.13,
+  "confidence": 0.13
+ },
+ {
+  "version": "v3",
+  "run": "T04-pi-2",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.13,
+  "confidence": 0.13
+ },
+ {
+  "version": "v6",
+  "run": "T04-claude-2",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.11,
+  "confidence": 0.13
+ },
+ {
+  "version": "v7",
+  "run": "T04-claude-1",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.13,
+  "threshold": 0.11,
+  "confidence": 0.13
+ },
+ {
+  "version": "v5",
+  "run": "T07-claude-1",
+  "check": "T7a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.12,
+  "threshold": 0.1,
+  "confidence": 0.12
+ },
+ {
+  "version": "v2",
+  "run": "T07-claude-2",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.12,
+  "threshold": 0.12,
+  "confidence": 0.12
+ },
+ {
+  "version": "v2",
+  "run": "T07-pi-2",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.12,
+  "threshold": 0.12,
+  "confidence": 0.12
+ },
+ {
+  "version": "v6",
+  "run": "T07-claude-3",
+  "check": "T7b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.12,
+  "threshold": 0.12,
+  "confidence": 0.12
+ },
+ {
+  "version": "v5",
+  "run": "T04-claude-3",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.12,
+  "threshold": 0.11,
+  "confidence": 0.12
+ },
+ {
+  "version": "v4",
+  "run": "T03-pi-3",
+  "check": "T3b",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.11,
+  "threshold": 0.1,
+  "confidence": 0.11
+ },
+ {
+  "version": "v4",
+  "run": "T04-claude-1",
+  "check": "T4a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.11,
+  "threshold": 0.11,
+  "confidence": 0.11
+ },
+ {
+  "version": "v2",
+  "run": "T11-claude-1",
+  "check": "B7",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.09,
+  "threshold": 0.09,
+  "confidence": 0.09
+ },
+ {
+  "version": "v2",
+  "run": "T11-pi-3",
+  "check": "T11a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.05,
+  "threshold": 0.05,
+  "confidence": 0.05
+ },
+ {
+  "version": "v7",
+  "run": "T11-pi-2",
+  "check": "T11a",
+  "label": "pass",
+  "jev_says": "fail",
+  "p_defect": 0.05,
+  "threshold": 0.05,
+  "confidence": 0.05
+ }
+]

@@ -1,0 +1,24 @@
+{
+ "version": "v2",
+ "run": "T10-pi-2",
+ "model": "jev-1.13.0",
+ "jev": {
+  "B3": 0.05
+ },
+ "qhashes": {
+  "B3": "463c7978126faccb"
+ },
+ "requests": [
+  {
+   "checks": [
+    "B3"
+   ],
+   "input_tokens": 737,
+   "raw_estimate": 570,
+   "elapsed_s": 0.24,
+   "model": "jev-1.13.0",
+   "round": "v1"
+  }
+ ],
+ "history": []
+}

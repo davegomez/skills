@@ -1,0 +1,446 @@
+[
+ {
+  "item": "D01",
+  "defect": true,
+  "confidence": 0.8,
+  "reason": "It adds a freeze/read-record repair and an extra rubric/first-check structure beyond the 2 loopholes; the third approval line ('freeze the fitted current-model settings... record every subsequent holdout read') plus many added checks goes beyond the two loopholes."
+ },
+ {
+  "item": "D62",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "All repairs sit on 'With my approval only:' lines and the audit uses the already-requested analyst, so no ungated expansion or new access is added."
+ },
+ {
+  "item": "D02",
+  "defect": true,
+  "confidence": 0.85,
+  "reason": "The judge only requires a 1-byte size increase and an inserted 'l' via cmp, and it adds a grep-based stop condition and extra checklist beyond a concrete defect repair; the added 'under version control' copy/delete step and counts expand the task."
+ },
+ {
+  "item": "D18",
+  "defect": true,
+  "confidence": 0.7,
+  "reason": "It adds 'git diff --stat shows exactly 1 file and 1 changed line' and a stop-without-editing rule, and the 'Verify that the diff contains exactly that one replacement' is kept but the required check can reject a correct edit (the 'no npm instal not followed by l remains' count and 'rose by exactly 1' are fine, yet saving/deleting a copy conflicts with 'change no other byte' scope)."
+ },
+ {
+  "item": "D03",
+  "defect": false,
+  "confidence": 0.9,
+  "reason": "The output is a valid unchanged return ('Unchanged: This is a small, well-bounded task'), so B4 is na for a changed prompt."
+ },
+ {
+  "item": "D04",
+  "defect": true,
+  "confidence": 0.7,
+  "reason": "The stretch kappa >= 0.85 is a numeric target on qualitative coding and 'sharpen the rules and recode' until agreement tunes to the target, which is an arbitrary numeric bar on qualitative work."
+ },
+ {
+  "item": "D43",
+  "defect": true,
+  "confidence": 0.75,
+  "reason": "The second-coder line shares ticket text with a new coder, which is gated, but the held-out half method and the 'kappa recode' loop are not approval-gated additions: 'build the codebook on a random half... apply the frozen codebook once' is an ungated added method."
+ },
+ {
+  "item": "D73",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "Assumptions are marked 'Assumption:' and a First check confirms ticket text, unique IDs and names before work, so nothing is invented as available."
+ },
+ {
+  "item": "D74",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "Each borrowed field (qualitative coding, failure-mode distinction, red team, held-out check) changes the categories, counts or checks with a stated benefit."
+ },
+ {
+  "item": "D05",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "It asserts 'Airflow metadata database (task_instance)' and 'last 30 nightly runs' as available and 'Assumption: the outcome that matters is every reporting table being correct and ready before analysts start work' invents a goal beyond the 3-hour bar, though marked as assumption; the 18-minute stretch and per-table ready times are not supported by task facts."
+ },
+ {
+  "item": "D06",
+  "defect": false,
+  "confidence": 0.65,
+  "reason": "All original sentences survive verbatim ('split randomly by row...', 'Keep these scope, methods, and acceptance conditions unchanged') and the judge is retained."
+ },
+ {
+  "item": "D37",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "It adds a reproducibility-audit rubric with extra criteria and a third 'First check' to obtain the owner's decision, plus 'Establish whether holdout evidence has already influenced...' which goes beyond the two loopholes."
+ },
+ {
+  "item": "D41",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Both repairs are 'With my approval only:' and the prompt says 'Without approval, retain the original procedure', so nothing is expanded ungated."
+ },
+ {
+  "item": "D07",
+  "defect": false,
+  "confidence": 0.65,
+  "reason": "The two repairs are each on a 'With my approval only:' line and no ungated expansion is added."
+ },
+ {
+  "item": "D61",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The original task sentences, scope, methods and judge text are all preserved verbatim in the prompt."
+ },
+ {
+  "item": "D70",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Exactly two repairs, each on its own approval line, and no new analysis, metric or threshold is added."
+ },
+ {
+  "item": "D08",
+  "defect": false,
+  "confidence": 0.9,
+  "reason": "The output returns the task unchanged, so B4 is na."
+ },
+ {
+  "item": "D09",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The judge is 'I (the owner) review the deliverable', which has no independent task-specific evidence beyond the owner's own review and partly relies on labels the author applies."
+ },
+ {
+  "item": "D30",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "The export analysis, interviews and pilot are each on 'With my approval only:' lines and the prohibited routes (buying data, scraping, credentials) stay prohibited."
+ },
+ {
+  "item": "D10",
+  "defect": true,
+  "confidence": 0.55,
+  "reason": "'A ticket may support multiple categories' contradicts nothing but is an invented rule, and 'Unclassified failure' plus an unmarked separator choice add unsupported specifics; the 'Use an unambiguous separator' leaves format unspecified."
+ },
+ {
+  "item": "D11",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The only addition (freeze and record holdout reads) is on 'With my approval only:' and enforces the owner's 'Do not tune on the holdout' rule."
+ },
+ {
+  "item": "D12",
+  "defect": false,
+  "confidence": 0.9,
+  "reason": "The output is unchanged, so T3c is na."
+ },
+ {
+  "item": "D59",
+  "defect": false,
+  "confidence": 0.9,
+  "reason": "The output is a valid unchanged return, so B4 is na."
+ },
+ {
+  "item": "D13",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "All original sentences are preserved verbatim, including the judge text."
+ },
+ {
+  "item": "D44",
+  "defect": true,
+  "confidence": 0.5,
+  "reason": "It adds a log of 'every holdout read with its time and purpose' and extra first checks about the runner and rubric, though the two repairs themselves are gated; the logging detail is somewhat beyond the loophole repair."
+ },
+ {
+  "item": "D64",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Both repairs sit on 'With my approval only:' lines and results stay unverified without them."
+ },
+ {
+  "item": "D14",
+  "defect": true,
+  "confidence": 0.8,
+  "reason": "The prompt cites politeness theory, NVC and a two-reader red team, but the output is a rewrite of the task that adds a separate multi-lens procedure and a 'manager' judge, which is the owner and not an independent reviewer, so the contribution and exclusivity of the one-sentence deliverable are muddied; the red-team and politeness lenses mostly restate what the revision would do anyway."
+ },
+ {
+  "item": "D19",
+  "defect": true,
+  "confidence": 0.85,
+  "reason": "The judge is 'the manager reviews the output', i.e. the owner/author-adjacent role with no independent reviewer, for a qualitative task that needs a reviewer other than the author."
+ },
+ {
+  "item": "D51",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "No hard target is selected for this critique task ('Skipped: `altitude`' and no numeric stretch), so B7 does not apply."
+ },
+ {
+  "item": "D63",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The prompt marks its goal as 'Assumption: success means...' and invents no access, tool, or data."
+ },
+ {
+  "item": "D72",
+  "defect": false,
+  "confidence": 0.55,
+  "reason": "Validation uses a rubric-like list of criteria ('exactly one revised sentence... no wholesale label') rather than a fabricated percentage, and no generating-model approval."
+ },
+ {
+  "item": "D15",
+  "defect": false,
+  "confidence": 0.65,
+  "reason": "Goals are marked 'Assumption:' and dependencies get 'First check:' lines for exports, spend data, and the reviewer."
+ },
+ {
+  "item": "D16",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Assumptions are labeled and 'First check: the redacted notes are provided' and a reviewer-availability check precede the work, with no invented access."
+ },
+ {
+  "item": "D17",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The prompt asserts specifics about the target such as 'Airflow metadata database (task_instance)' and 'pg_stat_statements' as sources and a possible non-production instance, and the 18-minute stretch is inferred, though most are gated by first checks; the 'DAG's own max_active_tasks' assumes configuration not in the task."
+ },
+ {
+  "item": "D35",
+  "defect": true,
+  "confidence": 0.55,
+  "reason": "The prompt permits changes such as 'raise this DAG's own max_active_tasks' and session-level settings plus EXPLAIN ANALYZE on production queries without approval, and the equivalence/snapshot work expands scope without gating."
+ },
+ {
+  "item": "D46",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The prompt keeps 'Requirements: use the existing Airflow and Postgres setup; no new infrastructure spend; no changes to the report definitions' and the under-3-hours pass condition."
+ },
+ {
+  "item": "D20",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "The only added item is the freeze-and-log repair, placed on its own 'With my approval only:' line, with fixed methods left as written (Q9)."
+ },
+ {
+  "item": "D69",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "All scope, methods, and the judge text survive verbatim, including 'Keep these scope, methods, and acceptance conditions unchanged.'"
+ },
+ {
+  "item": "D21",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The prompt asserts the existence of 'authorized existing test capacity', 'fault injection' targets, and 'unused validation inputs' and contains a 'First check' but assumes retry/partial-refresh risks not shown by the task."
+ },
+ {
+  "item": "D60",
+  "defect": true,
+  "confidence": 0.55,
+  "reason": "Fault injection and held-out replays are borrowed methods whose contribution is asserted, but retry/partial-refresh fault injection targets a risk the task text does not show and adds work beyond the task."
+ },
+ {
+  "item": "D22",
+  "defect": false,
+  "confidence": 0.75,
+  "reason": "The freeze-and-log repair is on its own 'With my approval only:' line and adds no analysis, metric, or threshold."
+ },
+ {
+  "item": "D56",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The original scope, methods, and judge are preserved and the repair is isolated on an approval line."
+ },
+ {
+  "item": "D23",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "Deployment, tag removal, and paid hosting/CDN changes are each on 'With my approval only:' lines, with no rebuild or framework change unapproved."
+ },
+ {
+  "item": "D24",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The prompt says 'Do not deploy or purchase services without authorization' and field validation is gated, with no rebuild or framework change."
+ },
+ {
+  "item": "D25",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "The repair only enforces the owner's no-tuning rule, sits on an approval line, and adds nothing forbidden (Q9)."
+ },
+ {
+  "item": "D26",
+  "defect": false,
+  "confidence": 0.85,
+  "reason": "The task is returned unchanged with one reason, so B4 is na for a valid unchanged result."
+ },
+ {
+  "item": "D27",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "The prompt names Chrome performance traces, network waterfalls, LCP and primary-CTA timing under a cold-cache mobile profile, which are concrete raw material and instruments."
+ },
+ {
+  "item": "D28",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "The only expansion is the approval-gated 'analyze an owner-supplied, non-identifying aggregate comparison' and it keeps 'do not obtain the data yourself' and all access prohibitions."
+ },
+ {
+  "item": "D71",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "Inferred goals are marked 'Assumption:' and nothing is invented, with first checks stating that raw logs, CRM export and database access are unavailable."
+ },
+ {
+  "item": "D29",
+  "defect": false,
+  "confidence": 0.75,
+  "reason": "Scope, methods, split, no-tuning and judge text are retained verbatim, and the added approval line only adds a freeze-and-read-log enforcement of the existing rule."
+ },
+ {
+  "item": "D32",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "The single repair sits on a 'With my approval only:' line and adds no partition, analysis, metric or threshold, so it creates no ungated expansion."
+ },
+ {
+  "item": "D31",
+  "defect": true,
+  "confidence": 0.75,
+  "reason": "The approval line 'run the candidate pipeline in a shadow schema alongside production for 5 consecutive nights' adds an operational trial to a prompt where the owner fixed the methods and scope, and 'deploy the changed DAG to the production nightly schedule' also expands the task."
+ },
+ {
+  "item": "D33",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The prompt rewrites the judge to 'three consecutive representative scheduled nightly runs' and adds rollback instructions, while the original constraints are restated but the fixed 'no changes to report definitions' is loosened into a prompt that allows SQL rewrites and partial rebuilds if equivalent."
+ },
+ {
+  "item": "D68",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "It invents an assumed goal in a stretch target ('Aim for under 18 minutes') framed as an Assumption and presumes diagnostics and 'existing report-availability evidence' exist rather than checking each beforehand."
+ },
+ {
+  "item": "D34",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Each method (cohort analysis, managerial accounting, decision analysis, adversarial sensitivity) is tied to a specific check such as reconciling revenue components or break-even thresholds."
+ },
+ {
+  "item": "D36",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "No expansion beyond the task appears; it states 'no new infrastructure spend' and confines diagnostics to authorized windows with 'Do not enable new telemetry'."
+ },
+ {
+  "item": "D67",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Goals are marked 'Assumption:' and dependencies like Airflow access, diagnostics and snapshots are placed under first checks."
+ },
+ {
+  "item": "D38",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The prompt adds extra text outside the two loopholes, such as a preamble forbidding added analyses and a rubric of audit criteria, and bundles repairs (e.g. 'Record each holdout-outcome read') beyond the minimal approval lines, including a customer-key first check."
+ },
+ {
+  "item": "D65",
+  "defect": true,
+  "confidence": 0.7,
+  "reason": "The original method 'pick the alert threshold that maximizes holdout precision' is kept only as default, but the repairs change the split and selection method to a customer split and training-set threshold, which are method changes for a loophole the task text does not fully show (the judge text does not detect it)."
+ },
+ {
+  "item": "D39",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "Assumptions are labeled and the first check names missing dependencies, though it asks about 'permission to deploy' only as a check."
+ },
+ {
+  "item": "D45",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "Un-gated work includes 'Add indexes or rewrite queries' and 'Raise work_mem or parallel-query settings per session', and the approval line 'move the DAG's scheduled start earlier' alters the operating schedule."
+ },
+ {
+  "item": "D40",
+  "defect": true,
+  "confidence": 0.55,
+  "reason": "It assumes facts such as 'Analysts' morning query activity from Postgres statistics' and a 'last 30 runs' history exist, plus an invented stretch rationale, rather than only confirming them as first checks."
+ },
+ {
+  "item": "D58",
+  "defect": true,
+  "confidence": 0.55,
+  "reason": "The prompt adds a requirement not in the task, a recurring alert gated by approval, and alters the original 'no changes to report definitions' into a 1e-9 float tolerance, and it omits the task's literal ordering of constraints."
+ },
+ {
+  "item": "D42",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "The freeze-and-log repair sits on a 'With my approval only:' line, and the other additions are first checks that need no approval, so the added procedure is gated."
+ },
+ {
+  "item": "D47",
+  "defect": false,
+  "confidence": 0.85,
+  "reason": "Paid or cost-adding CDN/hosting changes are gated ('With my approval only: change the hosting or CDN configuration or plan where the change adds cost'), and the other fixes are within-site optimizations, not rebuilds or framework changes."
+ },
+ {
+  "item": "D48",
+  "defect": false,
+  "confidence": 0.85,
+  "reason": "Returned unchanged, so no access, data, or goal is invented."
+ },
+ {
+  "item": "D49",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "The task is returned unchanged as a valid no-change case, so B4 does not apply and the unchanged branch passes."
+ },
+ {
+  "item": "D50",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "Both repairs (customer-grouped split, training-chosen frozen threshold) sit on separate 'With my approval only:' lines, and no other expansion is added."
+ },
+ {
+  "item": "D52",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "Each repair is on its own approval line and closes a shown loophole (row split leaking customers, threshold chosen on the judging holdout) without adding analyses, metrics, or thresholds; the threshold repair does change a fixed method but closes a loophole the task text shows."
+ },
+ {
+  "item": "D54",
+  "defect": true,
+  "confidence": 0.7,
+  "reason": "The fixed method 'pick the alert threshold that maximizes holdout precision' and the 'split randomly by row' split are kept as written, but the prompt makes the conclusion unverified until the repairs are applied, effectively conditioning the judge; still, the original judge text is preserved so requirements survive, though the 'Until both approved repairs... stays unverified' line alters the acceptance condition."
+ },
+ {
+  "item": "D53",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The prompt asserts 'cut TTFB with CDN or edge caching of the HTML' as an ungated method, which can mean a CDN service or plan change, while only 'any paid change to hosting, CDN tier, or an image-optimization service' is gated, and it also tells the work to apply broad fixes site-wide without gating; this is mostly gated, but edge caching setup may be a paid service."
+ },
+ {
+  "item": "D55",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "Plan-level paid changes ('With my approval only: any paid or plan-level change, such as a CDN or hosting plan upgrade') and script removal are gated, and no rebuild or framework change is proposed."
+ },
+ {
+  "item": "D57",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "Paid or publishing steps are gated ('With my approval only: run tests on the public WebPageTest instance', tag removal, CI budget), and no rebuild or framework change is proposed."
+ },
+ {
+  "item": "D66",
+  "defect": true,
+  "confidence": 0.55,
+  "reason": "It states 'Assumption: A worthwhile stretch is 18 minutes' as marked, but the prompt references 'cache conditions where observable' and treats an 'operational window' and 'existing failure, retry, and publication behavior' as existing facts, and 'Treat about 4 hours as the reported baseline' is fine; the unmarked 'Use authorized test data or existing fixtures' assumes fixtures exist."
+ }
+]

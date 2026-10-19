@@ -1,0 +1,372 @@
+[
+ {
+  "run": "T01-claude-2",
+  "check": "B4",
+  "reason": "jev p=0.38 >= 0.36"
+ },
+ {
+  "run": "T01-pi-1",
+  "check": "B4",
+  "reason": "jev p=0.36 >= 0.36"
+ },
+ {
+  "run": "T02-claude-1",
+  "check": "B3",
+  "reason": "jev p=0.53 >= 0.37"
+ },
+ {
+  "run": "T02-pi-1",
+  "check": "B5",
+  "reason": "jev p=0.50 >= 0.5"
+ },
+ {
+  "run": "T03-claude-1",
+  "check": "B4",
+  "reason": "jev p=0.48 >= 0.36"
+ },
+ {
+  "run": "T03-pi-1",
+  "check": "B4",
+  "reason": "jev p=0.40 >= 0.36"
+ },
+ {
+  "run": "T03-pi-1",
+  "check": "T3c",
+  "reason": "jev p=0.51 >= 0.5"
+ },
+ {
+  "run": "T04-claude-1",
+  "check": "B2",
+  "reason": "jev p=0.71 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T04-claude-1",
+  "check": "T4a",
+  "reason": "jev p=0.13 >= 0.11"
+ },
+ {
+  "run": "T05-claude-1",
+  "check": "B3",
+  "reason": "jev p=0.53 >= 0.37; L8 flag: no First check for: coder"
+ },
+ {
+  "run": "T05-claude-1",
+  "check": "B5",
+  "reason": "jev p=0.60 >= 0.5"
+ },
+ {
+  "run": "T05-claude-1",
+  "check": "B6",
+  "reason": "jev p=0.50 >= 0.5 (uncalibrated); L7 flag: customer,names,quotes <- deliver a validation note as a separate file, apart from"
+ },
+ {
+  "run": "T05-claude-1",
+  "check": "B7",
+  "reason": "jev p=0.28 >= 0.14"
+ },
+ {
+  "run": "T05-pi-1",
+  "check": "B3",
+  "reason": "jev p=0.38 >= 0.37; L8 flag: no First check for: analyst"
+ },
+ {
+  "run": "T06-claude-1",
+  "check": "B4",
+  "reason": "jev p=0.80 >= 0.36"
+ },
+ {
+  "run": "T06-claude-1",
+  "check": "B6",
+  "reason": "L7 flag: credentials <- run the pre-written analysis plan on a de-identified, acc || customer <- have my customer success team run the switch-interview gu"
+ },
+ {
+  "run": "T06-pi-1",
+  "check": "B3",
+  "reason": "L8 flag: no First check for: reviewer"
+ },
+ {
+  "run": "T06-pi-1",
+  "check": "B6",
+  "reason": "L7 flag: data <- analyze an owner-supplied, non-identifying aggregate comp"
+ },
+ {
+  "run": "T07-claude-1",
+  "check": "B3",
+  "reason": "jev p=0.41 >= 0.37"
+ },
+ {
+  "run": "T08-claude-1",
+  "check": "B2",
+  "reason": "jev p=0.56 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T08-claude-1",
+  "check": "B6",
+  "reason": "L7 flag: holdout <- before reading the holdout, freeze the model, baseline, a"
+ },
+ {
+  "run": "T08-claude-2",
+  "check": "B2",
+  "reason": "jev p=0.54 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T08-claude-2",
+  "check": "B6",
+  "reason": "L7 flag: holdout <- before the evaluation runner first reads the holdout, fre"
+ },
+ {
+  "run": "T08-claude-3",
+  "check": "B6",
+  "reason": "L7 flag: holdout,tune <- before the holdout is read, freeze every chosen setting f"
+ },
+ {
+  "run": "T08-pi-1",
+  "check": "B6",
+  "reason": "L7 flag: holdout,tune <- close the enforcement gap in “Do not tune on the holdout”"
+ },
+ {
+  "run": "T08-pi-2",
+  "check": "B2",
+  "reason": "jev p=0.67 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T08-pi-2",
+  "check": "B6",
+  "reason": "L7 flag: holdout <- use a freeze-and-read-log protocol to enforce the existin"
+ },
+ {
+  "run": "T08-pi-3",
+  "check": "B6",
+  "reason": "L7 flag: holdout <- enforce the no-holdout-tuning rule by recording and freez"
+ },
+ {
+  "run": "T09-claude-1",
+  "check": "B3",
+  "reason": "jev p=0.39 >= 0.37; L8 flag: no First check for: colleague, reader"
+ },
+ {
+  "run": "T09-claude-1",
+  "check": "B4",
+  "reason": "jev p=0.61 >= 0.36"
+ },
+ {
+  "run": "T09-claude-1",
+  "check": "B5",
+  "reason": "jev p=0.51 >= 0.5"
+ },
+ {
+  "run": "T09-claude-1",
+  "check": "B7",
+  "reason": "jev p=0.18 >= 0.14"
+ },
+ {
+  "run": "T09-claude-1",
+  "check": "T9c",
+  "reason": "jev p=0.45 >= 0.22"
+ },
+ {
+  "run": "T09-pi-1",
+  "check": "B4",
+  "reason": "jev p=0.52 >= 0.36"
+ },
+ {
+  "run": "T11-claude-1",
+  "check": "T11d",
+  "reason": "jev p=0.28 >= 0.13"
+ },
+ {
+  "run": "T11-claude-2",
+  "check": "T11d",
+  "reason": "jev p=0.18 >= 0.13"
+ },
+ {
+  "run": "T11-claude-3",
+  "check": "T11d",
+  "reason": "jev p=0.21 >= 0.13"
+ },
+ {
+  "run": "T11-claude-4",
+  "check": "T11d",
+  "reason": "jev p=0.23 >= 0.13"
+ },
+ {
+  "run": "T11-claude-5",
+  "check": "T11d",
+  "reason": "jev p=0.18 >= 0.13"
+ },
+ {
+  "run": "T11-pi-1",
+  "check": "T11a",
+  "reason": "jev p=0.05 >= 0.05"
+ },
+ {
+  "run": "T11-pi-2",
+  "check": "T11d",
+  "reason": "jev p=0.13 >= 0.13"
+ },
+ {
+  "run": "T12-claude-1",
+  "check": "B2",
+  "reason": "jev p=0.74 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-claude-1",
+  "check": "B6",
+  "reason": "jev p=0.59 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-claude-1",
+  "check": "T12a",
+  "reason": "jev p=0.70 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-claude-2",
+  "check": "B2",
+  "reason": "jev p=0.74 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-claude-2",
+  "check": "B6",
+  "reason": "jev p=0.64 >= 0.5 (uncalibrated); L7 flag: keep <- make the random split by customer rather than by row, so"
+ },
+ {
+  "run": "T12-claude-2",
+  "check": "T12a",
+  "reason": "jev p=0.78 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-claude-3",
+  "check": "B2",
+  "reason": "jev p=0.56 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-claude-3",
+  "check": "B6",
+  "reason": "L7 flag: keep <- keep the random split, but use the table's de-identified"
+ },
+ {
+  "run": "T12-claude-3",
+  "check": "T12a",
+  "reason": "jev p=0.71 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-pi-1",
+  "check": "B6",
+  "reason": "jev p=0.60 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-pi-1",
+  "check": "T12a",
+  "reason": "jev p=0.70 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-pi-2",
+  "check": "B2",
+  "reason": "jev p=0.73 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-pi-2",
+  "check": "B6",
+  "reason": "jev p=0.51 >= 0.5 (uncalibrated); L7 flag: acceptance <- Replace “pick the alert threshold that maximizes holdout"
+ },
+ {
+  "run": "T12-pi-2",
+  "check": "T12a",
+  "reason": "jev p=0.76 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-pi-3",
+  "check": "B2",
+  "reason": "jev p=0.53 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T12-pi-3",
+  "check": "T12a",
+  "reason": "jev p=0.77 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-claude-1",
+  "check": "B6",
+  "reason": "jev p=0.54 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-claude-2",
+  "check": "B2",
+  "reason": "jev p=0.50 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-claude-2",
+  "check": "B3",
+  "reason": "jev p=0.38 >= 0.37"
+ },
+ {
+  "run": "T13-claude-3",
+  "check": "B3",
+  "reason": "jev p=0.47 >= 0.37"
+ },
+ {
+  "run": "T13-claude-3",
+  "check": "B6",
+  "reason": "jev p=0.56 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-claude-4",
+  "check": "B2",
+  "reason": "jev p=0.53 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-claude-4",
+  "check": "B3",
+  "reason": "jev p=0.42 >= 0.37"
+ },
+ {
+  "run": "T13-claude-4",
+  "check": "B6",
+  "reason": "L7 flag: report <- rebuild tables incrementally from changed source rows ins"
+ },
+ {
+  "run": "T13-claude-5",
+  "check": "B3",
+  "reason": "jev p=0.49 >= 0.37"
+ },
+ {
+  "run": "T13-pi-1",
+  "check": "B3",
+  "reason": "jev p=0.47 >= 0.37"
+ },
+ {
+  "run": "T13-pi-1",
+  "check": "B5",
+  "reason": "jev p=0.50 >= 0.5"
+ },
+ {
+  "run": "T13-pi-2",
+  "check": "B3",
+  "reason": "jev p=0.37 >= 0.37"
+ },
+ {
+  "run": "T13-pi-2",
+  "check": "B6",
+  "reason": "jev p=0.56 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-pi-3",
+  "check": "B3",
+  "reason": "L8 flag: no First check for: analyst"
+ },
+ {
+  "run": "T13-pi-4",
+  "check": "B3",
+  "reason": "jev p=0.37 >= 0.37"
+ },
+ {
+  "run": "T13-pi-5",
+  "check": "B2",
+  "reason": "jev p=0.50 >= 0.5 (uncalibrated)"
+ },
+ {
+  "run": "T13-pi-5",
+  "check": "B3",
+  "reason": "jev p=0.51 >= 0.37"
+ }
+]

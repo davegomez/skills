@@ -1,0 +1,55 @@
+Make our marketing website load faster, starting with the home page, which takes about 10 seconds to load on mobile.
+
+Assumption: the goal is for real mobile visitors to see and use the home page quickly, so fewer leave before it loads. The fixes should also hold for other pages that share its templates.
+
+First checks (do these before changing anything; name any that are missing and continue only with work the available access supports):
+- Confirm access to the site's source, build and deploy pipeline, and a staging or preview environment where you can measure changes.
+- Find out what the "10 seconds" measures (onload, LCP, fully loaded, or perceived) and on what device and network. Check whether field data exists: existing analytics or RUM, Search Console Core Web Vitals, or the public CrUX data for the origin. Treat the 10-second figure as a claim to reproduce, not a given.
+- Find out which third-party scripts (tag manager, analytics, chat, A/B testing, pixels) the marketing team relies on.
+
+Baseline:
+- Measure the home page on a fixed mobile profile: Lighthouse or WebPageTest, mid-tier Android emulation, slow 4G, cold cache, same test location.
+- Do at least 5 runs and record the median and the range for LCP, FCP, TTFB, total blocking time, CLS, transfer bytes, and request count. If possible, also run once on a real low-end Android device.
+- Measure 2–3 other high-traffic pages the same way.
+
+Diagnosis (work from raw evidence, not the Lighthouse score):
+- Read the network waterfall and the performance trace.
+- Break LCP into four parts: TTFB, resource load delay, resource load duration, and render delay. Fix the largest part first.
+- Use the Chrome Coverage tab and a bundle analyzer (e.g. source-map-explorer or webpack-bundle-analyzer) to find unused JS and CSS.
+- List every third-party request with its byte and main-thread cost.
+- Check cache headers, compression (Brotli or gzip), and CDN use for every asset.
+
+Fixes, ranked by measured impact:
+- Images: optimize the LCP image and give it fetchpriority="high". Use responsive images (srcset/sizes, AVIF/WebP) and lazy-load anything below the fold.
+- Critical path: inline critical CSS. Defer or remove render-blocking JS.
+- Fonts: subset them, preload the critical one, and use font-display: swap.
+- Bundles: code-split or drop unused JS.
+- Caching and compression: set correct cache headers and compression.
+- Re-measure after each fix so every change has a measured effect.
+
+Aim for a mobile LCP of 2.5 s or less on the fixed profile (the Core Web Vitals "good" threshold), with CLS ≤ 0.1, using the methods above. If one approach stalls, try the next before reporting a miss.
+
+Red-team the result:
+- Re-test on cold cache, on the real device if available, and on the other measured pages.
+- Take before/after screenshots of each measured page at mobile and desktop widths and diff them for visual regressions.
+- Confirm that forms submit and that analytics and conversion events still fire in staging.
+
+With my approval only: remove, delay, or replace third-party scripts or tags the marketing team depends on.
+With my approval only: change CDN or hosting configuration, or add any paid service such as an image CDN.
+With my approval only: deploy to production.
+With my approval only: add RUM collection after deploy and report field LCP at the 75th percentile over the following 28 days.
+With my approval only: add performance budgets (e.g. Lighthouse CI) to the build so future content can't regress load time.
+
+Report:
+- A before/after table for each measured page: metric, baseline median and range, after median and range.
+- The fixes, ranked by measured effect.
+- Anything deferred pending approval.
+- The stretch result, met or missed.
+
+Judge: repeated Lighthouse/WebPageTest runs on the identical mobile profile and URL, before and after.
+Pass only if all of the following hold:
+- The home page's after-median for the metric behind "10 seconds" and for LCP is below the baseline median, and the after-range does not overlap the baseline range.
+- No other measured page gets slower.
+- The screenshot diffs show no unintended visual change.
+- Forms and analytics events still work.
+Report the stretch target (LCP ≤ 2.5 s lab; field p75 if approved) separately. Without field data, the real-user result stays unverified.

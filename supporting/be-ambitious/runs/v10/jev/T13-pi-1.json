@@ -1,0 +1,72 @@
+{
+ "version": "v10",
+ "run": "T13-pi-1",
+ "model": "jev-1.13.0",
+ "jev": {
+  "B2a": 0.28,
+  "B2b": 0.65,
+  "B3": 0.45,
+  "B4": 0.19,
+  "B5": 0.3,
+  "B6a": 0.46,
+  "B6b": 0.14,
+  "B7": 0.09,
+  "B10": 0.02,
+  "T13a": 0.08,
+  "T13b": 0.08,
+  "T13c": 0.18
+ },
+ "qhashes": {
+  "B2a": "4b1003ce37863567",
+  "B2b": "84504d66804c20a4",
+  "B3": "463c7978126faccb",
+  "B4": "322f6e55fa8da47b",
+  "B5": "ee1fd76f9dd96853",
+  "B6a": "583fde9f6b14e999",
+  "B6b": "d654712b85505433",
+  "B7": "bf91692f4847b6a3",
+  "B10": "ba31c9baaa8ac985",
+  "T13a": "36264fafd45c53f8",
+  "T13b": "90648e0134a6362a",
+  "T13c": "b0fce7ba8316526b"
+ },
+ "rounds": {
+  "B2a": "auto",
+  "B2b": "auto",
+  "B3": "auto",
+  "B4": "auto",
+  "B5": "auto",
+  "B6a": "auto",
+  "B6b": "auto",
+  "B7": "auto",
+  "B10": "auto",
+  "T13a": "auto",
+  "T13b": "auto",
+  "T13c": "auto"
+ },
+ "requests": [
+  {
+   "checks": [
+    "B10",
+    "B2a",
+    "B2b",
+    "B3",
+    "B4",
+    "B5",
+    "B6a",
+    "B6b",
+    "B7",
+    "T13a",
+    "T13b",
+    "T13c"
+   ],
+   "input_tokens": 6089,
+   "raw_estimate": 7735,
+   "elapsed_s": 0.23,
+   "model": "jev-1.13.0",
+   "round": "auto",
+   "repeat": false
+  }
+ ],
+ "history": []
+}

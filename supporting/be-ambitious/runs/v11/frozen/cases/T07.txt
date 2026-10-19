@@ -1,0 +1,1 @@
+Draft a weekly report about recurring checkout failures so our team can choose what to fix. You may inspect only the redacted incident notes I provide. You may not access production, change checkout code, create accounts, send messages, or change incident-response policy. If you think we should move beyond the report, make that a separate proposal needing my approval.

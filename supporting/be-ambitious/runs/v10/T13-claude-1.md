@@ -1,0 +1,54 @@
+```text
+Our nightly pipeline that rebuilds the reporting tables takes about 4 hours, and analysts wait for it each morning. Get it under 3 hours.
+Assumption: the outcome that matters is analysts having correct reporting tables when they start work, so also report when each table becomes available, not only total runtime.
+Assumption: the rebuilt tables must contain exactly the same data the current pipeline produces for the same inputs; speed must not change results.
+Baseline before changing anything. "About 4 hours" is a user report, not a measurement. If Airflow metadata history is kept, pull task-instance start, end, queued, and retry times for recent runs. Compute run-to-run variance and each run's wall-clock time from DAG run start to the final reporting-table commit. Record source row counts per run so runtime can be compared against data volume.
+Find the critical path. Treat the DAG as a scheduling graph and compute the longest dependency path from the measured task durations. Only tasks on that path shorten wall-clock time. Report slack per task, and separate queued time (waiting for pool slots or workers) from running time. Recompute the path after each change, because it moves.
+Diagnose critical-path tasks from raw database evidence, not task durations alone: EXPLAIN (ANALYZE, BUFFERS) on their queries, pg_stat_statements if enabled, and wait events and lock waits from pg_stat_activity and pg_locks sampled during a run. Classify each task's time as CPU, I/O, lock wait, or queueing. For each bottleneck, try the fix suited to its cause: rewrite plans that use nested loops over large sets or repeat scans; ANALYZE staging tables after bulk loads so the planner's statistics are current; drop indexes on pipeline-owned staging tables before bulk loads and rebuild them afterward; use UNLOGGED tables for intermediate data the pipeline can regenerate; replace row-by-row or DELETE-then-INSERT patterns with set-based or COPY loads; remove false DAG dependencies so independent branches run in parallel.
+Test parallelism against contention, not by assumption. Adding concurrent tasks helps only while the database is not saturated. Measure throughput at increasing concurrency and stop where I/O or lock waits start rising.
+Where source tables support reliable change detection, replace full rebuilds with incremental refresh using a watermark kept in a pipeline-owned state table. Keep the full rebuild as a fallback path.
+Red-team every incremental or rewritten step before trusting it. Construct inputs with late-arriving rows, updates and deletes in source tables, duplicate keys, NULLs in join and grouping keys, and a backfill of an old date. Show that the optimized output still matches a full rebuild on each.
+Once the critical path is short, order the remaining work so the tables analysts open first commit earliest. In Airflow, use priority_weight on this DAG's own tasks.
+Aim for under 18 minutes of wall-clock time (one-tenth of the 3-hour bar), using incremental refresh plus critical-path work. When one approach stalls, try the next before reporting a miss. The pass bar stays under 3 hours. Report the stretch result separately, met or missed.
+Compare baseline and new runtimes under comparable conditions: same data volume, or runtime normalized by row counts, on the same database, at a comparable time of night.
+Requirements: run on the existing Airflow and Postgres setup; no new infrastructure spend; no changes to the report definitions.
+With my approval only: change Postgres server-wide settings (postgresql.conf, shared_preload_libraries, or anything that needs a restart), including enabling pg_stat_statements or auto_explain if they are not already on.
+With my approval only: raise work_mem, maintenance_work_mem, or parallel-worker settings inside pipeline sessions, because these draw on the memory and worker pool shared with other database users.
+With my approval only: add indexes to, or otherwise alter, source tables that the pipeline does not own.
+With my approval only: change Airflow pool sizes, global parallelism, or scheduler and executor settings shared with other DAGs.
+With my approval only: move the DAG's scheduled start time.
+With my approval only: publish reporting tables by build-then-rename swap, which affects dependent views, grants, and readers of those tables.
+With my approval only: run benchmark replays or parallel trial runs against the production Postgres instance.
+With my approval only: add a recurring runtime and table-availability SLO alert for this DAG.
+First check: how many days of task-instance history the Airflow metadata database keeps.
+First check: whether pg_stat_statements and auto_explain are already enabled.
+First check: whether a non-production Postgres instance with production-scale data exists within current infrastructure for replays. If none exists, do not replay against production without the approval above.
+First check: what time analysts start work, and which reporting tables they open first. Get this from the owner, or from query logs if those are kept.
+First check: whether source tables have trustworthy change-tracking (updated_at columns, soft deletes, or change data capture) that makes incremental refresh correct. Where they don't, keep full rebuilds for those tables.
+First check: which Airflow pools, workers, and Postgres resources this DAG shares with other workloads.
+Name any failed check, continue only with supported, authorized work, and mark the affected results unverified.
+Judge: on at least 5 runs, either consecutive production nights or replays of 5 distinct nightly input snapshots at comparable volume, with the unmodified pipeline run on the same inputs as the baseline, wall-clock time from DAG run start to final reporting-table commit is under 3 hours on every run, and every reporting table matches the baseline output. Matching means equal row counts and empty EXCEPT ALL in both directions, compared as multisets. Two allowances must be listed before the comparison: pipeline-metadata columns such as refresh timestamps are excluded, and floating-point columns are compared at a stated tolerance. The red-team cases also pass. Report per run: baseline and new runtime, source row counts, the critical path before and after, each table's commit time against analysts' start time, and the 18-minute stretch, met or missed. Any run not measured or table not compared leaves the result unverified.
+```
+
+- `altitude`: The outcome moves from total runtime under 3 hours to correct tables in analysts' hands by start of day. Each table's commit time is reported against analysts' start time, and first-needed tables are ordered first. Needs the analysts' start time and table priorities from the owner.
+- `depth`: Measures the baseline from Airflow task-instance history, because "about 4 hours" is unverified and nightly runs vary. Comparisons are normalized for data volume.
+- `depth`: Uses critical-path analysis of the DAG so effort goes only to tasks that set wall-clock time. Separates queued time from running time.
+- `depth`: Diagnoses tasks from EXPLAIN (ANALYZE, BUFFERS), pg_stat_statements, and wait and lock sampling, then applies cause-specific fixes. Ungated fixes touch only pipeline-owned objects and queries.
+- `depth`: Sets an 18-minute stretch target through incremental refresh, reported separately from the 3-hour pass bar. Risk: incremental logic can be subtly wrong, which the red-team and equivalence checks below cover.
+- `depth`: The judge compares outputs as multisets against the unmodified pipeline in both directions, with tolerances declared before comparison. This enforces "no changes to report definitions" mechanically and doesn't reject correct float results.
+- `range`: Borrows from capacity and queueing analysis. Concurrency is raised only until contention appears, so added parallelism doesn't slow the run.
+- `range`: Borrows red-team and differential testing. Late, updated, deleted, duplicate, and NULL-key inputs plus a backfill are run against a full rebuild to catch incremental-refresh errors that a normal night would hide.
+- Gated, with shared-resource effects:
+  - server-wide Postgres settings and extensions
+  - session memory and parallel-worker increases
+  - indexes on source tables the pipeline doesn't own
+  - shared Airflow pools and executor settings
+  - schedule changes
+  - rename-swap publishing
+  - load from benchmarking on production
+  - a new recurring SLO alert
+- Skipped: none. All three lenses contribute.
+- Owner actions:
+  - Supply the analysts' start time and which tables they need first.
+  - Confirm how long Airflow keeps history, whether pg_stat_statements is enabled, whether a non-production replay database exists, whether source tables support change tracking, and which resources are shared.
+  - Decide each "With my approval only" line.

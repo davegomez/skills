@@ -1,0 +1,2 @@
+model=claude-opus-5-5 effort=high tools=none settings=project(empty) mcp=strict
+exit=0 bytes=    2822 skill_sha=c2f2f6c71608b16a637600445d0828d94146ee0889094fb269368a63da1326f7

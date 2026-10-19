@@ -1,0 +1,46 @@
+```text
+Make our marketing website load faster. The home page takes about 10 seconds to load on mobile.
+Assumption: the site exists to turn mobile visitors into leads or customers, so "faster" means visitors on a mid-tier phone over a weak network see the pitch and can act before they give up, not just a lower lab score.
+Test the premise first. Establish which "10 seconds" is real: run 9 Lighthouse CLI runs with the mobile preset (Moto G Power-class emulation, slow 4G) against the current home page and record median and spread for LCP, FCP, TTFB, Total Blocking Time, CLS, page weight, and fully-loaded time. If CrUX data exists for the origin, pull p75 field LCP, INP, and CLS for phones. Report which metric matches the ~10 s complaint. Use that metric and LCP as the baseline. Every later comparison uses the same tool, preset, URL, and run count.
+Find the bottleneck before fixing anything. From the Lighthouse trace and the Chrome DevTools Performance panel network waterfall, identify the LCP element. Split its time into TTFB, resource load delay, resource load time, and render delay. Fix the largest share first, re-measure, then move to the next largest. Do not apply a generic checklist.
+Use the specialist instruments where the trace points to them:
+- LCP image: AVIF/WebP, responsive srcset/sizes, fetchpriority="high", preload, and no lazy-loading on it.
+- Render-blocking CSS and fonts: inline critical CSS, subset fonts, font-display, and preload the one or two fonts above the fold.
+- JavaScript: run source-map-explorer or the bundler's analyzer to find dead or oversized bundles; defer or remove hydration work the page does not need.
+- TTFB: check CDN cache headers and the hit ratio for HTML and static assets.
+- Third-party tags: inventory every tag (tag manager, chat, A/B, pixels) with its main-thread and transfer cost from the trace.
+Aim for median lab LCP under 1.8 s, with field p75 LCP under 2.5 s, INP under 200 ms, and CLS under 0.1, using the bottleneck-first method above. When one approach stalls, try the next before reporting a miss. The owner's bar stays the pass condition. Report stretch results separately, met or missed.
+Treat measurements as noisy. Compare the before and after medians across the 9-run sets and report the spread. Do not claim an improvement from a single run.
+Red-team every change before calling it done:
+- Confirm the above-the-fold content and calls to action still render and work.
+- Confirm forms submit.
+- Confirm analytics and conversion events still fire, checked in the browser network panel, both before and after consent where a consent banner exists.
+- A speedup that hides content, delays the main call to action, or breaks attribution counts as a regression.
+Deliverable: the changes to the site, plus a short report with the baseline, the bottleneck breakdown, each change with its measured effect, before/after medians and spread, the stretch result, and the red-team results.
+With my approval only: remove any third-party tag, as opposed to deferring it, after naming the tag and the marketing function it serves.
+With my approval only: run tests on the public WebPageTest instance, whose results are published publicly.
+With my approval only: add a Lighthouse CI performance budget to the site's build pipeline that fails builds when home-page mobile LCP regresses past the new median.
+With my approval only: after deploy, compare mobile home-page bounce and conversion rates for 4 weeks before versus 4 weeks after, from the existing analytics, noting campaign-mix changes in those windows. Report the result as observational, not causal.
+First check: the site source, a staging or preview environment for before/after measurement, Lighthouse CLI, and authority to deploy to production are available. Name any missing item and continue only with supported, authorized work.
+First check: CrUX has data for the origin. If it does not, field targets stay unverified.
+First check: for the approved analytics comparison, read access to the site analytics. If access is missing, that comparison stays unverified.
+Judge: Lighthouse CLI, mobile preset, 9 runs each on the current and changed home page under the same conditions; pass only if the median of the metric matching the ~10 s complaint and the median LCP are both lower after than before, and above-the-fold content, calls to action, form submission, and analytics/conversion events all work in the red-team check. Report the stretch separately: lab median LCP under 1.8 s, met or missed; field p75 LCP under 2.5 s, INP under 200 ms, and CLS under 0.1 from CrUX at least 28 days after deploy, met, missed, or unverified if no field data exists.
+```
+
+**Ledger**
+- `depth`: the work starts from a 9-run baseline and an LCP phase breakdown, instead of trusting the "10 seconds" anecdote. Fixes follow the measured bottleneck, not a checklist. Cost: measurement time before any fix.
+- `depth`: the hard target is lab LCP under 1.8 s and field p75 under 2.5 s, past Google's "good" threshold. Stretch results are reported separately, and the owner's "faster than now" bar stays the pass condition.
+- `altitude`: the outcome moves from "the page loads faster" to "mobile visitors see and act on the pitch." This adds a red-team check on calls to action, forms, and attribution. The post-deploy bounce/conversion comparison is behind approval and is labeled observational.
+- `range`: from statistics, repeated runs and median-with-spread comparison, so noise is not reported as a gain.
+- `range`: from operations, bottleneck-first sequencing (theory of constraints) on the LCP critical path.
+- `range`: a red-team regression check on marketing attribution, because deferring tags can silently break campaign data.
+- Approval lines:
+  - Removing a tag changes marketing capability.
+  - Public WebPageTest publishes the results.
+  - Lighthouse CI is a new CI workflow.
+  - The analytics comparison uses data access beyond the site source.
+- Skipped: none. All three lenses contribute.
+- Owner actions:
+  - Confirm source, staging, and deploy authority.
+  - Confirm CrUX and analytics access.
+  - Decide on the four approval lines: tag removal, public WebPageTest, Lighthouse CI budget, and the bounce/conversion comparison.

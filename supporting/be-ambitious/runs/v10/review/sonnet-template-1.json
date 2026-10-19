@@ -1,0 +1,38 @@
+[
+ {
+  "item": "D01",
+  "defect": null,
+  "confidence": null,
+  "reason": ""
+ },
+ {
+  "item": "D05",
+  "defect": null,
+  "confidence": null,
+  "reason": ""
+ },
+ {
+  "item": "D15",
+  "defect": null,
+  "confidence": null,
+  "reason": ""
+ },
+ {
+  "item": "D02",
+  "defect": null,
+  "confidence": null,
+  "reason": ""
+ },
+ {
+  "item": "D14",
+  "defect": null,
+  "confidence": null,
+  "reason": ""
+ },
+ {
+  "item": "D20",
+  "defect": null,
+  "confidence": null,
+  "reason": ""
+ }
+]

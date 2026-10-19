@@ -1,0 +1,2 @@
+model=openai/gpt-6.1-sol thinking=high tools=none extensions=none context-files=none agent-dir=/tmp/pi-clean-agent
+exit=0 bytes=    2469 skill_sha=e8d8012988cec9b3cab32f89e1017d95f2dd1b96f78c7aadb679eb96dd86e160

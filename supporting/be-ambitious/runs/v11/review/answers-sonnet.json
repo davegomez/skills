@@ -1,0 +1,62 @@
+[
+ {
+  "item": "D01",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "Inferred goals are marked 'Assumption:', baseline is to be measured from run records with 'if run history is kept' and First checks cover history, access, and snapshot availability."
+ },
+ {
+  "item": "D04",
+  "defect": true,
+  "confidence": 0.6,
+  "reason": "The prompt includes 'Deploy to production only after every table passes' and runs the old and new pipelines, and session tuning and rename-swaps are in scope, but it also includes 'Aim for under 18 minutes' with incremental rebuilds that change the pipeline's approach; more importantly the swap/UNLOGGED/EXPLAIN ANALYZE of shared-live statements runs on production Postgres without an approval line (EXPLAIN ANALYZE executes the statements)."
+ },
+ {
+  "item": "D02",
+  "defect": false,
+  "confidence": 0.65,
+  "reason": "It marks 'Assumption: Success means complete, unchanged reporting outputs become available earlier', treats '4 hours' as reported until confirmed, and adds First checks for access and replay capability."
+ },
+ {
+  "item": "D03",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "It preserves 'existing Airflow and Postgres setup', 'No new infrastructure spend', 'no changes to the report definitions', and keeps 'Under 3 hours remains the acceptance bar'."
+ },
+ {
+  "item": "D07",
+  "defect": false,
+  "confidence": 0.7,
+  "reason": "Session-local tuning and swapping its own tables are allowed under Q12, shared-live replay is gated by 'With my approval only', and 'Do not execute expensive statements merely to collect plans on shared live Postgres without approval'."
+ },
+ {
+  "item": "D10",
+  "defect": false,
+  "confidence": 0.65,
+  "reason": "The 18-minute stretch uses task-specific methods, 'Under 3 hours remains the acceptance bar', stays within existing resources, and is reported 'separately as met, missed, or unverified'."
+ },
+ {
+  "item": "D05",
+  "defect": false,
+  "confidence": 0.6,
+  "reason": "The inferred goal is marked 'Assumption: the intended benefit is earlier access to complete, correct reporting tables', and first checks cover access, run history, plans, snapshots and capacity without inventing any availability."
+ },
+ {
+  "item": "D09",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "Tuning is limited to 'this pipeline's tasks, connections, and objects' (in-scope per Q12), shared changes are prohibited ('Do not change shared pools, queues, server-wide settings'), and the shared live experiment sits on a 'With my approval only:' line."
+ },
+ {
+  "item": "D06",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "Server-wide settings, Airflow-wide config, shared pools, source-table indexes, production candidate runs and schedule changes are each on their own 'With my approval only:' line, while pipeline-own tuning and rename swaps are in scope under Q12."
+ },
+ {
+  "item": "D08",
+  "defect": false,
+  "confidence": 0.8,
+  "reason": "Shared server settings, pools and others' schedules are barred from ungated work and the shared-live replay is on 'With my approval only: run a one-off baseline-versus-candidate replay on a shared live database', with pipeline-own optimization in scope."
+ }
+]

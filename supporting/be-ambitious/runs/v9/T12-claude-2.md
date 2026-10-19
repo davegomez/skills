@@ -1,0 +1,22 @@
+```text
+Evaluate whether our churn model gives analysts a useful early-warning signal.
+Assumption: analysts will act on alerts for customers and months the model has not seen, so the holdout result should estimate performance on unseen customers, with a threshold that was not tuned on the data used to judge it.
+The approved scope is offline evaluation only. Use the supplied de-identified customer-month table, split randomly by row into a training set and a holdout. Reproduce the current model and its baseline, check calibration and subgroup errors, and pick the alert threshold that maximizes holdout precision. Have an independent analyst audit the conclusion against a written rubric. Report uncertainty and missed targets. Keep these scope, methods, and acceptance conditions unchanged.
+Until the approved repairs below are applied and the judge runs on the repaired work, report every result that depends on the row-level split or the holdout-chosen threshold, including the precision difference and its confidence interval, as unverified.
+With my approval only: make the random split by customer rather than by row, so all of a customer's months fall in the training set or all fall in the holdout. Keep the same two sets, the same random assignment, and the same holdout share.
+With my approval only: choose the alert threshold that maximizes precision on the training set, then freeze the model and threshold before the holdout is read and apply them to the holdout once. Log every holdout read with its time and purpose.
+First check: the supplied customer-month table is present and has a de-identified customer key, which the customer-level split needs. Without that key, the row-split leakage cannot be repaired; say so and treat the holdout precision as unverified.
+First check: the existing evaluation runner is available, reproduces the baseline on the original split, and can take a customer-level split and a fixed, pre-chosen threshold. Name any gap and continue only with supported work.
+First check: the written rubric exists, and an independent analyst who did not build or tune the model is available and permitted to see the de-identified table and results. If either is missing, deliver the conclusion marked as unaudited.
+Judge: the existing evaluation runner must reproduce the baseline and show holdout precision at the chosen threshold above the baseline with a 95% confidence interval for the difference excluding zero. Otherwise report that the evidence does not establish improvement.
+```
+
+- `depth`: customer-level split. Evidence: "customer-month table, split randomly by row". With a row split, the same customer's months land in both sets, so the holdout scores customers the model already saw. That inflates holdout precision and can pass the judge even when the model would not work on new customers. The fix keeps the same two sets and the same method, changing only the assignment unit. Scope: needs approval because it changes a fixed method. Risk: holdout precision will probably drop.
+- `depth`: choose the threshold on training data, freeze it, apply it once, and log holdout reads. Evidence: "pick the alert threshold that maximizes holdout precision" combined with "Judge: … holdout precision at the chosen threshold". Choosing and judging on the same data biases the difference upward and weakens what the confidence interval means. The judge cannot see how many times the holdout was read, so the freeze and the read log enforce single use. This adds no new analysis, metric, or threshold. Scope: needs approval because it changes a fixed selection step.
+- Skipped: `altitude`. Moving up to how analysts act on alerts would need deployment or new metrics, and both fall outside "offline evaluation only" and the fixed methods. `range`: the owner's independent audit already supplies the outside check, and adding another field's method would break the closed method set. Hard-target stretch: the acceptance condition is fixed, and a stretch target on precision would change what "missed targets" reports.
+- Owner actions:
+  - Approve or decline each repair. Without them, the judge's verdict on improvement stays unverified.
+  - Confirm the table has a customer key.
+  - Confirm the evaluation runner can take a customer-level split and a pre-chosen threshold.
+  - Supply or confirm the written rubric.
+  - Name an available independent analyst who is permitted to see the material.

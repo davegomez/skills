@@ -1,0 +1,131 @@
+# Blind review pack, grouped
+
+Each group shows one task and one output once, then the items to grade for that output. For each item, decide whether the named check FAILS for this output (a defect is present). Use the rubric text quoted in the item and INTERPRETATIONS.md. Answer with one JSON object per item: `item`, `defect` (true = the check fails, false = it passes), `confidence` (0 to 1), `reason` (one sentence that quotes the output).
+
+## G01
+
+### Task
+
+```text
+In README.md replace the single exact string "npm instal" with "npm install". Change no other byte. Verify that the diff contains exactly that one replacement. Do not add a test file, run an install, or reformat the document.
+```
+
+### Output
+
+````markdown
+```text
+In README.md replace the single exact string "npm instal" with "npm install". Change no other byte.
+Assumption: the target is the misspelled occurrence. Every correct "npm install" also contains "npm instal", so the target is the occurrence of "npm instal" not immediately followed by "l". Leave every existing "npm install" untouched; a plain replace-all would turn those into "npm installl".
+Before editing, save the original bytes to a temporary location outside the project, so the result can be checked byte for byte. Delete that copy after verification. Make the edit as one insertion of "l" directly after the target occurrence, with no editor reflow, line-ending or encoding conversion, or trailing-newline change.
+Verify that the diff contains exactly that one replacement.
+Do not add a test file, run an install, or reformat the document.
+First check: README.md exists, and it contains exactly one occurrence of "npm instal" not immediately followed by "l". If the count is zero or more than one, stop before editing and report the count and the line numbers.
+Judge: build the expected file from the saved original by inserting one "l" directly after the single "npm instal" not followed by "l". Pass only if `cmp` reports the edited README.md identical to that expected file, its size is exactly 1 byte larger than the original, the diff shows only that one line changed from "npm instal" to "npm install", and no file other than README.md was modified or added in the project.
+```
+
+- `depth`: the target is narrowed to the occurrence not followed by "l". This is because "npm install" contains "npm instal" as a substring, so the literal instruction would corrupt any correct occurrences already in the file. No scope or cost change.
+- `depth`: a byte-for-byte `cmp` against an expected file built from the original is added alongside the owner's diff check. A line diff can hide changes to line endings, encoding, or the trailing newline, which "change no other byte" forbids. The cost is a temporary copy kept outside the project and deleted afterward. No file is added to the project.
+- Skipped: `altitude`, because the owner fixed the scope to one replacement and fixing other typos would break "change no other byte". Also skipped: `range`, because no other field's method improves a one-byte edit and its exact check.
+- Owner actions: none required. If the first check finds zero or several misspelled occurrences, decide which one to fix.
+````
+
+### Item D01
+
+### Check B3
+
+B3. Grounding: It invents no available access, tool, data, observation, result, or inferred owner goal. Unconfirmed dependencies get first checks. Inferred goals are marked as assumptions in the prompt. User-reported availability is not silently upgraded to a tool-verified observation.
+
+Applicability for this case: Required. `Required` means pass or fail, never `na`. `Changed` means required for a changed prompt and `na` for a justified, valid unchanged task. `Stretch` means required if a hard target is selected and `na` if none is selected. A missing product does not create a valid unchanged branch. T11 and T13 require a stretch, so B7 is always required there.
+
+### Item D05
+
+### Check T4a
+
+T4a. It returns the task unchanged with one reason, or identifies a concrete targeting or verification defect and corrects only that defect. A changed response preserves the exact required replacement, the required diff verification, every other byte, and all prohibitions on test files, installs, and reformatting. Paraphrase or an extra checklist without a concrete repair fails. Any verification added must establish the intended one-insertion result, not merely a one-byte size increase or positional `cmp` differences.
+
+Applicability note for this case: For verbatim preservation, the `/be-ambitious` invocation wrapper may be omitted from the returned task. The task payload must otherwise remain unchanged. A final added judge line or expanded checklist is a change, not a verbatim return.
+
+General applicability rule: All case checks for the supplied case are required except T3c, T5c, and T9c, which apply only to changed prompts and are `na` for a valid unchanged result. T1b, T4a, and T8b permit either unchanged input or a concrete defect repair permitted by the fixed requirements. T12 requires a changed response. A changed response still requires all applicable common checks. Empty input is an allowed branch only for T10.
+
+### Item D15
+
+### Check B2
+
+B2. Requirements: Every explicit scope, fixed-method, acceptance-condition, artifact, literal, format, approval, budget, and deadline requirement survives inside the copyable prompt, or unchanged original task in a valid no-change case.
+
+Applicability for this case: Required. `Required` means pass or fail, never `na`. `Changed` means required for a changed prompt and `na` for a justified, valid unchanged task. `Stretch` means required if a hard target is selected and `na` if none is selected. A missing product does not create a valid unchanged branch. T11 and T13 require a stretch, so B7 is always required there.
+
+## G02
+
+### Task
+
+```text
+Our nightly pipeline that rebuilds the reporting tables takes about 4 hours, and analysts wait for it each morning. Get it under 3 hours. It runs on our existing Airflow and Postgres setup. No new infrastructure spend and no changes to the report definitions.
+```
+
+### Output
+
+````markdown
+```text
+Our nightly pipeline that rebuilds the reporting tables takes about 4 hours, and analysts wait for it each morning. Get it under 3 hours.
+
+Assumption: the improvement must deliver the complete, correct reporting dataset sooner—not merely make Airflow show success earlier.
+
+Use the raw Airflow task timelines and Postgres execution evidence to reconstruct the pipeline’s critical path. Distinguish query execution, lock waits, resource contention, and orchestration delays where the available evidence supports that distinction. Treat “about 4 hours” as the reported duration until measured; do not mistake the sum of overlapping task durations for elapsed rebuild time.
+
+Rank changes by their estimated reduction in critical-path time, not by which query looks most expensive in isolation. Use Postgres EXPLAIN and available execution statistics to identify unnecessary scans, cardinality-estimation problems, join amplification, spills, and repeated computation. Obtain execution-bearing plans only through an authorized, safe execution path. Favor evidence-backed SQL and task-local changes that preserve existing outputs and publication semantics.
+
+Aim for under 18 minutes of end-to-end rebuild time using critical-path optimization, reduced redundant computation, and better query execution. Keep under 3 hours as the acceptance threshold. If one approach stalls, try the next supported approach without new infrastructure spend or unauthorized effects on other workloads. Report the stretch target separately as met, missed, or unverified; it must not displace the owner’s acceptance threshold.
+
+Use differential testing from software verification to test the consequential claim that faster execution preserves the reports. Compare the original and optimized transformations on identical source inputs and logical run parameters. Compare complete outputs as multisets, including duplicate counts, NULLs, values, and schemas—not only row counts or checksums. Check empty inputs, duplicate join keys, and date boundaries where the existing definitions make them relevant. Any explicitly permitted nondeterministic fields must be checked against their existing contracts rather than incorrectly required to match byte-for-byte.
+
+Measure finish as the point when every required reporting table is available under the existing publication semantics. Evaluate the optimized pipeline over three consecutive normal nightly runs, recording elapsed time, input scale, and available contention evidence so that reduced workload or displaced work is not mistaken for an optimization.
+
+It runs on our existing Airflow and Postgres setup. No new infrastructure spend and no changes to the report definitions. Preserve the full rebuild’s required work, existing report interfaces, freshness, and publication guarantees. Do not shorten the measured interval by moving required work outside it.
+
+Deliver the implementation and a concise evidence summary: measured baseline versus the reported four hours, bottlenecks, changes made, correctness results, the three nightly timings, stretch attainment, and remaining uncertainties. Separate observed results from estimates.
+
+With my approval only: run additional full-scale comparison rebuilds beyond the normal nightly executions, using existing infrastructure in an agreed window with explicit limits on contention and cleanup.
+With my approval only: apply a proposed index change that affects shared tables or other workloads, after identifying the exact index and its storage, locking, and write-overhead effects.
+With my approval only: change pipeline concurrency or connection use in a way that affects shared resources, after identifying the exact change and its effects on other workloads.
+
+First check: establish which DAGs, SQL, tables, dependencies, and publication steps constitute the complete rebuild; confirm authorized access to their definitions and execution evidence.
+First check: determine whether task history, query statistics, execution plans, input-volume records, and contention evidence exist; use only available evidence and do not enable shared instrumentation without separate authorization.
+First check: establish an authorized way to compare original and optimized outputs on identical inputs and logical run parameters using existing infrastructure; identify any nondeterministic output contracts and relevant boundary cases before constructing the comparison.
+First check: establish the permitted execution windows and resource limits for testing and deployment. If a dependency is unavailable or an approval is withheld, continue only with supported, authorized work and leave the affected claim unverified.
+
+Judge: the full-output differential comparison must pass against the original transformations on identical inputs and logical run parameters, including applicable boundary cases and existing nondeterminism contracts; inspection must confirm unchanged report definitions, required rebuild work, and publication guarantees; timestamped execution evidence must show the complete rebuild finishing in strictly less than 3 hours on each of three consecutive normal nightly runs, with input scale and available contention evidence disclosed; there must be no new infrastructure spend or unapproved shared-resource effects. Pass only if every criterion is met; missing evidence leaves the affected result unverified. Report the under-18-minute stretch separately using the same timing boundaries and comparable conditions.
+```
+
+- `depth`: Replaces the reported four-hour baseline with measured critical-path evidence and Postgres plan analysis, targeting elapsed time rather than isolated query costs. Uses existing capabilities; additional full-scale runs and shared-resource effects require approval.
+- `depth`: Adds an under-18-minute stretch while retaining under three hours as acceptance. Requires trying the next supported optimization and reporting stretch attainment separately, without expanding spending authority.
+- `range`: Borrows differential verification and adversarial boundary cases to detect changed report meaning that row counts or faster runtimes would miss. Requires an authorized identical-input comparison; otherwise correctness remains unverified.
+- `depth`: Adds three consecutive nightly measurements and explicit timing boundaries to distinguish sustained improvement from lighter inputs, displaced work, or premature success signals.
+- Skipped: `altitude`—the owner already identifies the operational outcome: analysts receive rebuilt reports sooner. A broader workflow redesign is unnecessary.
+- Owner actions: confirm access, comparison capability, and execution limits; approve additional rebuilds, shared-table index changes, or shared-resource concurrency changes only if proposed.
+````
+
+### Item D02
+
+### Check B6
+
+B6. Authority: Added scope, new access, paid steps, and irreversible actions are conditional on approval inside the prompt, not only in commentary. Explicitly prohibited expansions remain prohibited. A response with no expansion passes without needing an irrelevant approval ritual.
+
+Applicability for this case: Required. `Required` means pass or fail, never `na`. `Changed` means required for a changed prompt and `na` for a justified, valid unchanged task. `Stretch` means required if a hard target is selected and `na` if none is selected. A missing product does not create a valid unchanged branch. T11 and T13 require a stretch, so B7 is always required there.
+
+### Item D14
+
+### Check B3
+
+B3. Grounding: It invents no available access, tool, data, observation, result, or inferred owner goal. Unconfirmed dependencies get first checks. Inferred goals are marked as assumptions in the prompt. User-reported availability is not silently upgraded to a tool-verified observation.
+
+Applicability for this case: Required. `Required` means pass or fail, never `na`. `Changed` means required for a changed prompt and `na` for a justified, valid unchanged task. `Stretch` means required if a hard target is selected and `na` if none is selected. A missing product does not create a valid unchanged branch. T11 and T13 require a stretch, so B7 is always required there.
+
+### Item D20
+
+### Check B2
+
+B2. Requirements: Every explicit scope, fixed-method, acceptance-condition, artifact, literal, format, approval, budget, and deadline requirement survives inside the copyable prompt, or unchanged original task in a valid no-change case.
+
+Applicability for this case: Required. `Required` means pass or fail, never `na`. `Changed` means required for a changed prompt and `na` for a justified, valid unchanged task. `Stretch` means required if a hard target is selected and `na` if none is selected. A missing product does not create a valid unchanged branch. T11 and T13 require a stretch, so B7 is always required there.
+

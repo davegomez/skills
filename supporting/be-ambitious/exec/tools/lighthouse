@@ -1,0 +1,6 @@
+#!/bin/zsh
+# Local Lighthouse 13.5 with headless Chrome by default. Install as a symlink: ${0:A} resolves it back to tools/.
+LH=${0:A:h}/node_modules/.bin/lighthouse
+export CHROME_PATH="${CHROME_PATH:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
+[[ "$*" == *--chrome-flags* ]] && exec $LH "$@"
+exec $LH "$@" --chrome-flags="--headless=new"

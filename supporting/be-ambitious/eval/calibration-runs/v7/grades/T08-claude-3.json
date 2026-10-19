@@ -1,0 +1,1 @@
+{"run": "T08-claude-3", "checks": {"B1": "pass", "B2": "pass", "B3": "pass", "B4": "na", "B5": "na", "B6": "pass", "B7": "na", "B8": "pass", "B9": "pass", "B10": "na", "T8a": "pass", "T8b": "pass", "T8c": "pass"}, "pass": true, "fail": []}

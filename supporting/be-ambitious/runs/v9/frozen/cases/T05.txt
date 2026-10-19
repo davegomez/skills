@@ -1,0 +1,2 @@
+Analyze support tickets to identify the most common failure categories. I will supply the ticket text separately. The eventual answer must be only CSV, with exactly this header: category,count,evidence_ids
+Use ticket IDs as evidence. Do not include customer names, quotes, Markdown, a preamble, or extra columns. Do not contact customers.

@@ -1,0 +1,68 @@
+{
+ "version": "v9",
+ "run": "T07-pi-1",
+ "model": "jev-1.13.0",
+ "jev": {
+  "B2a": 0.12,
+  "B2b": 0.22,
+  "B3": 0.27,
+  "B4": 0.24,
+  "B5": 0.32,
+  "B6a": 0.11,
+  "B6b": 0.06,
+  "B7": 0.08,
+  "T7a": 0.05,
+  "T7b": 0.09,
+  "T7c": 0.06
+ },
+ "qhashes": {
+  "B2a": "4b1003ce37863567",
+  "B2b": "84504d66804c20a4",
+  "B3": "463c7978126faccb",
+  "B4": "322f6e55fa8da47b",
+  "B5": "ee1fd76f9dd96853",
+  "B6a": "583fde9f6b14e999",
+  "B6b": "d654712b85505433",
+  "B7": "4aa2de44fd7f79a1",
+  "T7a": "f6138f8c250a765b",
+  "T7b": "850647e55f03be0e",
+  "T7c": "8621696e9805dcc0"
+ },
+ "rounds": {
+  "B2a": "auto",
+  "B2b": "auto",
+  "B3": "auto",
+  "B4": "auto",
+  "B5": "auto",
+  "B6a": "auto",
+  "B6b": "auto",
+  "B7": "auto",
+  "T7a": "auto",
+  "T7b": "auto",
+  "T7c": "auto"
+ },
+ "requests": [
+  {
+   "checks": [
+    "B2a",
+    "B2b",
+    "B3",
+    "B4",
+    "B5",
+    "B6a",
+    "B6b",
+    "B7",
+    "T7a",
+    "T7b",
+    "T7c"
+   ],
+   "input_tokens": 5318,
+   "raw_estimate": 6671,
+   "elapsed_s": 0.19,
+   "model": "jev-1.13.0",
+   "round": "auto",
+   "repeat": false
+  }
+ ],
+ "history": []
+}

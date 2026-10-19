@@ -1,0 +1,5600 @@
+{
+ "T01-claude-1": {
+  "case": "T1",
+  "model": "claude",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.27,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.33,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.19,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1a": {
+    "p": 0.04,
+    "threshold": 0.38,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1b": {
+    "p": 0.24,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T1c": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.04,
+     "B2b": 0.05
+    }
+   },
+   "B6": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.04,
+     "B6b": 0.03
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: this is one stated change with its exact result (\"—\" for null, the same `trim()` for every non-null string), "
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T01-claude-2": {
+  "case": "T1",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.18,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.38,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B5": {
+    "p": 0.16,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1a": {
+    "p": 0.04,
+    "threshold": 0.38,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1b": {
+    "p": 0.18,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T1c": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.03,
+     "B2b": 0.06
+    }
+   },
+   "B6": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.03,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: this is one small, clearly bounded change with a stated result, and the task text shows no targeting or verif"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T01-claude-3": {
+  "case": "T1",
+  "model": "claude",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.24,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.35,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1a": {
+    "p": 0.04,
+    "threshold": 0.38,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1b": {
+    "p": 0.17,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T1c": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.03,
+     "B2b": 0.05
+    }
+   },
+   "B6": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.03,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: this is a small, clear task with one change, an exact null result, a fixed rule for non-null strings (includi"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T01-pi-1": {
+  "case": "T1",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.08,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.36,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B5": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1a": {
+    "p": 0.05,
+    "threshold": 0.38,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1b": {
+    "p": 0.14,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T1c": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.04,
+     "B2b": 0.06
+    }
+   },
+   "B6": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.03,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: This is a small, precise fix with clear behavior and scope; no concrete targeting or verification defect warr"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T01-pi-2": {
+  "case": "T1",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.06,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.34,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1a": {
+    "p": 0.05,
+    "threshold": 0.38,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1b": {
+    "p": 0.29,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T1c": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.03,
+     "B2b": 0.05
+    }
+   },
+   "B6": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.03,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: This is a small, clearly bounded fix with explicit behavior and no concrete targeting or verification defect."
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T01-pi-3": {
+  "case": "T1",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.08,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.33,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1a": {
+    "p": 0.04,
+    "threshold": 0.38,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T1b": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T1c": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "— | \"—\""
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.03,
+     "B2b": 0.05
+    }
+   },
+   "B6": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.03,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: This is a small, precisely bounded fix with explicit behavior and scope; no concrete targeting or verificatio"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T02-claude-1": {
+  "case": "T2",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.53,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.03,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: an existing finance or analytics staff member other than the author recomputes every figure in the deck from the "
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.38,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.09,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T2a": {
+    "p": 0.08,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T2b": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T2c": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.26,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.24,
+     "B2b": 0.26
+    }
+   },
+   "B6": {
+    "p": 0.48,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.48,
+     "B6b": 0.35
+    }
+   }
+  }
+ },
+ "T02-pi-1": {
+  "case": "T2",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.34,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.03,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the owner, independently of the deck author, checks the deck and recomputes its decision-driving calculations wit"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.5,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T2a": {
+    "p": 0.07,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T2b": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T2c": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.13
+    }
+   },
+   "B6": {
+    "p": 0.27,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.27,
+     "B6b": 0.26
+    }
+   }
+  }
+ },
+ "T03-claude-1": {
+  "case": "T3",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.06,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.48,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B5": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T3a": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T3b": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T3c": {
+    "p": 0.49,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.03,
+     "B2b": 0.04
+    }
+   },
+   "B6": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.03,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: this is a small, clear request with a defined result and limits (quiet, plain language, under 120 words, no r"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T03-pi-1": {
+  "case": "T3",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.05,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.4,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B5": {
+    "p": 0.09,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.04,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T3a": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T3b": {
+    "p": 0.04,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T3c": {
+    "p": 0.51,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.03,
+     "B2b": 0.04
+    }
+   },
+   "B6": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.03,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: The task is clear, bounded, and complete. No concrete targeting or verification defect warrants adding method"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T04-claude-1": {
+  "case": "T4",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.26,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.11,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: `git diff --stat` (or `diff` against the original copy) shows exactly 1 file and 1 changed line; `cmp -l` / byte "
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.28,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.08,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T4a": {
+    "p": 0.13,
+    "threshold": 0.11,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "T4b": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T4c": {
+    "p": 0.08,
+    "threshold": 0.12,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.71,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.35,
+     "B2b": 0.71
+    }
+   },
+   "B6": {
+    "p": 0.41,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.41,
+     "B6b": 0.09
+    }
+   }
+  }
+ },
+ "T04-pi-1": {
+  "case": "T4",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.09,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.27,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T4a": {
+    "p": 0.06,
+    "threshold": 0.11,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T4b": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T4c": {
+    "p": 0.06,
+    "threshold": 0.12,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.04,
+     "B2b": 0.05
+    }
+   },
+   "B6": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.04,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: This is a single, precisely bounded correction with an explicit verification step; no targeting or verificati"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T05-claude-1": {
+  "case": "T5",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.53,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L8",
+      "status": "flag",
+      "quote": "no First check for: coder"
+     }
+    ],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.15,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: a script parses the answer and passes only if all of the following hold: the first line is exactly category,count"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.6,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B7": {
+    "p": 0.28,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "T5a": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "category,count,evidence_ids"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T5b": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T5c": {
+    "p": 0.14,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.22,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "category,count,evidence_ids"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.19,
+     "B2b": 0.22
+    }
+   },
+   "B6": {
+    "p": 0.5,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "customer,names,quotes <- deliver a validation note as a separate file, apart from"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.5,
+     "B6b": 0.11
+    }
+   }
+  }
+ },
+ "T05-pi-1": {
+  "case": "T5",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.38,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L8",
+      "status": "flag",
+      "quote": "no First check for: analyst"
+     }
+    ],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.07,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: The owner, reviewing independently of the analyst, checks the categories and assignments against the supplied tic"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.26,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T5a": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "category,count,evidence_ids"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T5b": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T5c": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.18,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L3",
+      "status": "pass",
+      "quote": "category,count,evidence_ids"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.12,
+     "B2b": 0.18
+    }
+   },
+   "B6": {
+    "p": 0.14,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.14,
+     "B6b": 0.09
+    }
+   }
+  }
+ },
+ "T06-claude-1": {
+  "case": "T6",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.36,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.8,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: I (the owner) review the deliverable and pass it only if every hypothesis, including no real change, has a writte"
+     }
+    ],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B5": {
+    "p": 0.22,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.08,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T6a": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T6b": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T6c": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.17,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.17,
+     "B2b": 0.17
+    }
+   },
+   "B6": {
+    "p": 0.47,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "credentials <- run the pre-written analysis plan on a de-identified, acc || customer <- have my customer success team run the switch-interview gu"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.47,
+     "B6b": 0.12
+    }
+   }
+  }
+ },
+ "T06-pi-1": {
+  "case": "T6",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.19,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L8",
+      "status": "flag",
+      "quote": "no First check for: reviewer"
+     }
+    ],
+    "source": "lint L8 flag",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.18,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: The owner, as business-context reviewer, checks that every claimed observation is traceable to the supplied infor"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.31,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.09,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T6a": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T6b": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T6c": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.2,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.2
+    }
+   },
+   "B6": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "data <- analyze an owner-supplied, non-identifying aggregate comp"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.25,
+     "B6b": 0.07
+    }
+   }
+  }
+ },
+ "T07-claude-1": {
+  "case": "T7",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.41,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.03,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: a member of our team other than the author, given the same redacted notes, checks that (1) every claim cites note"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.43,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.11,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T7a": {
+    "p": 0.07,
+    "threshold": 0.1,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T7b": {
+    "p": 0.11,
+    "threshold": 0.12,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T7c": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.17,
+     "B2b": 0.25
+    }
+   },
+   "B6": {
+    "p": 0.27,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.27,
+     "B6b": 0.12
+    }
+   }
+  }
+ },
+ "T07-pi-1": {
+  "case": "T7",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.27,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.24,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: The owner, as the checkout-fix decision-maker, checks the report against the supplied notes for traceable factual"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.32,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.08,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T7a": {
+    "p": 0.05,
+    "threshold": 0.1,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T7b": {
+    "p": 0.09,
+    "threshold": 0.12,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T7c": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.22,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.12,
+     "B2b": 0.22
+    }
+   },
+   "B6": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.11,
+     "B6b": 0.06
+    }
+   }
+  }
+ },
+ "T08-claude-1": {
+  "case": "T8",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.17,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline, enforce customer separation, and show holdout precisi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.26,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T8a": {
+    "p": 0.21,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8b": {
+    "p": 0.38,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8c": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.56,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.2,
+     "B2b": 0.56
+    }
+   },
+   "B6": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "holdout <- before reading the holdout, freeze the model, baseline, a"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.15,
+     "B6b": 0.07
+    }
+   }
+  }
+ },
+ "T08-claude-2": {
+  "case": "T8",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.28,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline, enforce customer separation, and show holdout precisi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.31,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T8a": {
+    "p": 0.23,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8b": {
+    "p": 0.36,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8c": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.54,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.16,
+     "B2b": 0.54
+    }
+   },
+   "B6": {
+    "p": 0.16,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "holdout <- before the evaluation runner first reads the holdout, fre"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.16,
+     "B6b": 0.08
+    }
+   }
+  }
+ },
+ "T08-claude-3": {
+  "case": "T8",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.1,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline, enforce customer separation, and show holdout precisi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.33,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T8a": {
+    "p": 0.21,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8b": {
+    "p": 0.27,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8c": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.48,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.16,
+     "B2b": 0.48
+    }
+   },
+   "B6": {
+    "p": 0.2,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "holdout,tune <- before the holdout is read, freeze every chosen setting f"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.2,
+     "B6b": 0.09
+    }
+   }
+  }
+ },
+ "T08-pi-1": {
+  "case": "T8",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.27,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.06,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline, enforce customer separation, and show holdout precisi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.31,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T8a": {
+    "p": 0.22,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8b": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8c": {
+    "p": 0.28,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.44,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.2,
+     "B2b": 0.44
+    }
+   },
+   "B6": {
+    "p": 0.2,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "holdout,tune <- close the enforcement gap in “Do not tune on the holdout”"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.2,
+     "B6b": 0.08
+    }
+   }
+  }
+ },
+ "T08-pi-2": {
+  "case": "T8",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.21,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline, enforce customer separation, and show holdout precisi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.39,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T8a": {
+    "p": 0.26,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8b": {
+    "p": 0.34,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8c": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.67,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.22,
+     "B2b": 0.67
+    }
+   },
+   "B6": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "holdout <- use a freeze-and-read-log protocol to enforce the existin"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.25,
+     "B6b": 0.08
+    }
+   }
+  }
+ },
+ "T08-pi-3": {
+  "case": "T8",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.27,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.06,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline, enforce customer separation, and show holdout precisi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.46,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T8a": {
+    "p": 0.18,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8b": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T8c": {
+    "p": 0.16,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.27,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.21,
+     "B2b": 0.27
+    }
+   },
+   "B6": {
+    "p": 0.16,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "holdout <- enforce the no-holdout-tuning rule by recording and freez"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.16,
+     "B6b": 0.08
+    }
+   }
+  }
+ },
+ "T09-claude-1": {
+  "case": "T9",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.39,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L8",
+      "status": "flag",
+      "quote": "no First check for: colleague, reader"
+     }
+    ],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.61,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the manager reviews the output and passes it only if all of these hold: it contains exactly one revised sentence "
+     }
+    ],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B5": {
+    "p": 0.51,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B7": {
+    "p": 0.18,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "T9a": {
+    "p": 0.24,
+    "threshold": 0.46,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T9b": {
+    "p": 0.1,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T9c": {
+    "p": 0.45,
+    "threshold": 0.22,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.14,
+     "B2b": 0.25
+    }
+   },
+   "B6": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.25,
+     "B6b": 0.09
+    }
+   }
+  }
+ },
+ "T09-pi-1": {
+  "case": "T9",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.04,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.52,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B5": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T9a": {
+    "p": 0.12,
+    "threshold": 0.46,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T9b": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T9c": {
+    "p": 0.07,
+    "threshold": 0.22,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.04,
+     "B2b": 0.04
+    }
+   },
+   "B6": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.04,
+     "B6b": 0.02
+    }
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L4",
+      "status": "pass",
+      "quote": "Unchanged: This is a small, well-bounded task with a clear outcome and safeguards; no concrete targeting or verification"
+     }
+    ],
+    "source": "lint L4",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T10-claude-1": {
+  "case": "T10",
+  "model": "claude",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.12,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L5",
+      "status": "pass",
+      "quote": "Which task should I make more ambitious?"
+     }
+    ],
+    "source": "lint L5",
+    "verdict": "pass"
+   },
+   "T10a": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L5",
+      "status": "pass",
+      "quote": "Which task should I make more ambitious?"
+     }
+    ],
+    "source": "lint L5",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T10-pi-1": {
+  "case": "T10",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.13,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B8": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L5",
+      "status": "pass",
+      "quote": "Which task should I make more ambitious?"
+     }
+    ],
+    "source": "lint L5",
+    "verdict": "pass"
+   },
+   "T10a": {
+    "p": null,
+    "threshold": null,
+    "calibrated": null,
+    "lint": [
+     {
+      "id": "L5",
+      "status": "pass",
+      "quote": "Which task should I make more ambitious?"
+     }
+    ],
+    "source": "lint L5",
+    "verdict": "pass"
+   }
+  }
+ },
+ "T11-claude-1": {
+  "case": "T11",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.28,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.12,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: Lighthouse CLI, mobile preset, 9 runs each on the current and changed home page under the same conditions; pass o"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.19,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.03,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.8: Aim for median lab LCP under 1.8 s, with field p75 LCP under 2.5 s, INP under 200 ms, and CLS under "
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.09,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.28,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.14,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.14,
+     "B2b": 0.09
+    }
+   },
+   "B6": {
+    "p": 0.16,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.08,
+     "B6b": 0.16
+    }
+   }
+  }
+ },
+ "T11-claude-2": {
+  "case": "T11",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.33,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.1,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: on the same tool, device profile, network throttle, and test location as the baseline, the median of ≥9 runs of t"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.03,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Aim for p75 mobile LCP ≤ 1.5 s on the home page, with CLS < 0.1 and TBT < 200 ms in the lab configur"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.18,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.11
+    }
+   },
+   "B6": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.09,
+     "B6b": 0.15
+    }
+   }
+  }
+ },
+ "T11-claude-3": {
+  "case": "T11",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.26,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.11,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: on the fixed mobile profile (same URL, device, Slow 4G, cold cache, at least 5 runs), the median lab LCP after th"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.05,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.02,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Aim for a median mobile lab LCP of 1.5 s or less, well past the 2.5 s \"good\" threshold, with CLS of "
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.09,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.21,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.15,
+     "B2b": 0.09
+    }
+   },
+   "B6": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.08,
+     "B6b": 0.1
+    }
+   }
+  }
+ },
+ "T11-claude-4": {
+  "case": "T11",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.3,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.23,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: with at least 9 lab runs each before and after, same device emulation, network throttling, location, and cache st"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.3,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.03,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Aim for mobile home-page LCP at or below 1.5 s (median of lab runs, same conditions as baseline), wi"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.23,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.12,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.12,
+     "B2b": 0.09
+    }
+   },
+   "B6": {
+    "p": 0.17,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.09,
+     "B6b": 0.17
+    }
+   }
+  }
+ },
+ "T11-claude-5": {
+  "case": "T11",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.32,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.09,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: on the same URL, device emulation, network profile, cold-cache first view, and run count (median of ≥5) as the re"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.21,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.03,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=2: Aim for mobile LCP at or below 2.0 s (lab median, then field p75), TBT at or below 150 ms, and CLS a"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.12,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.18,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.1
+    }
+   },
+   "B6": {
+    "p": 0.18,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.09,
+     "B6b": 0.18
+    }
+   }
+  }
+ },
+ "T11-pi-1": {
+  "case": "T11",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.22,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.12,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: A reproducible browser benchmark shows lower median LCP across at least five comparable cold-cache mobile runs pe"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.29,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.05,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "T11b": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Aim for median mobile LCP below 1.5 seconds using the bottlenecks demonstrated by those traces. Comp"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.21,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.07,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.1
+    }
+   },
+   "B6": {
+    "p": 0.17,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.1,
+     "B6b": 0.17
+    }
+   }
+  }
+ },
+ "T11-pi-2": {
+  "case": "T11",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.17,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.15,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: paired browser benchmarks and saved traces must show lower median mobile LCP beyond observed run-to-run variabili"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.23,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.01,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.04,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Aim for median mobile LCP below 1.5 seconds using the measured bottleneck's appropriate remedy—for e"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.17,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.13,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B2": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.11
+    }
+   },
+   "B6": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.09,
+     "B6b": 0.11
+    }
+   }
+  }
+ },
+ "T11-pi-3": {
+  "case": "T11",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.18,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.15,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: saved browser traces and five paired cold-cache measurements show a lower median mobile LCP under identical condi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.22,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.03,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Aim for mobile LCP below 1.5 seconds using the bottlenecks demonstrated by those traces. If the firs"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.27,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.12,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.11,
+     "B2b": 0.09
+    }
+   },
+   "B6": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.08,
+     "B6b": 0.1
+    }
+   }
+  }
+ },
+ "T11-pi-4": {
+  "case": "T11",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.19,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.09,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: a repeatable browser benchmark compares 10 baseline and 10 changed-build cold-cache navigations under the same re"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.27,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.04,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Optimize the measured critical path first. Verify each substantive change against the baseline so un"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.22,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.08,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.13,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.1
+    }
+   },
+   "B6": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.08,
+     "B6b": 0.1
+    }
+   }
+  }
+ },
+ "T11-pi-5": {
+  "case": "T11",
+  "model": "pi",
+  "verdict": "pass",
+  "checks": {
+   "B3": {
+    "p": 0.19,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.17,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: reproducible baseline and optimized browser measurements show a lower median for the established loading mileston"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.21,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11a": {
+    "p": 0.04,
+    "threshold": 0.05,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11b": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "lcp_target_s=1.5: Aim for mobile LCP below 1.5 seconds using critical-path optimization under the same device, network"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T11c": {
+    "p": 0.3,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T11d": {
+    "p": 0.09,
+    "threshold": 0.13,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.11,
+     "B2b": 0.1
+    }
+   },
+   "B6": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.08,
+     "B6b": 0.15
+    }
+   }
+  }
+ },
+ "T12-claude-1": {
+  "case": "T12",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.34,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline and show holdout precision at the chosen threshold abo"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.26,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T12a": {
+    "p": 0.7,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review"
+   },
+   "T12b": {
+    "p": 0.14,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T12c": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.74,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.34,
+     "B2b": 0.74
+    }
+   },
+   "B6": {
+    "p": 0.59,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.59,
+     "B6b": 0.09
+    }
+   }
+  }
+ },
+ "T12-claude-2": {
+  "case": "T12",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.35,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline and show holdout precision at the chosen threshold abo"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.26,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T12a": {
+    "p": 0.78,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review"
+   },
+   "T12b": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T12c": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.74,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.36,
+     "B2b": 0.74
+    }
+   },
+   "B6": {
+    "p": 0.64,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "keep <- make the random split by customer rather than by row, so"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.64,
+     "B6b": 0.13
+    }
+   }
+  }
+ },
+ "T12-claude-3": {
+  "case": "T12",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.28,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.06,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline and show holdout precision at the chosen threshold abo"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.21,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T12a": {
+    "p": 0.71,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review"
+   },
+   "T12b": {
+    "p": 0.12,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T12c": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.56,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.28,
+     "B2b": 0.56
+    }
+   },
+   "B6": {
+    "p": 0.38,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "keep <- keep the random split, but use the table's de-identified"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.38,
+     "B6b": 0.1
+    }
+   }
+  }
+ },
+ "T12-pi-1": {
+  "case": "T12",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.16,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline and show holdout precision at the chosen threshold abo"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.47,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.08,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T12a": {
+    "p": 0.7,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review"
+   },
+   "T12b": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T12c": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.46,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.36,
+     "B2b": 0.46
+    }
+   },
+   "B6": {
+    "p": 0.6,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.6,
+     "B6b": 0.09
+    }
+   }
+  }
+ },
+ "T12-pi-2": {
+  "case": "T12",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.16,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline and show holdout precision at the chosen threshold abo"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.48,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.09,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T12a": {
+    "p": 0.76,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review"
+   },
+   "T12b": {
+    "p": 0.12,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T12c": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.73,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.36,
+     "B2b": 0.73
+    }
+   },
+   "B6": {
+    "p": 0.51,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "acceptance <- Replace “pick the alert threshold that maximizes holdout"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.51,
+     "B6b": 0.1
+    }
+   }
+  }
+ },
+ "T12-pi-3": {
+  "case": "T12",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.11,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.05,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: the existing evaluation runner must reproduce the baseline and show holdout precision at the chosen threshold abo"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.45,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T12a": {
+    "p": 0.77,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review"
+   },
+   "T12b": {
+    "p": 0.12,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T12c": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.53,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.26,
+     "B2b": 0.53
+    }
+   },
+   "B6": {
+    "p": 0.49,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.49,
+     "B6b": 0.08
+    }
+   }
+  }
+ },
+ "T13-claude-1": {
+  "case": "T13",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.34,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B4": {
+    "p": 0.07,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: run the baseline pipeline twice and the candidate pipeline at least 3 times on the same production-volume input s"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.45,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.08,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Aim for under 18 minutes wall clock, measured the same way as the baseline. Get there by combining c"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.48,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.34,
+     "B2b": 0.48
+    }
+   },
+   "B6": {
+    "p": 0.54,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.54,
+     "B6b": 0.23
+    }
+   }
+  }
+ },
+ "T13-claude-2": {
+  "case": "T13",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.38,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.14,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: on the same frozen input, every reporting table from the optimized pipeline has an identical schema and an identi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.37,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.07,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.11,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Hard target: aim for under 18 minutes end to end, one order of magnitude past the 3-hour bar, using "
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.5,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.18,
+     "B2b": 0.5
+    }
+   },
+   "B6": {
+    "p": 0.48,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.48,
+     "B6b": 0.15
+    }
+   }
+  }
+ },
+ "T13-claude-3": {
+  "case": "T13",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.47,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.09,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: on the same source snapshot, including the late/updated/deleted-row replay, every reporting table from the optimi"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.38,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.06,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.12,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: - Aim for under 18 minutes end-to-end, one order of magnitude below the 3-hour bar. When one approac"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.41,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.41,
+     "B2b": 0.38
+    }
+   },
+   "B6": {
+    "p": 0.56,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.56,
+     "B6b": 0.17
+    }
+   }
+  }
+ },
+ "T13-claude-4": {
+  "case": "T13",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.42,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.12,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: pass only if two conditions hold. (1) For at least 5 consecutive runs at production data volume on production or "
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.38,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.09,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.12,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.03,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Aim for an end-to-end runtime under 18 minutes using the critical-path, query-plan, and scheduling w"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.53,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.26,
+     "B2b": 0.53
+    }
+   },
+   "B6": {
+    "p": 0.45,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L7",
+      "status": "flag",
+      "quote": "report <- rebuild tables incrementally from changed source rows ins"
+     }
+    ],
+    "source": "lint L7 flag",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.45,
+     "B6b": 0.18
+    }
+   }
+  }
+ },
+ "T13-claude-5": {
+  "case": "T13",
+  "model": "claude",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.49,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.07,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: Airflow records each of 5 consecutive post-change nightly runs, from DAG start to the last reporting-table task s"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.38,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.09,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Aim for under 18 minutes end to end (an order of magnitude past the 3-hour bar) using critical-path "
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.41,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.22,
+     "B2b": 0.41
+    }
+   },
+   "B6": {
+    "p": 0.45,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.45,
+     "B6b": 0.14
+    }
+   }
+  }
+ },
+ "T13-pi-1": {
+  "case": "T13",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.47,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.1,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: A reproducible replay-and-comparison harness records all validation attempts and checks the frozen candidate agai"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.5,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B7": {
+    "p": 0.09,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: - Aim for 18 minutes end to end using critical-path reduction and evidence-led query optimization, u"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.2,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.43,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.43
+    }
+   },
+   "B6": {
+    "p": 0.45,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.45,
+     "B6b": 0.25
+    }
+   }
+  }
+ },
+ "T13-pi-2": {
+  "case": "T13",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.37,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.19,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: timing records from a representative final run not used for tuning must show strictly less than 180 minutes from "
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.25,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.1,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.05,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Assumption: Aim for 18 minutes of end-to-end elapsed time using bottleneck-led optimization on the e"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.1,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.45,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.45
+    }
+   },
+   "B6": {
+    "p": 0.56,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B6a": 0.56,
+     "B6b": 0.2
+    }
+   }
+  }
+ },
+ "T13-pi-3": {
+  "case": "T13",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.28,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L8",
+      "status": "flag",
+      "quote": "no First check for: analyst"
+     }
+    ],
+    "source": "lint L8 flag",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.22,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: an end-to-end timing record must show the complete reporting rebuild ready for analysts in strictly less than 3 h"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.47,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.08,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.2,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Aim for 18 minutes using critical-path scheduling and evidence-led query, indexing, statistics, or e"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.15,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.42,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.42
+    }
+   },
+   "B6": {
+    "p": 0.35,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.35,
+     "B6b": 0.18
+    }
+   }
+  }
+ },
+ "T13-pi-4": {
+  "case": "T13",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.37,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.14,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: executable differential checks must show that every required reporting table preserves the original report semant"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.4,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.12,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.07,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.06,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Aim for under 18 minutes using bottleneck-directed query optimization, elimination of redundant work"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.26,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.44,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B2a": 0.13,
+     "B2b": 0.44
+    }
+   },
+   "B6": {
+    "p": 0.47,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.47,
+     "B6b": 0.15
+    }
+   }
+  }
+ },
+ "T13-pi-5": {
+  "case": "T13",
+  "model": "pi",
+  "verdict": "review",
+  "checks": {
+   "B3": {
+    "p": 0.51,
+    "threshold": 0.37,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "review"
+   },
+   "B4": {
+    "p": 0.14,
+    "threshold": 0.36,
+    "calibrated": true,
+    "lint": [
+     {
+      "id": "L1",
+      "status": "pass",
+      "quote": "Judge: Airflow timestamps and existing report-availability evidence show end-to-end runtime under 3 hours on three conse"
+     }
+    ],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B5": {
+    "p": 0.44,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B7": {
+    "p": 0.1,
+    "threshold": 0.14,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "B10": {
+    "p": 0.02,
+    "threshold": 0.5,
+    "calibrated": true,
+    "lint": [],
+    "source": "jev",
+    "verdict": "pass"
+   },
+   "T13a": {
+    "p": 0.08,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13b": {
+    "p": 0.04,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [
+     {
+      "id": "L6",
+      "status": "pass",
+      "quote": "target_s=1080: Assumption: Aim for under 18 minutes end-to-end using critical-path reduction and evidence-led Postg"
+     }
+    ],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "T13c": {
+    "p": 0.14,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass"
+   },
+   "B2": {
+    "p": 0.5,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "review",
+    "parts": {
+     "B2a": 0.19,
+     "B2b": 0.5
+    }
+   },
+   "B6": {
+    "p": 0.49,
+    "threshold": 0.5,
+    "calibrated": false,
+    "lint": [],
+    "source": "jev (uncalibrated)",
+    "verdict": "pass",
+    "parts": {
+     "B6a": 0.49,
+     "B6b": 0.25
+    }
+   }
+  }
+ }
+}
