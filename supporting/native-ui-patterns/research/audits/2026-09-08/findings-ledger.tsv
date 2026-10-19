@@ -1,0 +1,75 @@
+finding_id	pattern_name	platform	classification	closest_existing_entry	proposed_runtime_operation	source_screenshots	merged_worker_findings	confidence	batch	priority	applicability
+F001	Switch row	iOS	new-pattern	absent (Android has Trailing switch in a settings or list row)	editing (fills the iOS 'Switches, filters, and value controls' gap row)	S-I01,S-I03,S-I10,S-I14,S-I16,S-I18,S-I26,S-I28,S-I32,S-I33,S-I34,S-I35,S-I38,S-I39,S-I41,S-I43,S-I44	W03-F03,W04-F02,W07-F01,W07-F04,W09-F02,W10-F04	high	B1	high	system control
+F002	Inline slider row	iOS	new-pattern	absent	editing	S-I35,S-I38	W08-F02,W09-F03	high	B1	high	system control
+F003	Visual option picker	iOS	new-pattern	absent	editing	S-I32,S-I33,S-I37	W08-F01,W09-F01	high	B1	high	settings idiom
+F004	Grouped rows: section header, footer caption, mixed trailing controls, read-only use	iOS	existing-pattern-improvement	docs/ios/forms-and-controls.md#grouped-form-rows	editing; content-states	S-I01,S-I03,S-I05,S-I06,S-I10,S-I11,S-I12,S-I18,S-I19,S-I26,S-I27,S-I28,S-I31,S-I33,S-I34,S-I35,S-I37,S-I38,S-I39,S-I41,S-I43,S-I44	W01-F05,W01-F08,W02-F01,W03-F09,W05-F10,W09-F05,W10-F02,W10-F03,W10-F04	high	B1	high	general idiom
+F005	Icon-led settings row	iOS	new-pattern	absent (root.png shows it; catalog does not describe it)	navigation; content-states	S-I01,S-I10,S-I12,S-I13,S-I31,S-I39,S-I40,S-I41,S-I44	W03-F02,W09-F06,W10-F05	high	B2	high	general idiom
+F006	Label/value information rows	iOS	new-pattern	absent	content-states	S-I12,S-I22,S-I30	W03-F04,W07-F09	high	B2	medium	general idiom
+F007	Link-style action row	iOS	new-pattern	absent (Add and remove rows covers icon controls only)	editing	S-I04,S-I05,S-I22,S-I24,S-I27,S-I29,S-I33,S-I34,S-I35,S-I41,S-I44	W01-F07,W02-F02,W06-F04,W07-F03,W07-F08,W08-F05,W10-F02	high	B3	high	general idiom
+F008	Destructive action row	iOS	new-pattern	absent	editing	S-I13,S-I22,S-I24,S-I28,S-I41	W03-F06,W05-F11,W06-F04,W07-F06,W10-F03	high	B3	high	general idiom
+F009	Feature hero card	iOS	new-pattern	one-line aside in docs/ios/navigation-and-presentation.md#large-title-hierarchy; general.png shows it	navigation; onboarding-permissions	S-I11,S-I14,S-I16,S-I18,S-I23,S-I25,S-I29,S-I31,S-I43	W03-F07,W04-F01,W06-F01,W07-F07,W10-F07	high	B4	high	settings idiom
+F010	Tip card with side illustration	iOS	new-pattern	absent	content-states	S-I34,S-I36	W08-F04	high	B4	medium	general idiom
+F011	Inline suggestion card (promo, app promo, recommendation)	iOS	new-pattern	absent (Feature-introduction surface is full-screen)	content-states	S-I08,S-I20,S-I24	W02-F08,W05-F06,W06-F03	medium	B4	medium	general idiom
+F012	Identity header	iOS	new-pattern	absent (Identity-led list row is a list row)	navigation; content-states	S-I02,S-I03,S-I04,S-I09,S-I12,S-I13,S-I22,S-I44	W01-F03,W02-F09,W03-F01,W03-F05,W05-F07	high	B5	medium	general idiom
+F013	Scrolled content under a translucent navigation bar	iOS	new-pattern	docs/ios/navigation-and-presentation.md#large-title-hierarchy marks transitions Unconfirmed	navigation	S-I03,S-I04,S-I21,S-I32,S-I33,S-I41	W01-F06,W08-F07	medium	B5	medium	system control
+F014	Pushed-destination bar with inline centered title and trailing action	iOS	existing-pattern-variation	docs/ios/navigation-and-presentation.md#large-title-hierarchy	navigation	S-I02,S-I03,S-I06,S-I09,S-I14,S-I27,S-I31,S-I39	W01-F03,W02-F03,W07-F02,W08-F03,W09-F07	high	B5	high	system control
+F015	Section header with trailing utility action	iOS	new-pattern	absent	content-states; editing	S-I07,S-I08,S-I20,S-I22	W02-F04,W02-F10,W05-F08	medium	B6	medium	general idiom
+F016	List truncation row (Show All / View All)	iOS	new-pattern	absent	content-states	S-I17,S-I21	W05-F03	medium	B6	medium	general idiom
+F017	Comparative bar chart card	iOS	new-pattern	absent	content-states	S-I17,S-I40	W05-F01,W05-F02,W10-F01	high	B7	high	general idiom
+F018	Capacity and progress bars	iOS	new-pattern	absent	content-states	S-I08,S-I20	W02-F07,W05-F05	high	B7	high	system control
+F019	Loading states: skeleton rows and inline section spinner	iOS	new-pattern	absent (coverage.md marks loading Unconfirmed)	content-states	S-I14,S-I25,S-I28	W04 app-specific (reclassified),W06-F05,W07-F05	high	B7	high	general idiom
+F020	Centered status confirmation	iOS	existing-pattern-variation	docs/ios/lists-content-feedback.md#centered-empty-state	content-states	S-I19	W05-F04	high	B7	medium	general idiom
+F021	Single-field card sheet with gated commit	iOS	existing-pattern-variation	docs/ios/navigation-and-presentation.md#full-screen-task-surface; docs/ios/forms-and-controls.md#content-gated-commit-control	editing	S-I14,S-I15	W04-F03	medium	B8	medium	system control
+F022	Authentication passcode sheet	iOS	new-pattern	absent	onboarding-permissions; editing	S-I42	W10-F06	medium	B8	medium	system control
+F023	Reorderable list with drag handles	iOS	new-pattern	absent	editing	S-I27	W07-F02	medium	B8	medium	system control
+F024	Row trailing accessories: info button, external-link arrow, menu caret, selected checkmark	iOS	existing-pattern-improvement	docs/ios/forms-and-controls.md#grouped-form-rows; docs/ios/lists-content-feedback.md#identity-led-list-row	navigation; accessibility	S-I03,S-I14,S-I16,S-I44	W01-F04,W04-F04,W10-F08	medium	B2	medium	system control
+F025	Identity-led list row variations	iOS	existing-pattern-variation	docs/ios/lists-content-feedback.md#identity-led-list-row	content-states	S-I01,S-I06,S-I07,S-I09,S-I10,S-I11,S-I20,S-I21,S-I23,S-I28,S-I37,S-I41	W01-F01,W01-F02,W02-F05,W02-F06,W03-F08,W05-F10,W07-F04,W09-F04	high	B2	medium	general idiom
+F026	Pinned search field over a scrolling detail list	iOS	existing-pattern-variation	docs/ios/forms-and-controls.md#search-field-with-dictation-affordance	search	S-I20,S-I21	W05-F09	medium	B6	low	system control
+F027	Master switch card	Android	new-pattern	docs/android/forms-and-controls.md#trailing-switch-in-a-settings-or-list-row (row form only)	editing	S-A06,S-A11,S-A16	W11-F04,W12-F06,W13-F07	high	B9	high	settings idiom
+F028	Trailing switch: on/off thumb glyphs and multi-line description	Android	existing-pattern-improvement	docs/android/forms-and-controls.md#trailing-switch-in-a-settings-or-list-row	editing	S-A18,S-A20	W11-F09,W12-F06	high	B9	high	system control
+F029	Inline value slider	Android	new-pattern	absent	editing	S-A01,S-A06	W12-F01	high	B9	high	system control
+F030	Credential entry form: outlined field, expander row, Cancel/Connect pair	Android	new-pattern	docs/android/forms-and-controls.md#structured-create-contact-form (outlined fields only); #modal-time-picker (Cancel/OK in a dialog)	editing	S-A14	W11-F10,W11-F11,W11-F12	medium	B9	medium	system control
+F031	Detail top bar with back and title; large in-content title variant	Android	new-pattern	absent (only content-desc 'Navigate up' is documented)	navigation	S-A01,S-A02,S-A03,S-A04,S-A05,S-A06,S-A07,S-A08,S-A09,S-A10,S-A11,S-A12,S-A13,S-A14,S-A15,S-A16,S-A18,S-A19,S-A20	W14-F01; W11 duplicate reclassified	medium	B10	medium	system control
+F032	Centered detail header with icon action-button row	Android	new-pattern	absent	navigation	S-A18	W11-F07	high	B10	medium	general idiom
+F033	Grouped card list anatomy: informational rows, icon-less rows, flat icons, status glyph rows, trailing icon button	Android	existing-pattern-improvement	docs/android/lists-content-feedback.md#grouped-card-list	content-states; navigation	S-A02,S-A05,S-A07,S-A13,S-A15,S-A16,S-A18	W11-F03,W11-F05,W11-F06,W11-F08,W14-F04,W12 uncertain (Modes rows)	high	B11	high	general idiom
+F034	Recent-items row with relative time and See-all continuation	Android	new-pattern	absent	content-states	S-A04,S-A11,S-A15	W13-F08,W14-F05,W14-F06	high	B11	medium	general idiom
+F035	Inline pill button (outlined or tonal)	Android	new-pattern	docs/android/forms-and-controls.md#labeled-chip-or-compact-filter-control; docs/android/lists-content-feedback.md#floating-primary-action (neither matches)	navigation; editing	S-A02,S-A03,S-A07,S-A10,S-A11,S-A12,S-A19	W12-F05,W13-F03,W14-F02	high	B11	high	system control
+F036	Inline creation row with leading plus	Android	existing-pattern-variation	docs/android/lists-content-feedback.md#floating-primary-action	content-states	S-A15	W11-F14	medium	B11	low	general idiom
+F037	Status overview card with per-item status badges	Android	new-pattern	absent	content-states; accessibility	S-A03	W13-F04,W13-F06	medium	B12	medium	settings idiom
+F038	Inline suggestion card (dismissible with CTA, dismissible tip, promo with app icon)	Android	new-pattern	docs/android/lists-content-feedback.md#sign-in-or-permission-primer (blocking primer only)	content-states; onboarding-permissions	S-A03,S-A08,S-A13,S-A19	W12-F04,W13-F05,W14-F03	high	B12	high	general idiom
+F039	Ring chart summary card with stat tiles	Android	new-pattern	absent	content-states	S-A19	W12-F02,W12-F03	medium	B13	medium	general idiom
+F040	Storage numeral with capacity bar and per-row usage bars	Android	new-pattern	absent	content-states	S-A08	W14-F07,W14-F08	medium	B13	medium	general idiom
+F041	Screen intro paragraph and info footnote	Android	new-pattern	absent	content-states; navigation	S-A02,S-A06,S-A11,S-A13,S-A15	W11-F13,W12-F08,W14-F09	high	B12	medium	general idiom
+F042	Signed-in account row and dark theme on Settings root	Android	existing-pattern-improvement	docs/android/navigation-and-presentation.md#search-led-top-surface; docs/android/lists-content-feedback.md#grouped-card-list	navigation	S-A17	W11-F01	high	B10	medium	general idiom
+D01	Circular back control on pushed screens	iOS	duplicate	docs/ios/navigation-and-presentation.md#large-title-hierarchy		S-I02,S-I05,S-I09,S-I14,S-I17,S-I23,S-I26,S-I31,S-I37,S-I40	all iOS workers	high			
+D02	Rounded grouped container with thin dividers	iOS	duplicate	docs/ios/forms-and-controls.md#grouped-form-rows		S-I05,S-I06,S-I07,S-I08,S-I23,S-I24,S-I25	W02,W06	high			
+D03	Label plus trailing value plus chevron row	iOS	duplicate	docs/ios/forms-and-controls.md#grouped-form-rows		S-I03,S-I18,S-I19,S-I21,S-I22,S-I27,S-I37,S-I38,S-I44	W01,W04,W05,W07,W09,W10	high			
+D04	Family member row with photo avatar	iOS	duplicate	docs/ios/lists-content-feedback.md#identity-led-list-row		S-I41	W10	high			
+D05	Split row: chevron, vertical divider, switch	Android	duplicate	docs/android/forms-and-controls.md#trailing-switch-in-a-settings-or-list-row		S-A09	W12	high			
+D06	Airplane mode row with off switch	Android	duplicate	docs/android/forms-and-controls.md#trailing-switch-in-a-settings-or-list-row		S-A05	W11	high			
+D07	Grouped title/summary rows and section captions	Android	duplicate	docs/android/lists-content-feedback.md#grouped-card-list		S-A09,S-A10,S-A11,S-A13,S-A17,S-A19,S-A20	W11,W12,W13,W14	high			
+D08	Closed overflow trigger in the top bar	Android	duplicate	docs/android/navigation-and-presentation.md#contextual-overlay-menu		S-A19	W12	high			
+A01	iCloud+ brand hero header with subscriber badge	iOS	application-specific	variant of F012		S-I08	W02-F09	high			
+A02	Two-column icon-tile grid inside a group	iOS	application-specific	none (single iCloud+ instance)		S-I08	W02-F11	medium			
+A03	Wallpaper preview carousel with page dots	iOS	application-specific	none (single Wallpaper instance)		S-I36	W08-F06	medium			
+A04	Coverage checklist with checkmark lines	iOS	application-specific	none (AppleCare only)		S-I24	W06-F02	medium			
+A05	Regulatory certification table content	iOS	application-specific	structure folded into F006		S-I30	W07-F09	high			
+A06	Artist rows with album art and size	iOS	application-specific	variant of F025 (Music storage only)		S-I22	W05	medium			
+A07	Wallpaper & style tabbed preview carousel and trailing preview glyphs	Android	application-specific	none		S-A10,S-A12	W13-F01,W13-F02	medium			
+A08	HDR standard/HDR image comparison card	Android	application-specific	none		S-A06	W12	high			
+A09	Product copy, brand icons, personal data, and feature-specific illustration content	both	application-specific	none		S-I07,S-I25,S-I39,S-I43,S-A03,S-A13,S-A19	all workers	high			
+U01	Family row destination and avatar cluster overflow treatment	iOS	uncertain	F025,F012		S-I01,S-I09	W01,W03				
+U02	Behavior of the up/down caret row (inline menu vs picker)	iOS	uncertain	F024		S-I03	W01-F04				
+U03	Passcode sheet entry point and keypad state	iOS	uncertain	F022		S-I42	W10-F06				
+U04	Sort control behavior (Subscriptions Sort, Storage Size)	iOS	uncertain	F015		S-I07,S-I20	W02,W05				
+U05	Drag handles visible before or only after Edit	iOS	uncertain	F023		S-I27	W07				
+U06	Dependent Time Zone rows when the automatic switch is off	iOS	uncertain	F001		S-I26	W07				
+U07	External-link arrow destination semantics	iOS	uncertain	F024		S-I44	W10-F08				
+U08	Promo card dismissal persistence	both	uncertain	F011,F038		S-I08,S-A03,S-A19	W02,W12,W13				
+U09	Gear icon versus row body as separate tap targets	Android	uncertain	F033		S-A16	W11				
+U10	Connect button muted fill as a disabled state	Android	uncertain	F030		S-A14	W11				
+U11	Advanced options expanded state	Android	uncertain	F030		S-A14	W11				
+U12	Status card 'Checking device settings…' as a loading state	Android	uncertain	F037		S-A03	W13				
+U13	Tinted master toggle generalization beyond HDR	Android	uncertain	F027		S-A06	W12				
+U14	Large in-content title scroll behavior	Android	uncertain	F031		S-A07	W14				
+U15	Trailing icon in the Internet top bar (function unknown)	Android	uncertain	F031		S-A16	W11				

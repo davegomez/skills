@@ -1,0 +1,38 @@
+--- a/skills/native-ui-patterns/references/ios/content-states.md
++++ b/skills/native-ui-patterns/references/ios/content-states.md
+@@ -14,5 +14,5 @@
+ | Conversation rows | Messages [list](../../assets/ios/messages/conversation-list.png) | Identity, primary/secondary text, date/disclosure spacing, surrounding actions |
+ | Centered empty destination | Files [empty Recents](../../assets/ios/files/recents-empty.png) | Empty symbol/copy placement, creation availability, surrounding navigation |
+-| Temporal day content | Calendar [day view](../../assets/ios/calendar/day-location-permission.png) | Week strip, selected date, hourly grid, current-time rule, prompt context |
++| Temporal day content | Calendar [day view](../../assets/ios/calendar/day-before-event.png) | Unobscured grid: week strip, selected date, hourly grid, current-time rule, and bottom commands |
+ | Media grid | Photos [Library](../../assets/ios/photos/library-notification-permission.png) | Thumbnail alignment/gutters, filter/Select placement, dock and prompt context |
+ | Normal versus empty selection mode | Shortcuts [empty library](../../assets/ios/shortcuts/empty-library.png) and [selection mode](../../assets/ios/shortcuts/empty-selection-mode.png) | Compare mode actions, disabled bulk controls, orientation, and empty content |
+--- a/skills/native-ui-patterns/references/ios/navigation.md
++++ b/skills/native-ui-patterns/references/ios/navigation.md
+@@ -12,6 +12,6 @@
+ | --- | --- | --- |
+ | Root versus pushed hierarchy | Settings [root](../../assets/ios/settings/root.png) and [General](../../assets/ios/settings/general.png) | Compare title and back-control alignment, grouped content start, surrounding rows |
+-| Recents or Browse peer destination | Files [Recents](../../assets/ios/files/recents-empty.png) or [Browse](../../assets/ios/files/browse.png) | Open the requested destination; inspect dock selection, title/search relationship, and content |
+-| Closed versus open secondary menu | Files [Browse](../../assets/ios/files/browse.png) and [More open](../../assets/ios/files/more-menu.png) | Compare invoker/menu alignment, overlay bounds, and retained surrounding content |
++| Recents or On My iPhone location within selected Browse peer | Files [Recents](../../assets/ios/files/recents-empty.png) or [On My iPhone](../../assets/ios/files/browse.png) | Open the requested destination or location; inspect dock selection, title/search relationship, and content |
++| Open Browse-root menu | Files [More open](../../assets/ios/files/more-menu.png) | Open-panel anatomy over Browse root; keyboard tutorial overlay occludes lower content and the panel obscures the invoker. No controlled same-root before/open pair or unobscured invoker assertion |
+ | Media peer navigation | Photos [Library](../../assets/ios/photos/library-notification-permission.png) | Split dock/trailing Search placement and content behind the prompt |
+ | Command toolbar rather than peers | Safari [Start Page](../../assets/ios/safari/start-page.png) | Bottom command positions, page chrome, surrounding shortcuts |
+--- a/skills/native-ui-patterns/references/ios/search.md
++++ b/skills/native-ui-patterns/references/ios/search.md
+@@ -3,5 +3,5 @@
+ ## Guidance
+ 
+-**Observed:** Settings, Files, Messages, and Shortcuts used rounded Search fields with leading magnifiers and trailing microphones, but placement varied. Focused Settings search retained exit/clear behavior; a temporary unmatched query produced centered feedback and clearing restored content. **Inferred adaptation:** keep placement stable within one screen, distinguish zero matches from failure, echo a query when useful, and retain reset/exit. Dictation, Safari focus, loading, and network/indexing failures remain **Unconfirmed**.
++**Observed:** Settings, Files, Messages, and Shortcuts used rounded Search fields with leading magnifiers and trailing microphones, but placement varied. Focused Settings search retained exit/clear behavior; a temporary unmatched query produced centered feedback and clearing restored content. Focused-empty-before-query appearance is uncaptured. **Inferred adaptation:** keep placement stable within one screen, distinguish zero matches from failure, echo a query when useful, and retain reset/exit. Dictation, Safari focus, loading, and network/indexing failures remain **Unconfirmed**.
+ 
+ ## Visual references
+@@ -12,6 +12,6 @@
+ | --- | --- | --- |
+ | Bottom-anchored resting search | Settings [root](../../assets/ios/settings/root.png) | Field placement over content, icon/text alignment, surrounding rows |
+-| Focused search before a query | Settings [before query](../../assets/ios/settings/search-before-query.png) | Field/keyboard spacing plus exit and clear placement |
+-| Query-specific zero results | Settings [no results](../../assets/ios/settings/search-no-results.png) | Centered feedback, retained query, and surrounding search controls |
++| Resting pre-query context | Settings [before query](../../assets/ios/settings/search-before-query.png) | Bottom field placement over the root content; no keyboard |
++| Focused query-specific zero results | Settings [no results](../../assets/ios/settings/search-no-results.png) | Centered feedback, retained query, clear/exit controls, and keyboard |
+ | Search restored after clear | Settings [after clear](../../assets/ios/settings/search-after-clear.png) | Restored context; open only when reset outcome matters |
+ | Search below a large title | Files [Recents](../../assets/ios/files/recents-empty.png) or Shortcuts [empty library](../../assets/ios/shortcuts/empty-library.png) | Open the relevant app; inspect title-to-field spacing, microphone position, and content start |

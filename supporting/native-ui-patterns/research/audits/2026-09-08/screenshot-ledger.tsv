@@ -1,0 +1,66 @@
+screenshot_id	source_path	platform	application	screen	width	height	bytes	group	worker	review_status	notes
+n/a	captures-2026-09-08/.DS_Store	n/a	n/a	n/a			8196	none	none	skipped-non-image	Finder metadata file, not a screenshot
+S-A01	captures-2026-09-08/android/06e5e471-df97-443b-80fa-1d31d4dcda11.JPEG	Android	Settings	Sound & vibration (sliders)	1000	2244	62883	G-A02 sound, modes, display	W12	reviewed	F029,F031
+S-A02	captures-2026-09-08/android/08685752-3d62-40e2-9357-2e37ff726424.JPEG	Android	Settings	Modes	1000	2244	57460	G-A02 sound, modes, display	W12	reviewed	F031,F033,F035,F041
+S-A03	captures-2026-09-08/android/0a8ec209-183e-432e-8532-bf493c1cfea7.JPEG	Android	Settings	Security & privacy (status card, dismissible suggestion, alerts pill)	1000	2244	74482	G-A03 wallpaper, security, location	W13	reviewed	F031,F035,F037,F038,A09,U08,U12
+S-A04	captures-2026-09-08/android/122f2af5-e968-46e0-895f-c92d4958bc4b.JPEG	Android	Settings	Apps (recently opened, See all)	1000	2244	67531	G-A04 safety, apps, storage	W14	reviewed	F031,F034
+S-A05	captures-2026-09-08/android/14256a42-6bde-4547-b473-afda75ec18ac.JPEG	Android	Settings	Network & internet	1000	2244	50118	G-A01 root and network	W11	reviewed	F031,F033,D06
+S-A06	captures-2026-09-08/android/1784ad3c-0df7-40d9-b048-04fc5d02ca4e.JPEG	Android	Settings	Enhanced HDR brightness (comparison, toggle card, slider)	1000	2244	140282	G-A02 sound, modes, display	W12	reviewed	F027,F029,F031,F041,A08,U13
+S-A07	captures-2026-09-08/android/198a944c-ed65-4942-8e2c-9b0909a55636.JPEG	Android	Settings	Safety & emergency (large title, pill action)	1000	2244	70561	G-A04 safety, apps, storage	W14	reviewed	F031,F033,F035,U14
+S-A08	captures-2026-09-08/android/1c4682c4-4a40-4f81-bec8-cfb8490d8208.JPEG	Android	Settings	Storage (usage bar, category bars)	1000	2244	58759	G-A04 safety, apps, storage	W14	reviewed	F031,F038,F040
+S-A09	captures-2026-09-08/android/2c2edf98-d7f1-4302-a419-1ac4bc92751d.JPEG	Android	Settings	Display & touch (split rows with switch)	1000	2244	77255	G-A02 sound, modes, display	W12	reviewed	F031,D05,D07
+S-A10	captures-2026-09-08/android/2e181d1f-c831-4616-832b-f8ef916a530f.JPEG	Android	Settings	Wallpaper & style (top)	1000	2244	75279	G-A03 wallpaper, security, location	W13	reviewed	F031,F035,D07,A07
+S-A11	captures-2026-09-08/android/3438f5ae-c53c-4876-8d9d-68e7bfea5e17.JPEG	Android	Settings	Location (master switch, recent access)	1000	2244	97574	G-A03 wallpaper, security, location	W13	reviewed	F027,F031,F034,F035,F041,D07
+S-A12	captures-2026-09-08/android/3826756f-9c0a-44df-b006-1abafbafb9f4.JPEG	Android	Settings	Wallpaper & style (scrolled)	1000	2244	84567	G-A03 wallpaper, security, location	W13	reviewed	F031,F035,A07
+S-A13	captures-2026-09-08/android/49a4d23c-fe58-4005-b8e1-1465ac53fe92.JPEG	Android	Settings	Parental controls	1000	2244	80469	G-A04 safety, apps, storage	W14	reviewed	F031,F033,F038,F041,D07,A09
+S-A14	captures-2026-09-08/android/577b271a-1632-4390-8012-5658f41b2cdf.JPEG	Android	Settings	Wi-Fi password dialog with keyboard	1000	2244	60643	G-A01 root and network	W11	reviewed	F030,F031,U10,U11
+S-A15	captures-2026-09-08/android/5e802404-33fe-4a01-bcd3-977233a3c62b.JPEG	Android	Settings	Connected devices	1000	2244	54379	G-A01 root and network	W11	reviewed	F031,F033,F034,F036,F041
+S-A16	captures-2026-09-08/android/660b8428-ffff-44a1-a5b2-f76968c20acd.JPEG	Android	Settings	Internet (Wi-Fi networks list)	1000	2244	51447	G-A01 root and network	W11	reviewed	F027,F031,F033,U09,U15
+S-A17	captures-2026-09-08/android/90964e9c-1519-44e9-bf03-8a0bcb19f18a.JPEG	Android	Settings	Settings root (search, account row, categories)	1000	2244	85531	G-A01 root and network	W11	reviewed	F042,D07
+S-A18	captures-2026-09-08/android/a736b94d-be6b-4fda-b0d2-89a698fa99d0.JPEG	Android	Settings	Network details (Forget/Disconnect/Share)	1000	2244	71909	G-A01 root and network	W11	reviewed	F028,F031,F032,F033
+S-A19	captures-2026-09-08/android/d3cdc120-dcdc-4636-a4be-03989c1fe7c7.JPEG	Android	Settings	Digital Wellbeing (ring chart, dismissible tip)	1000	2244	66701	G-A02 sound, modes, display	W12	reviewed	F031,F035,F038,F039,D07,D08,A09,U08
+S-A20	captures-2026-09-08/android/e8f35928-e670-4451-b1fb-339082022ab2.JPEG	Android	Settings	Sound & vibration (scrolled, switch rows)	1000	2244	74880	G-A02 sound, modes, display	W12	reviewed	F028,F031,D07
+S-I01	captures-2026-09-08/ios/IMG_4293.png	iOS	Settings	Settings root (account row, Family, connectivity group, bottom search)	1206	2622	610148	G-I01 account hub	W01	reviewed	F001,F004,F005,F025,U01
+S-I02	captures-2026-09-08/ios/IMG_4294.png	iOS	Settings	Apple Account hub	1206	2622	727012	G-I01 account hub	W01	reviewed	F012,F014,D01
+S-I03	captures-2026-09-08/ios/IMG_4295.png	iOS	Settings	Personal Information (top)	1206	2622	1144598	G-I01 account hub	W01	reviewed	F001,F004,F012,F013,F014,F024,D03,U02
+S-I04	captures-2026-09-08/ios/IMG_4296.png	iOS	Settings	Personal Information (scrolled, collapsed avatar header)	1206	2622	1165124	G-I01 account hub	W01	reviewed	F007,F012,F013
+S-I05	captures-2026-09-08/ios/IMG_4297.png	iOS	Settings	Sign-In & Security	1206	2622	447892	G-I02 account detail	W02	reviewed	F004,F007,D01,D02
+S-I06	captures-2026-09-08/ios/IMG_4298.png	iOS	Settings	Payment & Shipping (Edit)	1206	2622	859098	G-I02 account detail	W02	reviewed	F004,F014,F025,D02
+S-I07	captures-2026-09-08/ios/IMG_4299.png	iOS	Settings	Subscriptions (Sort)	1206	2622	948836	G-I02 account detail	W02	reviewed	F015,F025,D02,A09,U04
+S-I08	captures-2026-09-08/ios/IMG_4300.png	iOS	Settings	iCloud+ hub (storage bar, promo card, app tiles)	1206	2622	570157	G-I02 account detail	W02	reviewed	F011,F015,F018,D02,A01,A02,U08
+S-I09	captures-2026-09-08/ios/IMG_4301.png	iOS	Settings	Family	1206	2622	950699	G-I03 family and devices	W03	reviewed	F012,F014,F025,D01,U01
+S-I10	captures-2026-09-08/ios/IMG_4302.png	iOS	Settings	Find My	1206	2622	487912	G-I03 family and devices	W03	reviewed	F001,F004,F005,F025
+S-I11	captures-2026-09-08/ios/IMG_4303.png	iOS	Settings	Sign in with Apple (apps list)	1206	2622	407730	G-I03 family and devices	W03	reviewed	F004,F009,F025
+S-I12	captures-2026-09-08/ios/IMG_4304.png	iOS	Settings	Device Info	1206	2622	471633	G-I03 family and devices	W03	reviewed	F004,F005,F006,F012
+S-I13	captures-2026-09-08/ios/IMG_4305.png	iOS	Settings	Family member detail (destructive remove row)	1206	2622	533861	G-I03 family and devices	W03	reviewed	F005,F008,F012
+S-I14	captures-2026-09-08/ios/IMG_4306.png	iOS	Settings	Wi-Fi (networks list, Edit)	1206	2622	358804	G-I04 connectivity	W04	reviewed	F001,F009,F014,F019,F021,F024,D01
+S-I15	captures-2026-09-08/ios/IMG_4307.png	iOS	Settings	Join Wi-Fi password sheet (close + disabled checkmark)	1206	2622	279510	G-I04 connectivity	W04	reviewed	F021
+S-I16	captures-2026-09-08/ios/IMG_4308.png	iOS	Settings	Bluetooth (My Devices, Not Connected)	1206	2622	445957	G-I04 connectivity	W04	reviewed	F001,F009,F024
+S-I17	captures-2026-09-08/ios/IMG_4309.png	iOS	Settings	Battery (chart, daily usage)	1206	2622	565537	G-I05 device status	W05	reviewed	F016,F017,D01
+S-I18	captures-2026-09-08/ios/IMG_4310.png	iOS	Settings	Personal Hotspot	1206	2622	407472	G-I04 connectivity	W04	reviewed	F001,F004,F009,D03
+S-I19	captures-2026-09-08/ios/IMG_4311.png	iOS	Settings	Software Update (up to date)	1206	2622	221530	G-I05 device status	W05	reviewed	F004,F020,D03
+S-I20	captures-2026-09-08/ios/IMG_4312.png	iOS	Settings	iPhone Storage (top, segmented bar)	1206	2622	585108	G-I05 device status	W05	reviewed	F011,F015,F018,F025,F026,U04
+S-I21	captures-2026-09-08/ios/IMG_4313.png	iOS	Settings	iPhone Storage (scrolled, Show All, floating search)	1206	2622	1186041	G-I05 device status	W05	reviewed	F013,F016,F025,F026,D03
+S-I22	captures-2026-09-08/ios/IMG_4314.png	iOS	Settings	Music app storage detail (Offload/Delete)	1206	2622	564660	G-I05 device status	W05	reviewed	F006,F007,F008,F012,F015,D03,A06
+S-I23	captures-2026-09-08/ios/IMG_4315.png	iOS	Settings	AppleCare & Warranty	1206	2622	624775	G-I06 care and cars	W06	reviewed	F009,F025,D01,D02
+S-I24	captures-2026-09-08/ios/IMG_4316.png	iOS	Settings	AirPods Pro coverage detail	1206	2622	863555	G-I06 care and cars	W06	reviewed	F007,F008,F011,D02,A04
+S-I25	captures-2026-09-08/ios/IMG_4317.png	iOS	Settings	CarPlay (hero illustration, My Cars, Other Cars spinner)	1206	2622	647984	G-I06 care and cars	W06	reviewed	F009,F019,D02,A09
+S-I26	captures-2026-09-08/ios/IMG_4318.png	iOS	Settings	Date & Time	1206	2622	271603	G-I07 general settings	W07	reviewed	F001,F004,D01,U06
+S-I27	captures-2026-09-08/ios/IMG_4319.png	iOS	Settings	Language & Region (reorder handles, Edit)	1206	2622	335232	G-I07 general settings	W07	reviewed	F004,F007,F014,F023,D03,U05
+S-I28	captures-2026-09-08/ios/IMG_4320.png	iOS	Settings	TV Provider (skeleton placeholders, Sign Out)	1206	2622	408599	G-I07 general settings	W07	reviewed	F001,F004,F008,F019,F025
+S-I29	captures-2026-09-08/ios/IMG_4321.png	iOS	Settings	Transfer or Reset iPhone	1206	2622	254763	G-I07 general settings	W07	reviewed	F007,F009
+S-I30	captures-2026-09-08/ios/IMG_4322.png	iOS	Settings	Legal & Regulatory	1206	2622	1105329	G-I07 general settings	W07	reviewed	F006,A05
+S-I31	captures-2026-09-08/ios/IMG_4323.png	iOS	Settings	Accessibility hub	1206	2622	471605	G-I08 appearance and display	W08	reviewed	F004,F005,F009,F014,D01
+S-I32	captures-2026-09-08/ios/IMG_4324.png	iOS	Settings	Appearance (Light/Dark picker, top)	1206	2622	825228	G-I08 appearance and display	W08	reviewed	F001,F003,F013
+S-I33	captures-2026-09-08/ios/IMG_4325.png	iOS	Settings	Appearance (scrolled, header collapse)	1206	2622	1102414	G-I08 appearance and display	W08	reviewed	F001,F003,F004,F007,F013
+S-I34	captures-2026-09-08/ios/IMG_4326.png	iOS	Settings	Control Center	1206	2622	287389	G-I08 appearance and display	W08	reviewed	F001,F004,F007,F010
+S-I35	captures-2026-09-08/ios/IMG_4327.png	iOS	Settings	Display & Brightness (slider)	1206	2622	355723	G-I08 appearance and display	W08	reviewed	F001,F002,F004,F007
+S-I36	captures-2026-09-08/ios/IMG_4328.png	iOS	Settings	Wallpaper (carousel, page dots)	1206	2622	3059060	G-I08 appearance and display	W08	reviewed	F010,A03
+S-I37	captures-2026-09-08/ios/IMG_4329.png	iOS	Settings	Notifications (Display As picker)	1206	2622	358334	G-I09 notifications and sound	W09	reviewed	F003,F004,F025,D01,D03
+S-I38	captures-2026-09-08/ios/IMG_4330.png	iOS	Settings	Sounds & Haptics (ringtone slider)	1206	2622	363472	G-I09 notifications and sound	W09	reviewed	F001,F002,F004,D03
+S-I39	captures-2026-09-08/ios/IMG_4331.png	iOS	Settings	Focus (+ add)	1206	2622	304451	G-I09 notifications and sound	W09	reviewed	F001,F004,F005,F014,A09
+S-I40	captures-2026-09-08/ios/IMG_4332.png	iOS	Settings	Screen Time (top, usage chart)	1206	2622	416018	G-I10 screen time and safety	W10	reviewed	F005,F017,D01
+S-I41	captures-2026-09-08/ios/IMG_4333.png	iOS	Settings	Screen Time (scrolled, destructive turn-off row)	1206	2622	1138572	G-I10 screen time and safety	W10	reviewed	F001,F004,F005,F007,F008,F013,F025,D04
+S-I42	captures-2026-09-08/ios/IMG_4334.png	iOS	Settings	Enter your passcode sheet	1206	2622	181232	G-I10 screen time and safety	W10	reviewed	F022,U03
+S-I43	captures-2026-09-08/ios/IMG_4335.png	iOS	Settings	Emergency SOS	1206	2622	429615	G-I10 screen time and safety	W10	reviewed	F001,F004,F009,A09
+S-I44	captures-2026-09-08/ios/IMG_4336.png	iOS	Settings	Game Center (external-link arrows)	1206	2622	387320	G-I10 screen time and safety	W10	reviewed	F001,F004,F005,F007,F012,F024,D03,U07
