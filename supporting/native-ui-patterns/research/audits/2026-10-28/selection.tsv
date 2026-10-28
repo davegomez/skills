@@ -1,0 +1,64 @@
+id	source_path	runtime_path	target
+K095	examples/iphone/Tab Bar.png	assets/ios/kit/tab-bar-iphone.png	ios/navigation.md
+K307	tab-bars/iphone/Minimized=True, Tabs=2, Type=Prominent Tab.png	assets/ios/kit/tab-bar-minimized.png	ios/navigation.md
+K072	examples/ipad/Tab Bars.png	assets/ios/kit/tab-bar-ipad.png	ios/navigation.md
+K071	examples/ipad/Sidebar.png	assets/ios/kit/sidebar-ipad.png	ios/navigation.md
+K227	sidebars/Sidebar Row.png	assets/ios/kit/sidebar-row-states.png	ios/navigation.md
+K333	toolbars/Toolbar - Top - iPhone.png	assets/ios/kit/toolbar-top-iphone.png	ios/navigation.md
+K332	toolbars/Toolbar - Top - iPad.png	assets/ios/kit/toolbar-top-ipad.png	ios/navigation.md
+K331	toolbars/Toolbar - Bottom - iPhone.png	assets/ios/kit/toolbar-bottom-iphone.png	ios/navigation.md
+K375	windows/Window with Sidebar.png	assets/ios/kit/window-with-sidebar.png	ios/navigation.md
+K224	sheets/iphone/Sheet - iPhone.png	assets/ios/kit/sheet-iphone.png	ios/presentation.md
+K223	sheets/ipad/Sheet - iPad.png	assets/ios/kit/sheet-ipad.png	ios/presentation.md
+K011	alerts/Alert.png	assets/ios/kit/alert.png	ios/presentation.md
+K075	examples/iphone/Action Sheet.png	assets/ios/kit/action-sheet-iphone.png	ios/presentation.md
+K055	examples/ipad/Action Sheet.png	assets/ios/kit/action-sheet-ipad.png	ios/presentation.md
+K003	activity-views/Untitled.png	assets/ios/kit/share-sheet.png	ios/presentation.md
+K079	examples/iphone/Context Menu.png	assets/ios/kit/context-menu-iphone.png	ios/presentation.md
+K042	contextual-menus/Alignment=Horizontal (iPad only), Side=Leading.png	assets/ios/kit/context-menu-ipad-horizontal.png	ios/presentation.md
+K180	menus/Light Examples.png	assets/ios/kit/menus.png	ios/presentation.md
+K181	menus/Menu Items - Submenus.png	assets/ios/kit/submenu-states.png	ios/presentation.md
+K202	popovers/Popovers (iPad Only).png	assets/ios/kit/popover-arrows.png	ios/presentation.md
+K027	buttons/Light Examples.png	assets/ios/kit/buttons.png	ios/controls.md
+K026	buttons/Example over a light background context.png	assets/ios/kit/glass-buttons.png	ios/controls.md
+K326	toggles/Untitled.png	assets/ios/kit/switch-states.png	ios/controls.md
+K239	sliders/Sliders.png	assets/ios/kit/slider-states.png	ios/controls.md
+K254	steppers/Untitled.png	assets/ios/kit/stepper.png	ios/controls.md
+K218	segmented-controls/Light examples.png	assets/ios/kit/segmented-control.png	ios/controls.md
+K216	progress-indicators/Light examples.png	assets/ios/kit/progress.png	ios/controls.md
+K351	toolbars/_Toolbar page control.png	assets/ios/kit/page-control.png	ios/controls.md
+K203	popup-buttons/Popup Button.png	assets/ios/kit/popup-button.png	ios/controls.md
+K049	date-and-time-pickers/Pickers.png	assets/ios/kit/date-time-pickers.png	ios/controls.md
+K033	color-pickers/Color Picker - iPhone.png	assets/ios/kit/color-picker.png	ios/controls.md
+K319	text-fields/Light examples.png	assets/ios/kit/text-field-states.png	ios/controls.md
+K118	keyboards/iphone/Keyboard.png	assets/ios/kit/keyboard-types-iphone.png	ios/editing.md
+K104	keyboards/ipad/Keyboard.png	assets/ios/kit/keyboard-ipad.png	ios/editing.md
+K113	keyboards/iphone/Accessory Bar - iPhone/Find and Replace.png	assets/ios/kit/find-replace-bar.png	ios/editing.md
+K117	keyboards/iphone/Accessory Bar - iPhone/Web Form.png	assets/ios/kit/form-navigation-bar.png	ios/editing.md
+K087	examples/iphone/List.png	assets/ios/kit/list-rows.png	ios/content-states.md
+K147	lists/Row with Swipe Actions.png	assets/ios/kit/swipe-actions.png	ios/content-states.md
+K150	lists/_Edit Buttons/Light.png	assets/ios/kit/edit-mode-controls.png	ios/content-states.md
+K081	examples/iphone/Empty States.png	assets/ios/kit/empty-states.png	ios/content-states.md
+K342	toolbars/_Search - Bottom.png	assets/ios/kit/search-field-states.png	ios/search.md
+K344	toolbars/_Search Accessory.png	assets/ios/kit/search-scope-control.png	ios/search.md
+K353	widgets/Home Screen Widget - iPhone.png	assets/ios/kit/widget-sizes-iphone.png	ios/system-surfaces.md
+K352	widgets/Home Screen Widget - iPad.png	assets/ios/kit/widget-sizes-ipad.png	ios/system-surfaces.md
+K265	system/Lock Screen - iPhone.png	assets/ios/kit/lock-screen-iphone.png	ios/system-surfaces.md
+K355	widgets/Lock Screen Widget - Inline.png	assets/ios/kit/lock-widget-inline.png	ios/system-surfaces.md
+K369	widgets/Lock Screen Widget/Circular/Open Gauge 2.png	assets/ios/kit/lock-widget-gauge.png	ios/system-surfaces.md
+K374	widgets/Lock Screen Widget/Circular/Stack 3 Rows.png	assets/ios/kit/lock-widget-stack.png	ios/system-surfaces.md
+K090	examples/iphone/Notifications.png	assets/ios/kit/notifications.png	ios/system-surfaces.md
+K258	system/Control Center - iPhone.png	assets/ios/kit/control-center-iphone.png	ios/system-surfaces.md
+K276	system/_Controls - iPhone - 2x1.png	assets/ios/kit/control-tiles.png	ios/system-surfaces.md
+K263	system/Home Screen Quick Actions - iPhone.png	assets/ios/kit/quick-actions.png	ios/system-surfaces.md
+K018	app-icons/_Custom Icon.png	assets/ios/kit/app-icon-appearances.png	ios/system-surfaces.md
+K019	app-icons/_Icon Grid.png	assets/ios/kit/app-icon-grid.png	ios/system-surfaces.md
+K082	examples/iphone/Face ID.png	assets/ios/kit/face-id.png	ios/system-surfaces.md
+K246	status-bar-and-menu-bars/Light background examples.png	assets/ios/kit/status-and-menu-bars.png	ios/system-surfaces.md
+K038	colors/Default.png	assets/ios/kit/colors.png	ios/foundations.md
+K323	text-styles-and-dynamic-type/Text styles.png	assets/ios/kit/text-styles.png	ios/foundations.md
+K322	text-styles-and-dynamic-type/Dynamic Type.png	assets/ios/kit/dynamic-type.png	ios/foundations.md
+K321	text-styles-and-dynamic-type/Dynamic Type – Accessibility Sizes.png	assets/ios/kit/dynamic-type-accessibility.png	ios/foundations.md
+K161	materials/Light.png	assets/ios/kit/liquid-glass.png	ios/foundations.md
+K167	materials/Regular (Default) - Light.png	assets/ios/kit/material-vibrancy.png	ios/foundations.md
+K169	materials/Scroll Edge Effect - Soft.png	assets/ios/kit/scroll-edge-effect.png	ios/foundations.md

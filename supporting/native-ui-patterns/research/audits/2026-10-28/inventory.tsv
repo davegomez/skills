@@ -1,0 +1,379 @@
+id	worker	path	sha256	width	height	bytes	duplicate_of
+K001	W07	action-sheets/Untitled.png	4e3a67667654017cb388a1607f8f740830861d233f4418079c45ec41efd85a00	398	402	62288	
+K002	W07	activity-views/Overlay.png	c241a48b80ed083e109602b7caa65c3f9ea2734fb3e06a55f79dc93cfaffa3f4	100	100	373	
+K003	W07	activity-views/Untitled.png	6396f549fd6af754ce4d7ce5d727fb634761fdc89ef111caf06c2dd57c19edf7	1909	1200	658694	
+K004	W07	activity-views/_Action.png	937992aa0d62b129ec08c922bdfaaea59462774eac93292f50e9d7501e74531c	220	140	5122	
+K005	W07	activity-views/_Actions.png	c770f801504bd8d7bcc74ab1bfb4d614677a8b80e6b03c83c00b4378a363d0d2	470	90	4040	
+K006	W07	activity-views/_Activity View.png	ea8046fce5a3576c43dc9248fa9675bce7741ad1da6237db0efadab1caabaa88	402	970	125004	
+K007	W07	activity-views/_Button - Liquid Glass.png	699af9c39ddfc9d5dde7e2aab0e3ff03677a8c0b18e1ce6bab054812f7bf18fa	300	90	14155	
+K008	W07	activity-views/_Close Button.png	2cf221ef45fc3f919236bd6f1ef129601af0abb1f60eeebd4ff638211c9e3685	180	90	9672	
+K009	W07	activity-views/_Contact.png	56ea9eebd68a5dd946ac13bc9840b03a47539f23c04dda22301dc3bf09cfb881	240	150	20159	
+K010	W07	activity-views/_Separator.png	6dc2438858ee4d78e4f2b8adbbe06768fc9da4cbb33cbdde0c5d809dc731c68b	240	50	658	
+K011	W07	alerts/Alert.png	f5c9e007166bef34b5bf21a6ca0754ee1827ff7596fc660b20945160b59c7903	670	480	92442	
+K012	W07	alerts/Text Field.png	5b76d60c7e91b4ace5dc3fb04ae98c3228db7c045b50d1358fab33b284e27e6e	272	123	3294	
+K013	W07	alerts/_Buttons.png	7b70075541bb566ae1124fd375e49570442066fbd3e45156e43f5e46c1a568d0	220	272	14828	
+K014	W07	alerts/_Text Field Background.png	87475c7c197ebfe1f536136b7d6398383476c230127d62f2e5249b8f535f98ef	380	90	2814	
+K015	W09	app-icons/App Icon/iPad.png	5c08aa89e3b2d56fe25f66c3e021ef1310def2632bc5c0822374ab705dfc2504	112	218	19882	
+K016	W09	app-icons/App Icon/iPhone.png	d8af16fd01f06bd8274c5fa6812f23bfdaeaf5239ef46d42721384dda8494925	112	218	19643	
+K017	W09	app-icons/_Badge.png	fc5e7796c8eeac4cf0feb355761ba430c4a493ddecf7866bd9e3bca13eee4347	34	24	814	
+K018	W09	app-icons/_Custom Icon.png	6436645d1812aa467454ca24aabd48eda9bc2eec920c13002122f5e291f15009	100	260	16307	
+K019	W09	app-icons/_Icon Grid.png	66dc8bb0cda5970fb9998c6b229e8a473cab8f9b571f9863d72d526b2af138e9	256	256	12979	
+K020	W09	app-icons/_System Icons.png	dec3e931c0ca69678190de19ab8dfccfeb0047cdcf3edec8b5ef86e4b68497bb	3540	260	430177	
+K021	W08	buttons/Button - Content Area.png	dab21f7bf4909dc42134708003fc6b4bbccd32684f3c1065a9713fea55b36509	950	1070	83306	
+K022	W08	buttons/Button - Liquid Glass - Symbol.png	5de8df47b03881c46f2e14ccefa5d1dc448b0c1620f03871cf150b167ad710a5	180	320	30241	
+K023	W08	buttons/Button - Liquid Glass - Text.png	31735a5fdc8014c7bee70f9b14fcb7d3de79f4c5fc274741a6ead91353b64205	580	320	91336	
+K024	W08	buttons/Dark Examples.png	9597e7a2f611be8ed509c845d980b891218732917f219cba472cc4854be1e4b9	920	1070	67408	
+K025	W08	buttons/Example over a dark background context.png	a778e44f8b46635025a9ea799f81f210cc2f4494a6ab35e418e30084d0f2998c	230	320	21883	
+K026	W08	buttons/Example over a light background context.png	083f70456202c993b4af6cc263fda9d5d93b4e778dc39f9030fca4bc6092252c	230	320	19796	
+K027	W08	buttons/Light Examples.png	42fd8404678bbd42b56b58741b440ae8cd8e474479154f7861ed15a2603ff239	920	1070	62879	
+K028	W08	buttons/_Label - Symbol - Default.png	adfa9c5925858675668941853037857ddc09920f7c47e75d263be7e01d655b05	120	130	2452	
+K029	W08	buttons/_Label - Symbol - Destructive Default.png	25f583fb5a061fa0f880f8f55894a5edb07840c43b5c2edc0b42194e34b4e1df	120	130	2612	
+K030	W08	buttons/_Label - Symbol - Preferred.png	5db4d4304ab1966ed8bd2b048ac97bcde7b6d868713d1412407937e444db4185	120	130	2515	
+K031	W08	buttons/_Label - Text.png	db76d3581151d3e8761d0f2f287687cbba637475cc3d843df03a94b3e66eb95f	515	153	12058	
+K032	W08	color-pickers/Color Picker - iPad.png	e2528234f010764bcc2e203a9e2f2cb2d45fa83c5358ccd1d0f01111de98a9ae	602	826	226585	
+K033	W08	color-pickers/Color Picker - iPhone.png	83b408c2ec42d483cd51dbe021616ce80b66f232aba6ade6430a809983f066e8	482	922	122568	
+K034	W08	color-pickers/Picker Button.png	f5dbc30e69bb345142c88a19c96b0d63928acd299a75aae4a3caedfb16202a26	130	120	8446	
+K035	W08	color-pickers/_Button.png	17dc00de3eb2acc5e4dc24c245f35a1c723007512a476b202e1bd37f400e3de2	84	148	1532	
+K036	W08	color-pickers/_Title.png	874d87892b21ebca97a4c79ea6ff15d03af4e1a387252227525ea55baf1172e8	100	120	2445	
+K037	W08	color-pickers/_Toolbar.png	6c04c571e67bc1442967b913d46c7fccd76873944732cb964548a3b753380928	402	49	1757	
+K038	W11	colors/Default.png	d1d56f18d2835cc7ba6a2fa2cb06b80119da84da014b26fb93559665524936b3	2560	1500	139199	
+K039	W11	colors/_Swatch - Light and Dark.png	7f0486b0663e534d8eff44c00fb69811438d082faf67b6f56426dcb3f4886314	160	186	3526	
+K040	W11	colors/_Swatch Grid.png	cde29c9879877d7b95ab7192c109c636caf61921dc1d7a0aebc0d78fe74aeec3	660	370	14159	
+K041	W11	colors/_Swatch.png	b7af739f8d35055e386011e134bd1b66e2e40f78ac48d0f21cb392d3b3e60a2f	259	330	8712	
+K042	W06	contextual-menus/Alignment=Horizontal (iPad only), Side=Leading.png	75957585a4c1d113003eafb769706fa0d827d66d21379efb0acdbd07db30c4f3	697	354	86388	
+K043	W06	contextual-menus/Alignment=Horizontal (iPad only), Side=Trailing.png	0eb09b246ec3815d300b8112b78495f4cd6c50e292b2251be09e790a1baa8571	672	354	80068	
+K044	W06	contextual-menus/Alignment=Vertical, Side=Leading.png	1f80057166b6ee551c08db62e3320379005804e630af106076b10f1f3b52c447	403	500	76771	
+K045	W06	contextual-menus/Alignment=Vertical, Side=Trailing.png	7b8d7f74e1da52551970ef3a440be7b9dc5ec06de47c5830f88016f73ddb2e50	431	500	85390	
+K046	W06	contextual-menus/Context Menu - Dimming Overlay.png	4df8c12b3849d4cf9d961e099b5c2b93bce25281c91e5b2774dec64d2127aab9	200	200	637	
+K047	W08	date-and-time-pickers/Dark examples.png	bd82500d2e2f12720934b293f3eacac01fe8283c00316aa87aa24c67ade0e6bc	528	520	63756	
+K048	W08	date-and-time-pickers/Light examples.png	d7b721983c04fdbda8034387f836f966d82347cf419d899cbedf91bd19681bfa	528	520	63956	
+K049	W08	date-and-time-pickers/Pickers.png	fb811821d5e0b0cc70f82898eb2a3def0e3f82c8752238d07047fd00b03d08ff	1300	620	90830	
+K050	W08	date-and-time-pickers/_Day.png	5e81c4f212c2a467a33b4c2c1d03583dd9ba8774b4919bd28bd109b6652869da	310	84	2916	
+K051	W08	date-and-time-pickers/_Week.png	53b7061ec1947a89bdf4feab8e1b7abcbfe8eac3667d7c84461759fc7e83b942	338	38	370	
+K052	W07	empty-states/Type=Large Symbol.png	596792f55457e63ce24a8dca12cb611c3932ecc614dddbdd942a49d010f1d8fd	402	874	11002	
+K053	W07	empty-states/Type=Symbol in Circle.png	ccd456e2dbc30b334dbcc97715d7c3309fda811d3d4aea57956b45b9a0d626ad	402	874	11837	
+K054	W07	empty-states/Type=Title and Subtitle.png	8cdb4117fb2d0f2d7523c55170b04314ad6a7dbea9c5575095a02067f67503f6	402	874	10238	
+K055	W02	examples/ipad/Action Sheet.png	fcb7b6ebd7507524e1f3678903e084b4f5a056ba8379e0f3f8fde4d9ffc8b2ea	1320	940	117985	
+K056	W02	examples/ipad/Activity View.png	79e4f8ea4aa3036dfc5c0465fb4d36ff6b884ba8e95733243c529066e1f64c13	1320	940	231425	
+K057	W02	examples/ipad/Alert.png	a41a9bc51c8ea266ef9c588e43fb244a8af8964194f27c7d1cd27ec2bce12326	1370	1954	298117	
+K058	W02	examples/ipad/Color Picker.png	96284b6aed4fc8bd1310e05e4431dde1573e3abb893e0746877869f1f979a98c	1320	940	191172	
+K059	W02	examples/ipad/Context Menu.png	3998739d6d7854574cf89d3dc802923a16536276974d82127037f3ecb96521af	1320	940	130725	
+K060	W02	examples/ipad/Control Center.png	52eefbbd46a01bb9b371cea1febc36047471ee5791acfdf9d80d0499535fda5e	1320	940	1210735	
+K061	W02	examples/ipad/Home Screen Quick Actions.png	d153b95565c3e70f3c5d41445a905543632bd9ddda3c84215d267ebb4dcd12c0	1320	940	1106782	
+K062	W02	examples/ipad/Home Screen Widgets.png	40086cd856cf543f3b80d56784794e9d48a203539c0b16961e6c3c6a78642ec1	1370	3874	4768377	
+K063	W02	examples/ipad/Home Screen.png	da199755b11f93d8d39d8889f655b8000f90292421616ea73eed605021522cbf	1320	940	1237035	
+K064	W02	examples/ipad/Keyboard.png	58bc80111f4f6ae129072cacfeb633abbf0d6a42ac96565dd06d74e750180519	1370	1954	245501	
+K065	W02	examples/ipad/List.png	9ea1c97983e1d5235b984ce9d5af3be41ace319366c1f76e57397ce75a34a7ef	1320	940	111311	
+K066	W02	examples/ipad/Lock Screen.png	1cb09d3ad21936a379309b9c028f127fb64f7f2c9102b39c09ba72b886632efd	1320	940	1243883	
+K067	W02	examples/ipad/Menus.png	63270806eaa5dd077699e55cdac5984ebf0287af94232978bc18a1a723ba95ed	1370	1954	272419	
+K068	W02	examples/ipad/Notifications.png	cb381018ce467b59255b56ab7451c637acfd94ce0f1c821f317e4394738ea88d	1370	2000	2172972	
+K069	W02	examples/ipad/Popover.png	e3263347eb51675f794141a405168e20c734cd4eb463c4e2fbbf0ef11d50de54	1320	940	179957	
+K070	W02	examples/ipad/Sheets (Modals).png	e5f1887e9e4b1eb0701d7afb6c441655b466dbe131d7481011a6d79fa4f96213	1320	940	149459	
+K071	W02	examples/ipad/Sidebar.png	0a6c9cbbaa791c2e2af41e85f5a64cac24ccabaed8bcc3df8a63bd3a8bf1f4a0	1320	940	217963	
+K072	W02	examples/ipad/Tab Bars.png	74cf16126abb3e7ab13eb636e2f4624f015ed1e3a0e563e4a866183ecff9b077	1370	1954	153140	
+K073	W02	examples/ipad/Toolbars - Top.png	8531b2f2dd031a4ba2c675166594a96c7c6a698319123e38d5dfeab9ca204c9c	1370	3874	356032	
+K074	W02	examples/ipad/Window.png	be62e16fc1874881a31ebc0defd76c480a97d56b4a3d7ce4fdb1c119d169f827	1370	997	679209	
+K075	W01	examples/iphone/Action Sheet.png	280ad84d38c4f9b707118a4f872bc323d486809b73bf3f875121511e9167d602	470	920	112461	
+K076	W01	examples/iphone/Activity View.png	cfd83fa394e151e453162745c79f14b8afea7d392c6826ac7785db243628b2b1	450	920	157376	
+K077	W01	examples/iphone/Alert.png	162a107492002723e1a0f7e5542a256a28f94749d5ee35f49b902eabae09806d	942	954	170940	
+K078	W01	examples/iphone/Color Picker.png	bc973634401a71b5ee80d23df5ac5b2b9c9dc185cc9c73ce450e2b79309fe7e1	450	920	95284	
+K079	W01	examples/iphone/Context Menu.png	bb2d4319746215a85342462041966c47930afb0b23feffafeae8a390bc713f4f	450	920	98590	
+K080	W01	examples/iphone/Control Center.png	163411ed811a16b61b86b5d7e2815c7c6ce6404aece1525fb3ef0d499139bcab	450	920	321925	
+K081	W01	examples/iphone/Empty States.png	130fc772f9fbddc5c2dd30c35837b5db1d83426f2e430e895faf4e412fb64859	1402	954	116583	
+K082	W01	examples/iphone/Face ID.png	50e621c5f2bf860709613d4ce0d8aa69032e3e76e0f03a4b58bf96c4148ef1db	942	954	112574	
+K083	W01	examples/iphone/Home Screen Quick Actions.png	c283ae7fc20ec41c9ca97ef4da4e0f16177c5128c23d92168110ead246b9b910	450	920	404768	
+K084	W01	examples/iphone/Home Screen Widgets.png	735971075cfba30394e6dff3a12cc520d054a09392346c234c375d047a003871	1830	920	1007271	
+K085	W01	examples/iphone/Home Screen.png	321e80e8fdea656d45cfdfc83ef6347a1419d107043b2ec64f24f4e6353fdac7	450	920	456350	
+K086	W01	examples/iphone/Keyboard.png	82a88b78f1729c106a9a4746aa6aa66b03bfa8a6baa5205a9ce5a7cec5947bbb	5082	954	437885	
+K087	W01	examples/iphone/List.png	b366acf4e6adb790d081c2ec3413265bc2a9d3d9cf2cb0063d9fc0281709a520	1402	954	170543	
+K088	W01	examples/iphone/Lock Screen.png	4ef356b3e543337c81499f976316b39c12b0fb62dd4ba86d099a6a4d1df5f0d3	450	920	460848	
+K089	W01	examples/iphone/Menus.png	fb7958f941396c2842bacfa3e48f388d24fc48d72cbd6bc349c70ab60810c57b	942	954	141097	
+K090	W01	examples/iphone/Notifications.png	bb79861e4707fb1ab1795522043b032431f735fd4e80a84781ae5e52fa7eb745	980	933	576785	
+K091	W01	examples/iphone/Picker.png	a3342574d79b8afbdf5b5f4cdc592bad3d40b18a2c30c3c14ca76e1bae91003e	942	954	134795	
+K092	W01	examples/iphone/Sheets (Modals).png	69af215108b9e1df4e6e0ba57f4e91e2c47062d2396ab5265ee47c75c83e3e91	1402	954	138097	
+K093	W01	examples/iphone/Slider.png	3f47e164df15df75499c83ebb17d6f1ddbe055f62d2fd8bd07400dd5f6f787f8	450	920	77732	
+K094	W01	examples/iphone/Steppers.png	c25825c350d17ec39c9bb6b06afc28cfec01d26024dfd4b34760ef15734393ac	450	920	67194	
+K095	W01	examples/iphone/Tab Bar.png	ca4cfa3049b37555854cb301eb605b27fc503fb8c029f5fadf4af1e1d3f37d00	942	954	90592	
+K096	W01	examples/iphone/Text Fields.png	f7433f506c334d5d88ebac41c00aba5b2fb3206894eeea9b0080ea29ae3e428b	450	920	68667	
+K097	W01	examples/iphone/Toggles (Switches).png	7516034a1831138ed2c9cb71ac5a98f048d8822ef16191fd63c29846cfc98ab9	450	920	69718	
+K098	W01	examples/iphone/Toolbars - Bottom.png	db12da2ba6c5d3f8c1dfa491fab049dc3757ba1212cb56b50c20580157a3bd05	1402	954	106637	
+K099	W01	examples/iphone/Toolbars - Top.png	7b37a41e2b8385cd653db6891bf8a96f92921c3606e768724dbe50b0c5c6a4f5	2322	954	127750	
+K100	W07	face-id/State=Authenticating.png	8c56ae90ea3b97e6f0c195682713b6347213a4c3afd84fbc371c33c12b8e862b	402	230	44423	
+K101	W07	face-id/State=Success.png	ff0089c0f1bde75e56c0899d173dca4fa83d98fe574f993b62d499551d8dcf95	402	230	44889	
+K102	W05	keyboards/Mode=Dark.png	40f27c28db19565d4a4d94a3436342aa5bd21359405888d5ca9b39d90621ba43	200	200	2062	
+K103	W05	keyboards/Mode=Light.png	d9f52cdfc7f47bf49fb7aa111678bd433dcba29ed643808ebc71c71b619b3547	200	200	2986	
+K104	W05	keyboards/ipad/Keyboard.png	7785ebbb62ea897c1752200116ee9324398737c8ecf0e8169b587ac8d83e2c82	2520	470	54358	
+K105	W05	keyboards/ipad/_Accessory Bar - iPad - Buttons/Dark.png	541836c7c16aafbd71d1878bf391c80ae62b29e28ee8bd57b0f58f810c5b0c0e	70	120	1700	
+K106	W05	keyboards/ipad/_Accessory Bar - iPad - Buttons/Light.png	dfd6b43df8699b9073c7a3c9cb37638ca2a907572498ff995d538bcb31095fdd	70	120	1686	
+K107	W05	keyboards/ipad/_Accessory Bar - iPad.png	c119596a8c93cc377c87bda9cb6dec2094daa027307b05e02a74d83b089aa50d	156	116	3330	
+K108	W05	keyboards/ipad/_Keyboard Layouts/iPad/Lowercase.png	0c70d354e37fc4c8f8dcd54ea4c79abd30f8800569963a196131328f0dc7d9c9	1250	742	72795	
+K109	W05	keyboards/ipad/_Keyboard Layouts/iPad/Uppercase.png	ac04a349cc109b054867e4e00a4269abdf2bfe60453da0796d9724ac21d1bc38	1250	742	71199	
+K110	W05	keyboards/ipad/_Keys - iPad - Command.png	f96ed57a9faf0b55e65e01eb9ff50d36ae0b93a5a4f47a3d11f26d6e3e1befd5	270	210	4955	
+K111	W05	keyboards/ipad/_Keys - iPad - Lowercase.png	0b2302706f4db5efab603a289b500f0fc58de174fd0e2ef86095f39e3379550a	230	406	10207	
+K112	W05	keyboards/ipad/_Keys - iPad - Return.png	95b3ab9f7640df97ae61a376d6af6f829e72717c90f833abd281db53d9284203	270	210	4939	
+K113	W05	keyboards/iphone/Accessory Bar - iPhone/Find and Replace.png	443e50d1c184a8a8bdf2771b608b4d9deced06d3c209637a11f34734d6977276	442	262	39384	
+K114	W05	keyboards/iphone/Accessory Bar - iPhone/Find.png	2199b1a3f7f3bdee21ccc66f60ed996a65d85037244eb70a9078a4c6154577de	442	176	42457	
+K115	W05	keyboards/iphone/Accessory Bar - iPhone/Toolbar.png	297bea3031194efea2d5160d5db708d82c3a49fd13d03b1b95a0782588ad995e	390	170	26242	
+K116	W05	keyboards/iphone/Accessory Bar - iPhone/URL.png	0c4aaec33c0441bcf4f57fa691c8b7c7daca200f5ee1e6d53f037365ee50fc1c	442	176	36213	
+K117	W05	keyboards/iphone/Accessory Bar - iPhone/Web Form.png	2f7faf6d1c13ad9b7a265ac0e8eb679cf588b6a5268f66459353047404b71f32	442	260	38084	
+K118	W05	keyboards/iphone/Keyboard.png	1e238b18e7068f07f62f835a050c65fb49be8f03df76b5bf269461607514c021	4140	470	203152	
+K119	W05	keyboards/iphone/_Autocorrection.png	29a3051a9e3941616530510957eae7f8db658080eaf33b955b1d061eadc75e20	340	150	3373	
+K120	W05	keyboards/iphone/_Bottom Buttons.png	118766dd7b895c05d8b5b8b08597bad24cfdd905409c4a54fc840896fe1c7a40	540	220	5738	
+K121	W05	keyboards/iphone/_Button - Symbol Keyboard.png	1f10c47378b30cb80dd6f6da4a83ab5b8fda9aa457b8d5c4838f9758a54d09c3	130	130	1870	
+K122	W05	keyboards/iphone/_Emoji Tabs.png	d281ba449c86e04bb066d9235e254c335ef60f01d71abc1d221d66878578c701	442	144	12776	
+K123	W05	keyboards/iphone/_Field - BG.png	f1ecdc43fef1d5109f457ff0e6e669008ea820cab22ea2bed042d609398f4be1	180	132	2390	
+K124	W05	keyboards/iphone/_Field - Find.png	e06ead88b8858a27ce099846f49148d8b348cfc36acbd34f4d1ae60c0e35dcab	470	180	11414	
+K125	W05	keyboards/iphone/_Field - Replace.png	a02d01c642b9a394c107e95aa5041dda4494562789362a9bca7bc78a40e4c182	470	180	10528	
+K126	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Email.png	7f956412fb92759a4f667ad697c98e6cdd9b0d577cb6a8e18698d037e5b3708f	440	490	33460	
+K127	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Emoji.png	1166d66e82db895d38c65e976548f07f596d9f015e82a3ca960e9885cf03ba43	440	490	31887	
+K128	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Lowercase.png	f2a0f14f90febf3ca300241e767d4f919bac98845d78d3a3ee339c207ed15bcd	440	490	32314	
+K129	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Number Pad.png	45c9505924d956aa7d900c6f1218dff043f22a418814345db4e144862fd5c4a0	440	490	23084	
+K130	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Numberic.png	1166d66e82db895d38c65e976548f07f596d9f015e82a3ca960e9885cf03ba43	440	490	31887	K127
+K131	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Punctuation.png	4cebe105825293dbdd8a3f15c99e66c945642421afabdfaff3f6a2983ba16657	440	490	29796	
+K132	W05	keyboards/iphone/_Keyboard Layouts/iPhone/URL.png	f47a92999141fa3fd0d59263c430895dd4b87edb2bd78d36f283b5db36b369ec	440	490	34612	
+K133	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Uppercase.png	04dd88ea5191cf9eabbea2ce96d348fcce538e2e920bf81b8db6654067b92f55	440	490	32455	
+K134	W05	keyboards/iphone/_Keyboard Layouts/iPhone/Web Search.png	9bf1ccd2983609ca3858d7d1fe2d318f07c443fb38bd3c11ede31ca5fbb4121a	440	490	33512	
+K135	W05	keyboards/iphone/_Keys - iPhone.png	c4e001f1491e722f4bd516442c77f88f63a72298caae219e54d6a3e7ae827c86	1000	130	12763	
+K136	W05	keyboards/iphone/_Next.png	f51e792e18d335a65699ee0efadeced22b809c49b03669daf861bd5e3178a57a	120	90	1448	
+K137	W05	keyboards/iphone/_Number Pad.png	29bc09141388b28124aefe4bb2c96ca5bb8161ff16eaaabaee2d82861ea1c3de	310	210	6143	
+K138	W05	keyboards/iphone/_Previous.png	d0401895248d45cb9a85ff041ca40476ca29909a35a656cd944bac34f5649189	120	90	1434	
+K139	W05	keyboards/iphone/_Replace Button.png	5ed699f9848c3b5073c5d2c8165c2ccdfef3aa4ef43d453d74f26482fb8981c9	200	100	4884	
+K140	W05	keyboards/iphone/_Search Emoji.png	fa18b43dd0e4fb13ded3e28564f873930ca3452f62e37736640f4e0c85533d8a	442	174	12026	
+K141	W05	keyboards/iphone/_Suggestion.png	7bc7450531bf7efaafd0cd16787ec1611fcafd28feeff52e48bb7035057509e6	450	150	11351	
+K142	W05	keyboards/iphone/_Symbol.png	f0baa6f5ed17e6c0a3e88429b5274a16c8dc1efbd02da162bba29e81c7ca9247	68	104	1467	
+K143	W06	lists/Grouped Table Footer.png	3033be64f981fd4f9e07d6833db9500260a1edd2061e113423b85d478fe31656	300	32	1263	
+K144	W06	lists/Header.png	9724b166056a25ceec05684ee7c88110e6ab2fc8865efb1b7eb58f89807d028f	440	210	6192	
+K145	W06	lists/Index Bar.png	9062610a74a041258de2f4da33fdd898b4d7413a274af9dea631acb9a84a7669	110	740	9120	
+K146	W06	lists/Row - Button.png	8534d67bbeb022902628c2c862e771d8fe2b829dd93f9457f87bf00ae48485c9	340	220	4501	
+K147	W06	lists/Row with Swipe Actions.png	c0233187ab073a163bf811ff0a29967e2f371207dc305d4df5a6c9fbf693155d	900	250	30471	
+K148	W06	lists/Row.png	62234ace113b9c37eaf3a5155d10d6e0e83e856b97df8619f380003b36eca9f8	340	175	5663	
+K149	W06	lists/Section Title.png	2360cb8b546c85619891f4b486e7f55d774d349e95e14c7531f1a84a6b3ead3f	300	39	526	
+K150	W06	lists/_Edit Buttons/Light.png	d4fe7fe5bdbac4b82af91a4479ff72a411299dbe7d8d03589a7cf94b3b8c4e78	70	182	3059	
+K151	W06	lists/_Grabber.png	c2dc7bd5a4b879f4a2d423a033d22b15a5ec775ef2d227e99d04b1c8612eb5c9	34	25	284	
+K152	W06	lists/_Header Trailing Accessories.png	0e8591f76872606d9b818f6fc0ef2d8b93e6b36e7b282227b9894fa74478bc8f	280	80	4800	
+K153	W06	lists/_Images/Regular.png	0cb7e4e519a11b70f381697cef52bf835c08277d0e44b6aa70d94630c0d9e532	100	270	4200	
+K154	W06	lists/_Images/Tall.png	157566b925b004373c0e2d065b29ba1e216ff1ba9de51b8f5840d75721c6c097	110	270	4272	
+K155	W06	lists/_Separator.png	88611881bdeea8ddb31d02cbcdc1b7f951db963a9e913f3e869654a212c1c0b0	410	50	856	
+K156	W06	lists/_Swipe Actions/Symbol and Label Stacked.png	6e619876bd9ebb9b44aaa71ff9740380243b1023a368cd3c2a72f0d6a814c182	60	68	1857	
+K157	W06	lists/_Swipe Actions/Symbol and Label.png	666fa3a5f9937ff4773612c095658c64f95fa2fa3d608a07db386bafd223a083	84	44	1416	
+K158	W06	lists/_Swipe Actions/Symbol only.png	54fb4b728a8ee7593f6b8093f6e890aec31ea5eb9480292192ae06ff2858f50f	60	44	1192	
+K159	W06	lists/_Trailing.png	81bdff06c8b71ec491ee8b3328281ff450c6f0bbf4c8254f76796ad707c03daa	270	490	17128	
+K160	W11	materials/Dark.png	0525264812fe8fd7b1c3cdaf83a928f52bc14574ba6860ca470c714af9bd0ef8	1008	860	117863	
+K161	W11	materials/Light.png	7ef294a375ff6027aa037461b7d6212e2734fb7ff106973058ef447dd1fcbd14	1008	860	118810	
+K162	W11	materials/Liquid Glass - Clear.png	e74211ed30e44bd4d1ed9e384cf5a25637274080faccfb03e609d418f1829d85	190	190	8783	
+K163	W11	materials/Liquid Glass - Regular - Large.png	d7dac2202663045a36388dc6fbfe627bbd0adbf5bd4a20b169b7a0996fbb9cb7	400	200	37943	
+K164	W11	materials/Liquid Glass - Regular - Medium.png	d7dac2202663045a36388dc6fbfe627bbd0adbf5bd4a20b169b7a0996fbb9cb7	400	200	37943	K163
+K165	W11	materials/Liquid Glass - Regular - Small.png	a0ec0a3571e8cf1e0570a5196aad1bf17635a3cb31d4a827ed05f71c0899374e	290	150	17036	
+K166	W11	materials/Regular (Default) - Dark.png	09a8ff1fcddee9394ae5a76708907aba1d638aa91224029d85ad057d857e837c	620	440	239664	
+K167	W11	materials/Regular (Default) - Light.png	047d1ef144fe0da02f4a883e1c5527edc3b7febc9f79ed517926c3fc229d5cb3	620	440	224423	
+K168	W11	materials/Scroll Edge Effect - Hard.png	2eb011792849fbba16161d9537b8c235dbdaf8da9cbf67767493d2211762221b	480	460	32418	
+K169	W11	materials/Scroll Edge Effect - Soft.png	c2eaf467c7dd62b4b1c7cea722f5e49e9194d2c9fa9b5c486e85975ba84b816d	240	460	40152	
+K170	W11	materials/Thick - Dark.png	0fbc3658cca8e087778b616564512fb9a0cd5df4410bad7512c43511ea052d18	620	440	223868	
+K171	W11	materials/Thick - Light.png	afc9597b751a71397ebb2f5062d6a7c52a37b8af0d32bc1f7ba087a3d6eccbaf	620	440	181504	
+K172	W11	materials/Thin - Dark.png	a4a48b42d17a9149c7d80f49042bd8db21afbe9bdd5b0266243d23dfc84f47b1	620	440	245503	
+K173	W11	materials/Thin - Light.png	e6dc4c4d6b90775397049c2dba0a642b41884fadcb603b95af480fb4229c0649	620	440	237403	
+K174	W11	materials/Ultrathin - Dark.png	652ecfdebafb978e8f20026753bb80a14941776dff7e16cb4ff8799960c7370f	620	440	249604	
+K175	W11	materials/Ultrathin - Light.png	a926a5733e4b7fb87b45285a73bdf44102c650932fe040a982b144df8159e488	620	440	249628	
+K176	W11	materials/_Materials.png	1f8837b40148795c569fd17d251d05772f2fc4d65cb4b9c07c8df2bf3fdd82ee	620	140	19258	
+K177	W11	materials/_Materials/Mode Options.png	f94178783ab15cbfa2e0d5f509468688fc3cdee6cf6c5a11b4947eec2011e85a	620	540	80510	
+K178	W06	menus/Dark Examples.png	fb6f3bdb8e653c0c0a990a580a9039f2fc34061812174b8767c8b9d458400bb6	988	790	191147	
+K179	W06	menus/Edit Menu.png	f043532b051c68bd5269c14141f6551a83e4d7239953c53e24cafbdb16903288	328	140	29425	
+K180	W06	menus/Light Examples.png	2b92dfc974c4e7457c6457eb2b9f9fcbe9592f0c2c2e177c6f884782e3f49d9c	988	790	194656	
+K181	W06	menus/Menu Items - Submenus.png	50450dcf122f3ed5a9e8e5f12fb189fc3c9cd933bc15216493265b05715e4c43	460	460	22493	
+K182	W06	menus/Menu Items.png	8ac76a2f305e41aa4d3c11f3d0b832b366d3c2e87fc0498a358f51c6651cb2a5	480	370	22925	
+K183	W06	menus/Menu.png	527950e059a7caac517f34f13d821566a6049dc6ae0295b37a8e1412ad866413	540	618	108457	
+K184	W06	menus/Quick Action.png	0dc9f5c100316f2a91037ccce5c332f0bb080d801518d5699e1a445a975d8eba	200	170	5193	
+K185	W06	menus/Section Title.png	5fb3e91d58ca0ed074884dbfc0985a69b08eed6840eb9e413dd65b129270e053	200	118	3940	
+K186	W06	menus/Separator.png	af9956e46a7d7703691cdc7955b9bf3b8935e4a2d2af2e6a07f83af3035100ce	200	102	1274	
+K187	W06	menus/Text Selection.png	9b3edb1eb2c60a0f028ff054486fc7fc3d90ddfdc520c86f28af9bac8bac5d67	148	94	8114	
+K188	W06	menus/_Edit Menu Item.png	e65ab8f5a3b34c494d62d9482e411cbda2a18b8702487c3bc315ff571251323b	200	96	2785	
+K189	W06	menus/_Menu Indicator.png	abc4618911aeea14a32e21ea794092a65f1a0a7f722558428bfe6d31f33208fb	76	132	2528	
+K190	W06	menus/_Selection.png	54ade48668c1c6fe012f9b64f4c285ce1b9b533bcfc72c18f53f415e39441f52	80	120	1024	
+K191	W09	notifications/Notification - Collapsed - List.png	254b21931833dd09dc021d3281d8eb99ac387cc9249fd276791fb828f44c3b3a	602	564	175384	
+K192	W09	notifications/Notification - Collapsed.png	931daf793d38b5a2296d7945a92eddc47b3920337ccc93226ed8458581dfc5f9	430	280	46289	
+K193	W09	notifications/Notification - Expanded.png	f4fc3d04121ca41e751059df612c92f78dbe82322c4f36da1b07a279c36842df	402	552	20229	
+K194	W09	notifications/Overlay.png	86fccab7d0dee7edf204774c861a56e4cd754eb2676bd972211911348a9f40b6	140	260	1903	
+K195	W09	notifications/_Time.png	1cc261ded2ebfc2d327b827545fe03bcc98f223128dd5f50cbea5e31ee398419	100	100	1550	
+K196	W07	page-controls/Dark examples.png	491061f9ff92651abc7d3eacaac57de3e9a087dc81972a476934653cc037d796	460	410	21467	
+K197	W07	page-controls/Light examples.png	cd2d2a61a91fc1e7ba0c45130f9dff80f9ec2b3e8140ab17518a9c4364cf57bd	460	410	21263	
+K198	W07	page-controls/Page Control.png	76fbe7420d6c6e53f727135d97c1630fcbc8235ca87852a0ef752466fa1573e1	422	152	3769	
+K199	W07	page-controls/_Page Indicator.png	a7595807e9a50ef96f04ee6fd56ce960f59383670e8848d1f245a386947e92cf	83	48	1011	
+K200	W07	popovers/Dark examples.png	9d041f69489b00030ef20ca91b6157db61d8a38ba6a665edf4c52d394985ea2e	420	413	34217	
+K201	W07	popovers/Light examples.png	412f82b8385b9501d2fd89520e9d1480be086fe1f2f69b1d8ade309f336b53b0	420	413	41701	
+K202	W07	popovers/Popovers (iPad Only).png	68ddfccadca4bf4501f0103127c59f6028890c0883293b5a16550e78d641c129	1130	1130	533325	
+K203	W06	popup-buttons/Popup Button.png	2512e11624c7c7166c41047b912b5d11382e07067611ba509955e441b6010b70	120	140	3473	
+K204	W11	product-bezels/iPad Pro M4 11_.png	351adfe74199d93e99d8b0398edd0af63b602d0f2255e31f4e68b68cbde56f7e	1370	1974	129183	
+K205	W11	product-bezels/iPad Pro M4 13_.png	051e58300f7ee104374325ba2162220ace6c3afba8e3122e7b090c69bb31950e	1536	2364	145360	
+K206	W11	product-bezels/iPad mini.png	cbb6de1638d1d783ad16c348bbf3850c86414809a2adcc126391697f427f762a	1275	890	87073	
+K207	W11	product-bezels/iPhone 16 Plus.png	276d0c91c85da9eb3ed22a123f2727720901f9604be3516063ea0cdd1b8a4b53	490	990	61464	
+K208	W11	product-bezels/iPhone 16 Pro Max.png	814fee173e080dacf9f75a1535be249109d6ad50164e6dc3a68b18ed2cbcfe15	489	1000	53382	
+K209	W11	product-bezels/iPhone 16 Pro.png	c939cc1f6d835da46c7f791034f0b7ffd3cd9fe2f4702d5a201445a9df867cca	450	920	50145	
+K210	W11	product-bezels/iPhone 16.png	0e6f038f20fcc3616f0377fc83a1ee29a3500bae71fc2b885d28d142f5357aad	453	912	59944	
+K211	W11	product-bezels/iPhone 17 Pro Max.png	25a80ec7d464a5176383abdf8b14040e86b2f94ec52fbcdfa35eafb5d5b1a14f	1576	1056	177964	
+K212	W11	product-bezels/iPhone 17 Pro.png	fb1bcd3d5f63df0a07b7b7c43ff12cb174b1064c24087c6a5e99ad7dff993dcc	1462	974	167568	
+K213	W11	product-bezels/iPhone 17.png	77b93359c246b82b9aacb8319cbfdce01c034b5a31878e089a69f3432205d361	2422	974	245673	
+K214	W11	product-bezels/iPhone Air.png	94662993481745dd230bc30f706a346dde9b7441bc6d560e72db30f9d6d8e6ca	2014	1012	168144	
+K215	W08	progress-indicators/Dark examples.png	ddb03248ef59d735379644b590b77d0b74a6339858edf2cfcb5ef4fdc782e925	410	180	2620	
+K216	W08	progress-indicators/Light examples.png	917fa57cf6576ee6dac3e924e7b324bf3f14cc5b338f7d6410b729f780404301	420	180	2566	
+K217	W08	segmented-controls/Dark examples.png	0a5fc2c85374b23353c82f9830d0605a333f0da766e1cdffe0f90f373382fd12	480	300	14965	
+K218	W08	segmented-controls/Light examples.png	3b5e82576bc613413a44e6a567424e3f05e88b3bbbf14f0d7a79d8a26f6bfe1e	480	300	14328	
+K219	W08	segmented-controls/Segmented Control.png	604cc04575c6ba750e28abdaeacdef4a3cae0ca5221b3df2fc06fa59d3dcb277	420	260	16881	
+K220	W08	segmented-controls/_Option.png	0f0f475973b47209930acce1e9594a332c90250cd6b4821c957ee4ba48339d5b	220	70	5006	
+K221	W07	sheets/Grabber.png	7992d02fbf8bd3cee4c1e8a278eeb545aa4a47846381cd0c1300c50dcaf9e821	100	70	791	
+K222	W07	sheets/Overlay.png	c241a48b80ed083e109602b7caa65c3f9ea2734fb3e06a55f79dc93cfaffa3f4	100	100	373	K002
+K223	W07	sheets/ipad/Sheet - iPad.png	0b8035fadced093a1f2b773a5b703fb92d5d3dc8450e94900fe05f1a7ca9e15f	1086	1002	202447	
+K224	W07	sheets/iphone/Sheet - iPhone.png	7af158ca2d8dcdd8c8dfd95b54cf8d2b4991440d0cbe9d6149937869e9ef9239	1302	914	214209	
+K225	W03	sidebars/BG.png	75d88a1c3f382fa03a2b08e978b6e3b302b745bc8dbaa7af69c3cf947fe16884	260	140	6794	
+K226	W03	sidebars/Section Header.png	2fe68a8e295f3f4076279f41e40dec7aa49df6f20aeba8579b4e46f1c522aff2	260	54	2931	
+K227	W03	sidebars/Sidebar Row.png	ecf73f5b8646d051da3405c15c94e0b74e995e26e9ecf1677cbc40d8e549a98a	360	940	25445	
+K228	W03	sidebars/Sidebar Search Field.png	f86cf7777000eb4c9589072a89f9413575f7922c0676985e5dd5fab22a6b2ec7	200	64	2732	
+K229	W03	sidebars/Sidebar.png	2db9fc0ffec49e876b5b6e5509db1d343cc2eecc4797c86df8f75ece61453dcb	700	842	84022	
+K230	W03	sidebars/_Search Field.png	c2a92979b83d947785be735442aecc214ea47495e29130f670dd916021ecf11d	470	210	17490	
+K231	W03	sidebars/_Section Header.png	11abba6156e9549ee40f0eeb7ee8dec7113314bdc14f4df06918cccfc3000e95	300	170	7113	
+K232	W03	sidebars/_Selection BG.png	adde5672492609bee653051e82545d1958dc8c7bc8a2de66141e69589ae1d58f	140	150	2654	
+K233	W03	sidebars/_Sidebar - Edit Button.png	d2b40c154116068f1a341b3a06ae0504d35b7619877320f04034710ab0bf7d20	110	150	3990	
+K234	W03	sidebars/_Sidebar - Leading.png	7037e63b50b972e66ef26c552d0f676fb4682c0fcfb2140b9dcabd2f4f2c17ce	300	600	11737	
+K235	W03	sidebars/_Sidebar - Trailing.png	2cdd8d38a71da48ce3d8dde226f3678666aadbf7b1c1c48eca3c878be9d995ad	260	800	27012	
+K236	W03	sidebars/_Trailing - Disclosure.png	0d0a1199bb1c0fca34dbd23f3ab1c02041df532d7a42456a0b4a7ddb9152b80d	58	96	871	
+K237	W08	sliders/Dark examples.png	799f45200a3adbbc6d16ce3aa3fed5207b8a7a409886b6212eb33604e90ff019	440	250	12747	
+K238	W08	sliders/Light examples.png	07c97ddf378e2b71b0f329ca4683177b1dbb1385746e27ba692b4ca7f97e7200	440	250	12117	
+K239	W08	sliders/Sliders.png	51eafc87532b85668191e849c7c96af8c016eeec32a03997c6a505868fe57f47	440	1084	75253	
+K240	W08	sliders/_Fill.png	6a2811411bc474e0469973a828f2cc7f4eeb403964470c9fd0c45bdcb65f939f	282	6	243	
+K241	W08	sliders/_Knob - Idle.png	15dda4485625f6ce5bfa61913d55cc427b4791e013b608f40ffb5747c3938bab	64	50	3163	
+K242	W08	sliders/_Knob - Pressed.png	44a1dcd614b5c9df1f3b64363bbe25ce94459f0388a59210692db66f9c2c0964	70	52	2734	
+K243	W08	sliders/_Ticks.png	c11550f386c617cf78361599af6765d989c9c2b5c0874a1e715a5e59b72b2b12	282	4	330	
+K244	W08	sliders/_Track.png	2b27c3a00b10117c4f88c700ba9cd1b8d35340684edeef66913d877da8133f9c	282	6	260	
+K245	W04	status-bar-and-menu-bars/Dark background examples.png	8e5ff5d7213865395ee5937f4908245b00dfe0c53cb704b791353977f52ddcc2	884	400	19207	
+K246	W04	status-bar-and-menu-bars/Light background examples.png	78e50f409f0b3d0a5dea66a2813e78268f4c933c7b1172913eabe30319085ac2	884	400	19662	
+K247	W04	status-bar-and-menu-bars/Status bar - iPhone.png	05c721f3a27bcff41a38c08cfb98c0d0b81c4695e95df8c691a340a7b61762cf	402	62	1596	
+K248	W04	status-bar-and-menu-bars/Status bar and Menu bar- iPad.png	28755585ee9ec49c656c0683195ff49c293c630c3df2902810fc555de076d25d	1250	240	16072	
+K249	W04	status-bar-and-menu-bars/_Menu bar item.png	ee6bf122c20567a88b78982a92c0ae3204ed69f80eaf7bf58879c89555780b06	190	137	8305	
+K250	W04	status-bar-and-menu-bars/iPad - Leading Accessories.png	36a3e03e4cd2d85820cca5316a5e1b03698b6396ac3babbfc985e64c79a36a1f	132	16	1097	
+K251	W04	status-bar-and-menu-bars/iPad - Trailing Accessories.png	f88fdbfbecb31c6993b816617a292c9c2b42bf498b0c15740e06a9853a08d251	90	16	771	
+K252	W08	steppers/Dark Examples.png	4899e77a860061925c769a6a846460a28d258c169fb91fa808fabaecffb7ddc3	190	140	2205	
+K253	W08	steppers/Light Examples.png	2a054ca594ae85b309df260ccb30b59d14b2f65385d25daf04b0cf1f8fb33b04	190	140	2098	
+K254	W08	steppers/Untitled.png	f91499da20dbf7556ee4ea8c1c79fc19714a2aa1a850ebfd4c966a600429d993	300	230	2675	
+K255	W08	steppers/_Decrement.png	83639d0b3235288c647db1ccbfef88d2827a15a4f0117a52b161ad2662e88ea5	86	160	1061	
+K256	W08	steppers/_Increment.png	320e164f9355b5e680b60dbfdb2d029689a048ce24a9a417c1cd4c40265f2181	86	160	1340	
+K257	W10	system/Control Center - iPad.png	9fd38c878a13e1d2a507b56ec044d4407bced5c725f31ec2900860b632f5f242	1210	834	1128705	
+K258	W10	system/Control Center - iPhone.png	0ca73f6ce78511d82461e14b36f1260f5f1774eb20fbd28c2fa053a802ab8cda	402	874	263754	
+K259	W10	system/Home Indicator.png	727504f6d3489a7025c08754a121554eb45bf020f00c98d380c86a8edf712569	440	209	2321	
+K260	W10	system/Home Screen - iPad.png	5c6a5cf433a75d05d24464f695b58ac75db17ebe9bd8fa45a7413a46f883a211	1250	4290	5664551	
+K261	W10	system/Home Screen - iPhone.png	476f64e92b9283877da76f5ab4a80f543e91e220a2a424eebeaea222406adc81	2122	914	1186781	
+K262	W10	system/Home Screen Quick Actions - iPad.png	b6e33b8f5d81ae74aea2250562887b6bd36f8f2c71f7bf2b7f9fde4cf71877dc	1210	834	1028288	
+K263	W10	system/Home Screen Quick Actions - iPhone.png	ccf8217078d94bfa3261657b47972f7c602233296aa481012bd51df5619a53a5	402	874	353009	
+K264	W10	system/Lock Screen - iPad.png	c0d578a63051d32922100ed53a0618e72a08687e0d1b91bfee5dc87556037b3b	1210	834	1162475	
+K265	W10	system/Lock Screen - iPhone.png	56ae280e8377c9ec3eadd5f7f15544d31bb40563948f09c91b471850492c0fac	402	874	486263	
+K266	W10	system/Rectangle 6.png	213f9b775eab7032574a4b7bfa2438b29662dc009d8c85233e28d541e83c6f17	1025	427	2775	
+K267	W10	system/Wallpapers - iPad.png	45f21f70d9330500ac648078991390cd0474608ab080282c1083a907a1b0885e	1250	1728	2290682	
+K268	W10	system/Wallpapers - iPhone.png	5313dc5ab8ed1ac6d9788b04830eb5dfe7a0ab73444e89c6677bafc73c4a9562	442	1808	794738	
+K269	W10	system/_Controls - BG - iPad.png	ba5559eef677132f5c54d504ebb93cab9e8b8ed65501330176e2ab80c169e773	110	200	10503	
+K270	W10	system/_Controls - BG - iPhone.png	62670d556d85286710e3d60303b1beed8c398055a83a75d17a5ae515a75cbe20	110	200	10427	
+K271	W10	system/_Controls - Lock Screen.png	5ffdc8f034b1e034a15ec6bb2c94833a03dbf312380f09c9a3f86a41eb925b61	88	88	4482	
+K272	W10	system/_Controls - iPad - 1x1.png	efb0b44ecf564e35236a93fb6d0a4f6a3106452ff2522c09022744bad7655c3a	110	200	11914	
+K273	W10	system/_Controls - iPad - 2x1.png	a37394e55328834261acd6cc18ea579f71f316628f6d5c3e9af3245641d00d2e	350	200	30199	
+K274	W10	system/_Controls - iPad - 2x2.png	0c4ad27a56499f0d27d4055ce0f637bcd962ff420d8646aa42bdc82a8b8980af	190	360	21971	
+K275	W10	system/_Controls - iPhone - 1x1.png	2933a2b3a83f2cea7a71eda569177ca1ebc3e2a07aa1a519d5f01daa0c974092	110	200	11700	
+K276	W10	system/_Controls - iPhone - 2x1.png	31894eae3130e5ef3471eb1063d3ecdda06017dfa7d03512b9200096221accd2	390	200	29666	
+K277	W10	system/_Controls - iPhone - 2x2.png	b6d403809bbda4d2d78798f38599ab359e18d3de6282da90dbd12f7da832afe5	190	360	21077	
+K278	W10	system/_Dock - iPad.png	e828239198d1f90dea9acc949010b655415d4897b5940d4ab0536a66d330ddec	770	174	58137	
+K279	W10	system/_Dock - iPhone.png	4da29da1230afb6ab7fe3abfcd2162d6ec59c118d439efd997abfaa160938739	402	146	31435	
+K280	W10	system/_Dock Material.png	fc3851585a57a4d13f64e8072356b986431e05fd9a6e6039f5332a8012662dcc	340	266	22508	
+K281	W10	system/_HSQA - Actions.png	a90a72847c28427f7fdc7797c8a2a4b108fc92fac8de78c4e92be481aa4b1c32	480	140	6039	
+K282	W10	system/_HSQA - App Icon - Light.png	3ef244d8a29027c418b5349c69984db8850f991ce2278f30ee2907dd9668d4e9	290	230	7982	
+K283	W10	system/_HSQA - Widget Row.png	5ed5f414d7fe72b7b758e042dad2b4998e992e6e0d59ef571998f6352278973d	290	80	2613	
+K284	W10	system/_Home Screen Quick Actions.png	f4ac6a99f28ff05dfefeca210d47a37eb74604f54d16346929f77072160489f4	346	446	71983	
+K285	W10	system/_Launch Pad.png	14eef213adb6fd8a6bdff8185f3e48cadc54a499492ab126f309fce27ab8f5ea	200	100	25094	
+K286	W03	tab-bars/_Tab Bar Button - iPad - Symbol.png	a4a7f6a3bea5ce9fe6eb6da64b5419bf57fccc21d4a839104571ff6306fd360a	180	130	3536	
+K287	W03	tab-bars/_Tab Bar Button - iPad - Text.png	bf430935d89b4f54474b0feb8bcac0409ea08d831341e5c348c483b1c940f6ec	240	130	4461	
+K288	W03	tab-bars/_Tab Bar Button - iPhone - Search.png	d80503206cdfca9b01a990f7e2526b980ef7cd08dfe4118382ab17dc1edd6ec1	180	160	5072	
+K289	W03	tab-bars/_Tab Bar Button - iPhone.png	45f2434b645ca7e008d9076183f825915dea121cffb7c7fd14c87df53aea09c0	210	160	5841	
+K290	W03	tab-bars/ipad/BG.png	dcf1286b655558174d7bca12c5427616b56728164e112a19f2ddb34e63f1036e	521	74	10894	
+K291	W03	tab-bars/ipad/Buttons.png	916c937c8d06c48179b1f91c17fe3b46a69c896647807ef837b7f482f7ce4c3e	375	36	3128	
+K292	W03	tab-bars/ipad/Search.png	ec45f4d7327af28b3bb02a5795979188f28954aeb1670d056ca990af176edb82	54	36	542	
+K293	W03	tab-bars/ipad/Sidebar.png	b578294229f5d1ae1afc746783d7074e8368ce55dc2c6f43bbafc8c32202087c	54	36	450	
+K294	W03	tab-bars/iphone/Minimized=False, Tabs=2, Type=Default.png	5f255538cf51cfa83be70051cc9d1a78a36aa4085d28fdea8ee0ce5350c84fbf	402	97	10110	
+K295	W03	tab-bars/iphone/Minimized=False, Tabs=2, Type=Prominent Tab.png	4e2c566d75a2e71b79c305fab8d02dd3414ad4bce845767b6c3c5722e3f3cf91	402	97	11718	
+K296	W03	tab-bars/iphone/Minimized=False, Tabs=2, Type=Search Role.png	cc711f7949d46fdc94f2a3f2ddc1d82d36a47a57f927dd942596d06ac6b0be21	402	97	12253	
+K297	W03	tab-bars/iphone/Minimized=False, Tabs=3, Type=Default.png	2d86839953241043bdec20519d6987c083bd0d816ca57a25bcc4140cd6d4d1ed	402	97	12592	
+K298	W03	tab-bars/iphone/Minimized=False, Tabs=3, Type=Prominent Tab.png	1cda227e536583b79aa38f6c6e9ce40d5f062f69987cd212bc6482ab8c6c601c	402	97	14893	
+K299	W03	tab-bars/iphone/Minimized=False, Tabs=3, Type=Search Role.png	2520d20aaf20977b535c8b1be1086c97331a67ad7af6ffa1d5423990f8835d1c	402	97	15336	
+K300	W03	tab-bars/iphone/Minimized=False, Tabs=4, Type=Default.png	df561a2f213cd7a5e76ea3345783b5f7ef21fd949de74010632ae9b7a0d58c12	402	97	13758	
+K301	W03	tab-bars/iphone/Minimized=False, Tabs=4, Type=Prominent Tab.png	0dda8602ea1001c713939736341aab98b194770976a86d0111094a3b51f6bd9c	402	97	16514	
+K302	W03	tab-bars/iphone/Minimized=False, Tabs=4, Type=Search Role.png	6bfc1c8259e649b26f2fb508eb4469e959fc2c2b39c1655e3b5ae1cdc15dfbcc	402	97	16921	
+K303	W03	tab-bars/iphone/Minimized=False, Tabs=5, Type=Default.png	6fdd35580cc41bc2bf5d75a676ca76cca69e8394774c8dc0e70438828e1e67ae	402	97	14244	
+K304	W03	tab-bars/iphone/Minimized=False, Tabs=5, Type=Prominent Tab.png	ccd2ab2681f7296894b2757593aa570167d8a9405900e11983f4b2912eb5758d	402	97	17117	
+K305	W03	tab-bars/iphone/Minimized=False, Tabs=5, Type=Search Role.png	5a0e74c802d27e8e732f300198922a1da5b84ce4e4925a300260fbdd4f9f1c0c	402	97	17519	
+K306	W03	tab-bars/iphone/Minimized=True, Tabs=2, Type=Default.png	62118cbe30368d7c0b0899b14342b9ef67873ecc2afc4f5b70733ae53a265929	402	88	4967	
+K307	W03	tab-bars/iphone/Minimized=True, Tabs=2, Type=Prominent Tab.png	7bab652dd5c9d69888d9f9665036995d47cf12f68b27999602b9c786fbc4e487	402	88	7972	
+K308	W03	tab-bars/iphone/Minimized=True, Tabs=2, Type=Search Role.png	8e1c3d2c42227a75cfa7d53367449a66caa8250d8e3cf696be8abf35d8d3575b	402	88	8576	
+K309	W03	tab-bars/iphone/Minimized=True, Tabs=3, Type=Default.png	e5815ef599fa96774c733d2fb96dae640738e565a71b2953f041b4af0b1e52ee	402	88	5037	
+K310	W03	tab-bars/iphone/Minimized=True, Tabs=3, Type=Prominent Tab.png	d66e04cbd5a79b146b7df44c4bf36339c8a27e262967ad08afacb87ab4a77923	402	88	8026	
+K311	W03	tab-bars/iphone/Minimized=True, Tabs=3, Type=Search Role.png	17485ba2e07b38c3674f64d06d257d62fc371e4d04e26bc762c43afc82950beb	402	88	8631	
+K312	W03	tab-bars/iphone/Minimized=True, Tabs=4, Type=Default.png	e5815ef599fa96774c733d2fb96dae640738e565a71b2953f041b4af0b1e52ee	402	88	5037	K309
+K313	W03	tab-bars/iphone/Minimized=True, Tabs=4, Type=Prominent Tab.png	6a48dc754e1cc2ba16958a0ed63580dec0bc860c99a30c972174a2d199834d76	402	88	8058	
+K314	W03	tab-bars/iphone/Minimized=True, Tabs=4, Type=Search Role.png	66fb8624581bd31a4a75c3d7c1080d83e05a9054481f3d6e0be94c0269f4cd6a	402	88	8685	
+K315	W03	tab-bars/iphone/Minimized=True, Tabs=5, Type=Default.png	e5815ef599fa96774c733d2fb96dae640738e565a71b2953f041b4af0b1e52ee	402	88	5037	K309
+K316	W03	tab-bars/iphone/Minimized=True, Tabs=5, Type=Prominent Tab.png	6a48dc754e1cc2ba16958a0ed63580dec0bc860c99a30c972174a2d199834d76	402	88	8058	K313
+K317	W03	tab-bars/iphone/Minimized=True, Tabs=5, Type=Search Role.png	66fb8624581bd31a4a75c3d7c1080d83e05a9054481f3d6e0be94c0269f4cd6a	402	88	8685	K314
+K318	W05	text-fields/Dark examples.png	e86547808c3b881268e6077b44d1cffb13b4788a04ad63af4268bb14798b0318	440	280	5655	
+K319	W05	text-fields/Light examples.png	b1ab9588a9778ad43949db3b50c0b5cbdd7ac67ec470220c9870c213dc03c3cc	440	280	5508	
+K320	W05	text-fields/Untitled.png	98fb4de41ec38785e8c5d2a937e8ccd1cf86168b32d1b6da6c27587f2803908b	642	492	7436	
+K321	W11	text-styles-and-dynamic-type/Dynamic Type – Accessibility Sizes.png	5e774aad1810c3ab23a1b1aec1f360d7412d6a1dcf57ea3785f344ac9794c85f	1522	1189	84640	
+K322	W11	text-styles-and-dynamic-type/Dynamic Type.png	5dfaee6017db59e9464375a27ca055790996c5421a427b514cae61fc654a62dd	1520	1184	60079	
+K323	W11	text-styles-and-dynamic-type/Text styles.png	a0c9e787c0972965749dcb2171f2454c8ba541a449709d2fdf66199864448a8c	1075	1682	162777	
+K324	W08	toggles/Dark Examples.png	c13fcd97e34c804245e680a77862b50792d1e15880c6b2d776b69adcf3f26b61	170	180	5787	
+K325	W08	toggles/Light Examples.png	842bda5cfdb5d418e2c5a7fad5e90d885df58630489eea2f8047580c7acf902f	170	180	5819	
+K326	W08	toggles/Untitled.png	b3acfe01c40acb4c6b615af04aaecb0b3d4dd4bc18904b323c484295b60be2ff	410	400	18190	
+K327	W04	toolbars/Light-1.png	b030b935d640af12df2aaa0aa9ba44ba11863a516e55a12b0ae91247cf3dccc5	494	150	6153	
+K328	W04	toolbars/Light-2.png	b030b935d640af12df2aaa0aa9ba44ba11863a516e55a12b0ae91247cf3dccc5	494	150	6153	K327
+K329	W04	toolbars/Light.png	6471e8b1eba308a10c1232b43b23201c017ce74f0d0ceef5db17ee437c8aa927	494	150	5306	
+K330	W04	toolbars/Toolbar - Bottom - iPad.png	bc25597ee9fd8e4bd14feacd5dd47a965faab82df7454ac968e236eadf584a74	510	74	16910	
+K331	W04	toolbars/Toolbar - Bottom - iPhone.png	bbbeb64c3cb7c2602cbf74705f35a5ee6025a0b0f9f963a9c080026d4dfb28e6	440	620	85599	
+K332	W04	toolbars/Toolbar - Top - iPad.png	7923a50320f2d3b116608834cbf869a606b38cd58f8d88578eb24fb6a38b124d	870	1150	178998	
+K333	W04	toolbars/Toolbar - Top - iPhone.png	de4bd9ac13f9cbb464fe518eb1aea8cc58f359a198b7463f0f7340789e0f6363	440	450	45064	
+K334	W04	toolbars/_Back Bar Button Item.png	7b271e487a3d76cce16e1610ece095aeee8b9324214f02d7e76cc3625ef09c5a	220	150	2208	
+K335	W04	toolbars/_Button - Bottom.png	af04339dcfedaea865a6ef9bd5d2b3731200f49ba0fff98c42542df33f85d165	220	440	25057	
+K336	W04	toolbars/_Button - Symbol - Prominent.png	9c111b1b484eb7beb34cec1989e4ad45d73ebae961edbdfdd3cfe8e661181117	130	140	1832	
+K337	W04	toolbars/_Button - Symbol.png	6bd86ecfb268034bdba452c576acb0d114c1884cd5f8624b87011240a86c3dbd	130	240	4610	
+K338	W04	toolbars/_Button - Text - Prominent.png	720d2c1777214cd9e1fe50e5e29b7af2ce4996a8153694ec3421212e62715ce5	170	140	2995	
+K339	W04	toolbars/_Button - Text.png	46f08c239db1679536a4cddebd7677c8d8c4ae58207e6566685ba207bd746d56	170	240	7692	
+K340	W04	toolbars/_Buttons - Top.png	7b1214f1926fcd735db155600d12aaac4eb15960edf7e3ac6f8c8c1848237989	220	440	28007	
+K341	W04	toolbars/_Page Dots.png	70227e1251327a633de5982d3ea231f02510cfd6d96661dc6ee957c018c078b9	70	70	1107	
+K342	W04	toolbars/_Search - Bottom.png	549579bb81d572a83c6252c51bf17e2432c90a52c3cfdb22606997b3feed912c	440	240	65400	
+K343	W04	toolbars/_Search - Top.png	b244d6d0fdc9f8ba87ad72b07c47d1c9c1596e24d129ae7b712680a204131c7e	450	230	63625	
+K344	W04	toolbars/_Search Accessory.png	4a7a486857252651e124848513e739966fe819618f4f6588d3db8fd0d321b349	860	148	32533	
+K345	W04	toolbars/_Segmented Control Button.png	b80e01ed9c48e085d51a92a0412cacb8f7e22bceeacc0d68ec99e2d5fe37fa44	340	120	5069	
+K346	W04	toolbars/_Subtitle - Caption.png	0d2e9ca07bbc7db4785be08f1f94782fd4d79a25467b8e420ff1be3c608b4792	86	88	2440	
+K347	W04	toolbars/_Subtitle - Subheadline.png	98506334de33aae672d0e903da074f6e7c684f50b41b923c3a60428e99e04f3d	95	100	2909	
+K348	W04	toolbars/_Title - Body.png	e26e3da69d91d7cda7a14076ad263b574b9769255d10bd3c7bdf17e5e0ab6edc	76	104	1766	
+K349	W04	toolbars/_Title - Large Title.png	59a9f516d83b23d29450e63451e5b90e970a3aec9ce7211ee8cbfd3288851e05	109	142	2825	
+K350	W04	toolbars/_Title - Subheadline.png	941ff66302a825900a0b19cda7a4e5e632c099e4c93b7643fa038b5d87ed17bd	72	96	1603	
+K351	W04	toolbars/_Toolbar page control.png	adaa8ab3bcc070eda4434fd3ef08a4ea3377cd932b27fb67d5ed7d68b0eef28d	1110	510	168231	
+K352	W09	widgets/Home Screen Widget - iPad.png	79ac283fba0fc29ae7b21dab6e90ccd80846d5e459258d81f6d2c163945f4d8d	1470	350	87306	
+K353	W09	widgets/Home Screen Widget - iPhone.png	cfe78949a379b6a03f392fec1ba2d155ae624fb11342e1f8d7eb8e0e73b18c22	1470	630	203362	
+K354	W09	widgets/Lock Screen Widget - Clock.png	895e9ae4a437234125e62305cc6471eb5a78757a064102d548a5cc2e962a8a71	72	72	3379	
+K355	W09	widgets/Lock Screen Widget - Inline.png	ba5ad4947be678f0e73f4f6c4809f179365a74276232917c36732cf4df1e5b45	327	26	2929	
+K356	W09	widgets/Lock Screen Widget - Modular Columns.png	05afa9d7eca785391221135db91858b8b780fb406d082af1924594ebc5f14cf3	162	72	1329	
+K357	W09	widgets/Lock Screen Widget - Modular List.png	cfee4e2ebfad542761182d72fe7539cec7fec7c16220172130576ebca38c05cd	162	72	1446	
+K358	W09	widgets/Lock Screen Widget - Modular Standard.png	494edc6c05460856f23eb5948d14ae8b85faf8c480c1c0052db815d8eef337d7	162	72	3955	
+K359	W09	widgets/Lock Screen Widget - Modular Table.png	ce1e931a8b8f3d8843df3e3dec9fb90b26d0cfd65b8b74f8d63c5a26fa8d24a8	162	72	1579	
+K360	W09	widgets/Lock Screen Widget - Modular with Bar.png	45b880ed1a34d92e11ffcfb6ec25e89d575a8240098044ea6f2c1f083e6a6d90	162	72	4179	
+K361	W09	widgets/Lock Screen Widget - Rectangular Text Gauge.png	cae5e5623798b7583316bf8114b352e5d2ed4f019d7697de1372a37418d29470	160	72	1631	
+K362	W09	widgets/Lock Screen Widget - Rectangular with Chart.png	8f6fbbcd4331f4f4c6632c63d9c8363c08ac4888cd39a6c54ca9c7d14c6900f6	162	72	3449	
+K363	W09	widgets/Lock Screen Widget - Tall Body with Icon.png	1e0d6a4b269919c6820bfae9c6c836a1310609fd4f200e4b2ad60905f119953a	162	72	1805	
+K364	W09	widgets/Lock Screen Widget - Tall Body.png	851c44619330ee58f4dd1a110bc0dd5bdee782dd12d7f64f93761690caa153bd	162	72	1429	
+K365	W09	widgets/Lock Screen Widget/2x2/Clock Big (iPad Only).png	b23af5a4e4254267e838fcdd9a232f7661fd0d4b9c7479c8f75267f43558a3e3	162	162	22972	
+K366	W09	widgets/Lock Screen Widget/2x2/Date (iPad Only).png	0e7077ce74335d3d6789a1c76cc5f45282a67bb31c907d2537a3b44b1de1ca6c	162	162	4128	
+K367	W09	widgets/Lock Screen Widget/Circular/Closed Gauge.png	d7cdf1aa64932204c0667647c1a2eab1869b0e6bac48a3a835f67655ad6f056b	72	72	2025	
+K368	W09	widgets/Lock Screen Widget/Circular/Icon.png	117a0b05f38d1cc0066088f60e5c8dfd64226bda1ba2416c2abd8560a6df02fe	72	72	2516	
+K369	W09	widgets/Lock Screen Widget/Circular/Open Gauge 2.png	59d3084689b47a6cf2d67dc90867b1d552663b9bb19b482780b3ca905cea3875	72	72	2616	
+K370	W09	widgets/Lock Screen Widget/Circular/Open Gauge 3.png	d32b291106852f9ed5ccce9ab16314026ae84277f035819fdf6eb03c053a64f6	72	72	2357	
+K371	W09	widgets/Lock Screen Widget/Circular/Open Gauge.png	2086acd64268e2744b3cc3e40bafae27b9d061febf342a99769f6036f0839b17	72	72	2693	
+K372	W09	widgets/Lock Screen Widget/Circular/Stack 2 Rows - Icon and Label.png	1e1be3e112d33dc43b3b63c934bdf3851eebc835f6365db5ab5b724be7c17a5c	72	72	2737	
+K373	W09	widgets/Lock Screen Widget/Circular/Stack 2 Rows - Labels.png	c17df0d1a4764c532d5d2d4ebfa5434a85c33839e4ac0c41e0e432da757d222a	72	72	2800	
+K374	W09	widgets/Lock Screen Widget/Circular/Stack 3 Rows.png	a08d7c53d274ccd89f367a10bb3f9420ebd6ba46e25e70777d6b21e36624b9ee	72	72	3069	
+K375	W04	windows/Window with Sidebar.png	bda6a7c87e5f52193c16549d4fece81f00c953cd02c03bdfee605aefc5dab784	1560	440	157099	
+K376	W04	windows/Window.png	b22310628592acddd01c65bc64de29681623d65501152d10edf4a161e1fd7a71	1000	680	244014	
+K377	W04	windows/_Window Controls.png	f36a54362086890d1d94c0f9cdc2fe5a9f2798e890d8d7b74d3005aed2b9ff92	80	110	4232	
+K378	W04	windows/_Window Resize.png	8d4c376bd421a2dbe978d688eb7eb756b99840c44469cf10711597f97c84f152	70	110	1305	
