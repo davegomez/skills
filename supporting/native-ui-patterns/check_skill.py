@@ -12,22 +12,34 @@ from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import unquote
 
-EXPECTED_SCREENSHOTS = (109, 41_819_305)
+EXPECTED_SCREENSHOTS = (172, 49_455_092)
 EXPECTED_DUMPS = (57, 1_134_708)
+SHARED_OPERATIONS = (
+    "navigation",
+    "search",
+    "editing",
+    "content-states",
+    "onboarding-permissions",
+    "accessibility",
+)
 EXPECTED_ROUTES = {
-    f"references/{platform}/{operation}.md"
-    for platform in ("ios", "android")
-    for operation in (
-        "navigation",
-        "search",
-        "editing",
-        "content-states",
-        "onboarding-permissions",
-        "accessibility",
-    )
+    *(
+        f"references/ios/{operation}.md"
+        for operation in (
+            *SHARED_OPERATIONS,
+            "presentation",
+            "controls",
+            "system-surfaces",
+            "foundations",
+        )
+    ),
+    *(f"references/android/{operation}.md" for operation in SHARED_OPERATIONS),
 }
 ARCHIVE_ROOT = Path(__file__).resolve().parent
 MAPPING_PATH = ARCHIVE_ROOT / "screenshot-map.tsv"
+PENDING_DIR = "research/notes/ios/captures-2026-09-08"
+KIT_DIR = "research/notes/ios/kit-27"
+KIT_AUDIT_DIR = "research/audits/2026-10-28"
 SCENARIOS = {
     "iOS edit form": (["SKILL.md", "references/ios/editing.md"], 1_400),
     "Android no-results search": (["SKILL.md", "references/android/search.md"], 1_300),
@@ -39,6 +51,9 @@ SCENARIOS = {
         ],
         1_700,
     ),
+    "iOS system surface": (["SKILL.md", "references/ios/system-surfaces.md"], 1_400),
+    "iOS control review": (["SKILL.md", "references/ios/controls.md"], 1_400),
+    "iPad modal presentation": (["SKILL.md", "references/ios/presentation.md"], 1_400),
 }
 LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 HEADING_RE = re.compile(r"^## (.+?)\s*$", re.MULTILINE)
@@ -220,7 +235,8 @@ def check_runtime(
     }
     if route_links != EXPECTED_ROUTES:
         fail(
-            errors, "routing table does not contain exactly the 12 operation references"
+            errors,
+            f"routing table does not contain exactly the {len(EXPECTED_ROUTES)} operation references",
         )
     if (
         "For cross-platform work, read the matching operation file in each platform column"
@@ -237,7 +253,7 @@ def check_runtime(
     if "A matching state capture itself counts as the overview" not in text:
         fail(errors, "SKILL.md lacks state-specific screenshot selection")
     if (
-        "| Switches, filters, and value controls | [iOS editing](references/ios/editing.md) |"
+        "| Buttons, switches, sliders, pickers, filters, value controls | [iOS controls](references/ios/controls.md) | [Android editing](references/android/editing.md) |"
         not in text
     ):
         fail(errors, "SKILL.md still records the iOS value-control gap")
@@ -447,6 +463,27 @@ def check_runtime_baseline(
             )
 
 
+def read_tsv(path: Path) -> list[dict[str, str]]:
+    header, *rows = path.read_text(encoding="utf-8").splitlines()
+    names = header.split("\t")
+    return [dict(zip(names, row.split("\t"))) for row in rows]
+
+
+def kit_archive_hashes(archive: Path, errors: list[str]) -> dict[str, str]:
+    audit = archive / KIT_AUDIT_DIR
+    try:
+        inventory = read_tsv(audit / "inventory.tsv")
+        selected = {row["id"] for row in read_tsv(audit / "selection.tsv")}
+    except (OSError, ValueError, KeyError) as exc:
+        fail(errors, f"kit audit ledgers unreadable: {exc}")
+        return {}
+    return {
+        row["path"]: row["sha256"]
+        for row in inventory
+        if row["id"] not in selected and not row.get("duplicate_of")
+    }
+
+
 def check_archive(
     archive: Path,
     runtime: Path,
@@ -468,16 +505,34 @@ def check_archive(
             errors,
             "original pattern mapping no longer covers exactly the source headings",
         )
-    pending = archive / "research/notes/ios/captures-2026-09-08"
+    pending = archive / PENDING_DIR
+    kit = archive / KIT_DIR
+    kit_expected = kit_archive_hashes(archive, errors)
     runtime_hashes = {capture.sha256 for capture in captures}
+    kit_digests: set[str] = set()
     for png in sorted(archive.rglob("*.png")):
-        if png.parent != pending:
+        if png.is_relative_to(kit):
+            relative = str(png.relative_to(kit))
+            digest = sha256(png)
+            if digest in kit_digests:
+                fail(errors, f"kit original duplicates another kit-27 PNG: {relative}")
+            kit_digests.add(digest)
+            if digest in runtime_hashes:
+                fail(errors, f"kit original duplicates a runtime PNG: {relative}")
+            elif relative not in kit_expected:
+                fail(errors, f"unexpected kit original in kit-27: {relative}")
+            elif digest != kit_expected[relative]:
+                fail(errors, f"kit original hash changed: {relative}")
+        elif png.parent != pending:
             fail(
                 errors,
-                f"supporting archive contains PNG outside the pending-originals folder: {png.relative_to(archive)}",
+                f"supporting archive contains PNG outside the pending-originals and kit folders: {png.relative_to(archive)}",
             )
         elif sha256(png) in runtime_hashes:
             fail(errors, f"pending iOS original duplicates a runtime PNG: {png.name}")
+    for relative in sorted(kit_expected):
+        if not (kit / relative).is_file():
+            fail(errors, f"kit original missing from kit-27: {relative}")
     dumps = list((archive / "research/notes/android/ui-dumps").glob("*.xml"))
     if (len(dumps), sum(path.stat().st_size for path in dumps)) != EXPECTED_DUMPS:
         fail(errors, "archived XML dump count/bytes changed")
@@ -538,10 +593,11 @@ def main() -> int:
         print(
             f"- {scenario}: {words} words across {len(SCENARIOS[scenario][0])} Markdown files"
         )
-    pending = archive / "research/notes/ios/captures-2026-09-08"
-    pending_count = len(list(pending.glob("*.png"))) if pending.is_dir() else 0
+    pending_count = len(list((archive / PENDING_DIR).glob("*.png")))
+    kit_count = len(list((archive / KIT_DIR).rglob("*.png")))
     print(
-        f"- supporting evidence: {pending_count} pending iOS originals, 0 runtime"
+        f"- supporting evidence: {pending_count} pending iOS originals and"
+        f" {kit_count} iOS 27 kit originals, all hash-verified with 0 runtime"
         " duplicates; 57 original XML dumps"
     )
     if args.baseline:

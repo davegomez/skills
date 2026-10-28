@@ -108,3 +108,66 @@ captures-2026-09-08/ios/IMG_4314.png	assets/ios/settings/offload-delete-command-
 captures-2026-09-08/ios/IMG_4316.png	assets/ios/settings/link-over-destructive-card.png	79fb70ddff1ac0747f1bb393eaa529284ce7898c98a79b550aa0d35803f1a6b5	1206	2622	1016532
 captures-2026-09-08/ios/IMG_4305.png	assets/ios/settings/destructive-row-centered.png	ca6f9a17b40f9210824bfc31bfad5a222495100f7778b0a2b61f32e228772fdd	1206	2622	450183
 captures-2026-09-08/ios/IMG_4320.png	assets/ios/settings/sign-out-row-footer.png	832929efbaaba617c24b3c61a99cf10fee5aaea96254d3e32487dfcfa4452200	1206	2622	468836
+kit-27/examples/iphone/Tab Bar.png	assets/ios/kit/tab-bar-iphone.png	ca4cfa3049b37555854cb301eb605b27fc503fb8c029f5fadf4af1e1d3f37d00	942	954	90592
+kit-27/tab-bars/iphone/Minimized=True, Tabs=2, Type=Prominent Tab.png	assets/ios/kit/tab-bar-minimized.png	7bab652dd5c9d69888d9f9665036995d47cf12f68b27999602b9c786fbc4e487	402	88	7972
+kit-27/examples/ipad/Tab Bars.png	assets/ios/kit/tab-bar-ipad.png	74cf16126abb3e7ab13eb636e2f4624f015ed1e3a0e563e4a866183ecff9b077	1370	1954	153140
+kit-27/examples/ipad/Sidebar.png	assets/ios/kit/sidebar-ipad.png	0a6c9cbbaa791c2e2af41e85f5a64cac24ccabaed8bcc3df8a63bd3a8bf1f4a0	1320	940	217963
+kit-27/sidebars/Sidebar Row.png	assets/ios/kit/sidebar-row-states.png	ecf73f5b8646d051da3405c15c94e0b74e995e26e9ecf1677cbc40d8e549a98a	360	940	25445
+kit-27/toolbars/Toolbar - Top - iPhone.png	assets/ios/kit/toolbar-top-iphone.png	de4bd9ac13f9cbb464fe518eb1aea8cc58f359a198b7463f0f7340789e0f6363	440	450	45064
+kit-27/toolbars/Toolbar - Top - iPad.png	assets/ios/kit/toolbar-top-ipad.png	7923a50320f2d3b116608834cbf869a606b38cd58f8d88578eb24fb6a38b124d	870	1150	178998
+kit-27/toolbars/Toolbar - Bottom - iPhone.png	assets/ios/kit/toolbar-bottom-iphone.png	bbbeb64c3cb7c2602cbf74705f35a5ee6025a0b0f9f963a9c080026d4dfb28e6	440	620	85599
+kit-27/windows/Window with Sidebar.png	assets/ios/kit/window-with-sidebar.png	bda6a7c87e5f52193c16549d4fece81f00c953cd02c03bdfee605aefc5dab784	1560	440	157099
+kit-27/sheets/iphone/Sheet - iPhone.png	assets/ios/kit/sheet-iphone.png	7af158ca2d8dcdd8c8dfd95b54cf8d2b4991440d0cbe9d6149937869e9ef9239	1302	914	214209
+kit-27/sheets/ipad/Sheet - iPad.png	assets/ios/kit/sheet-ipad.png	0b8035fadced093a1f2b773a5b703fb92d5d3dc8450e94900fe05f1a7ca9e15f	1086	1002	202447
+kit-27/alerts/Alert.png	assets/ios/kit/alert.png	f5c9e007166bef34b5bf21a6ca0754ee1827ff7596fc660b20945160b59c7903	670	480	92442
+kit-27/examples/iphone/Action Sheet.png	assets/ios/kit/action-sheet-iphone.png	280ad84d38c4f9b707118a4f872bc323d486809b73bf3f875121511e9167d602	470	920	112461
+kit-27/examples/ipad/Action Sheet.png	assets/ios/kit/action-sheet-ipad.png	fcb7b6ebd7507524e1f3678903e084b4f5a056ba8379e0f3f8fde4d9ffc8b2ea	1320	940	117985
+kit-27/activity-views/Untitled.png	assets/ios/kit/share-sheet.png	6396f549fd6af754ce4d7ce5d727fb634761fdc89ef111caf06c2dd57c19edf7	1909	1200	658694
+kit-27/examples/iphone/Context Menu.png	assets/ios/kit/context-menu-iphone.png	bb2d4319746215a85342462041966c47930afb0b23feffafeae8a390bc713f4f	450	920	98590
+kit-27/contextual-menus/Alignment=Horizontal (iPad only), Side=Leading.png	assets/ios/kit/context-menu-ipad-horizontal.png	75957585a4c1d113003eafb769706fa0d827d66d21379efb0acdbd07db30c4f3	697	354	86388
+kit-27/menus/Light Examples.png	assets/ios/kit/menus.png	2b92dfc974c4e7457c6457eb2b9f9fcbe9592f0c2c2e177c6f884782e3f49d9c	988	790	194656
+kit-27/menus/Menu Items - Submenus.png	assets/ios/kit/submenu-states.png	50450dcf122f3ed5a9e8e5f12fb189fc3c9cd933bc15216493265b05715e4c43	460	460	22493
+kit-27/popovers/Popovers (iPad Only).png	assets/ios/kit/popover-arrows.png	68ddfccadca4bf4501f0103127c59f6028890c0883293b5a16550e78d641c129	1130	1130	533325
+kit-27/buttons/Light Examples.png	assets/ios/kit/buttons.png	42fd8404678bbd42b56b58741b440ae8cd8e474479154f7861ed15a2603ff239	920	1070	62879
+kit-27/buttons/Example over a light background context.png	assets/ios/kit/glass-buttons.png	083f70456202c993b4af6cc263fda9d5d93b4e778dc39f9030fca4bc6092252c	230	320	19796
+kit-27/toggles/Untitled.png	assets/ios/kit/switch-states.png	b3acfe01c40acb4c6b615af04aaecb0b3d4dd4bc18904b323c484295b60be2ff	410	400	18190
+kit-27/sliders/Sliders.png	assets/ios/kit/slider-states.png	51eafc87532b85668191e849c7c96af8c016eeec32a03997c6a505868fe57f47	440	1084	75253
+kit-27/steppers/Untitled.png	assets/ios/kit/stepper.png	f91499da20dbf7556ee4ea8c1c79fc19714a2aa1a850ebfd4c966a600429d993	300	230	2675
+kit-27/segmented-controls/Light examples.png	assets/ios/kit/segmented-control.png	3b5e82576bc613413a44e6a567424e3f05e88b3bbbf14f0d7a79d8a26f6bfe1e	480	300	14328
+kit-27/progress-indicators/Light examples.png	assets/ios/kit/progress.png	917fa57cf6576ee6dac3e924e7b324bf3f14cc5b338f7d6410b729f780404301	420	180	2566
+kit-27/toolbars/_Toolbar page control.png	assets/ios/kit/page-control.png	adaa8ab3bcc070eda4434fd3ef08a4ea3377cd932b27fb67d5ed7d68b0eef28d	1110	510	168231
+kit-27/popup-buttons/Popup Button.png	assets/ios/kit/popup-button.png	2512e11624c7c7166c41047b912b5d11382e07067611ba509955e441b6010b70	120	140	3473
+kit-27/date-and-time-pickers/Pickers.png	assets/ios/kit/date-time-pickers.png	fb811821d5e0b0cc70f82898eb2a3def0e3f82c8752238d07047fd00b03d08ff	1300	620	90830
+kit-27/color-pickers/Color Picker - iPhone.png	assets/ios/kit/color-picker.png	83b408c2ec42d483cd51dbe021616ce80b66f232aba6ade6430a809983f066e8	482	922	122568
+kit-27/text-fields/Light examples.png	assets/ios/kit/text-field-states.png	b1ab9588a9778ad43949db3b50c0b5cbdd7ac67ec470220c9870c213dc03c3cc	440	280	5508
+kit-27/keyboards/iphone/Keyboard.png	assets/ios/kit/keyboard-types-iphone.png	1e238b18e7068f07f62f835a050c65fb49be8f03df76b5bf269461607514c021	4140	470	203152
+kit-27/keyboards/ipad/Keyboard.png	assets/ios/kit/keyboard-ipad.png	7785ebbb62ea897c1752200116ee9324398737c8ecf0e8169b587ac8d83e2c82	2520	470	54358
+kit-27/keyboards/iphone/Accessory Bar - iPhone/Find and Replace.png	assets/ios/kit/find-replace-bar.png	443e50d1c184a8a8bdf2771b608b4d9deced06d3c209637a11f34734d6977276	442	262	39384
+kit-27/keyboards/iphone/Accessory Bar - iPhone/Web Form.png	assets/ios/kit/form-navigation-bar.png	2f7faf6d1c13ad9b7a265ac0e8eb679cf588b6a5268f66459353047404b71f32	442	260	38084
+kit-27/examples/iphone/List.png	assets/ios/kit/list-rows.png	b366acf4e6adb790d081c2ec3413265bc2a9d3d9cf2cb0063d9fc0281709a520	1402	954	170543
+kit-27/lists/Row with Swipe Actions.png	assets/ios/kit/swipe-actions.png	c0233187ab073a163bf811ff0a29967e2f371207dc305d4df5a6c9fbf693155d	900	250	30471
+kit-27/lists/_Edit Buttons/Light.png	assets/ios/kit/edit-mode-controls.png	d4fe7fe5bdbac4b82af91a4479ff72a411299dbe7d8d03589a7cf94b3b8c4e78	70	182	3059
+kit-27/examples/iphone/Empty States.png	assets/ios/kit/empty-states.png	130fc772f9fbddc5c2dd30c35837b5db1d83426f2e430e895faf4e412fb64859	1402	954	116583
+kit-27/toolbars/_Search - Bottom.png	assets/ios/kit/search-field-states.png	549579bb81d572a83c6252c51bf17e2432c90a52c3cfdb22606997b3feed912c	440	240	65400
+kit-27/toolbars/_Search Accessory.png	assets/ios/kit/search-scope-control.png	4a7a486857252651e124848513e739966fe819618f4f6588d3db8fd0d321b349	860	148	32533
+kit-27/widgets/Home Screen Widget - iPhone.png	assets/ios/kit/widget-sizes-iphone.png	cfe78949a379b6a03f392fec1ba2d155ae624fb11342e1f8d7eb8e0e73b18c22	1470	630	203362
+kit-27/widgets/Home Screen Widget - iPad.png	assets/ios/kit/widget-sizes-ipad.png	79ac283fba0fc29ae7b21dab6e90ccd80846d5e459258d81f6d2c163945f4d8d	1470	350	87306
+kit-27/system/Lock Screen - iPhone.png	assets/ios/kit/lock-screen-iphone.png	56ae280e8377c9ec3eadd5f7f15544d31bb40563948f09c91b471850492c0fac	402	874	486263
+kit-27/widgets/Lock Screen Widget - Inline.png	assets/ios/kit/lock-widget-inline.png	ba5ad4947be678f0e73f4f6c4809f179365a74276232917c36732cf4df1e5b45	327	26	2929
+kit-27/widgets/Lock Screen Widget/Circular/Open Gauge 2.png	assets/ios/kit/lock-widget-gauge.png	59d3084689b47a6cf2d67dc90867b1d552663b9bb19b482780b3ca905cea3875	72	72	2616
+kit-27/widgets/Lock Screen Widget/Circular/Stack 3 Rows.png	assets/ios/kit/lock-widget-stack.png	a08d7c53d274ccd89f367a10bb3f9420ebd6ba46e25e70777d6b21e36624b9ee	72	72	3069
+kit-27/examples/iphone/Notifications.png	assets/ios/kit/notifications.png	bb79861e4707fb1ab1795522043b032431f735fd4e80a84781ae5e52fa7eb745	980	933	576785
+kit-27/system/Control Center - iPhone.png	assets/ios/kit/control-center-iphone.png	0ca73f6ce78511d82461e14b36f1260f5f1774eb20fbd28c2fa053a802ab8cda	402	874	263754
+kit-27/system/_Controls - iPhone - 2x1.png	assets/ios/kit/control-tiles.png	31894eae3130e5ef3471eb1063d3ecdda06017dfa7d03512b9200096221accd2	390	200	29666
+kit-27/system/Home Screen Quick Actions - iPhone.png	assets/ios/kit/quick-actions.png	ccf8217078d94bfa3261657b47972f7c602233296aa481012bd51df5619a53a5	402	874	353009
+kit-27/app-icons/_Custom Icon.png	assets/ios/kit/app-icon-appearances.png	6436645d1812aa467454ca24aabd48eda9bc2eec920c13002122f5e291f15009	100	260	16307
+kit-27/app-icons/_Icon Grid.png	assets/ios/kit/app-icon-grid.png	66dc8bb0cda5970fb9998c6b229e8a473cab8f9b571f9863d72d526b2af138e9	256	256	12979
+kit-27/examples/iphone/Face ID.png	assets/ios/kit/face-id.png	50e621c5f2bf860709613d4ce0d8aa69032e3e76e0f03a4b58bf96c4148ef1db	942	954	112574
+kit-27/status-bar-and-menu-bars/Light background examples.png	assets/ios/kit/status-and-menu-bars.png	78e50f409f0b3d0a5dea66a2813e78268f4c933c7b1172913eabe30319085ac2	884	400	19662
+kit-27/colors/Default.png	assets/ios/kit/colors.png	d1d56f18d2835cc7ba6a2fa2cb06b80119da84da014b26fb93559665524936b3	2560	1500	139199
+kit-27/text-styles-and-dynamic-type/Text styles.png	assets/ios/kit/text-styles.png	a0c9e787c0972965749dcb2171f2454c8ba541a449709d2fdf66199864448a8c	1075	1682	162777
+kit-27/text-styles-and-dynamic-type/Dynamic Type.png	assets/ios/kit/dynamic-type.png	5dfaee6017db59e9464375a27ca055790996c5421a427b514cae61fc654a62dd	1520	1184	60079
+kit-27/text-styles-and-dynamic-type/Dynamic Type – Accessibility Sizes.png	assets/ios/kit/dynamic-type-accessibility.png	5e774aad1810c3ab23a1b1aec1f360d7412d6a1dcf57ea3785f344ac9794c85f	1522	1189	84640
+kit-27/materials/Light.png	assets/ios/kit/liquid-glass.png	7ef294a375ff6027aa037461b7d6212e2734fb7ff106973058ef447dd1fcbd14	1008	860	118810
+kit-27/materials/Regular (Default) - Light.png	assets/ios/kit/material-vibrancy.png	047d1ef144fe0da02f4a883e1c5527edc3b7febc9f79ed517926c3fc229d5cb3	620	440	224423
+kit-27/materials/Scroll Edge Effect - Soft.png	assets/ios/kit/scroll-edge-effect.png	c2eaf467c7dd62b4b1c7cea722f5e49e9194d2c9fa9b5c486e85975ba84b816d	240	460	40152

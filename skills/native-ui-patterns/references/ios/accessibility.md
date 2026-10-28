@@ -15,8 +15,9 @@ For a visual accessibility review, choose only the matching control/state row. F
 | Disabled selection actions | Shortcuts [empty selection](../../assets/ios/shortcuts/empty-selection-mode.png) | Enabled/disabled cues beyond position, action grouping, empty context |
 | Disabled commit | Calendar [empty event](../../assets/ios/calendar/event-empty.png) | Done state cues, field focus, control placement around keyboard |
 | Permission choices | Wallet [location permission](../../assets/ios/wallet/location-permission.png) | Choice labels, order, contrast, and surrounding dimmed content |
+| Text-style growth across Dynamic Type sizes | Kit [standard sizes](../../assets/ios/kit/dynamic-type.png) or [accessibility sizes](../../assets/ios/kit/dynamic-type-accessibility.png) | Growth of each style from Large (Default) to the target size; Headline weight |
 | Distinguishable row accessories | Settings [Game Center](../../assets/ios/settings/external-link-rows.png) | Arrow versus chevron, switch, and link-row color as non-color cues |
 
 ## Review boundary
 
-Review name, role, value/state, distinguishability, reading/focus order, and transitions in the target. VoiceOver output/traversal, Switch Control, Dynamic Type adaptation, contrast modes, keyboard, Reduce Motion, orientation, and target sizes remain **Unconfirmed**; screenshots and XCTest labels cannot establish them.
+Review name, role, value/state, distinguishability, reading/focus order, and transitions in the target. VoiceOver output/traversal, Switch Control, Dynamic Type adaptation (the kit shows only the type scale), contrast modes, keyboard, Reduce Motion, orientation, and target sizes remain **Unconfirmed**; screenshots and XCTest labels cannot establish them.

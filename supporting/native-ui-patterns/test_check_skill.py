@@ -128,12 +128,19 @@ class RuntimeEvidenceTests(unittest.TestCase):
         skill = self.runtime / "SKILL.md"
         skill.write_text(
             skill.read_text(encoding="utf-8").replace(
-                "| Switches, filters, and value controls | [iOS editing](references/ios/editing.md) |",
+                "| Buttons, switches, sliders, pickers, filters, value controls | [iOS controls](references/ios/controls.md) | [Android editing](references/android/editing.md) |",
                 "| Switches, filters, and value controls | Record a coverage gap |",
             ),
             encoding="utf-8",
         )
         self.assert_rejected("SKILL.md still records the iOS value-control gap")
+
+    def test_rejects_missing_new_route(self) -> None:
+        route = self.runtime / "references/ios/system-surfaces.md"
+        route.unlink(missing_ok=True)
+        self.assert_rejected(
+            "missing expected runtime path: references/ios/system-surfaces.md"
+        )
 
     def test_accepts_current_runtime(self) -> None:
         self.assertEqual(self.errors(), [])
@@ -209,6 +216,55 @@ class ArchiveEvidenceTests(unittest.TestCase):
                 any("PNG" in error for error in errors),
                 errors,
             )
+
+    def kit_errors(self, change) -> list[str]:
+        with tempfile.TemporaryDirectory() as temporary:
+            archive = Path(temporary) / "native-ui-patterns"
+            shutil.copytree(SOURCE_ARCHIVE, archive)
+            change(archive / "research/notes/ios/kit-27")
+            errors: list[str] = []
+            check_archive(archive, SOURCE_RUNTIME, load_mapping(MAPPING), None, errors)
+            return errors
+
+    def test_rejects_missing_kit_original(self) -> None:
+        errors = self.kit_errors(
+            lambda kit: (kit / "examples/iphone/Slider.png").unlink()
+        )
+        self.assertTrue(
+            any(
+                "kit original missing from kit-27: examples/iphone/Slider.png" in error
+                for error in errors
+            ),
+            errors,
+        )
+
+    def test_rejects_kit_original_duplicated_in_runtime(self) -> None:
+        def copy_selected(kit: Path) -> None:
+            (kit / "examples/iphone/Tab Bar.png").write_bytes(
+                (SOURCE_RUNTIME / "assets/ios/kit/tab-bar-iphone.png").read_bytes()
+            )
+
+        errors = self.kit_errors(copy_selected)
+        self.assertTrue(
+            any("kit original duplicates a runtime PNG" in error for error in errors),
+            errors,
+        )
+
+    def test_rejects_restored_duplicate_kit_copy(self) -> None:
+        def restore_copy(kit: Path) -> None:
+            (kit / "toolbars/Light-2.png").write_bytes(
+                (kit / "toolbars/Light-1.png").read_bytes()
+            )
+
+        errors = self.kit_errors(restore_copy)
+        self.assertTrue(
+            any(
+                "kit original duplicates another kit-27 PNG: toolbars/Light-2.png"
+                in error
+                for error in errors
+            ),
+            errors,
+        )
 
 
 if __name__ == "__main__":

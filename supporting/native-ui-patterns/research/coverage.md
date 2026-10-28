@@ -163,3 +163,20 @@ the [capture note](notes/captures-2026-09-08.md).
 | Action rows | [Observed] blue text-only add and command rows; red destructive rows alone or grouped, with consequence footers (2026-09-08 set) | [Observed] pill buttons and inline creation rows captured in the 2026-09-08 set, not yet imported | [Unconfirmed] activation, confirmation dialogs, and undo were not exercised |
 | Accessibility adaptation | Label-based XCTest activation only | Saved UI Automator labels/states only | Screen-reader traversal, announcements, scaling, contrast, and external keyboard were not tested. |
 | Motion/rotation/layout adaptation | Settled screenshots only | Pre/post settled Maps sheet positions only | Timing, easing, rotation, split screen, landscape, and other form factors were not tested. |
+
+## Kit
+
+The **Kit** evidence class comes from Apple's "iOS and iPadOS 27" Figma design kit, exported by the owner as 378 PNG images and audited on 2026-10-28 (see the [audit](audits/2026-10-28/audit.md)). It covers iPhone and iPad component anatomy and variants: tab bars, sidebars, toolbars, sheets, alerts, action sheets, menus, popovers, buttons, switches, sliders, steppers, segmented controls, pickers, text fields, keyboards, lists, swipe actions, empty states, widgets, Lock Screen, notifications, Control Center, quick actions, app icons, colors, text styles, Dynamic Type, and materials.
+
+| Runtime target | Kit images imported |
+| --- | ---: |
+| iOS navigation | 9 |
+| iOS presentation | 11 |
+| iOS controls | 12 |
+| iOS editing | 4 |
+| iOS content states | 4 |
+| iOS search | 2 |
+| iOS system surfaces | 14 |
+| iOS foundations | 7 |
+
+The 63 imported images live in `skills/native-ui-patterns/assets/ios/kit/`; the other 315 are kept in [`notes/ios/kit-27/`](notes/ios/kit-27/). Kit images show placeholder content and settled appearance only; see [limitations](limitations.md#kit).

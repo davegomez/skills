@@ -2,7 +2,7 @@
 
 ## Guidance
 
-**Observed:** Contacts and Messages led rows with identity, then primary and quieter metadata. Files and Shortcuts used centered empty treatments while retaining navigation or creation. Photos showed a three-column library; Calendar combined date context with an hourly grid; Shortcuts exposed disabled bulk actions in empty selection mode. Settings led rows with a colored icon or an app icon, put a value, price, or count before the chevron, and used label-plus-value rows with no accessory for read-only facts. **Inferred adaptation:** prioritize recognition, name empty conditions, keep meaningful next actions, and preserve context through specialized content/selection. Populated counterparts, populated selection, and content transitions remain **Unconfirmed**.
+**Observed:** Contacts and Messages led rows with identity, then primary and quieter metadata. Files and Shortcuts used centered empty treatments while retaining navigation or creation. Photos showed a three-column library; Calendar combined date context with an hourly grid; Shortcuts exposed disabled bulk actions in empty selection mode. Settings led rows with a colored icon or an app icon, put a value, price, or count before the chevron, and used label-plus-value rows with no accessory for read-only facts. **Kit:** empty states center their copy, with an optional tinted glyph and bold title, and pin one full-width tinted primary action at the bottom. Grouped rows end in a value, blue button text, date or time capsules, a pop-up, stepper, or switch; swipe actions reveal colored capsules, red for destructive. **Inferred adaptation:** prioritize recognition, name empty conditions, keep meaningful next actions, and preserve context through specialized content/selection. Populated counterparts, populated selection, and content transitions remain **Unconfirmed**.
 
 ## Visual references
 
@@ -13,6 +13,10 @@ Choose the exact content question and open only the relevant named state; use bo
 | Identity-led people list or detail | Contacts [list](../../assets/ios/contacts/contact-list.png) or [detail](../../assets/ios/contacts/contact-detail.png) | Open the requested level; inspect badge/text alignment, metadata, and surrounding hierarchy |
 | Conversation rows | Messages [list](../../assets/ios/messages/conversation-list.png) | Identity, primary/secondary text, date/disclosure spacing, surrounding actions |
 | Centered empty destination | Files [empty Recents](../../assets/ios/files/recents-empty.png) | Empty symbol/copy placement, creation availability, surrounding navigation |
+| Empty state with a bottom primary action | Kit [empty states](../../assets/ios/kit/empty-states.png) | Text-only versus glyph, title, and description; full-width tinted pill at the bottom; retained title and toolbar |
+| Row accessories and list styles | Kit [list rows](../../assets/ios/kit/list-rows.png) | Grouped inset accessories, plain rows with revealed actions, indexed letter headers |
+| Leading versus trailing swipe actions | Kit [swipe actions](../../assets/ios/kit/swipe-actions.png) | Icon-only, inline label, and caption forms; gray, blue, green versus gray, orange, red |
+| Edit-mode selection, insert, and delete | Kit [edit controls](../../assets/ios/kit/edit-mode-controls.png) | Empty circle, blue check, green plus, red minus |
 | Temporal day content | Calendar [day view](../../assets/ios/calendar/day-location-permission.png) | Week strip, selected date, hourly grid, current-time rule, prompt context |
 | Media grid | Photos [Library](../../assets/ios/photos/library-notification-permission.png) | Thumbnail alignment/gutters, filter/Select placement, dock and prompt context |
 | Normal versus empty selection mode | Shortcuts [empty library](../../assets/ios/shortcuts/empty-library.png) and [selection mode](../../assets/ios/shortcuts/empty-selection-mode.png) | Compare mode actions, disabled bulk controls, orientation, and empty content |
@@ -23,4 +27,4 @@ Choose the exact content question and open only the relevant named state; use bo
 
 ## Review checks
 
-Check applicable empty/populated, one/many, selected/unselected, and specialized transitions. Check the icon slot, value, and accessory kind per row. Give identity, count, state, and bulk controls programmatic meaning; a settled screenshot does not establish gestures or assistive behavior.
+Check applicable empty/populated, one/many, selected/unselected, and specialized transitions. Check the icon slot, value, and accessory kind per row, plus swipe and edit-mode states. Give identity, count, state, and bulk controls programmatic meaning; a settled screenshot does not establish gestures or assistive behavior.

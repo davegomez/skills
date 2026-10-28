@@ -1,8 +1,10 @@
 # Native UI patterns development archive
 
-This directory preserves the pre-conversion catalog, research, and development checks. The runtime now holds 109 PNG files: the 93 original PNG byte streams plus 16 imported from the 2026-09-08 set. The 93 original PNG byte streams were relocated exactly once to `skills/native-ui-patterns/assets/<platform>/<application>/<state>.png`; catalog and research links now point there. [`screenshot-map.tsv`](screenshot-map.tsv) is the development-only old-path → runtime-path, SHA256, PNG-dimension, and byte-count record. All 57 Android UI Automator XML dumps and archive `.DS_Store` files remain here; the three pre-expansion runtime `.DS_Store` files moved to `preserved-runtime-metadata/` so runtime contains no metadata caches. Supporting documentation may depend on runtime evidence; the runtime never depends on supporting material.
+This directory preserves the pre-conversion catalog, research, and development checks. The runtime now holds 172 PNG files: the 93 original PNG byte streams, 16 imported from the 2026-09-08 set, and 63 imported from the iOS and iPadOS 27 kit set. The 93 original PNG byte streams were relocated exactly once to `skills/native-ui-patterns/assets/<platform>/<application>/<state>.png`; catalog and research links now point there. [`screenshot-map.tsv`](screenshot-map.tsv) is the development-only old-path → runtime-path, SHA256, PNG-dimension, and byte-count record. All 57 Android UI Automator XML dumps and archive `.DS_Store` files remain here; the three pre-expansion runtime `.DS_Store` files moved to `preserved-runtime-metadata/` so runtime contains no metadata caches. Supporting documentation may depend on runtime evidence; the runtime never depends on supporting material.
 
 A second capture set, taken on 2026-09-08, covers Settings on one signed-in physical iPhone 17 Pro and one signed-in physical Pixel 10. Its 20 original Android JPEG byte streams are retained unchanged in [`research/notes/android/captures-2026-09-08/`](research/notes/android/captures-2026-09-08/), and the [capture note](research/notes/captures-2026-09-08.md) records the SHA256, dimensions, and byte count of all 64 originals. Later batches import the selected captures into `skills/native-ui-patterns/assets/<platform>/settings/` under state-named file names, decoding each Android JPEG losslessly to PNG; until a batch imports a capture, the runtime does not contain it. The iOS captures that wait for their batch are kept in [`research/notes/ios/captures-2026-09-08/`](research/notes/ios/captures-2026-09-08/); a batch moves its file from there into the runtime, so no capture exists twice. The audit that selected the captures, its findings and screenshot ledgers, its batch plan, and the redaction tool are archived in [`research/audits/2026-09-08/`](research/audits/2026-09-08/audit.md).
+
+A third set comes from Apple's "iOS and iPadOS 27" Figma design kit: the owner exported 378 PNG images, and an audit on 2026-10-28 reviewed every one. 63 were copied byte-identically into `skills/native-ui-patterns/assets/ios/kit/`; the other 315 include 8 byte-identical duplicate copies, which are not stored (`inventory.tsv` records them); the remaining 307 are kept byte-identically, with their exported folder structure and file names, in [`research/notes/ios/kit-27/`](research/notes/ios/kit-27/), so no kit image exists in both places. Kit rows in the mapping use `kit-27/<exported path>` as `original_path`. The inventory, selection, worker ledgers, and audit report are in [`research/audits/2026-10-28/`](research/audits/2026-10-28/audit.md). The kit images are Apple Design Resources under Apple's licence; they are kept here by the owner's decision of 2026-10-28.
 
 ## Validate
 
@@ -26,7 +28,7 @@ python3 supporting/native-ui-patterns/check_skill.py \
   --runtime-baseline /path/to/pre-expansion/runtime/native-ui-patterns
 ```
 
-The stdlib-only check enforces the exact runtime file set, approved frontmatter and 12 direct routes, local link/anchor closure, allowed dependency direction, and representative text-read budgets. It verifies exactly 109 byte-unique PNGs against the mapping’s hashes, headers, dimensions, and byte counts; platform-correct conditional visual routes for every capture; no supporting PNG outside the pending iOS originals folder, and no pending original that duplicates a runtime PNG; all 47 pattern mappings; 57 XML dumps; and optional baseline preservation. Regression tests exercise duplicate, missing, changed, malformed, unreachable, wrong-platform, and broken/external-link failures plus the visual-versus-text loading instructions. These string checks validate the package contract, not agent behavior.
+The stdlib-only check enforces the exact runtime file set, approved frontmatter and 16 direct routes, local link/anchor closure, allowed dependency direction, and representative text-read budgets. It verifies exactly 172 byte-unique PNGs against the mapping’s hashes, headers, dimensions, and byte counts; platform-correct conditional visual routes for every capture; no supporting PNG outside the pending iOS originals and `kit-27/` folders; no pending or kit original that duplicates a runtime PNG; exactly the 307 non-selected, non-duplicate kit images in `kit-27/`, each matching its inventory hash and each hash stored once; all 47 pattern mappings; 57 XML dumps; and optional baseline preservation. Regression tests exercise duplicate, missing, changed, malformed, unreachable, wrong-platform, and broken/external-link failures, a missing route, a missing kit original, a kit original duplicated in the runtime, and a restored duplicate kit copy, plus the visual-versus-text loading instructions. These string checks validate the package contract, not agent behavior.
 
 ## Provenance and maintenance
 
@@ -48,9 +50,9 @@ Every original catalog section maps to at least one runtime operation file. A so
 | `System permission alert` | iOS onboarding and permissions |
 | `Add and remove rows (application-specific)` | iOS editing |
 | `Content-gated commit control` | iOS editing |
-| `Switch row` | iOS editing |
-| `Inline slider row` | iOS editing |
-| `Visual option picker` | iOS editing |
+| `Switch row` | iOS controls |
+| `Inline slider row` | iOS controls |
+| `Visual option picker` | iOS controls |
 | `Link-style action row` | iOS editing |
 | `Destructive action row` | iOS editing |
 | `Identity-led list row` | iOS content states |
@@ -61,7 +63,7 @@ Every original catalog section maps to at least one runtime operation file. A so
 | `Photo thumbnail grid (application-specific)` | iOS content states |
 | `Time-grid day view (application-specific)` | iOS content states |
 | `Explicit selection mode (application-specific)` | iOS content states |
-| `Anchored overflow menu (application-specific)` | iOS navigation |
+| `Anchored overflow menu (application-specific)` | iOS presentation |
 | `Immediate keyboard focus` | iOS editing |
 | `Accessibility-labeled visible controls` | iOS accessibility |
 | `Bottom navigation with selected destination` | Android navigation |

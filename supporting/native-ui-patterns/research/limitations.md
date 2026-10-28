@@ -56,3 +56,12 @@ The 2026-09-08 capture set is a separate environment. See the [2026-09-08 captur
 Design-guidance and purpose fields are explicitly **Inferred**. They are interpretations of the named evidence, not platform requirements. Recurrence across two or more inspected applications means only recurrence in this bounded sample. Anything not directly supported remains in [uncertain findings](uncertain-findings.md) or the untested boundaries above.
 
 The Applicability line on a catalog entry is **Inferred** as well; it interprets appearance and recurrence, and platform documentation is not evidence for it. Provenance from Settings is not by itself a scope limit, so a Settings-only entry can still carry the value `system control` or `general idiom`.
+
+## Kit
+
+- Kit images come from Apple's "iOS and iPadOS 27" Figma design kit, not from a device or Simulator. They show component anatomy, variants, and iPhone versus iPad differences with placeholder content ("Title", "Detail", "Tab 1"). They do not show behavior, motion, real content, error flows, or what an app does after a tap.
+- A kit image is evidence of how Apple draws a component, not of how a shipping app uses it. Where a stock-app capture shows real context, the capture stays the evidence for that context; no capture was superseded.
+- Measurements read from kit images are pixel estimates of the export, never iOS points.
+- `K091` (`examples/iphone/Picker.png`) has a weekday typo: the left phone's header reads SUN MON WED THU FRI SAT SUN. Do not copy it.
+- `K356`, `K363`, and `K364` (Lock Screen widget Modular Columns, Tall Body with Icon, and Tall Body) export blank.
+- The kit images are Apple Design Resources under Apple's licence, kept here by the owner's decision of 2026-10-28.
