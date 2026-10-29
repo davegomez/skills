@@ -7,11 +7,13 @@ Agent skills for Claude Code, Codex, Cursor, and other agents that the [`skills`
 | Skill | What it does |
 |---|---|
 | [`be-ambitious`](skills/be-ambitious/SKILL.md) | Rewrites a task or prompt to aim higher in altitude, depth, and range, with an outside judge that checks the result. |
+| [`react-testing-library`](skills/react-testing-library/SKILL.md) | Writes and reviews React and React Native component tests with Testing Library, with every rule tied to a source. |
 
 ## Install
 
 ```sh
 npx skills add davegomez/skills --skill be-ambitious
+npx skills add davegomez/skills --skill react-testing-library
 ```
 
 ## Use `be-ambitious`
