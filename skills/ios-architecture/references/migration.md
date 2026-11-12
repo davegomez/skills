@@ -13,7 +13,7 @@ Migrate step by step behind the running app, and keep every identifier that user
 
 **Phase 2: Toolchain and dependencies**
 
-1. Build the app with Xcode 27 and the current SDK. Fix all errors.
+1. Build the app with the baseline Xcode version and the current SDK. Fix all errors.
 2. Adopt the `UIScene` lifecycle if the app does not use it. Apps built with the current SDK do not launch without it.
 3. Remove the `UIDesignRequiresCompatibility` key, and review each screen in the current system appearance. The current SDK ignores the key.
 4. Move all CocoaPods and Carthage dependencies to Swift Package Manager.

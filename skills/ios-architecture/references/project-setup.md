@@ -6,7 +6,7 @@ Set up the project so that every build is reproducible and every environment is 
 
 **Toolchain**
 
-- Use Xcode 27 or later. Pin the exact Xcode version in CI.
+- Use the baseline Xcode version or later. Pin the exact Xcode version in CI.
 - Set Swift 6 language mode in every target.
 - In the app target, set **Default Actor Isolation** to `MainActor` (`SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`).
 - In the app target, set **Approachable Concurrency** to `Yes` (`SWIFT_APPROACHABLE_CONCURRENCY = YES`).
