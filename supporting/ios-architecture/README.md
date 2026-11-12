@@ -1,6 +1,6 @@
 # iOS architecture development archive
 
-`skills/ios-architecture` is the source of truth. [`source/native_ios_application_architecture_guide.md`](source/native_ios_application_architecture_guide.md) is the original guide, archived unchanged on 2026-11-09. Edit the skill, not the archive.
+`skills/ios-architecture` is the source of truth. [`source/native_ios_application_architecture_guide.md`](source/native_ios_application_architecture_guide.md) is the original guide, archived on 2026-11-09. Edit the skill, not the archive.
 
 ## Add the skill to an iOS project
 

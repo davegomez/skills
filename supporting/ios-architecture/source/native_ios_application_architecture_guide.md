@@ -33,7 +33,7 @@ Set up the project so that every build is reproducible and every environment is 
 
 **Toolchain**
 
-- Use Xcode 27 or later. Pin the exact Xcode version in CI.
+- Use the baseline Xcode version or later. Pin the exact Xcode version in CI.
 - Set Swift 6 language mode in every target.
 - In the app target, set **Default Actor Isolation** to `MainActor` (`SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`).
 - In the app target, set **Approachable Concurrency** to `Yes` (`SWIFT_APPROACHABLE_CONCURRENCY = YES`).
@@ -79,7 +79,7 @@ Set up the project so that every build is reproducible and every environment is 
 Use SwiftUI as the default for all new screens. Use other frameworks only where SwiftUI has no equivalent.
 
 - Use system SwiftUI controls first: `List`, `Form`, `Grid`, `LazyVGrid`, `NavigationStack`, and `NavigationSplitView`. They give you accessibility, Dynamic Type, and localization support with no extra work.
-- Use the system design language and materials. Do not depend on compatibility keys that turn off the current system appearance.
+- Use the system design language and materials. The current SDK ignores the `UIDesignRequiresCompatibility` key, so an app cannot turn off the current system appearance.
 - Use UIKit through `UIViewRepresentable`, `UIViewControllerRepresentable`, or `UIHostingController` when SwiftUI has no equivalent. Examples are advanced text editing, some camera flows, and legacy screens.
 - Use the `UIScene` lifecycle in all UIKit code. Apps built with the current SDK fail to launch without it.
 - Use `Canvas` and `TimelineView` for custom drawing and time-driven animation. Add `.drawingGroup()` only after you measure a rendering problem.
@@ -363,7 +363,7 @@ let package = Package(
 )
 ```
 
-Replace `.v26` with your own minimum deployment target. Swift packages do not inherit the app target's concurrency settings, so set them in every manifest.
+Replace `.v26` with your own minimum deployment target. A platform version needs the `swift-tools-version` that introduced it. Swift packages do not inherit the app target's concurrency settings, so set them in every manifest.
 
 ## 7. Navigation and deep links
 
@@ -482,7 +482,7 @@ Use the simplest store that meets your query and sync needs, and put it behind a
 
 **SwiftData migrations:** SwiftData supports `MigrationStage.lightweight` and `MigrationStage.custom(fromVersion:toVersion:willMigrate:didMigrate:)`. Use a custom stage for data changes such as deduplication or derived values.
 
-**Sync to your own server:** Use SwiftData history (`HistoryObserver`) or Core Data persistent history to find local changes since the last sync.
+**Sync to your own server:** Use SwiftData history (`ModelContext.fetchHistory(_:)` with a stored `HistoryToken`) or Core Data persistent history to find local changes since the last sync. `HistoryObserver` reports when new history transactions are available.
 
 **Performance:** Do not choose a store from published benchmarks alone. Measure with your own data shape and volume.
 
@@ -506,14 +506,16 @@ Apply every control in this section to every app. If the data classification is 
 **Logging**
 
 - Use `os.Logger` with 1 subsystem per app and 1 category per module.
-- Dynamic values are private by default in release logs. Mark only non-sensitive values with `privacy: .public`.
+- The system redacts dynamic strings and objects by default. It does not redact integer, floating-point, and Boolean values, so mark a sensitive number `privacy: .private`.
+- Mark only non-sensitive values with `privacy: .public`.
 - Use `privacy: .private(mask: .hash)` to correlate events without exposing values.
 - Use structured key-value messages. Do not log tokens, request bodies, or personal data.
 
 **Privacy requirements**
 
 - Ship `PrivacyInfo.xcprivacy` in the app. Declare collected data types, tracking domains, and a reason code for each required-reason API (file timestamps, system boot time, disk space, active keyboards, `UserDefaults`).
-- Make sure every third-party SDK ships its own privacy manifest and, for binary SDKs, a valid signature.
+- Make sure each third-party SDK that collects data, uses a required-reason API, or contacts tracking domains ships its own privacy manifest.
+- Apple requires a privacy manifest for each SDK on its list of commonly used SDKs, and a signature when a listed SDK is a binary dependency.
 - Keep the App Store privacy labels equal to what the app and its SDKs actually collect.
 - Request App Tracking Transparency permission before you track users across apps or websites. If you do not track, do not show the prompt.
 - Write a purpose string for every permission. Request each permission at the moment the user needs the feature, not at launch.
@@ -522,7 +524,7 @@ Apply every control in this section to every app. If the data classification is 
 **Regulated data (high-level guide, not legal advice)**
 
 - **Health (for example, HIPAA in the US):** Store the minimum protected health information. Encrypt it at rest and in transit. Keep audit logs on the server. Sign a business associate agreement with every vendor that touches the data.
-- **Payments (PCI DSS):** Do not handle raw card numbers. Use Apple Pay or a certified payment SDK so that card data does not enter your systems. Use StoreKit for digital goods, as App Review requires.
+- **Payments (PCI DSS):** Do not handle raw card numbers. Use Apple Pay or a certified payment SDK so that card data does not enter your systems. Use in-app purchase through StoreKit for digital goods, unless an exception in App Review Guideline 3.1 applies.
 - **Personal data (GDPR and similar laws):** Document the legal basis for each data type. Support data export and deletion. Get consent before any optional collection.
 
 Get a legal and compliance review before you release an app that handles regulated data.
@@ -543,14 +545,12 @@ Use Swift 6 strict concurrency everywhere, `MainActor` isolation for UI code, an
 **Rules**
 
 - Make domain types `Sendable` value types.
-- Mark CPU-heavy functions `@concurrent` so that they run off the caller's actor.
+- Mark CPU-heavy `async` functions `@concurrent` so that they run off the caller's actor.
 - Do not use `Task.detached` or `DispatchQueue` to leave the main actor. Call a `@concurrent` function instead. A detached task loses priority, task-local values, and cancellation from its parent.
 - Prefer structured concurrency (`async let`, task groups) over unstructured `Task { }` blocks.
 - Use an `actor` for shared mutable state in services, such as a token refresher or a sync queue.
 - Do not use `@unchecked Sendable` or `nonisolated(unsafe)` without a comment that explains why the code is safe.
 - Do not block the main actor with synchronous I/O.
-
-**Warning:** Generated String Catalog symbols can fail to compile in a target with `MainActor` default isolation. Before you turn on symbol generation in a UI package, build it. If the build fails, use `String(localized:bundle:)` with `#bundle` in that target.
 
 **Error handling**
 
@@ -646,7 +646,7 @@ Make every common task possible with each assistive technology, and publish Acce
 
 **Accessibility Nutrition Labels (required)**
 
-Accessibility Nutrition Labels show on the App Store product page which accessibility features the app supports.
+Accessibility Nutrition Labels show on the App Store product page which accessibility features the app supports. Apple makes the labels voluntary for now and plans to require them. This architecture requires them now.
 
 1. Before the first release, test every common task with each feature: VoiceOver, Voice Control, Larger Text, Dark Interface, Differentiate Without Color Alone, Sufficient Contrast, Reduced Motion, Captions, and Audio Descriptions.
 2. Record the result for each feature and each supported device type.
@@ -707,7 +707,7 @@ Write domain tests first (test-driven development), then feature tests, then a s
 
 - Write all new unit tests in Swift Testing.
 - Move existing XCTest unit tests to Swift Testing step by step. Both frameworks can run in the same test target.
-- Keep UI tests in XCTest, because XCUITest requires it.
+- Keep UI tests in XCTest unless the pinned Xcode version supports UI tests in Swift Testing.
 
 **CI**
 
@@ -751,7 +751,7 @@ The shell gates each feature through its `requirement` property. Feature and dom
 - Read `Transaction.currentEntitlements` at launch to build the entitlement state.
 - Use only `.verified` transactions. StoreKit 2 verifies the JWS signature for you.
 - Call `transaction.finish()` after you deliver the content.
-- Provide a Restore Purchases action. App Review requires it for restorable purchases.
+- Provide a Restore Purchases action that calls `AppStore.sync()`. App Review requires it for restorable purchases. Call `sync()` only from a user action, because it shows an App Store sign-in prompt.
 - Use `SubscriptionStoreView` and `ProductView` for standard paywalls.
 - Use `AppTransaction` to check the original purchase of a paid app.
 - Test purchases with a StoreKit configuration file locally and in the sandbox before release.
@@ -805,7 +805,7 @@ Automate every build and release step, and plan for the fact that you cannot rol
 - [ ] Age rating questionnaire answered
 - [ ] Export compliance declared (`ITSAppUsesNonExemptEncryption` in `Info.plist`)
 - [ ] Privacy policy URL current
-- [ ] Trader status set for distribution in the European Union
+- [ ] Trader status declared for the Digital Services Act, with or without distribution in the European Union
 - [ ] Account deletion available, if the app has accounts
 - [ ] Restore Purchases available, if the app sells restorable purchases
 - [ ] Screenshots and descriptions localized for every supported language
@@ -825,12 +825,13 @@ Migrate step by step behind the running app, and keep every identifier that user
 
 **Phase 2: Toolchain and dependencies**
 
-1. Build the app with Xcode 27 and the current SDK. Fix all errors.
+1. Build the app with the baseline Xcode version and the current SDK. Fix all errors.
 2. Adopt the `UIScene` lifecycle if the app does not use it. Apps built with the current SDK do not launch without it.
-3. Move all CocoaPods and Carthage dependencies to Swift Package Manager.
-4. Remove dependencies that have no maintenance, or wrap them behind a protocol and plan a replacement.
+3. Remove the `UIDesignRequiresCompatibility` key, and review each screen in the current system appearance. The current SDK ignores the key.
+4. Move all CocoaPods and Carthage dependencies to Swift Package Manager.
+5. Remove dependencies that have no maintenance, or wrap them behind a protocol and plan a replacement.
 
-**Warning:** The CocoaPods trunk becomes read-only on December 2, 2026. After that date, pods get no new versions, including security fixes.
+**Warning:** CocoaPods plans to make the trunk read-only on December 2, 2026. After that date, the trunk accepts no new pod versions, including security fixes.
 
 **Phase 3: Structure**
 
@@ -841,7 +842,7 @@ Migrate step by step behind the running app, and keep every identifier that user
 
 **Phase 4: Swift 6 and concurrency**
 
-1. Start with leaf modules that have no dependents.
+1. Start with the outermost modules, which no other module depends on.
 2. In each module, set strict concurrency checking to `Complete` in Swift 5 mode. Fix all warnings.
 3. Switch that module to Swift 6 language mode.
 4. Add the default isolation and upcoming-feature settings from Section 12.
