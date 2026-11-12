@@ -14,14 +14,12 @@ Use Swift 6 strict concurrency everywhere, `MainActor` isolation for UI code, an
 **Rules**
 
 - Make domain types `Sendable` value types.
-- Mark CPU-heavy functions `@concurrent` so that they run off the caller's actor.
+- Mark CPU-heavy `async` functions `@concurrent` so that they run off the caller's actor.
 - Do not use `Task.detached` or `DispatchQueue` to leave the main actor. Call a `@concurrent` function instead. A detached task loses priority, task-local values, and cancellation from its parent.
 - Prefer structured concurrency (`async let`, task groups) over unstructured `Task { }` blocks.
 - Use an `actor` for shared mutable state in services, such as a token refresher or a sync queue.
 - Do not use `@unchecked Sendable` or `nonisolated(unsafe)` without a comment that explains why the code is safe.
 - Do not block the main actor with synchronous I/O.
-
-**Warning:** Generated String Catalog symbols can fail to compile in a target with `MainActor` default isolation. Before you turn on symbol generation in a UI package, build it. If the build fails, use `String(localized:bundle:)` with `#bundle` in that target.
 
 **Error handling**
 

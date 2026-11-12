@@ -256,4 +256,4 @@ let package = Package(
 )
 ```
 
-Replace `.v26` with your own minimum deployment target. Swift packages do not inherit the app target's concurrency settings, so set them in every manifest.
+Replace `.v26` with your own minimum deployment target. A platform version needs the `swift-tools-version` that introduced it. Swift packages do not inherit the app target's concurrency settings, so set them in every manifest.

@@ -3,7 +3,7 @@
 Use SwiftUI as the default for all new screens. Use other frameworks only where SwiftUI has no equivalent.
 
 - Use system SwiftUI controls first: `List`, `Form`, `Grid`, `LazyVGrid`, `NavigationStack`, and `NavigationSplitView`. They give you accessibility, Dynamic Type, and localization support with no extra work.
-- Use the system design language and materials. Do not depend on compatibility keys that turn off the current system appearance.
+- Use the system design language and materials. The current SDK ignores the `UIDesignRequiresCompatibility` key, so an app cannot turn off the current system appearance.
 - Use UIKit through `UIViewRepresentable`, `UIViewControllerRepresentable`, or `UIHostingController` when SwiftUI has no equivalent. Examples are advanced text editing, some camera flows, and legacy screens.
 - Use the `UIScene` lifecycle in all UIKit code. Apps built with the current SDK fail to launch without it.
 - Use `Canvas` and `TimelineView` for custom drawing and time-driven animation. Add `.drawingGroup()` only after you measure a rendering problem.

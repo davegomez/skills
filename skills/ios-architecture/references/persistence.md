@@ -24,6 +24,6 @@ Use the simplest store that meets your query and sync needs, and put it behind a
 
 **SwiftData migrations:** SwiftData supports `MigrationStage.lightweight` and `MigrationStage.custom(fromVersion:toVersion:willMigrate:didMigrate:)`. Use a custom stage for data changes such as deduplication or derived values.
 
-**Sync to your own server:** Use SwiftData history (`HistoryObserver`) or Core Data persistent history to find local changes since the last sync.
+**Sync to your own server:** Use SwiftData history (`ModelContext.fetchHistory(_:)` with a stored `HistoryToken`) or Core Data persistent history to find local changes since the last sync. `HistoryObserver` reports when new history transactions are available.
 
 **Performance:** Do not choose a store from published benchmarks alone. Measure with your own data shape and volume.

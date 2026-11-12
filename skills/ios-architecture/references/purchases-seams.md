@@ -20,7 +20,7 @@ The shell gates each feature through its `requirement` property. Feature and dom
 - Read `Transaction.currentEntitlements` at launch to build the entitlement state.
 - Use only `.verified` transactions. StoreKit 2 verifies the JWS signature for you.
 - Call `transaction.finish()` after you deliver the content.
-- Provide a Restore Purchases action. App Review requires it for restorable purchases.
+- Provide a Restore Purchases action that calls `AppStore.sync()`. App Review requires it for restorable purchases. Call `sync()` only from a user action, because it shows an App Store sign-in prompt.
 - Use `SubscriptionStoreView` and `ProductView` for standard paywalls.
 - Use `AppTransaction` to check the original purchase of a paid app.
 - Test purchases with a StoreKit configuration file locally and in the sandbox before release.

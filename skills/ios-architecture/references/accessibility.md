@@ -14,7 +14,7 @@ Make every common task possible with each assistive technology, and publish Acce
 
 **Accessibility Nutrition Labels (required)**
 
-Accessibility Nutrition Labels show on the App Store product page which accessibility features the app supports.
+Accessibility Nutrition Labels show on the App Store product page which accessibility features the app supports. Apple makes the labels voluntary for now and plans to require them. This architecture requires them now.
 
 1. Before the first release, test every common task with each feature: VoiceOver, Voice Control, Larger Text, Dark Interface, Differentiate Without Color Alone, Sufficient Contrast, Reduced Motion, Captions, and Audio Descriptions.
 2. Record the result for each feature and each supported device type.

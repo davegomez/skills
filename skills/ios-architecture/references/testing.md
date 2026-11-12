@@ -25,7 +25,7 @@ Write domain tests first (test-driven development), then feature tests, then a s
 
 - Write all new unit tests in Swift Testing.
 - Move existing XCTest unit tests to Swift Testing step by step. Both frameworks can run in the same test target.
-- Keep UI tests in XCTest, because XCUITest requires it.
+- Keep UI tests in XCTest unless the pinned Xcode version supports UI tests in Swift Testing.
 
 **CI**
 

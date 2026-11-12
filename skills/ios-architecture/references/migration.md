@@ -15,10 +15,11 @@ Migrate step by step behind the running app, and keep every identifier that user
 
 1. Build the app with Xcode 27 and the current SDK. Fix all errors.
 2. Adopt the `UIScene` lifecycle if the app does not use it. Apps built with the current SDK do not launch without it.
-3. Move all CocoaPods and Carthage dependencies to Swift Package Manager.
-4. Remove dependencies that have no maintenance, or wrap them behind a protocol and plan a replacement.
+3. Remove the `UIDesignRequiresCompatibility` key, and review each screen in the current system appearance. The current SDK ignores the key.
+4. Move all CocoaPods and Carthage dependencies to Swift Package Manager.
+5. Remove dependencies that have no maintenance, or wrap them behind a protocol and plan a replacement.
 
-**Warning:** The CocoaPods trunk becomes read-only on December 2, 2026. After that date, pods get no new versions, including security fixes.
+**Warning:** CocoaPods plans to make the trunk read-only on December 2, 2026. After that date, the trunk accepts no new pod versions, including security fixes.
 
 **Phase 3: Structure**
 
@@ -29,7 +30,7 @@ Migrate step by step behind the running app, and keep every identifier that user
 
 **Phase 4: Swift 6 and concurrency**
 
-1. Start with leaf modules that have no dependents.
+1. Start with the outermost modules, which no other module depends on.
 2. In each module, set strict concurrency checking to `Complete` in Swift 5 mode. Fix all warnings.
 3. Switch that module to Swift 6 language mode.
 4. Add the default isolation and upcoming-feature settings from [Concurrency and reliability](concurrency.md).

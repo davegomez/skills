@@ -29,7 +29,7 @@ Automate every build and release step, and plan for the fact that you cannot rol
 - [ ] Age rating questionnaire answered
 - [ ] Export compliance declared (`ITSAppUsesNonExemptEncryption` in `Info.plist`)
 - [ ] Privacy policy URL current
-- [ ] Trader status set for distribution in the European Union
+- [ ] Trader status declared for the Digital Services Act, with or without distribution in the European Union
 - [ ] Account deletion available, if the app has accounts
 - [ ] Restore Purchases available, if the app sells restorable purchases
 - [ ] Screenshots and descriptions localized for every supported language
