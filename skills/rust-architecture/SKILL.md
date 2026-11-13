@@ -53,7 +53,7 @@ Examples: Wait for the dependency cooldown on a 1-day-old release that fixes a b
 | HTTP routes, CLI arguments and subcommands, GPUI navigation, dropped or opened files | [routing and input](references/routing-input.md) |
 | HTTP servers or clients, middleware, TLS, gRPC, timeouts, retries | [networking](references/networking.md) |
 | Sign-in, sessions, JWTs, passwords, stored credentials | [authentication](references/authentication.md) |
-| Stored data, SQL, schemas, migrations, pools, config files | [persistence](references/persistence.md) |
+| Stored data, the selection of a store or a database host, SQL, schemas, migrations, pools, config files | [persistence](references/persistence.md) |
 | Secrets, `unsafe`, FFI, input across a trust boundary, error messages, logs, randomness, regulated data | [security and privacy](references/security-privacy.md) |
 | Async code, Tokio, locks, blocking work, task groups, GPUI with Tokio, error types | [concurrency](references/concurrency.md) |
 | A `main` function, startup, health checks, signals, shutdown, exit codes, containers | [lifecycle](references/lifecycle.md) |
