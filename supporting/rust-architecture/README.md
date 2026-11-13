@@ -21,6 +21,7 @@ The reference text is an edit of the guide, not a copy:
 - Notes that Cargo, the compiler, or the supply-chain gates already report are gone, for example renamed crate features and fixed RustSec advisories.
 - The citation markers are gone. Each "section N" reference is a link to its file.
 - The code examples are unchanged, except that each comment that cites a section names the reference file.
+- `persistence.md` selects the store and the PostgreSQL host from a store profile of the project. The guide gives 1 store for each app type. `deviations.md` has the thresholds that change the selection.
 
 | Guide section | Reference file |
 | --- | --- |
