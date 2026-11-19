@@ -148,6 +148,30 @@ cp "$work/good/Helper.swift" "$work/goodjev/Helper.swift"
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/route "$S/route" "$work/goodjev" Helper.swift)
 expect "route: Jev routes an unrouted file" "$?:$(rows "$out" Helper.swift)" "0:architecture concurrency localization security-privacy testing"
 
+cat >"$work/good/BookCache.swift" <<'EOF'
+struct BookCache {
+    static let standard = BookCache(fileURL: URL.cachesDirectory.appending(path: "reading-list.json"))
+    let fileURL: URL
+    func load() throws -> [Book] {
+        return try JSONDecoder().decode([Book].self, from: Data(contentsOf: fileURL))
+    }
+    func save(_ data: Data) throws {
+        try data.write(to: fileURL, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+    }
+}
+EOF
+out=$("$S/route" "$work/good" BookCache.swift)
+has "route: a file cache routes to persistence" "$(rows "$out" BookCache.swift)" "persistence"
+for line in 'let u = URL.documentsDirectory' 'let u = .applicationSupportDirectory' 'let d = Data(contentsOf: u)' 'try s.write(to: u, atomically: true, encoding: .utf8)' 'let p = NSFileProtectionComplete'; do
+  printf '%s\n' "$line" >"$work/good/Store.swift"
+  has "route: persistence pattern: $line" "$(rows "$("$S/route" "$work/good" Store.swift)" Store.swift)" "persistence"
+done
+printf 'struct Echo {\n    func emit(into output: inout String) { value.write(to: &output) }\n}\n' >"$work/good/Echo.swift"
+out=$("$S/route" "$work/good" Echo.swift Helper.swift)
+hasnt "route: a stream write has no persistence row" "$(rows "$out" Echo.swift)" "persistence"
+hasnt "route: a file with no pattern has no persistence row" "$(rows "$out" Helper.swift)" "persistence"
+rm "$work/good/BookCache.swift" "$work/good/Store.swift" "$work/good/Echo.swift"
+
 cp -R "$fx/project-good" "$work/repo"
 git -C "$work/repo" init -q
 git -C "$work/repo" add -A
