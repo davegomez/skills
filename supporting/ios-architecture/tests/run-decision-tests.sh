@@ -402,6 +402,18 @@ init(configuration: ReadConfiguration) throws {
 struct OpenNoteIntent: AppIntent {
 @Parameter(title: "Note") var noteID: String
 struct NoteQuery: EntityQuery {
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+extension AppDelegate: UNUserNotificationCenterDelegate {
+func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+let link = notification.request.content.userInfo["link"] as? String
+let action = connectionOptions.shortcutItem?.type
+func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem) async -> Bool {
+let item = UIApplicationShortcutItem(type: "compose", localizedTitle: "Compose")
+PhotosPicker(selection: $selection, matching: .images) { Text("Choose") }
+let picker = PHPickerViewController(configuration: config)
+@State private var selection: PhotosPickerItem?
+let data = try await item.loadTransferable(type: Data.self)
 init?(url: URL) {
 guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
 let components = URLComponents(string: link)
@@ -415,6 +427,8 @@ var components = URLComponents(url: baseURL.appending(path: endpoint.path), reso
 components?.queryItems = endpoint.query
 let components = URLComponents(string: "https://api.example.com/search")
 return endpoint.query.isEmpty ? url : url.appending(queryItems: endpoint.query)
+let reason = (error as NSError).userInfo[NSLocalizedFailureReasonErrorKey] as? String
+NotificationCenter.default.publisher(for: .didSync).compactMap { $0.userInfo?["count"] as? Int }
 EOF
 for f in "$fx"/calibration/trust/*.swift; do
   expect "decide: calibration fixture $(basename "$f") routes to Jev" "$(tb_source "$f")" jev
