@@ -1,0 +1,63 @@
+#!/usr/bin/env -S python3 -I
+"""Scaffold gate: scaffold a project, run xcodebuild test on a named simulator, and prove the accessibility audit ran.
+  gates/scaffold-sim [--skill <skill-dir>] [--keep]       default: the working-tree skill
+It waits for the grading queue and runs on its own new simulator, deleted afterwards. Jev is blocked. Exit 0 only when
+xcodebuild test passes and the result bundle records testRootScreenPassesAccessibilityAudit as passed.
+Run supporting/ios-architecture/tests/run-scaffold-tests.sh as well; this gate adds the simulator run.
+"""
+import json, shutil, subprocess, sys, tempfile
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from common import OUT, SCRATCH, SKILL_SRC, blocked_env, die, grading_simulator
+
+AUDIT = "testRootScreenPassesAccessibilityAudit"
+
+
+def test_nodes(node):
+    if isinstance(node, dict):
+        if node.get("nodeType") == "Test Case": yield node
+        for c in node.get("children", []) + node.get("testNodes", []): yield from test_nodes(c)
+    elif isinstance(node, list):
+        for c in node: yield from test_nodes(c)
+
+
+def main(skill: Path, keep: bool) -> int:
+    tmp = Path(tempfile.mkdtemp(prefix="iosev-scaffold-"))
+    env = blocked_env(SCRATCH / "sbin")
+    sdk = subprocess.run(["xcrun", "--sdk", "iphoneos", "--show-sdk-version"], capture_output=True, text=True, check=True).stdout.strip()
+    app = tmp / "app"; app.mkdir()
+    (app / "ios-architecture.json").write_text(json.dumps({"app_name": "MyApp", "bundle_id_prefix": "com.example", "minimum_ios": sdk, "team_size": 1,
+        "regulated_data": False, "cross_device_sync": False, "cross_platform_accounts": False, "store": "files", "code_may_leave_machine": False}))
+    s = subprocess.run([str(skill / "scripts" / "scaffold"), str(app)], capture_output=True, text=True, env=env)
+    print(f"scaffold: exit {s.returncode}")
+    if s.returncode: print(s.stderr[-2000:]); return 1
+    bundle = tmp / "test.xcresult"
+    with grading_simulator() as udid:
+        t = subprocess.run(["xcodebuild", "test", "-workspace", str(app / "MyApp.xcworkspace"), "-scheme", "MyApp", "-destination", f"id={udid}",
+                            "-derivedDataPath", str(tmp / "dd"), "-resultBundlePath", str(bundle), "CODE_SIGNING_ALLOWED=NO"],
+                           capture_output=True, text=True, env=env, cwd=app)
+    (tmp / "xcodebuild.log").write_text(t.stdout + t.stderr)
+    print(f"xcodebuild test on simulator {udid}: exit {t.returncode} (log {tmp / 'xcodebuild.log'})")
+    tests = json.loads(subprocess.run(["xcrun", "xcresulttool", "get", "test-results", "tests", "--path", str(bundle)],
+                                      capture_output=True, text=True, check=True).stdout) if bundle.exists() else {}
+    cases = list(test_nodes(tests))
+    audit = [c for c in cases if c.get("name", "").startswith(AUDIT)]
+    evidence = {"simulator": udid, "xcodebuild_exit": t.returncode, "tests_run": len(cases),
+                "tests_passed": sum(c.get("result") == "Passed" for c in cases),
+                "audit": [{"name": c.get("name"), "result": c.get("result"), "duration": c.get("duration"), "id": c.get("nodeIdentifier")} for c in audit],
+                "result_bundle": str(bundle)}
+    ok = t.returncode == 0 and any(a["result"] == "Passed" for a in evidence["audit"])
+    (OUT / "gates").mkdir(parents=True, exist_ok=True)
+    (OUT / "gates" / "scaffold-sim.json").write_text(json.dumps(evidence | {"ok": ok}, indent=1))
+    print(json.dumps(evidence, indent=1))
+    print("ok: the accessibility audit test executed and passed" if ok else "FAIL")
+    if not keep and ok: shutil.rmtree(tmp, ignore_errors=True)
+    return 0 if ok else 1
+
+
+if __name__ == "__main__":
+    args, skill = sys.argv[1:], SKILL_SRC
+    if args[:1] == ["--skill"]: skill, args = Path(args[1]).resolve(), args[2:]
+    if args not in ([], ["--keep"]): die(__doc__)
+    sys.exit(main(skill, args == ["--keep"]))

@@ -1,0 +1,2832 @@
+diff --git a/App/Config/Debug.xcconfig b/App/Config/Debug.xcconfig
+new file mode 100644
+index 0000000..f04b8c2
+--- /dev/null
++++ b/App/Config/Debug.xcconfig
+@@ -0,0 +1,14 @@
++#include "Shared.xcconfig"
++
++// Environment: a side-by-side install with its own bundle ID suffix and app icon.
++BUNDLE_ID_SUFFIX = .debug
++APP_ICON_NAME = AppIcon-Debug
++// $() keeps "//" from starting a comment.
++API_BASE_URL = https:/$()/dev.api.example.com
++
++SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG $(inherited)
++SWIFT_OPTIMIZATION_LEVEL = -Onone
++GCC_OPTIMIZATION_LEVEL = 0
++ONLY_ACTIVE_ARCH = YES
++ENABLE_TESTABILITY = YES
++DEBUG_INFORMATION_FORMAT = dwarf
+diff --git a/App/Config/Release.xcconfig b/App/Config/Release.xcconfig
+new file mode 100644
+index 0000000..a7e1aee
+--- /dev/null
++++ b/App/Config/Release.xcconfig
+@@ -0,0 +1,12 @@
++#include "Shared.xcconfig"
++
++// Environment: production.
++BUNDLE_ID_SUFFIX =
++APP_ICON_NAME = AppIcon
++// $() keeps "//" from starting a comment.
++API_BASE_URL = https:/$()/api.example.com
++
++SWIFT_COMPILATION_MODE = wholemodule
++SWIFT_OPTIMIZATION_LEVEL = -O
++DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
++VALIDATE_PRODUCT = YES
+diff --git a/App/Config/Shared.xcconfig b/App/Config/Shared.xcconfig
+new file mode 100644
+index 0000000..b7fc535
+--- /dev/null
++++ b/App/Config/Shared.xcconfig
+@@ -0,0 +1,22 @@
++// Settings for every target and every environment. Put no secrets in .xcconfig files:
++// anyone can extract them from the app bundle.
++
++SDKROOT = iphoneos
++SUPPORTED_PLATFORMS = iphoneos iphonesimulator
++TARGETED_DEVICE_FAMILY = 1,2
++IPHONEOS_DEPLOYMENT_TARGET = 27.3
++
++SWIFT_VERSION = 5.0
++SWIFT_APPROACHABLE_CONCURRENCY = YES
++SWIFT_EMIT_LOC_STRINGS = YES
++LOCALIZATION_PREFERS_STRING_CATALOGS = YES
++ENABLE_USER_SCRIPT_SANDBOXING = YES
++ALWAYS_SEARCH_USER_PATHS = NO
++
++// Signing: set your team ID here, or select the team in Signing & Capabilities.
++CODE_SIGN_STYLE = Automatic
++DEVELOPMENT_TEAM =
++
++APP_BUNDLE_ID = com.example.eval.PackingList$(BUNDLE_ID_SUFFIX)
++MARKETING_VERSION = 1.0
++CURRENT_PROJECT_VERSION = 1
+diff --git a/App/Config/Staging.xcconfig b/App/Config/Staging.xcconfig
+new file mode 100644
+index 0000000..a1f7937
+--- /dev/null
++++ b/App/Config/Staging.xcconfig
+@@ -0,0 +1,11 @@
++#include "Shared.xcconfig"
++
++// Environment: a side-by-side install with its own bundle ID suffix and app icon.
++BUNDLE_ID_SUFFIX = .staging
++APP_ICON_NAME = AppIcon-Staging
++// $() keeps "//" from starting a comment.
++API_BASE_URL = https:/$()/staging.api.example.com
++
++SWIFT_COMPILATION_MODE = wholemodule
++SWIFT_OPTIMIZATION_LEVEL = -O
++DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+diff --git a/App/PackingList.xcodeproj/project.pbxproj b/App/PackingList.xcodeproj/project.pbxproj
+new file mode 100644
+index 0000000..f2e6e87
+--- /dev/null
++++ b/App/PackingList.xcodeproj/project.pbxproj
+@@ -0,0 +1,451 @@
++// !$*UTF8*$!
++{
++	archiveVersion = 1;
++	classes = {
++	};
++	objectVersion = 77;
++	objects = {
++
++/* Begin PBXBuildFile section */
++		047EF19E2FEBA9CB42D38E36 /* PackingFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 9E8A169B687FF49A5107BB99 /* PackingFeature */; };
++		0A0000000000000000000060 /* FeatureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0000000000000000000050 /* FeatureKit */; };
++		0A0000000000000000000061 /* CoreClients in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0000000000000000000051 /* CoreClients */; };
++		0A0000000000000000000062 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0000000000000000000052 /* Networking */; };
++		0A0000000000000000000063 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0000000000000000000053 /* Persistence */; };
++/* End PBXBuildFile section */
++
++/* Begin PBXContainerItemProxy section */
++		0A0000000000000000000028 /* PBXContainerItemProxy */ = {
++			isa = PBXContainerItemProxy;
++			containerPortal = 0A0000000000000000000001 /* Project object */;
++			proxyType = 1;
++			remoteGlobalIDString = 0A0000000000000000000020;
++			remoteInfo = PackingList;
++		};
++/* End PBXContainerItemProxy section */
++
++/* Begin PBXFileReference section */
++		0A0000000000000000000010 /* PackingList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PackingList.app; sourceTree = BUILT_PRODUCTS_DIR; };
++		0A0000000000000000000011 /* PackingListUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PackingListUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
++		0A0000000000000000000012 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
++		0A0000000000000000000013 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
++		0A0000000000000000000014 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
++		0A0000000000000000000015 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
++/* End PBXFileReference section */
++
++/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
++		0A0000000000000000000007 /* Exceptions for "PackingList" folder in "PackingList" target */ = {
++			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
++			membershipExceptions = (
++				Info.plist,
++			);
++			target = 0A0000000000000000000020 /* PackingList */;
++		};
++/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
++
++/* Begin PBXFileSystemSynchronizedRootGroup section */
++		0A0000000000000000000005 /* PackingList */ = {
++			isa = PBXFileSystemSynchronizedRootGroup;
++			exceptions = (
++				0A0000000000000000000007 /* Exceptions for "PackingList" folder in "PackingList" target */,
++			);
++			path = PackingList;
++			sourceTree = "<group>";
++		};
++		0A0000000000000000000006 /* PackingListUITests */ = {
++			isa = PBXFileSystemSynchronizedRootGroup;
++			path = PackingListUITests;
++			sourceTree = "<group>";
++		};
++/* End PBXFileSystemSynchronizedRootGroup section */
++
++/* Begin PBXFrameworksBuildPhase section */
++		0A0000000000000000000023 /* Frameworks */ = {
++			isa = PBXFrameworksBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++				047EF19E2FEBA9CB42D38E36 /* PackingFeature in Frameworks */,
++				0A0000000000000000000060 /* FeatureKit in Frameworks */,
++				0A0000000000000000000061 /* CoreClients in Frameworks */,
++				0A0000000000000000000062 /* Networking in Frameworks */,
++				0A0000000000000000000063 /* Persistence in Frameworks */,
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++		0A0000000000000000000026 /* Frameworks */ = {
++			isa = PBXFrameworksBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXFrameworksBuildPhase section */
++
++/* Begin PBXGroup section */
++		0A0000000000000000000002 = {
++			isa = PBXGroup;
++			children = (
++				0A0000000000000000000005 /* PackingList */,
++				0A0000000000000000000006 /* PackingListUITests */,
++				0A0000000000000000000004 /* Config */,
++				0A0000000000000000000003 /* Products */,
++			);
++			sourceTree = "<group>";
++		};
++		0A0000000000000000000003 /* Products */ = {
++			isa = PBXGroup;
++			children = (
++				0A0000000000000000000010 /* PackingList.app */,
++				0A0000000000000000000011 /* PackingListUITests.xctest */,
++			);
++			name = Products;
++			sourceTree = "<group>";
++		};
++		0A0000000000000000000004 /* Config */ = {
++			isa = PBXGroup;
++			children = (
++				0A0000000000000000000012 /* Shared.xcconfig */,
++				0A0000000000000000000013 /* Debug.xcconfig */,
++				0A0000000000000000000014 /* Staging.xcconfig */,
++				0A0000000000000000000015 /* Release.xcconfig */,
++			);
++			path = Config;
++			sourceTree = "<group>";
++		};
++/* End PBXGroup section */
++
++/* Begin PBXNativeTarget section */
++		0A0000000000000000000020 /* PackingList */ = {
++			isa = PBXNativeTarget;
++			buildConfigurationList = 0A0000000000000000000031 /* Build configuration list for PBXNativeTarget "PackingList" */;
++			buildPhases = (
++				0A0000000000000000000022 /* Sources */,
++				0A0000000000000000000023 /* Frameworks */,
++				0A0000000000000000000024 /* Resources */,
++			);
++			buildRules = (
++			);
++			dependencies = (
++			);
++			fileSystemSynchronizedGroups = (
++				0A0000000000000000000005 /* PackingList */,
++			);
++			name = PackingList;
++			packageProductDependencies = (
++				9E8A169B687FF49A5107BB99 /* PackingFeature */,
++				0A0000000000000000000050 /* FeatureKit */,
++				0A0000000000000000000051 /* CoreClients */,
++				0A0000000000000000000052 /* Networking */,
++				0A0000000000000000000053 /* Persistence */,
++			);
++			productName = PackingList;
++			productReference = 0A0000000000000000000010 /* PackingList.app */;
++			productType = "com.apple.product-type.application";
++		};
++		0A0000000000000000000021 /* PackingListUITests */ = {
++			isa = PBXNativeTarget;
++			buildConfigurationList = 0A0000000000000000000032 /* Build configuration list for PBXNativeTarget "PackingListUITests" */;
++			buildPhases = (
++				0A0000000000000000000025 /* Sources */,
++				0A0000000000000000000026 /* Frameworks */,
++				0A0000000000000000000027 /* Resources */,
++			);
++			buildRules = (
++			);
++			dependencies = (
++				0A0000000000000000000029 /* PBXTargetDependency */,
++			);
++			fileSystemSynchronizedGroups = (
++				0A0000000000000000000006 /* PackingListUITests */,
++			);
++			name = PackingListUITests;
++			productName = PackingListUITests;
++			productReference = 0A0000000000000000000011 /* PackingListUITests.xctest */;
++			productType = "com.apple.product-type.bundle.ui-testing";
++		};
++/* End PBXNativeTarget section */
++
++/* Begin PBXProject section */
++		0A0000000000000000000001 /* Project object */ = {
++			isa = PBXProject;
++			attributes = {
++				BuildIndependentTargetsInParallel = 1;
++				TargetAttributes = {
++					0A0000000000000000000021 = {
++						TestTargetID = 0A0000000000000000000020;
++					};
++				};
++			};
++			buildConfigurationList = 0A0000000000000000000030 /* Build configuration list for PBXProject "PackingList" */;
++			developmentRegion = en;
++			hasScannedForEncodings = 0;
++			knownRegions = (
++				en,
++				Base,
++			);
++			mainGroup = 0A0000000000000000000002;
++			minimizedProjectReferenceProxies = 1;
++			packageReferences = (
++				587E594604CF2004FCAB493D /* XCLocalSwiftPackageReference "../Packages/Features/Packing" */,
++				0A0000000000000000000040 /* XCLocalSwiftPackageReference "../Packages/Core" */,
++				0A0000000000000000000041 /* XCLocalSwiftPackageReference "../Packages/Networking" */,
++				0A0000000000000000000042 /* XCLocalSwiftPackageReference "../Packages/Persistence" */,
++			);
++			preferredProjectObjectVersion = 77;
++			productRefGroup = 0A0000000000000000000003 /* Products */;
++			projectDirPath = "";
++			projectRoot = "";
++			targets = (
++				0A0000000000000000000020 /* PackingList */,
++				0A0000000000000000000021 /* PackingListUITests */,
++			);
++		};
++/* End PBXProject section */
++
++/* Begin PBXResourcesBuildPhase section */
++		0A0000000000000000000024 /* Resources */ = {
++			isa = PBXResourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++		0A0000000000000000000027 /* Resources */ = {
++			isa = PBXResourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXResourcesBuildPhase section */
++
++/* Begin PBXSourcesBuildPhase section */
++		0A0000000000000000000022 /* Sources */ = {
++			isa = PBXSourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++		0A0000000000000000000025 /* Sources */ = {
++			isa = PBXSourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXSourcesBuildPhase section */
++
++/* Begin PBXTargetDependency section */
++		0A0000000000000000000029 /* PBXTargetDependency */ = {
++			isa = PBXTargetDependency;
++			target = 0A0000000000000000000020 /* PackingList */;
++			targetProxy = 0A0000000000000000000028 /* PBXContainerItemProxy */;
++		};
++/* End PBXTargetDependency section */
++
++/* Begin XCBuildConfiguration section */
++		0A0000000000000000000033 /* Debug */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 0A0000000000000000000013 /* Debug.xcconfig */;
++			buildSettings = {
++			};
++			name = Debug;
++		};
++		0A0000000000000000000034 /* Staging */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 0A0000000000000000000014 /* Staging.xcconfig */;
++			buildSettings = {
++			};
++			name = Staging;
++		};
++		0A0000000000000000000035 /* Release */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 0A0000000000000000000015 /* Release.xcconfig */;
++			buildSettings = {
++			};
++			name = Release;
++		};
++		0A0000000000000000000036 /* Debug */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON_NAME)";
++				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
++				CODE_SIGN_ENTITLEMENTS = PackingList/PackingList.entitlements;
++				GENERATE_INFOPLIST_FILE = YES;
++				INFOPLIST_FILE = PackingList/Info.plist;
++				INFOPLIST_KEY_CFBundleDisplayName = PackingList;
++				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
++				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
++				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
++				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
++				LD_RUNPATH_SEARCH_PATHS = (
++					"$(inherited)",
++					"@executable_path/Frameworks",
++				);
++				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
++			};
++			name = Debug;
++		};
++		0A0000000000000000000037 /* Staging */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON_NAME)";
++				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
++				CODE_SIGN_ENTITLEMENTS = PackingList/PackingList.entitlements;
++				GENERATE_INFOPLIST_FILE = YES;
++				INFOPLIST_FILE = PackingList/Info.plist;
++				INFOPLIST_KEY_CFBundleDisplayName = PackingList;
++				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
++				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
++				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
++				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
++				LD_RUNPATH_SEARCH_PATHS = (
++					"$(inherited)",
++					"@executable_path/Frameworks",
++				);
++				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
++			};
++			name = Staging;
++		};
++		0A0000000000000000000038 /* Release */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON_NAME)";
++				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
++				CODE_SIGN_ENTITLEMENTS = PackingList/PackingList.entitlements;
++				GENERATE_INFOPLIST_FILE = YES;
++				INFOPLIST_FILE = PackingList/Info.plist;
++				INFOPLIST_KEY_CFBundleDisplayName = PackingList;
++				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
++				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
++				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
++				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
++				LD_RUNPATH_SEARCH_PATHS = (
++					"$(inherited)",
++					"@executable_path/Frameworks",
++				);
++				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
++			};
++			name = Release;
++		};
++		0A0000000000000000000039 /* Debug */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				GENERATE_INFOPLIST_FILE = YES;
++				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).uitests";
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				TEST_TARGET_NAME = PackingList;
++			};
++			name = Debug;
++		};
++		0A000000000000000000003A /* Staging */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				GENERATE_INFOPLIST_FILE = YES;
++				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).uitests";
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				TEST_TARGET_NAME = PackingList;
++			};
++			name = Staging;
++		};
++		0A000000000000000000003B /* Release */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				GENERATE_INFOPLIST_FILE = YES;
++				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).uitests";
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				TEST_TARGET_NAME = PackingList;
++			};
++			name = Release;
++		};
++/* End XCBuildConfiguration section */
++
++/* Begin XCConfigurationList section */
++		0A0000000000000000000030 /* Build configuration list for PBXProject "PackingList" */ = {
++			isa = XCConfigurationList;
++			buildConfigurations = (
++				0A0000000000000000000033 /* Debug */,
++				0A0000000000000000000034 /* Staging */,
++				0A0000000000000000000035 /* Release */,
++			);
++			defaultConfigurationIsVisible = 0;
++			defaultConfigurationName = Release;
++		};
++		0A0000000000000000000031 /* Build configuration list for PBXNativeTarget "PackingList" */ = {
++			isa = XCConfigurationList;
++			buildConfigurations = (
++				0A0000000000000000000036 /* Debug */,
++				0A0000000000000000000037 /* Staging */,
++				0A0000000000000000000038 /* Release */,
++			);
++			defaultConfigurationIsVisible = 0;
++			defaultConfigurationName = Release;
++		};
++		0A0000000000000000000032 /* Build configuration list for PBXNativeTarget "PackingListUITests" */ = {
++			isa = XCConfigurationList;
++			buildConfigurations = (
++				0A0000000000000000000039 /* Debug */,
++				0A000000000000000000003A /* Staging */,
++				0A000000000000000000003B /* Release */,
++			);
++			defaultConfigurationIsVisible = 0;
++			defaultConfigurationName = Release;
++		};
++/* End XCConfigurationList section */
++
++/* Begin XCLocalSwiftPackageReference section */
++		587E594604CF2004FCAB493D /* XCLocalSwiftPackageReference "../Packages/Features/Packing" */ = {
++			isa = XCLocalSwiftPackageReference;
++			relativePath = ../Packages/Features/Packing;
++		};
++		0A0000000000000000000040 /* XCLocalSwiftPackageReference "../Packages/Core" */ = {
++			isa = XCLocalSwiftPackageReference;
++			relativePath = ../Packages/Core;
++		};
++		0A0000000000000000000041 /* XCLocalSwiftPackageReference "../Packages/Networking" */ = {
++			isa = XCLocalSwiftPackageReference;
++			relativePath = ../Packages/Networking;
++		};
++		0A0000000000000000000042 /* XCLocalSwiftPackageReference "../Packages/Persistence" */ = {
++			isa = XCLocalSwiftPackageReference;
++			relativePath = ../Packages/Persistence;
++		};
++/* End XCLocalSwiftPackageReference section */
++
++/* Begin XCSwiftPackageProductDependency section */
++		9E8A169B687FF49A5107BB99 /* PackingFeature */ = {
++			isa = XCSwiftPackageProductDependency;
++			package = 587E594604CF2004FCAB493D /* XCLocalSwiftPackageReference "../Packages/Features/Packing" */;
++			productName = PackingFeature;
++		};
++		0A0000000000000000000050 /* FeatureKit */ = {
++			isa = XCSwiftPackageProductDependency;
++			package = 0A0000000000000000000040 /* XCLocalSwiftPackageReference "../Packages/Core" */;
++			productName = FeatureKit;
++		};
++		0A0000000000000000000051 /* CoreClients */ = {
++			isa = XCSwiftPackageProductDependency;
++			package = 0A0000000000000000000040 /* XCLocalSwiftPackageReference "../Packages/Core" */;
++			productName = CoreClients;
++		};
++		0A0000000000000000000052 /* Networking */ = {
++			isa = XCSwiftPackageProductDependency;
++			package = 0A0000000000000000000041 /* XCLocalSwiftPackageReference "../Packages/Networking" */;
++			productName = Networking;
++		};
++		0A0000000000000000000053 /* Persistence */ = {
++			isa = XCSwiftPackageProductDependency;
++			package = 0A0000000000000000000042 /* XCLocalSwiftPackageReference "../Packages/Persistence" */;
++			productName = Persistence;
++		};
++/* End XCSwiftPackageProductDependency section */
++	};
++	rootObject = 0A0000000000000000000001 /* Project object */;
++}
+diff --git a/App/PackingList/AppShell/AppRoute.swift b/App/PackingList/AppShell/AppRoute.swift
+new file mode 100644
+index 0000000..c7df506
+--- /dev/null
++++ b/App/PackingList/AppShell/AppRoute.swift
+@@ -0,0 +1,6 @@
++import FeatureKit
++
++/// Every destination of the root navigation stack. `Codable`, so that navigation state can be restored.
++nonisolated enum AppRoute: Hashable, Codable {
++    case feature(FeatureID)
++}
+diff --git a/App/PackingList/AppShell/AppRouter.swift b/App/PackingList/AppShell/AppRouter.swift
+new file mode 100644
+index 0000000..8a0db4f
+--- /dev/null
++++ b/App/PackingList/AppShell/AppRouter.swift
+@@ -0,0 +1,12 @@
++import FeatureKit
++import Observation
++
++/// The navigation state of the shell: the selected feature and the stack of routes on top of it.
++@Observable
++final class AppRouter {
++    var selection: FeatureID?
++    var path: [AppRoute] = []
++
++    func open(_ route: AppRoute) { path.append(route) }
++    func popToRoot() { path.removeAll() }
++}
+diff --git a/App/PackingList/AppShell/RootView.swift b/App/PackingList/AppShell/RootView.swift
+new file mode 100644
+index 0000000..c339186
+--- /dev/null
++++ b/App/PackingList/AppShell/RootView.swift
+@@ -0,0 +1,73 @@
++import FeatureKit
++import SwiftUI
++
++/// Renders navigation from the registry only, and gates each feature through its requirement.
++struct RootView: View {
++    let registry: FeatureRegistry
++    let context: FeatureContext
++    @Bindable var router: AppRouter
++    @State private var entitledProducts: Set<String> = []
++    @State private var compactColumn: NavigationSplitViewColumn
++
++    init(registry: FeatureRegistry, context: FeatureContext, router: AppRouter) {
++        self.registry = registry
++        self.context = context
++        self.router = router
++        // On iPhone, show the selected feature instead of the feature list.
++        _compactColumn = State(initialValue: router.selection == nil ? .sidebar : .detail)
++    }
++
++    var body: some View {
++        NavigationSplitView(preferredCompactColumn: $compactColumn) {
++            List(registry.features, id: \.id, selection: $router.selection) { feature in
++                Label {
++                    Text(feature.metadata.title)
++                } icon: {
++                    Image(systemName: feature.metadata.systemImage)
++                }
++            }
++            .navigationTitle(Text("Features"))
++        } detail: {
++            NavigationStack(path: $router.path) {
++                content(for: router.selection)
++                    .navigationDestination(for: AppRoute.self) { route in
++                        switch route {
++                        case .feature(let id): content(for: id)
++                        }
++                    }
++            }
++        }
++        .task { entitledProducts = await loadEntitledProducts() }
++    }
++
++    @ViewBuilder
++    private func content(for id: FeatureID?) -> some View {
++        if let id, let feature = registry.feature(for: id) {
++            if isUnlocked(feature) {
++                feature.makeRootView(context: context)
++            } else {
++                ContentUnavailableView("Locked", systemImage: "lock", description: Text("This feature needs a purchase."))
++            }
++        } else if registry.features.isEmpty {
++            ContentUnavailableView("No Features", systemImage: "square.grid.2x2")
++        } else {
++            ContentUnavailableView("Select a Feature", systemImage: "sidebar.left")
++        }
++    }
++
++    private func isUnlocked(_ feature: any Feature) -> Bool {
++        switch feature.requirement {
++        case .none: true
++        case .product(let productID): entitledProducts.contains(productID)
++        }
++    }
++
++    private func loadEntitledProducts() async -> Set<String> {
++        var products: Set<String> = []
++        for case .product(let productID) in registry.features.map(\.requirement)
++        where await context.services.entitlements.isEntitled(toProduct: productID) {
++            products.insert(productID)
++        }
++        return products
++    }
++}
+diff --git a/App/PackingList/Info.plist b/App/PackingList/Info.plist
+new file mode 100644
+index 0000000..3766a79
+--- /dev/null
++++ b/App/PackingList/Info.plist
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>APIBaseURL</key>
++	<string>$(API_BASE_URL)</string>
++	<key>ITSAppUsesNonExemptEncryption</key>
++	<false/>
++</dict>
++</plist>
+diff --git a/App/PackingList/PackingList.entitlements b/App/PackingList/PackingList.entitlements
+new file mode 100644
+index 0000000..21d46e7
+--- /dev/null
++++ b/App/PackingList/PackingList.entitlements
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>com.apple.developer.default-data-protection</key>
++	<string>NSFileProtectionCompleteUntilFirstUserAuthentication</string>
++</dict>
++</plist>
+diff --git a/App/PackingList/PackingList.swift b/App/PackingList/PackingList.swift
+new file mode 100644
+index 0000000..7d0a9ef
+--- /dev/null
++++ b/App/PackingList/PackingList.swift
+@@ -0,0 +1,74 @@
++import CoreClients
++import FeatureKit
++import Foundation
++import Networking
++import Persistence
++import SwiftUI
++// ios-architecture:feature-imports
++import PackingFeature
++
++/// The composition root: it builds the live services, registers the features, and owns root navigation.
++@main
++struct PackingListApp: App {
++    @State private var router = AppRouter()
++    private let registry: FeatureRegistry
++    private let context: FeatureContext
++
++    init() {
++        var registry = FeatureRegistry()
++        Self.registerFeatures(in: &registry)
++        self.registry = registry
++        // An app with 1 feature opens on it.
++        let router = AppRouter()
++        if registry.features.count == 1 { router.selection = registry.features.first?.id }
++        _router = State(initialValue: router)
++        context = FeatureContext(services: Self.makeServices(bundle: .main))
++    }
++
++    var body: some Scene {
++        WindowGroup {
++            RootView(registry: registry, context: context, router: router)
++        }
++    }
++
++    /// `scripts/new-feature` adds 1 `register` line at the marker.
++    private static func registerFeatures(in registry: inout FeatureRegistry) {
++        // ios-architecture:register-features
++        registry.register(PackingEntry())
++    }
++
++    private static func makeServices(bundle: Bundle) -> Services {
++        let diagnostics = OSLogDiagnostics(subsystem: bundle.bundleIdentifier ?? "PackingList")
++        return Services(
++            http: LiveHTTPClient(baseURL: apiBaseURL(bundle), diagnostics: diagnostics),
++            store: FileStore(
++                directory: .applicationSupportDirectory.appending(path: "Store", directoryHint: .isDirectory),
++                protection: .completeFileProtectionUntilFirstUserAuthentication
++            ),
++            entitlements: DefaultEntitlements(grantAll: isDebugBuild),
++            analytics: NoOpAnalytics(),
++            flags: CompiledFeatureFlags(),
++            diagnostics: diagnostics,
++            auth: SignedOutAuthClient(),
++            notifications: NoOpNotificationClient(),
++            clock: ContinuousClock(),
++            uuid: .live
++        )
++    }
++
++    /// The environment comes from the `.xcconfig` file of the build configuration, through Info.plist.
++    private static func apiBaseURL(_ bundle: Bundle) -> URL {
++        guard let value = bundle.object(forInfoDictionaryKey: "APIBaseURL") as? String,
++              let url = URL(string: value), url.scheme == "https", url.host() != nil
++        else {
++            fatalError("Set API_BASE_URL to an HTTPS URL in the .xcconfig file of this build configuration.")
++        }
++        return url
++    }
++
++    #if DEBUG
++    private static let isDebugBuild = true
++    #else
++    private static let isDebugBuild = false
++    #endif
++}
+diff --git a/App/PackingList/PrivacyInfo.xcprivacy b/App/PackingList/PrivacyInfo.xcprivacy
+new file mode 100644
+index 0000000..e08a130
+--- /dev/null
++++ b/App/PackingList/PrivacyInfo.xcprivacy
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>NSPrivacyTracking</key>
++	<false/>
++	<key>NSPrivacyTrackingDomains</key>
++	<array/>
++	<key>NSPrivacyCollectedDataTypes</key>
++	<array/>
++	<key>NSPrivacyAccessedAPITypes</key>
++	<array/>
++</dict>
++</plist>
+diff --git a/App/PackingList/Resources/Assets.xcassets/AccentColor.colorset/Contents.json b/App/PackingList/Resources/Assets.xcassets/AccentColor.colorset/Contents.json
+new file mode 100644
+index 0000000..9076b62
+--- /dev/null
++++ b/App/PackingList/Resources/Assets.xcassets/AccentColor.colorset/Contents.json
+@@ -0,0 +1,38 @@
++{
++  "colors" : [
++    {
++      "color" : {
++        "color-space" : "srgb",
++        "components" : {
++          "alpha" : "1.000",
++          "blue" : "0xC2",
++          "green" : "0x52",
++          "red" : "0x00"
++        }
++      },
++      "idiom" : "universal"
++    },
++    {
++      "appearances" : [
++        {
++          "appearance" : "luminosity",
++          "value" : "dark"
++        }
++      ],
++      "color" : {
++        "color-space" : "srgb",
++        "components" : {
++          "alpha" : "1.000",
++          "blue" : "0xFF",
++          "green" : "0xA4",
++          "red" : "0x5A"
++        }
++      },
++      "idiom" : "universal"
++    }
++  ],
++  "info" : {
++    "author" : "xcode",
++    "version" : 1
++  }
++}
+diff --git a/App/PackingList/Resources/Assets.xcassets/AppIcon-Debug.appiconset/Contents.json b/App/PackingList/Resources/Assets.xcassets/AppIcon-Debug.appiconset/Contents.json
+new file mode 100644
+index 0000000..2305880
+--- /dev/null
++++ b/App/PackingList/Resources/Assets.xcassets/AppIcon-Debug.appiconset/Contents.json
+@@ -0,0 +1,35 @@
++{
++  "images" : [
++    {
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    },
++    {
++      "appearances" : [
++        {
++          "appearance" : "luminosity",
++          "value" : "dark"
++        }
++      ],
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    },
++    {
++      "appearances" : [
++        {
++          "appearance" : "luminosity",
++          "value" : "tinted"
++        }
++      ],
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    }
++  ],
++  "info" : {
++    "author" : "xcode",
++    "version" : 1
++  }
++}
+diff --git a/App/PackingList/Resources/Assets.xcassets/AppIcon-Staging.appiconset/Contents.json b/App/PackingList/Resources/Assets.xcassets/AppIcon-Staging.appiconset/Contents.json
+new file mode 100644
+index 0000000..2305880
+--- /dev/null
++++ b/App/PackingList/Resources/Assets.xcassets/AppIcon-Staging.appiconset/Contents.json
+@@ -0,0 +1,35 @@
++{
++  "images" : [
++    {
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    },
++    {
++      "appearances" : [
++        {
++          "appearance" : "luminosity",
++          "value" : "dark"
++        }
++      ],
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    },
++    {
++      "appearances" : [
++        {
++          "appearance" : "luminosity",
++          "value" : "tinted"
++        }
++      ],
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    }
++  ],
++  "info" : {
++    "author" : "xcode",
++    "version" : 1
++  }
++}
+diff --git a/App/PackingList/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json b/App/PackingList/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json
+new file mode 100644
+index 0000000..2305880
+--- /dev/null
++++ b/App/PackingList/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json
+@@ -0,0 +1,35 @@
++{
++  "images" : [
++    {
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    },
++    {
++      "appearances" : [
++        {
++          "appearance" : "luminosity",
++          "value" : "dark"
++        }
++      ],
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    },
++    {
++      "appearances" : [
++        {
++          "appearance" : "luminosity",
++          "value" : "tinted"
++        }
++      ],
++      "idiom" : "universal",
++      "platform" : "ios",
++      "size" : "1024x1024"
++    }
++  ],
++  "info" : {
++    "author" : "xcode",
++    "version" : 1
++  }
++}
+diff --git a/App/PackingList/Resources/Assets.xcassets/Contents.json b/App/PackingList/Resources/Assets.xcassets/Contents.json
+new file mode 100644
+index 0000000..73c0059
+--- /dev/null
++++ b/App/PackingList/Resources/Assets.xcassets/Contents.json
+@@ -0,0 +1,6 @@
++{
++  "info" : {
++    "author" : "xcode",
++    "version" : 1
++  }
++}
+diff --git a/App/PackingList/Resources/InfoPlist.xcstrings b/App/PackingList/Resources/InfoPlist.xcstrings
+new file mode 100644
+index 0000000..95db71a
+--- /dev/null
++++ b/App/PackingList/Resources/InfoPlist.xcstrings
+@@ -0,0 +1,18 @@
++{
++  "sourceLanguage" : "en",
++  "strings" : {
++    "CFBundleDisplayName" : {
++      "comment" : "Name of the app on the Home Screen.",
++      "extractionState" : "extracted_with_value",
++      "localizations" : {
++        "en" : {
++          "stringUnit" : {
++            "state" : "new",
++            "value" : "PackingList"
++          }
++        }
++      }
++    }
++  },
++  "version" : "1.0"
++}
+diff --git a/App/PackingList/Resources/Localizable.xcstrings b/App/PackingList/Resources/Localizable.xcstrings
+new file mode 100644
+index 0000000..c726fcd
+--- /dev/null
++++ b/App/PackingList/Resources/Localizable.xcstrings
+@@ -0,0 +1,21 @@
++{
++  "sourceLanguage" : "en",
++  "strings" : {
++    "Features" : {
++      "comment" : "Title of the list of features in the sidebar."
++    },
++    "Locked" : {
++      "comment" : "Title shown in place of a feature that needs a purchase."
++    },
++    "No Features" : {
++      "comment" : "Title shown when the app has no features."
++    },
++    "Select a Feature" : {
++      "comment" : "Title shown when no feature is selected in the sidebar."
++    },
++    "This feature needs a purchase." : {
++      "comment" : "Description shown in place of a feature that needs a purchase."
++    }
++  },
++  "version" : "1.0"
++}
+diff --git a/App/PackingListUITests/AccessibilityAuditTests.swift b/App/PackingListUITests/AccessibilityAuditTests.swift
+new file mode 100644
+index 0000000..2aae0af
+--- /dev/null
++++ b/App/PackingListUITests/AccessibilityAuditTests.swift
+@@ -0,0 +1,11 @@
++import XCTest
++
++/// Runs the automated accessibility audit on each main screen. Add 1 test for each new main screen.
++final class AccessibilityAuditTests: XCTestCase {
++    @MainActor
++    func testRootScreenPassesAccessibilityAudit() throws {
++        let app = XCUIApplication()
++        app.launch()
++        try app.performAccessibilityAudit()
++    }
++}
+diff --git a/Packages/Core/Package.swift b/Packages/Core/Package.swift
+new file mode 100644
+index 0000000..1234f51
+--- /dev/null
++++ b/Packages/Core/Package.swift
+@@ -0,0 +1,27 @@
++// swift-tools-version: 6.4
++import PackageDescription
++
++// Swift packages do not inherit the concurrency settings of the app target.
++let concurrency: [SwiftSetting] = [
++    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
++    .enableUpcomingFeature("InferIsolatedConformances"),
++]
++
++let package = Package(
++    name: "Core",
++    // The macOS entry lets `swift test` run on the development Mac.
++    platforms: [.iOS("27.3"), .macOS("27.3")],
++    products: [
++        .library(name: "FeatureKit", targets: ["FeatureKit"]),
++        .library(name: "CoreClients", targets: ["CoreClients"]),
++        .library(name: "CoreTesting", targets: ["CoreTesting"]),
++    ],
++    targets: [
++        .target(name: "CoreClients", swiftSettings: concurrency),
++        .target(name: "FeatureKit", dependencies: ["CoreClients"], swiftSettings: concurrency),
++        .target(name: "CoreTesting", dependencies: ["CoreClients", "FeatureKit"], swiftSettings: concurrency),
++        .testTarget(name: "CoreClientsTests", dependencies: ["CoreClients", "CoreTesting"], swiftSettings: concurrency),
++        .testTarget(name: "FeatureKitTests", dependencies: ["FeatureKit"], swiftSettings: concurrency),
++    ],
++    swiftLanguageModes: [.v6]
++)
+diff --git a/Packages/Core/Sources/CoreClients/Determinism.swift b/Packages/Core/Sources/CoreClients/Determinism.swift
+new file mode 100644
+index 0000000..7f47695
+--- /dev/null
++++ b/Packages/Core/Sources/CoreClients/Determinism.swift
+@@ -0,0 +1,26 @@
++import Foundation
++
++/// Makes UUIDs. Inject it, so that tests get known values.
++public struct UUIDGenerator: Sendable {
++    private let make: @Sendable () -> UUID
++    public init(_ make: @escaping @Sendable () -> UUID) { self.make = make }
++    public func callAsFunction() -> UUID { make() }
++    public static let live = UUIDGenerator { UUID() }
++}
++
++/// Reproducible random numbers for tests and simulations.
++/// Do not use it for security: use `SystemRandomNumberGenerator` or `SecRandomCopyBytes` for tokens, nonces, and keys.
++public struct SeededGenerator: RandomNumberGenerator, Sendable {
++    private var state: UInt64
++
++    public init(seed: UInt64) { state = seed }
++
++    // SplitMix64: fast and reproducible, not cryptographically secure.
++    public mutating func next() -> UInt64 {
++        state &+= 0x9E37_79B9_7F4A_7C15
++        var z = state
++        z = (z ^ (z >> 30)) &* 0xBF58_476D_1CE4_E5B9
++        z = (z ^ (z >> 27)) &* 0x94D0_49BB_1331_11EB
++        return z ^ (z >> 31)
++    }
++}
+diff --git a/Packages/Core/Sources/CoreClients/HTTPClient.swift b/Packages/Core/Sources/CoreClients/HTTPClient.swift
+new file mode 100644
+index 0000000..5fc101c
+--- /dev/null
++++ b/Packages/Core/Sources/CoreClients/HTTPClient.swift
+@@ -0,0 +1,53 @@
++import Foundation
++
++/// Sends typed endpoints. The live implementation is in the `Networking` package.
++public protocol HTTPClient: Sendable {
++    func send<Response: Decodable & Sendable>(_ endpoint: Endpoint<Response>) async throws -> Response
++}
++
++/// 1 request: method, path, query, body, and the expected response type.
++public struct Endpoint<Response: Decodable & Sendable>: Sendable {
++    public enum Method: String, Sendable {
++        case get = "GET", put = "PUT", post = "POST", patch = "PATCH", delete = "DELETE"
++    }
++
++    public let method: Method
++    public let path: String
++    public let query: [URLQueryItem]
++    public let body: Data?
++
++    public init(_ method: Method = .get, path: String, query: [URLQueryItem] = [], body: Data? = nil) {
++        self.method = method
++        self.path = path
++        self.query = query
++        self.body = body
++    }
++
++    /// Only idempotent requests are retried.
++    public var isIdempotent: Bool {
++        switch method {
++        case .get, .put, .delete: true
++        case .post, .patch: false
++        }
++    }
++}
++
++/// Expected HTTP failures. Map them to user-facing messages in the feature layer.
++public enum HTTPError: Error, Equatable, Sendable {
++    case invalidURL
++    case invalidResponse
++    case status(Int)
++    case unexpectedContentType
++    case responseTooLarge
++    case malformedBody
++    case transport(URLError.Code)
++
++    /// A later attempt can succeed.
++    public var isRetryable: Bool {
++        switch self {
++        case .transport: true
++        case .status(let code): code == 408 || code == 429 || code >= 500
++        default: false
++        }
++    }
++}
+diff --git a/Packages/Core/Sources/CoreClients/KeyValueStore.swift b/Packages/Core/Sources/CoreClients/KeyValueStore.swift
+new file mode 100644
+index 0000000..fe08e31
+--- /dev/null
++++ b/Packages/Core/Sources/CoreClients/KeyValueStore.swift
+@@ -0,0 +1,23 @@
++import Foundation
++
++/// Stores data by key. The live implementation is in the `Persistence` package.
++public protocol KeyValueStore: Sendable {
++    func data(forKey key: String) async throws -> Data?
++    /// Stores `data`, or removes the value when `data` is `nil`.
++    func set(_ data: Data?, forKey key: String) async throws
++}
++
++public enum KeyValueStoreError: Error, Equatable, Sendable {
++    case invalidKey
++}
++
++extension KeyValueStoreError {
++    /// Rejects keys that could leave the store folder: a key has 1 to 128 letters, digits, `.`, `_`, or `-`,
++    /// and does not start with `.`.
++    public static func validate(_ key: String) throws(KeyValueStoreError) {
++        let allowed = Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-")
++        guard (1...128).contains(key.count), key.first != ".", key.allSatisfy(allowed.contains) else {
++            throw .invalidKey
++        }
++    }
++}
+diff --git a/Packages/Core/Sources/CoreClients/Seams.swift b/Packages/Core/Sources/CoreClients/Seams.swift
+new file mode 100644
+index 0000000..f3925e5
+--- /dev/null
++++ b/Packages/Core/Sources/CoreClients/Seams.swift
+@@ -0,0 +1,115 @@
++import Foundation
++import os
++
++// Each cross-cutting seam is a protocol with a safe default. The shell builds the live values.
++
++// MARK: Entitlements
++
++public protocol EntitlementService: Sendable {
++    func isEntitled(toProduct productID: String) async -> Bool
++}
++
++/// Entitled in debug builds. Denied in release builds until a StoreKit service verifies a transaction.
++public struct DefaultEntitlements: EntitlementService {
++    private let grantAll: Bool
++    public init(grantAll: Bool) { self.grantAll = grantAll }
++    public func isEntitled(toProduct productID: String) async -> Bool { grantAll }
++}
++
++// MARK: Authentication
++
++public enum AuthState: Equatable, Sendable {
++    case signedOut
++    case signedIn(userID: String)
++}
++
++public protocol AuthClient: Sendable {
++    func state() async -> AuthState
++    func signOut() async
++}
++
++/// Signed out; signing out does nothing.
++public struct SignedOutAuthClient: AuthClient {
++    public init() {}
++    public func state() async -> AuthState { .signedOut }
++    public func signOut() async {}
++}
++
++// MARK: Analytics
++
++/// Every analytics event. Events carry no personal data.
++public enum AnalyticsEvent: Equatable, Sendable {
++    case featureOpened(featureID: String)
++}
++
++public protocol AnalyticsClient: Sendable {
++    func track(_ event: AnalyticsEvent)
++}
++
++public struct NoOpAnalytics: AnalyticsClient {
++    public init() {}
++    public func track(_ event: AnalyticsEvent) {}
++}
++
++// MARK: Feature flags
++
++/// A flag with its compiled default. Make the default the safe value.
++public struct FeatureFlag: Hashable, Sendable {
++    public let name: String
++    public let defaultValue: Bool
++    public init(name: String, defaultValue: Bool) {
++        self.name = name
++        self.defaultValue = defaultValue
++    }
++}
++
++public protocol FeatureFlagProvider: Sendable {
++    func isEnabled(_ flag: FeatureFlag) -> Bool
++}
++
++/// Returns the compiled default of each flag.
++public struct CompiledFeatureFlags: FeatureFlagProvider {
++    public init() {}
++    public func isEnabled(_ flag: FeatureFlag) -> Bool { flag.defaultValue }
++}
++
++// MARK: Diagnostics
++
++/// Every diagnostic event. Typed cases keep personal data and payloads out of the logs.
++public enum DiagnosticEvent: Equatable, Sendable {
++    case httpResponse(requestID: String, status: Int)
++    case httpTransportFailure(requestID: String, code: Int)
++}
++
++public protocol DiagnosticsClient: Sendable {
++    func record(_ event: DiagnosticEvent)
++}
++
++/// Logs with `os.Logger`: 1 subsystem for the app, 1 category for each module.
++public struct OSLogDiagnostics: DiagnosticsClient {
++    private let subsystem: String
++    public init(subsystem: String) { self.subsystem = subsystem }
++
++    public func record(_ event: DiagnosticEvent) {
++        switch event {
++        case let .httpResponse(requestID, status):
++            Logger(subsystem: subsystem, category: "Networking")
++                .info("http.response requestID=\(requestID, privacy: .public) status=\(status, privacy: .public)")
++        case let .httpTransportFailure(requestID, code):
++            Logger(subsystem: subsystem, category: "Networking")
++                .error("http.transport_failure requestID=\(requestID, privacy: .public) code=\(code, privacy: .public)")
++        }
++    }
++}
++
++// MARK: Notifications
++
++public protocol NotificationClient: Sendable {
++    /// Asks for permission. Call it at the moment the user needs the feature, not at launch.
++    func requestAuthorization() async -> Bool
++}
++
++public struct NoOpNotificationClient: NotificationClient {
++    public init() {}
++    public func requestAuthorization() async -> Bool { false }
++}
+diff --git a/Packages/Core/Sources/CoreTesting/Fakes.swift b/Packages/Core/Sources/CoreTesting/Fakes.swift
+new file mode 100644
+index 0000000..f52b854
+--- /dev/null
++++ b/Packages/Core/Sources/CoreTesting/Fakes.swift
+@@ -0,0 +1,103 @@
++import CoreClients
++import FeatureKit
++import Foundation
++import os
++
++/// A clock that does not wait. `sleep` returns at once, or throws when the task is cancelled.
++public struct ImmediateClock: Clock {
++    public struct Instant: InstantProtocol {
++        public let offset: Duration
++        public init(offset: Duration = .zero) { self.offset = offset }
++        public func advanced(by duration: Duration) -> Instant { Instant(offset: offset + duration) }
++        public func duration(to other: Instant) -> Duration { other.offset - offset }
++        public static func < (lhs: Instant, rhs: Instant) -> Bool { lhs.offset < rhs.offset }
++    }
++
++    public init() {}
++    public var now: Instant { Instant() }
++    public var minimumResolution: Duration { .zero }
++    public func sleep(until deadline: Instant, tolerance: Duration?) async throws {
++        try Task.checkCancellation()
++    }
++}
++
++extension UUIDGenerator {
++    /// Makes 00000000-0000-0000-0000-000000000000, then ...0001, and so on.
++    public static func incrementing() -> UUIDGenerator {
++        let counter = OSAllocatedUnfairLock(initialState: 0)
++        return UUIDGenerator {
++            let value = counter.withLock { count in
++                defer { count += 1 }
++                return count
++            }
++            var bytes = [UInt8](repeating: 0, count: 16)
++            withUnsafeBytes(of: UInt64(value).bigEndian) { bytes.replaceSubrange(8..<16, with: $0) }
++            return bytes.withUnsafeBytes { UUID(uuid: $0.load(as: uuid_t.self)) }
++        }
++    }
++}
++
++/// Answers each path from a fixed table of JSON bodies. Unknown paths fail with status 404.
++public struct FakeHTTPClient: HTTPClient {
++    private let responses: [String: Data]
++    public init(responses: [String: Data] = [:]) { self.responses = responses }
++
++    public func send<Response: Decodable & Sendable>(_ endpoint: Endpoint<Response>) async throws -> Response {
++        guard let body = responses[endpoint.path] else { throw HTTPError.status(404) }
++        do {
++            return try JSONDecoder().decode(Response.self, from: body)
++        } catch {
++            throw HTTPError.malformedBody
++        }
++    }
++}
++
++/// Keeps values in memory, with the same key rules as the live store.
++public actor InMemoryKeyValueStore: KeyValueStore {
++    private var values: [String: Data]
++    public init(values: [String: Data] = [:]) { self.values = values }
++
++    public func data(forKey key: String) throws -> Data? {
++        try KeyValueStoreError.validate(key)
++        return values[key]
++    }
++
++    public func set(_ data: Data?, forKey key: String) throws {
++        try KeyValueStoreError.validate(key)
++        values[key] = data
++    }
++}
++
++/// Entitled to the given products only.
++public struct FakeEntitlements: EntitlementService {
++    private let products: Set<String>
++    public init(products: Set<String> = []) { self.products = products }
++    public func isEntitled(toProduct productID: String) async -> Bool { products.contains(productID) }
++}
++
++/// Discards every diagnostic event.
++public struct NoOpDiagnostics: DiagnosticsClient {
++    public init() {}
++    public func record(_ event: DiagnosticEvent) {}
++}
++
++extension Services {
++    /// Services for tests and previews: fakes and safe defaults, with no network and no disk.
++    public static func fake(
++        http: any HTTPClient = FakeHTTPClient(),
++        store: any KeyValueStore = InMemoryKeyValueStore(),
++        entitlements: any EntitlementService = FakeEntitlements(),
++        analytics: any AnalyticsClient = NoOpAnalytics(),
++        flags: any FeatureFlagProvider = CompiledFeatureFlags(),
++        diagnostics: any DiagnosticsClient = NoOpDiagnostics(),
++        auth: any AuthClient = SignedOutAuthClient(),
++        notifications: any NotificationClient = NoOpNotificationClient(),
++        clock: any Clock<Duration> = ImmediateClock(),
++        uuid: UUIDGenerator = .incrementing()
++    ) -> Services {
++        Services(
++            http: http, store: store, entitlements: entitlements, analytics: analytics, flags: flags,
++            diagnostics: diagnostics, auth: auth, notifications: notifications, clock: clock, uuid: uuid
++        )
++    }
++}
+diff --git a/Packages/Core/Sources/FeatureKit/Feature.swift b/Packages/Core/Sources/FeatureKit/Feature.swift
+new file mode 100644
+index 0000000..d488db3
+--- /dev/null
++++ b/Packages/Core/Sources/FeatureKit/Feature.swift
+@@ -0,0 +1,88 @@
++import CoreClients
++import SwiftUI
++
++public struct FeatureID: Hashable, Codable, Sendable {
++    public let rawValue: String
++    public init(_ rawValue: String) { self.rawValue = rawValue }
++}
++
++public struct FeatureMetadata: Sendable {
++    public let title: LocalizedStringResource
++    public let systemImage: String
++    public init(title: LocalizedStringResource, systemImage: String) {
++        self.title = title
++        self.systemImage = systemImage
++    }
++}
++
++/// What the shell checks before it shows a feature. Feature and domain code never check purchases.
++public enum EntitlementRequirement: Equatable, Sendable {
++    case none
++    case product(String)
++}
++
++/// Every service a feature can use. Only the composition root builds the live values.
++public struct Services: Sendable {
++    public let http: any HTTPClient
++    public let store: any KeyValueStore
++    public let entitlements: any EntitlementService
++    public let analytics: any AnalyticsClient
++    public let flags: any FeatureFlagProvider
++    public let diagnostics: any DiagnosticsClient
++    public let auth: any AuthClient
++    public let notifications: any NotificationClient
++    public let clock: any Clock<Duration>
++    public let uuid: UUIDGenerator
++
++    public init(
++        http: any HTTPClient,
++        store: any KeyValueStore,
++        entitlements: any EntitlementService,
++        analytics: any AnalyticsClient,
++        flags: any FeatureFlagProvider,
++        diagnostics: any DiagnosticsClient,
++        auth: any AuthClient,
++        notifications: any NotificationClient,
++        clock: any Clock<Duration>,
++        uuid: UUIDGenerator
++    ) {
++        self.http = http
++        self.store = store
++        self.entitlements = entitlements
++        self.analytics = analytics
++        self.flags = flags
++        self.diagnostics = diagnostics
++        self.auth = auth
++        self.notifications = notifications
++        self.clock = clock
++        self.uuid = uuid
++    }
++}
++
++public struct FeatureContext: Sendable {
++    public let services: Services
++    public init(services: Services) { self.services = services }
++}
++
++/// The contract between a feature package and the shell. Conform 1 `XEntry` type in each feature.
++public protocol Feature: Sendable {
++    var id: FeatureID { get }
++    var metadata: FeatureMetadata { get }
++    var requirement: EntitlementRequirement { get }
++    @MainActor func makeRootView(context: FeatureContext) -> AnyView
++}
++
++/// The composition root builds the registry once. The shell renders navigation from the registry only.
++public struct FeatureRegistry: Sendable {
++    public private(set) var features: [any Feature] = []
++    public init() {}
++
++    public mutating func register(_ feature: any Feature) {
++        precondition(!features.contains { $0.id == feature.id }, "Duplicate FeatureID")
++        features.append(feature)
++    }
++
++    public func feature(for id: FeatureID) -> (any Feature)? {
++        features.first { $0.id == id }
++    }
++}
+diff --git a/Packages/Core/Tests/CoreClientsTests/CoreClientsTests.swift b/Packages/Core/Tests/CoreClientsTests/CoreClientsTests.swift
+new file mode 100644
+index 0000000..73c037e
+--- /dev/null
++++ b/Packages/Core/Tests/CoreClientsTests/CoreClientsTests.swift
+@@ -0,0 +1,52 @@
++import CoreClients
++import CoreTesting
++import Foundation
++import Testing
++
++@Test func seededGeneratorMatchesGoldenValues() {
++    var generator = SeededGenerator(seed: 0)
++    let values = (0..<3).map { _ in generator.next() }
++    #expect(values == [0xE220_A839_7B1D_CDAF, 0x6E78_9E6A_A1B9_65F4, 0x06C4_5D18_8009_454F])
++}
++
++@Test func seededGeneratorRepeatsForTheSameSeed() {
++    var first = SeededGenerator(seed: 42)
++    var second = SeededGenerator(seed: 42)
++    #expect((0..<100).map { _ in first.next() } == (0..<100).map { _ in second.next() })
++}
++
++@Test func incrementingUUIDsAreSequential() {
++    let uuid = UUIDGenerator.incrementing()
++    #expect(uuid().uuidString == "00000000-0000-0000-0000-000000000000")
++    #expect(uuid().uuidString == "00000000-0000-0000-0000-000000000001")
++}
++
++@Test(arguments: ["", ".hidden", "../escape", "a/b", String(repeating: "k", count: 129)])
++func storeRejectsInvalidKey(_ key: String) async {
++    let store = InMemoryKeyValueStore()
++    await #expect(throws: KeyValueStoreError.invalidKey) { try await store.set(Data(), forKey: key) }
++}
++
++@Test(arguments: [
++    (HTTPError.status(500), true), (.status(429), true), (.status(408), true), (.transport(.timedOut), true),
++    (.status(404), false), (.malformedBody, false), (.unexpectedContentType, false),
++])
++func httpErrorRetryability(_ error: HTTPError, _ retryable: Bool) {
++    #expect(error.isRetryable == retryable)
++}
++
++@Test func onlyIdempotentEndpointsAreRetryable() {
++    #expect(Endpoint<String>(.get, path: "a").isIdempotent)
++    #expect(Endpoint<String>(.put, path: "a").isIdempotent)
++    #expect(Endpoint<String>(.delete, path: "a").isIdempotent)
++    #expect(!Endpoint<String>(.post, path: "a").isIdempotent)
++    #expect(!Endpoint<String>(.patch, path: "a").isIdempotent)
++}
++
++@Test func safeDefaults() async {
++    #expect(await DefaultEntitlements(grantAll: false).isEntitled(toProduct: "pro") == false)
++    #expect(await DefaultEntitlements(grantAll: true).isEntitled(toProduct: "pro"))
++    #expect(await SignedOutAuthClient().state() == .signedOut)
++    #expect(await NoOpNotificationClient().requestAuthorization() == false)
++    #expect(CompiledFeatureFlags().isEnabled(FeatureFlag(name: "beta", defaultValue: false)) == false)
++}
+diff --git a/Packages/Core/Tests/FeatureKitTests/FeatureRegistryTests.swift b/Packages/Core/Tests/FeatureKitTests/FeatureRegistryTests.swift
+new file mode 100644
+index 0000000..073bcb3
+--- /dev/null
++++ b/Packages/Core/Tests/FeatureKitTests/FeatureRegistryTests.swift
+@@ -0,0 +1,35 @@
++import FeatureKit
++import SwiftUI
++import Testing
++
++private struct StubFeature: Feature {
++    let id: FeatureID
++    var metadata: FeatureMetadata { FeatureMetadata(title: "Stub", systemImage: "star") }
++    var requirement: EntitlementRequirement { .none }
++    @MainActor func makeRootView(context: FeatureContext) -> AnyView { AnyView(EmptyView()) }
++}
++
++@Test func registryKeepsRegistrationOrder() {
++    var registry = FeatureRegistry()
++    registry.register(StubFeature(id: FeatureID("b")))
++    registry.register(StubFeature(id: FeatureID("a")))
++    #expect(registry.features.map(\.id) == [FeatureID("b"), FeatureID("a")])
++}
++
++@Test func registryFindsFeatureByID() {
++    var registry = FeatureRegistry()
++    registry.register(StubFeature(id: FeatureID("a")))
++    #expect(registry.feature(for: FeatureID("a"))?.id == FeatureID("a"))
++    #expect(registry.feature(for: FeatureID("missing")) == nil)
++}
++
++// Exit tests run only on the Mac, through `swift test`.
++#if os(macOS)
++@Test func registryRejectsDuplicateID() async {
++    await #expect(processExitsWith: .failure) {
++        var registry = FeatureRegistry()
++        registry.register(StubFeature(id: FeatureID("a")))
++        registry.register(StubFeature(id: FeatureID("a")))
++    }
++}
++#endif
+diff --git a/Packages/DesignSystem/Package.swift b/Packages/DesignSystem/Package.swift
+new file mode 100644
+index 0000000..09f2e85
+--- /dev/null
++++ b/Packages/DesignSystem/Package.swift
+@@ -0,0 +1,26 @@
++// swift-tools-version: 6.4
++import PackageDescription
++
++// Swift packages do not inherit the concurrency settings of the app target.
++let concurrency: [SwiftSetting] = [
++    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
++    .enableUpcomingFeature("InferIsolatedConformances"),
++]
++
++let package = Package(
++    name: "DesignSystem",
++    defaultLocalization: "en",
++    // The macOS entry lets `swift build` run on the development Mac.
++    platforms: [.iOS("27.3"), .macOS("27.3")],
++    products: [
++        .library(name: "DesignSystem", targets: ["DesignSystem"]),
++    ],
++    targets: [
++        .target(
++            name: "DesignSystem",
++            resources: [.process("Resources")],
++            swiftSettings: concurrency + [.defaultIsolation(MainActor.self)]
++        ),
++    ],
++    swiftLanguageModes: [.v6]
++)
+diff --git a/Packages/DesignSystem/Sources/DesignSystem/InlineErrorMessage.swift b/Packages/DesignSystem/Sources/DesignSystem/InlineErrorMessage.swift
+new file mode 100644
+index 0000000..4c863cf
+--- /dev/null
++++ b/Packages/DesignSystem/Sources/DesignSystem/InlineErrorMessage.swift
+@@ -0,0 +1,29 @@
++import SwiftUI
++
++/// An error message next to the control that caused it. An icon and the spoken "Error" prefix carry the
++/// state, so color is not the only signal. The text uses a text style, so it scales with Dynamic Type.
++public struct InlineErrorMessage: View {
++    private let message: LocalizedStringResource
++
++    public init(_ message: LocalizedStringResource) {
++        self.message = message
++    }
++
++    public var body: some View {
++        Label {
++            Text(message)
++        } icon: {
++            Image(systemName: "exclamationmark.triangle.fill")
++        }
++        .font(.callout)
++        .foregroundStyle(.red)
++        .accessibilityElement(children: .ignore)
++        .accessibilityLabel(Text("Error: \(Text(message))", bundle: .module, comment: "VoiceOver label of an inline error message"))
++    }
++}
++
++#Preview("Largest text size") {
++    InlineErrorMessage("Enter a title.")
++        .padding()
++        .environment(\.dynamicTypeSize, .accessibility5)
++}
+diff --git a/Packages/DesignSystem/Sources/DesignSystem/Resources/Localizable.xcstrings b/Packages/DesignSystem/Sources/DesignSystem/Resources/Localizable.xcstrings
+new file mode 100644
+index 0000000..c9c2d7a
+--- /dev/null
++++ b/Packages/DesignSystem/Sources/DesignSystem/Resources/Localizable.xcstrings
+@@ -0,0 +1,9 @@
++{
++  "sourceLanguage" : "en",
++  "strings" : {
++    "Error: %@" : {
++      "comment" : "VoiceOver label of an inline error message. The argument is the message."
++    }
++  },
++  "version" : "1.0"
++}
+diff --git a/Packages/Features/Packing/Package.swift b/Packages/Features/Packing/Package.swift
+new file mode 100644
+index 0000000..1927e95
+--- /dev/null
++++ b/Packages/Features/Packing/Package.swift
+@@ -0,0 +1,50 @@
++// swift-tools-version: 6.4
++import PackageDescription
++
++// Swift packages do not inherit the concurrency settings of the app target.
++let concurrency: [SwiftSetting] = [
++    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
++    .enableUpcomingFeature("InferIsolatedConformances"),
++]
++let mainActor = concurrency + [.defaultIsolation(MainActor.self)]
++
++let package = Package(
++    name: "Packing",
++    defaultLocalization: "en",
++    // The macOS entry lets `swift test` run on the development Mac.
++    platforms: [.iOS("27.3"), .macOS("27.3")],
++    products: [
++        .library(name: "PackingDomain", targets: ["PackingDomain"]),
++        .library(name: "PackingFeature", targets: ["PackingFeature"]),
++    ],
++    dependencies: [
++        .package(path: "../../Core"),
++        .package(path: "../../DesignSystem"),
++    ],
++    targets: [
++        // Pure domain: keep the nonisolated default.
++        .target(name: "PackingDomain", swiftSettings: concurrency),
++        .target(
++            name: "PackingFeature",
++            dependencies: [
++                "PackingDomain",
++                .product(name: "FeatureKit", package: "Core"),
++                .product(name: "CoreClients", package: "Core"),
++                .product(name: "DesignSystem", package: "DesignSystem"),
++            ],
++            resources: [.process("Resources")],
++            swiftSettings: mainActor
++        ),
++        .testTarget(
++            name: "PackingDomainTests",
++            dependencies: ["PackingDomain", .product(name: "CoreClients", package: "Core")],
++            swiftSettings: concurrency
++        ),
++        .testTarget(
++            name: "PackingFeatureTests",
++            dependencies: ["PackingFeature", .product(name: "CoreTesting", package: "Core")],
++            swiftSettings: mainActor
++        ),
++    ],
++    swiftLanguageModes: [.v6]
++)
+diff --git a/Packages/Features/Packing/Sources/PackingDomain/PackingDomain.swift b/Packages/Features/Packing/Sources/PackingDomain/PackingDomain.swift
+new file mode 100644
+index 0000000..0ba506b
+--- /dev/null
++++ b/Packages/Features/Packing/Sources/PackingDomain/PackingDomain.swift
+@@ -0,0 +1,77 @@
++import Foundation
++
++public struct PackingItem: Identifiable, Equatable, Codable, Sendable {
++    public let id: UUID
++    public let title: String
++    public var isPacked: Bool
++
++    public init(id: UUID, title: String, isPacked: Bool = false) {
++        self.id = id
++        self.title = title
++        self.isPacked = isPacked
++    }
++
++    /// Trims the title, and rejects a title with no characters left. A new item is not packed.
++    public static func make(id: UUID, title: String) throws(PackingError) -> PackingItem {
++        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
++        guard !trimmed.isEmpty else { throw .emptyTitle }
++        return PackingItem(id: id, title: trimmed)
++    }
++}
++
++/// Expected failures. The feature layer maps each case to a user-facing message.
++public enum PackingError: Error, Equatable, Sendable {
++    case emptyTitle
++}
++
++public struct PackingState: Equatable, Codable, Sendable {
++    public var items: [PackingItem]
++    public init(items: [PackingItem] = []) { self.items = items }
++}
++
++public enum PackingAction: Equatable, Sendable {
++    case add(PackingItem)
++    case togglePacked(id: UUID)
++    case remove(id: UUID)
++}
++
++/// The pure reducer. Invariant: each item ID appears at most once.
++public func reduce(_ state: PackingState, _ action: PackingAction) -> PackingState {
++    var next = state
++    switch action {
++    case .add(let item):
++        if !next.items.contains(where: { $0.id == item.id }) { next.items.append(item) }
++    case .togglePacked(let id):
++        if let index = next.items.firstIndex(where: { $0.id == id }) { next.items[index].isPacked.toggle() }
++    case .remove(let id):
++        next.items.removeAll { $0.id == id }
++    }
++    return next
++}
++
++/// The stored form of the list. The version lets a later release migrate old files.
++public struct PackingSnapshot: Equatable, Codable, Sendable {
++    public static let currentVersion = 1
++    public var version: Int
++    public var state: PackingState
++
++    public init(state: PackingState) {
++        version = Self.currentVersion
++        self.state = state
++    }
++
++    public static func encode(_ state: PackingState) throws -> Data {
++        try JSONEncoder().encode(PackingSnapshot(state: state))
++    }
++
++    /// Rejects a file from a newer release instead of reading it wrongly.
++    public static func decode(_ data: Data) throws -> PackingState {
++        let snapshot = try JSONDecoder().decode(PackingSnapshot.self, from: data)
++        guard snapshot.version <= currentVersion else { throw SnapshotError.unsupportedVersion(snapshot.version) }
++        return snapshot.state
++    }
++}
++
++public enum SnapshotError: Error, Equatable, Sendable {
++    case unsupportedVersion(Int)
++}
+diff --git a/Packages/Features/Packing/Sources/PackingFeature/PackingEntry.swift b/Packages/Features/Packing/Sources/PackingFeature/PackingEntry.swift
+new file mode 100644
+index 0000000..4f82bc4
+--- /dev/null
++++ b/Packages/Features/Packing/Sources/PackingFeature/PackingEntry.swift
+@@ -0,0 +1,24 @@
++import FeatureKit
++import Foundation
++import SwiftUI
++
++/// The only public type of the feature. The composition root registers it.
++nonisolated public struct PackingEntry: Feature {
++    public init() {}
++
++    public var id: FeatureID { FeatureID("Packing") }
++
++    public var metadata: FeatureMetadata {
++        FeatureMetadata(
++            title: LocalizedStringResource("Packing list", bundle: .atURL(Bundle.module.bundleURL)),
++            systemImage: "suitcase"
++        )
++    }
++
++    public var requirement: EntitlementRequirement { .none }
++
++    @MainActor
++    public func makeRootView(context: FeatureContext) -> AnyView {
++        AnyView(PackingView(model: PackingModel(uuid: context.services.uuid, store: context.services.store)))
++    }
++}
+diff --git a/Packages/Features/Packing/Sources/PackingFeature/PackingModel.swift b/Packages/Features/Packing/Sources/PackingFeature/PackingModel.swift
+new file mode 100644
+index 0000000..d7ebd41
+--- /dev/null
++++ b/Packages/Features/Packing/Sources/PackingFeature/PackingModel.swift
+@@ -0,0 +1,86 @@
++import CoreClients
++import Foundation
++import Observation
++import PackingDomain
++
++@Observable
++final class PackingModel {
++    static let storeKey = "packing-list.json"
++
++    private(set) var state = PackingState()
++    private(set) var errorMessage: LocalizedStringResource?
++    private(set) var hasLoaded = false
++    private let uuid: UUIDGenerator
++    private let store: any KeyValueStore
++    /// Saves run 1 after another, so that an older snapshot never overwrites a newer one.
++    private var lastSave: Task<Void, Never>?
++
++    init(uuid: UUIDGenerator, store: any KeyValueStore) {
++        self.uuid = uuid
++        self.store = store
++    }
++
++    func load() async {
++        guard !hasLoaded else { return }
++        do {
++            if let data = try await store.data(forKey: Self.storeKey) {
++                state = try PackingSnapshot.decode(data)
++            }
++            errorMessage = nil
++        } catch {
++            errorMessage = Self.loadFailed
++        }
++        hasLoaded = true
++    }
++
++    /// Returns `true` when the item was added. On failure, `errorMessage` says how to recover.
++    @discardableResult
++    func addItem(title: String) -> Bool {
++        do {
++            let item = try PackingItem.make(id: uuid(), title: title)
++            apply(.add(item))
++            errorMessage = nil
++            return true
++        } catch {
++            errorMessage = Self.message(for: error)
++            return false
++        }
++    }
++
++    func togglePacked(id: UUID) { apply(.togglePacked(id: id)) }
++
++    func removeItems(at offsets: IndexSet) {
++        for id in offsets.map({ state.items[$0].id }) {
++            apply(.remove(id: id))
++        }
++    }
++
++    /// Waits for every pending save. Tests call it before they read the store.
++    func waitForSaves() async { await lastSave?.value }
++
++    private func apply(_ action: PackingAction) {
++        state = PackingDomain.reduce(state, action)
++        let snapshot = state
++        let previous = lastSave
++        lastSave = Task { [store] in
++            await previous?.value
++            do {
++                try await store.set(PackingSnapshot.encode(snapshot), forKey: Self.storeKey)
++            } catch {
++                errorMessage = Self.saveFailed
++            }
++        }
++    }
++
++    static func message(for error: PackingError) -> LocalizedStringResource {
++        switch error {
++        case .emptyTitle:
++            LocalizedStringResource("Enter an item name.", bundle: .atURL(Bundle.module.bundleURL))
++        }
++    }
++
++    static let loadFailed = LocalizedStringResource(
++        "Could not open your packing list.", bundle: .atURL(Bundle.module.bundleURL))
++    static let saveFailed = LocalizedStringResource(
++        "Could not save your last change. Try again.", bundle: .atURL(Bundle.module.bundleURL))
++}
+diff --git a/Packages/Features/Packing/Sources/PackingFeature/PackingView.swift b/Packages/Features/Packing/Sources/PackingFeature/PackingView.swift
+new file mode 100644
+index 0000000..e1b753a
+--- /dev/null
++++ b/Packages/Features/Packing/Sources/PackingFeature/PackingView.swift
+@@ -0,0 +1,76 @@
++import CoreClients
++import DesignSystem
++import SwiftUI
++import PackingDomain
++
++struct PackingView: View {
++    @State var model: PackingModel
++    @State private var draft = ""
++    @AccessibilityFocusState private var isErrorFocused: Bool
++
++    var body: some View {
++        List {
++            Section {
++                TextField(text: $draft) { Text("Item name", bundle: .module) }
++                    .onSubmit(add)
++                Button(action: add) { Text("Add item", bundle: .module) }
++                if let message = model.errorMessage {
++                    InlineErrorMessage(message)
++                        .accessibilityFocused($isErrorFocused)
++                }
++            }
++            Section {
++                if model.hasLoaded && model.state.items.isEmpty {
++                    Text("Nothing to pack yet.", bundle: .module)
++                        .foregroundStyle(.secondary)
++                }
++                ForEach(model.state.items) { item in
++                    PackingRow(item: item) { model.togglePacked(id: item.id) }
++                }
++                .onDelete(perform: model.removeItems)
++            }
++        }
++        .navigationTitle(Text("Packing list", bundle: .module))
++        .task { await model.load() }
++    }
++
++    private func add() {
++        if model.addItem(title: draft) {
++            draft = ""
++        } else {
++            isErrorFocused = true
++        }
++    }
++}
++
++/// 1 accessibility element per item: the label is the item name, the value says whether it is packed.
++private struct PackingRow: View {
++    let item: PackingItem
++    let toggle: () -> Void
++
++    var body: some View {
++        Button(action: toggle) {
++            Label {
++                Text(item.title)
++                    .foregroundStyle(.primary)
++            } icon: {
++                Image(systemName: item.isPacked ? "checkmark.circle.fill" : "circle")
++                    .accessibilityHidden(true)
++            }
++        }
++        .accessibilityLabel(Text(item.title))
++        .accessibilityValue(item.isPacked ? Text("Packed", bundle: .module) : Text("Not packed", bundle: .module))
++        .accessibilityHint(Text("Changes whether the item is packed.", bundle: .module))
++    }
++}
++
++#Preview {
++    NavigationStack {
++        PackingView(model: PackingModel(uuid: .live, store: PreviewStore()))
++    }
++}
++
++private actor PreviewStore: KeyValueStore {
++    func data(forKey key: String) throws -> Data? { nil }
++    func set(_ data: Data?, forKey key: String) throws {}
++}
+diff --git a/Packages/Features/Packing/Sources/PackingFeature/Resources/Localizable.xcstrings b/Packages/Features/Packing/Sources/PackingFeature/Resources/Localizable.xcstrings
+new file mode 100644
+index 0000000..4febd1c
+--- /dev/null
++++ b/Packages/Features/Packing/Sources/PackingFeature/Resources/Localizable.xcstrings
+@@ -0,0 +1,36 @@
++{
++  "sourceLanguage" : "en",
++  "strings" : {
++    "Packing list" : {
++      "comment" : "Title of the packing list screen and of the feature in the navigation."
++    },
++    "Add item" : {
++      "comment" : "Button that adds the new item to the packing list."
++    },
++    "Changes whether the item is packed." : {
++      "comment" : "VoiceOver hint of a packing list row."
++    },
++    "Could not open your packing list." : {
++      "comment" : "Error when the saved packing list cannot be read."
++    },
++    "Could not save your last change. Try again." : {
++      "comment" : "Error when a change to the packing list cannot be saved."
++    },
++    "Enter an item name." : {
++      "comment" : "Error after the user adds an item with an empty name."
++    },
++    "Item name" : {
++      "comment" : "Label of the text field for a new item name."
++    },
++    "Not packed" : {
++      "comment" : "VoiceOver value of an item that is not packed yet."
++    },
++    "Nothing to pack yet." : {
++      "comment" : "Shown when the packing list has no items."
++    },
++    "Packed" : {
++      "comment" : "VoiceOver value of an item that is packed."
++    }
++  },
++  "version" : "1.0"
++}
+diff --git a/Packages/Features/Packing/Tests/PackingDomainTests/PackingDomainTests.swift b/Packages/Features/Packing/Tests/PackingDomainTests/PackingDomainTests.swift
+new file mode 100644
+index 0000000..dd278ca
+--- /dev/null
++++ b/Packages/Features/Packing/Tests/PackingDomainTests/PackingDomainTests.swift
+@@ -0,0 +1,87 @@
++import CoreClients
++import Foundation
++import Testing
++import PackingDomain
++
++// MARK: Unit tests
++
++@Test func makeTrimsTheTitleAndStartsUnpacked() throws {
++    let item = try PackingItem.make(id: uuid(1), title: "  Socks \n")
++    #expect(item.title == "Socks")
++    #expect(!item.isPacked)
++}
++
++@Test(arguments: ["", "   ", "\n\t"])
++func makeRejectsEmptyTitle(_ title: String) {
++    #expect(throws: PackingError.emptyTitle) { try PackingItem.make(id: uuid(1), title: title) }
++}
++
++@Test func toggleFlipsOnlyTheNamedItem() throws {
++    let socks = try PackingItem.make(id: uuid(1), title: "Socks")
++    let hat = try PackingItem.make(id: uuid(2), title: "Hat")
++    var state = reduce(reduce(PackingState(), .add(socks)), .add(hat))
++    state = reduce(state, .togglePacked(id: socks.id))
++    #expect(state.items.map(\.isPacked) == [true, false])
++    state = reduce(state, .togglePacked(id: socks.id))
++    #expect(state.items.map(\.isPacked) == [false, false])
++}
++
++@Test func toggleOfAnUnknownIDChangesNothing() throws {
++    let state = reduce(PackingState(), .add(try PackingItem.make(id: uuid(1), title: "Socks")))
++    #expect(reduce(state, .togglePacked(id: uuid(9))) == state)
++}
++
++@Test func addRemove() throws {
++    let socks = try PackingItem.make(id: uuid(1), title: "Socks")
++    let hat = try PackingItem.make(id: uuid(2), title: "Hat")
++    let state = reduce(reduce(PackingState(), .add(socks)), .add(hat))
++    #expect(reduce(state, .remove(id: socks.id)).items == [hat])
++}
++
++@Test func addingAKnownIDChangesNothing() throws {
++    let socks = try PackingItem.make(id: uuid(1), title: "Socks")
++    let other = try PackingItem.make(id: uuid(1), title: "Other")
++    let state = reduce(PackingState(), .add(socks))
++    #expect(reduce(state, .add(other)) == state)
++}
++
++@Test func snapshotRoundTripsTheState() throws {
++    var state = reduce(PackingState(), .add(try PackingItem.make(id: uuid(1), title: "Socks")))
++    state = reduce(state, .togglePacked(id: uuid(1)))
++    #expect(try PackingSnapshot.decode(PackingSnapshot.encode(state)) == state)
++}
++
++@Test func snapshotRejectsANewerVersion() throws {
++    var snapshot = PackingSnapshot(state: PackingState())
++    snapshot.version = PackingSnapshot.currentVersion + 1
++    let data = try JSONEncoder().encode(snapshot)
++    #expect(throws: SnapshotError.unsupportedVersion(snapshot.version)) { try PackingSnapshot.decode(data) }
++}
++
++// MARK: Property-based test
++
++@Test func itemIDsStayUniqueForAnyActionSequence() throws {
++    for seed in UInt64(0)..<200 {
++        var generator = SeededGenerator(seed: seed)
++        var state = PackingState()
++        for _ in 0..<50 {
++            state = reduce(state, try randomAction(using: &generator))
++            #expect(Set(state.items.map(\.id)).count == state.items.count, "seed \(seed)")
++        }
++    }
++}
++
++// MARK: Helpers
++
++private func uuid(_ value: UInt8) -> UUID {
++    UUID(uuid: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, value))
++}
++
++private func randomAction(using generator: inout SeededGenerator) throws -> PackingAction {
++    let id = UInt8.random(in: 0..<8, using: &generator)
++    switch Int.random(in: 0..<10, using: &generator) {
++    case 0...2: return .remove(id: uuid(id))
++    case 3...5: return .togglePacked(id: uuid(id))
++    default: return .add(try PackingItem.make(id: uuid(id), title: "item \(id)"))
++    }
++}
+diff --git a/Packages/Features/Packing/Tests/PackingFeatureTests/PackingModelTests.swift b/Packages/Features/Packing/Tests/PackingFeatureTests/PackingModelTests.swift
+new file mode 100644
+index 0000000..6402099
+--- /dev/null
++++ b/Packages/Features/Packing/Tests/PackingFeatureTests/PackingModelTests.swift
+@@ -0,0 +1,60 @@
++import CoreClients
++import CoreTesting
++import Foundation
++import Testing
++@testable import PackingFeature
++import PackingDomain
++
++@Test func addItemUsesTheInjectedID() {
++    let model = PackingModel(uuid: .incrementing(), store: InMemoryKeyValueStore())
++    #expect(model.addItem(title: " Socks "))
++    #expect(model.state.items.map(\.id.uuidString) == ["00000000-0000-0000-0000-000000000000"])
++    #expect(model.state.items.map(\.title) == ["Socks"])
++    #expect(model.errorMessage == nil)
++}
++
++@Test func emptyTitleShowsAnErrorUntilTheNextValidAdd() {
++    let model = PackingModel(uuid: .incrementing(), store: InMemoryKeyValueStore())
++    #expect(!model.addItem(title: "  "))
++    #expect(model.errorMessage != nil)
++    #expect(model.state.items.isEmpty)
++    #expect(model.addItem(title: "Hat"))
++    #expect(model.errorMessage == nil)
++}
++
++@Test func changesSurviveANewModelOnTheSameStore() async {
++    let store = InMemoryKeyValueStore()
++    let first = PackingModel(uuid: .incrementing(), store: store)
++    await first.load()
++    first.addItem(title: "Socks")
++    first.addItem(title: "Hat")
++    first.togglePacked(id: first.state.items[0].id)
++    await first.waitForSaves()
++
++    let second = PackingModel(uuid: .incrementing(), store: store)
++    await second.load()
++    #expect(second.state == first.state)
++    #expect(second.state.items.map(\.isPacked) == [true, false])
++}
++
++@Test func unreadableFileShowsAnError() async throws {
++    let store = InMemoryKeyValueStore()
++    try await store.set(Data("not json".utf8), forKey: PackingModel.storeKey)
++    let model = PackingModel(uuid: .incrementing(), store: store)
++    await model.load()
++    #expect(model.errorMessage != nil)
++    #expect(model.state.items.isEmpty)
++}
++
++@Test func failedSaveShowsAnError() async {
++    let model = PackingModel(uuid: .incrementing(), store: FailingStore())
++    model.addItem(title: "Socks")
++    await model.waitForSaves()
++    #expect(model.errorMessage != nil)
++}
++
++private struct FailingStore: KeyValueStore {
++    struct Failure: Error {}
++    func data(forKey key: String) async throws -> Data? { nil }
++    func set(_ data: Data?, forKey key: String) async throws { throw Failure() }
++}
+diff --git a/Packages/Networking/Package.swift b/Packages/Networking/Package.swift
+new file mode 100644
+index 0000000..2ac077e
+--- /dev/null
++++ b/Packages/Networking/Package.swift
+@@ -0,0 +1,33 @@
++// swift-tools-version: 6.4
++import PackageDescription
++
++// Swift packages do not inherit the concurrency settings of the app target.
++let concurrency: [SwiftSetting] = [
++    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
++    .enableUpcomingFeature("InferIsolatedConformances"),
++]
++
++let package = Package(
++    name: "Networking",
++    // The macOS entry lets `swift test` run on the development Mac.
++    platforms: [.iOS("27.3"), .macOS("27.3")],
++    products: [
++        .library(name: "Networking", targets: ["Networking"]),
++    ],
++    dependencies: [
++        .package(path: "../Core"),
++    ],
++    targets: [
++        .target(
++            name: "Networking",
++            dependencies: [.product(name: "CoreClients", package: "Core")],
++            swiftSettings: concurrency
++        ),
++        .testTarget(
++            name: "NetworkingTests",
++            dependencies: ["Networking", .product(name: "CoreTesting", package: "Core")],
++            swiftSettings: concurrency
++        ),
++    ],
++    swiftLanguageModes: [.v6]
++)
+diff --git a/Packages/Networking/Sources/Networking/LiveHTTPClient.swift b/Packages/Networking/Sources/Networking/LiveHTTPClient.swift
+new file mode 100644
+index 0000000..3c1744b
+--- /dev/null
++++ b/Packages/Networking/Sources/Networking/LiveHTTPClient.swift
+@@ -0,0 +1,93 @@
++import CoreClients
++import Foundation
++
++/// The live `HTTPClient`: 1 `URLSession`, validated responses, and retries of idempotent requests
++/// with exponential backoff and jitter.
++public struct LiveHTTPClient: HTTPClient {
++    private let baseURL: URL
++    private let session: URLSession
++    private let clock: any Clock<Duration>
++    private let uuid: UUIDGenerator
++    private let diagnostics: any DiagnosticsClient
++    private let maxAttempts: Int
++    private let maxResponseBytes: Int
++    private let jitter: @Sendable (Duration) -> Duration
++
++    public init(
++        baseURL: URL,
++        session: URLSession = .shared,
++        clock: any Clock<Duration> = ContinuousClock(),
++        uuid: UUIDGenerator = .live,
++        diagnostics: any DiagnosticsClient,
++        maxAttempts: Int = 3,
++        maxResponseBytes: Int = 10_000_000,
++        jitter: @escaping @Sendable (Duration) -> Duration = { $0 * Double.random(in: 0.5...1) }
++    ) {
++        precondition(maxAttempts >= 1, "maxAttempts must be 1 or more")
++        self.baseURL = baseURL
++        self.session = session
++        self.clock = clock
++        self.uuid = uuid
++        self.diagnostics = diagnostics
++        self.maxAttempts = maxAttempts
++        self.maxResponseBytes = maxResponseBytes
++        self.jitter = jitter
++    }
++
++    public func send<Response: Decodable & Sendable>(_ endpoint: Endpoint<Response>) async throws -> Response {
++        let requestID = uuid().uuidString
++        let request = try makeRequest(endpoint, requestID: requestID)
++        var attempt = 1
++        while true {
++            try Task.checkCancellation()
++            do {
++                return try await sendOnce(request, requestID: requestID)
++            } catch let error as HTTPError where error.isRetryable && endpoint.isIdempotent && attempt < maxAttempts {
++                try await clock.sleep(for: jitter(.milliseconds(200) * (1 << (attempt - 1))))
++                attempt += 1
++            }
++        }
++    }
++
++    private func makeRequest<Response>(_ endpoint: Endpoint<Response>, requestID: String) throws -> URLRequest {
++        var components = URLComponents(url: baseURL.appending(path: endpoint.path), resolvingAgainstBaseURL: false)
++        if !endpoint.query.isEmpty { components?.queryItems = endpoint.query }
++        guard let url = components?.url else { throw HTTPError.invalidURL }
++        var request = URLRequest(url: url)
++        request.httpMethod = endpoint.method.rawValue
++        request.httpBody = endpoint.body
++        request.setValue("application/json", forHTTPHeaderField: "Accept")
++        if endpoint.body != nil { request.setValue("application/json", forHTTPHeaderField: "Content-Type") }
++        request.setValue(requestID, forHTTPHeaderField: "X-Request-ID")
++        return request
++    }
++
++    private func sendOnce<Response: Decodable & Sendable>(_ request: URLRequest, requestID: String) async throws -> Response {
++        let data: Data
++        let response: URLResponse
++        do {
++            (data, response) = try await session.data(for: request)
++        } catch let error as URLError where error.code == .cancelled {
++            throw CancellationError()
++        } catch let error as URLError {
++            diagnostics.record(.httpTransportFailure(requestID: requestID, code: error.code.rawValue))
++            throw HTTPError.transport(error.code)
++        }
++        guard let http = response as? HTTPURLResponse else { throw HTTPError.invalidResponse }
++        diagnostics.record(.httpResponse(requestID: requestID, status: http.statusCode))
++        guard (200..<300).contains(http.statusCode) else { throw HTTPError.status(http.statusCode) }
++        guard http.mimeType == "application/json" else { throw HTTPError.unexpectedContentType }
++        // shortcut: the size check runs after the download; stream with bytes(for:) when bodies can be large.
++        guard data.count <= maxResponseBytes else { throw HTTPError.responseTooLarge }
++        do {
++            return try await Self.decode(Response.self, from: data)
++        } catch {
++            throw HTTPError.malformedBody
++        }
++    }
++
++    @concurrent
++    private static func decode<Response: Decodable & Sendable>(_ type: Response.Type, from data: Data) async throws -> Response {
++        try JSONDecoder().decode(type, from: data)
++    }
++}
+diff --git a/Packages/Networking/Tests/NetworkingTests/LiveHTTPClientTests.swift b/Packages/Networking/Tests/NetworkingTests/LiveHTTPClientTests.swift
+new file mode 100644
+index 0000000..0a2d013
+--- /dev/null
++++ b/Packages/Networking/Tests/NetworkingTests/LiveHTTPClientTests.swift
+@@ -0,0 +1,128 @@
++import CoreClients
++import CoreTesting
++import Foundation
++import Networking
++import os
++import Testing
++
++private struct Item: Decodable, Equatable, Sendable {
++    let id: Int
++}
++
++private typealias Reply = @Sendable (URLRequest) throws -> (Int, String, Data)
++
++/// Answers requests from a reply that each test registers for its own host, so tests can run in parallel.
++private final class StubURLProtocol: URLProtocol {
++    static let replies = OSAllocatedUnfairLock(initialState: [String: Reply]())
++
++    override class func canInit(with request: URLRequest) -> Bool { true }
++    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
++    override func stopLoading() {}
++
++    override func startLoading() {
++        guard let url = request.url, let reply = Self.replies.withLock({ $0[url.host() ?? ""] }) else {
++            client?.urlProtocol(self, didFailWithError: URLError(.unsupportedURL))
++            return
++        }
++        do {
++            let (status, contentType, body) = try reply(request)
++            let response = HTTPURLResponse(url: url, statusCode: status, httpVersion: nil, headerFields: ["Content-Type": contentType])!
++            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
++            client?.urlProtocol(self, didLoad: body)
++            client?.urlProtocolDidFinishLoading(self)
++        } catch {
++            client?.urlProtocol(self, didFailWithError: error)
++        }
++    }
++}
++
++/// A client whose requests go to `reply`, with no waiting between retries.
++private func makeClient(maxResponseBytes: Int = 1_000, reply: @escaping Reply) -> LiveHTTPClient {
++    let host = "\(UUID().uuidString.lowercased()).test"
++    StubURLProtocol.replies.withLock { $0[host] = reply }
++    let configuration = URLSessionConfiguration.ephemeral
++    configuration.protocolClasses = [StubURLProtocol.self]
++    return LiveHTTPClient(
++        baseURL: URL(string: "https://\(host)")!,
++        session: URLSession(configuration: configuration),
++        clock: ImmediateClock(),
++        uuid: .incrementing(),
++        diagnostics: NoOpDiagnostics(),
++        maxResponseBytes: maxResponseBytes,
++        jitter: { $0 }
++    )
++}
++
++private func counter() -> OSAllocatedUnfairLock<Int> { OSAllocatedUnfairLock(initialState: 0) }
++
++private let json = "application/json"
++
++@Test func decodesValidResponseAndIgnoresUnknownFields() async throws {
++    let client = makeClient { request in
++        #expect(request.value(forHTTPHeaderField: "X-Request-ID") == "00000000-0000-0000-0000-000000000000")
++        return (200, json, Data(#"{"id": 7, "extra": true}"#.utf8))
++    }
++    #expect(try await client.send(Endpoint<Item>(path: "items/7")) == Item(id: 7))
++}
++
++@Test(arguments: [400, 401, 404])
++func clientErrorIsNotRetried(_ status: Int) async {
++    let calls = counter()
++    let client = makeClient { _ in
++        calls.withLock { $0 += 1 }
++        return (status, json, Data())
++    }
++    await #expect(throws: HTTPError.status(status)) { try await client.send(Endpoint<Item>(path: "items")) }
++    #expect(calls.withLock { $0 } == 1)
++}
++
++@Test func serverErrorIsRetriedThenSucceeds() async throws {
++    let calls = counter()
++    let client = makeClient { _ in
++        let call = calls.withLock { count in
++            count += 1
++            return count
++        }
++        return call < 3 ? (503, json, Data()) : (200, json, Data(#"{"id": 1}"#.utf8))
++    }
++    #expect(try await client.send(Endpoint<Item>(path: "items/1")) == Item(id: 1))
++}
++
++@Test func timeoutStopsAfterMaxAttempts() async {
++    let client = makeClient { _ in throw URLError(.timedOut) }
++    await #expect(throws: HTTPError.transport(.timedOut)) { try await client.send(Endpoint<Item>(path: "items")) }
++}
++
++@Test func postIsNotRetried() async {
++    let calls = counter()
++    let client = makeClient { _ in
++        calls.withLock { $0 += 1 }
++        return (503, json, Data())
++    }
++    await #expect(throws: HTTPError.status(503)) {
++        try await client.send(Endpoint<Item>(.post, path: "items", body: Data("{}".utf8)))
++    }
++    #expect(calls.withLock { $0 } == 1)
++}
++
++@Test func malformedBodyFails() async {
++    let client = makeClient { _ in (200, json, Data("not json".utf8)) }
++    await #expect(throws: HTTPError.malformedBody) { try await client.send(Endpoint<Item>(path: "items")) }
++}
++
++@Test func unexpectedContentTypeFails() async {
++    let client = makeClient { _ in (200, "text/html", Data("<html>".utf8)) }
++    await #expect(throws: HTTPError.unexpectedContentType) { try await client.send(Endpoint<Item>(path: "items")) }
++}
++
++@Test func responseOverSizeLimitFails() async {
++    let client = makeClient(maxResponseBytes: 8) { _ in (200, json, Data(#"{"id": 1234567}"#.utf8)) }
++    await #expect(throws: HTTPError.responseTooLarge) { try await client.send(Endpoint<Item>(path: "items")) }
++}
++
++@Test func cancelledTaskStops() async {
++    let client = makeClient { _ in (503, json, Data()) }
++    let task = Task { try await client.send(Endpoint<Item>(path: "items")) }
++    task.cancel()
++    await #expect(throws: CancellationError.self) { try await task.value }
++}
+diff --git a/Packages/Persistence/Package.swift b/Packages/Persistence/Package.swift
+new file mode 100644
+index 0000000..6ab386a
+--- /dev/null
++++ b/Packages/Persistence/Package.swift
+@@ -0,0 +1,29 @@
++// swift-tools-version: 6.4
++import PackageDescription
++
++// Swift packages do not inherit the concurrency settings of the app target.
++let concurrency: [SwiftSetting] = [
++    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
++    .enableUpcomingFeature("InferIsolatedConformances"),
++]
++
++let package = Package(
++    name: "Persistence",
++    // The macOS entry lets `swift test` run on the development Mac.
++    platforms: [.iOS("27.3"), .macOS("27.3")],
++    products: [
++        .library(name: "Persistence", targets: ["Persistence"]),
++    ],
++    dependencies: [
++        .package(path: "../Core"),
++    ],
++    targets: [
++        .target(
++            name: "Persistence",
++            dependencies: [.product(name: "CoreClients", package: "Core")],
++            swiftSettings: concurrency
++        ),
++        .testTarget(name: "PersistenceTests", dependencies: ["Persistence"], swiftSettings: concurrency),
++    ],
++    swiftLanguageModes: [.v6]
++)
+diff --git a/Packages/Persistence/Sources/Persistence/FileStore.swift b/Packages/Persistence/Sources/Persistence/FileStore.swift
+new file mode 100644
+index 0000000..4f88327
+--- /dev/null
++++ b/Packages/Persistence/Sources/Persistence/FileStore.swift
+@@ -0,0 +1,41 @@
++import CoreClients
++import Foundation
++
++/// The live `KeyValueStore`: 1 file for each key, written atomically with a Data Protection class.
++/// It is an actor, so file work runs off the main actor and writes to 1 key do not overlap.
++public actor FileStore: KeyValueStore {
++    private let directory: URL
++    private let protection: Data.WritingOptions
++
++    /// `protection` is a Data Protection option, for example `.completeFileProtection`.
++    public init(directory: URL, protection: Data.WritingOptions) {
++        self.directory = directory
++        self.protection = protection
++    }
++
++    public func data(forKey key: String) throws -> Data? {
++        let url = try fileURL(for: key)
++        do {
++            return try Data(contentsOf: url)
++        } catch let error as CocoaError where error.code == .fileReadNoSuchFile {
++            return nil
++        }
++    }
++
++    public func set(_ data: Data?, forKey key: String) throws {
++        let url = try fileURL(for: key)
++        guard let data else {
++            do {
++                try FileManager.default.removeItem(at: url)
++            } catch let error as CocoaError where error.code == .fileNoSuchFile {}
++            return
++        }
++        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
++        try data.write(to: url, options: [.atomic, protection])
++    }
++
++    private func fileURL(for key: String) throws -> URL {
++        try KeyValueStoreError.validate(key)
++        return directory.appending(path: key, directoryHint: .notDirectory)
++    }
++}
+diff --git a/Packages/Persistence/Tests/PersistenceTests/FileStoreTests.swift b/Packages/Persistence/Tests/PersistenceTests/FileStoreTests.swift
+new file mode 100644
+index 0000000..9d86632
+--- /dev/null
++++ b/Packages/Persistence/Tests/PersistenceTests/FileStoreTests.swift
+@@ -0,0 +1,39 @@
++import CoreClients
++import Foundation
++import Persistence
++import Testing
++
++/// A store in a new temporary folder on disk, so that the tests cover the live file system.
++/// The `complete` class fails while the device is locked, so the tests use a class that works on a locked Mac.
++private func makeStore() -> (FileStore, URL) {
++    let directory = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString, directoryHint: .isDirectory)
++    return (FileStore(directory: directory, protection: .completeFileProtectionUntilFirstUserAuthentication), directory)
++}
++
++@Test func storesAndReadsData() async throws {
++    let (store, directory) = makeStore()
++    defer { try? FileManager.default.removeItem(at: directory) }
++    try await store.set(Data("one".utf8), forKey: "value")
++    try await store.set(Data("two".utf8), forKey: "value")
++    #expect(try await store.data(forKey: "value") == Data("two".utf8))
++}
++
++@Test func missingKeyReadsNil() async throws {
++    let (store, _) = makeStore()
++    #expect(try await store.data(forKey: "missing") == nil)
++}
++
++@Test func settingNilRemovesTheValue() async throws {
++    let (store, directory) = makeStore()
++    defer { try? FileManager.default.removeItem(at: directory) }
++    try await store.set(Data("one".utf8), forKey: "value")
++    try await store.set(nil, forKey: "value")
++    try await store.set(nil, forKey: "never-set")
++    #expect(try await store.data(forKey: "value") == nil)
++}
++
++@Test(arguments: ["", ".hidden", "../escape", "a/b"])
++func rejectsKeysOutsideTheFolder(_ key: String) async {
++    let (store, _) = makeStore()
++    await #expect(throws: KeyValueStoreError.invalidKey) { try await store.set(Data(), forKey: key) }
++}
+diff --git a/PackingList.xcworkspace/contents.xcworkspacedata b/PackingList.xcworkspace/contents.xcworkspacedata
+new file mode 100644
+index 0000000..aeb102a
+--- /dev/null
++++ b/PackingList.xcworkspace/contents.xcworkspacedata
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Workspace
++   version = "1.0">
++   <FileRef
++      location = "group:App/PackingList.xcodeproj">
++   </FileRef>
++   <FileRef
++      location = "group:Packages/Core">
++   </FileRef>
++   <FileRef
++      location = "group:Packages/DesignSystem">
++   </FileRef>
++   <FileRef
++      location = "group:Packages/Networking">
++   </FileRef>
++   <FileRef
++      location = "group:Packages/Persistence">
++   </FileRef>
++   <FileRef
++      location = "group:ci/test-plan.xctestplan">
++   </FileRef>
++   <FileRef
++      location = "group:Packages/Features/Packing">
++   </FileRef>
++</Workspace>
+diff --git a/PackingList.xcworkspace/xcshareddata/xcschemes/PackingList.xcscheme b/PackingList.xcworkspace/xcshareddata/xcschemes/PackingList.xcscheme
+new file mode 100644
+index 0000000..86c8e13
+--- /dev/null
++++ b/PackingList.xcworkspace/xcshareddata/xcschemes/PackingList.xcscheme
+@@ -0,0 +1,81 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   version = "1.7">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "0A0000000000000000000020"
++               BuildableName = "PackingList.app"
++               BlueprintName = "PackingList"
++               ReferencedContainer = "container:App/PackingList.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <TestPlans>
++         <TestPlanReference
++            reference = "container:ci/test-plan.xctestplan"
++            default = "YES">
++         </TestPlanReference>
++      </TestPlans>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <BuildableProductRunnable
++         runnableDebuggingMode = "0">
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "0A0000000000000000000020"
++            BuildableName = "PackingList.app"
++            BlueprintName = "PackingList"
++            ReferencedContainer = "container:App/PackingList.xcodeproj">
++         </BuildableReference>
++      </BuildableProductRunnable>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <BuildableProductRunnable
++         runnableDebuggingMode = "0">
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "0A0000000000000000000020"
++            BuildableName = "PackingList.app"
++            BlueprintName = "PackingList"
++            ReferencedContainer = "container:App/PackingList.xcodeproj">
++         </BuildableReference>
++      </BuildableProductRunnable>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+diff --git a/ci/test-plan.xctestplan b/ci/test-plan.xctestplan
+new file mode 100644
+index 0000000..b990bd7
+--- /dev/null
++++ b/ci/test-plan.xctestplan
+@@ -0,0 +1,64 @@
++{
++  "configurations": [
++    {
++      "id": "6C1B0E52-3B7A-4F0E-9C1D-2A5E7F3B8D01",
++      "name": "Default",
++      "options": {}
++    }
++  ],
++  "defaultOptions": {
++    "codeCoverage": true
++  },
++  "testTargets": [
++    {
++      "target": {
++        "containerPath": "container:Packages/Core",
++        "identifier": "CoreClientsTests",
++        "name": "CoreClientsTests"
++      }
++    },
++    {
++      "target": {
++        "containerPath": "container:Packages/Core",
++        "identifier": "FeatureKitTests",
++        "name": "FeatureKitTests"
++      }
++    },
++    {
++      "target": {
++        "containerPath": "container:Packages/Networking",
++        "identifier": "NetworkingTests",
++        "name": "NetworkingTests"
++      }
++    },
++    {
++      "target": {
++        "containerPath": "container:Packages/Persistence",
++        "identifier": "PersistenceTests",
++        "name": "PersistenceTests"
++      }
++    },
++    {
++      "target": {
++        "containerPath": "container:App/PackingList.xcodeproj",
++        "identifier": "0A0000000000000000000021",
++        "name": "PackingListUITests"
++      }
++    },
++    {
++      "target": {
++        "containerPath": "container:Packages/Features/Packing",
++        "identifier": "PackingDomainTests",
++        "name": "PackingDomainTests"
++      }
++    },
++    {
++      "target": {
++        "containerPath": "container:Packages/Features/Packing",
++        "identifier": "PackingFeatureTests",
++        "name": "PackingFeatureTests"
++      }
++    }
++  ],
++  "version": 1
++}
+diff --git a/ios-architecture.json b/ios-architecture.json
+new file mode 100644
+index 0000000..fdde3df
+--- /dev/null
++++ b/ios-architecture.json
+@@ -0,0 +1,11 @@
++{
++  "app_name": "PackingList",
++  "bundle_id_prefix": "com.example.eval",
++  "minimum_ios": "27.3",
++  "team_size": 1,
++  "regulated_data": false,
++  "cross_device_sync": false,
++  "cross_platform_accounts": false,
++  "store": "files",
++  "code_may_leave_machine": true
++}

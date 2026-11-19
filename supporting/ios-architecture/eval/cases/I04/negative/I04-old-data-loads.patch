@@ -1,0 +1,567 @@
+diff --git a/Ledger.xcodeproj/project.pbxproj b/Ledger.xcodeproj/project.pbxproj
+index 9c08354..6c5bf23 100644
+--- a/Ledger.xcodeproj/project.pbxproj
++++ b/Ledger.xcodeproj/project.pbxproj
+@@ -6,6 +6,10 @@
+ 	objectVersion = 77;
+ 	objects = {
+ 
++/* Begin PBXBuildFile section */
++		7D2B00000000000000000601 /* LedgerOrders in Frameworks */ = {isa = PBXBuildFile; productRef = 7D2B00000000000000000602 /* LedgerOrders */; };
++/* End PBXBuildFile section */
++
+ /* Begin PBXContainerItemProxy section */
+ 		7D2B00000000000000000201 /* PBXContainerItemProxy */ = {
+ 			isa = PBXContainerItemProxy;
+@@ -40,6 +44,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				7D2B00000000000000000601 /* LedgerOrders in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -100,6 +105,7 @@
+ 			);
+ 			name = Ledger;
+ 			packageProductDependencies = (
++				7D2B00000000000000000602 /* LedgerOrders */,
+ 			);
+ 			productName = Ledger;
+ 			productReference = 7D2B00000000000000000011 /* Ledger.app */;
+@@ -156,6 +162,9 @@
+ 			);
+ 			mainGroup = 7D2B00000000000000000002;
+ 			minimizedProjectReferenceProxies = 1;
++			packageReferences = (
++				7D2B00000000000000000603 /* XCLocalSwiftPackageReference "LedgerOrders" */,
++			);
+ 			preferredProjectObjectVersion = 77;
+ 			productRefGroup = 7D2B00000000000000000003 /* Products */;
+ 			projectDirPath = "";
+@@ -357,6 +366,21 @@
+ 			defaultConfigurationName = Release;
+ 		};
+ /* End XCConfigurationList section */
++
++/* Begin XCLocalSwiftPackageReference section */
++		7D2B00000000000000000603 /* XCLocalSwiftPackageReference "LedgerOrders" */ = {
++			isa = XCLocalSwiftPackageReference;
++			relativePath = LedgerOrders;
++		};
++/* End XCLocalSwiftPackageReference section */
++
++/* Begin XCSwiftPackageProductDependency section */
++		7D2B00000000000000000602 /* LedgerOrders */ = {
++			isa = XCSwiftPackageProductDependency;
++			package = 7D2B00000000000000000603 /* XCLocalSwiftPackageReference "LedgerOrders" */;
++			productName = LedgerOrders;
++		};
++/* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 7D2B00000000000000000001 /* Project object */;
+ }
+diff --git a/Ledger/LiveOrdersLoader+App.swift b/Ledger/LiveOrdersLoader+App.swift
+new file mode 100644
+index 0000000..08e1944
+--- /dev/null
++++ b/Ledger/LiveOrdersLoader+App.swift
+@@ -0,0 +1,12 @@
++import Foundation
++import OrdersData
++
++extension LiveOrdersLoader {
++    /// The loader the app uses. QA builds point the screen at a staging or canned feed.
++    static func app(environment: [String: String] = ProcessInfo.processInfo.environment) -> LiveOrdersLoader {
++        if let override = environment["LEDGER_ORDERS_URL"], let url = URL(string: override) {
++            return LiveOrdersLoader(endpoint: url)
++        }
++        return LiveOrdersLoader(endpoint: URL(string: "https://api.ledger.example/v1/orders")!)
++    }
++}
+diff --git a/Ledger/OrdersViewController.swift b/Ledger/OrdersViewController.swift
+index e59b2af..d29da91 100644
+--- a/Ledger/OrdersViewController.swift
++++ b/Ledger/OrdersViewController.swift
+@@ -1,38 +1,11 @@
++import OrdersData
++import OrdersDomain
+ import UIKit
+ 
+-struct OrderLine: Codable {
+-    var sku: String
+-    var name: String
+-    var quantity: Int
+-    var unitPriceCents: Int
+-
+-    enum CodingKeys: String, CodingKey {
+-        case sku
+-        case name
+-        case quantity = "qty"
+-        case unitPriceCents = "unit_price_cents"
+-    }
+-}
+-
+-/// The file the screen saves after each successful load. Users of every version have one.
+-struct OrdersCacheFile: Codable {
+-    var version: Int
+-    var savedAt: Date
+-    var lines: [OrderLine]
+-
+-    enum CodingKeys: String, CodingKey {
+-        case version
+-        case savedAt = "saved_at"
+-        case lines
+-    }
+-}
+-
+-private struct OrdersResponse: Decodable {
+-    var lines: [OrderLine]
+-}
+-
+ class OrdersViewController: UIViewController, UITableViewDataSource {
++    private let loader: OrdersLoading
+     private var lines: [OrderLine] = []
++    private var loadTask: Task<Void, Never>?
+ 
+     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+     private let statusLabel = UILabel()
+@@ -41,17 +14,18 @@ class OrdersViewController: UIViewController, UITableViewDataSource {
+     private let taxLabel = UILabel()
+     private let totalLabel = UILabel()
+ 
+-    private var cacheURL: URL {
+-        let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+-        return support.appendingPathComponent("ledger", isDirectory: true).appendingPathComponent("orders-cache.json")
++    init(loader: OrdersLoading = LiveOrdersLoader.app()) {
++        self.loader = loader
++        super.init(nibName: nil, bundle: nil)
+     }
+ 
+-    private var endpoint: URL {
+-        // QA builds point the screen at a staging or canned feed.
+-        if let override = ProcessInfo.processInfo.environment["LEDGER_ORDERS_URL"], let url = URL(string: override) {
+-            return url
+-        }
+-        return URL(string: "https://api.ledger.example/v1/orders")!
++    @available(*, unavailable)
++    required init?(coder: NSCoder) {
++        fatalError("init(coder:) is not supported")
++    }
++
++    deinit {
++        loadTask?.cancel()
+     }
+ 
+     override func viewDidLoad() {
+@@ -74,15 +48,8 @@ class OrdersViewController: UIViewController, UITableViewDataSource {
+     // MARK: - Loading
+ 
+     private func loadCachedOrders() {
+-        guard let data = try? Data(contentsOf: cacheURL) else {
+-            statusLabel.text = L10n.Orders.Status.empty
+-            updateTotals()
+-            return
+-        }
+-        let decoder = JSONDecoder()
+-        decoder.dateDecodingStrategy = .secondsSince1970
+-        if let cache = try? decoder.decode(OrdersCacheFile.self, from: data), cache.version == 1 {
+-            lines = cache.lines
++        if let saved = loader.savedLines() {
++            lines = saved
+             statusLabel.text = L10n.Orders.Status.offline
+         } else {
+             statusLabel.text = L10n.Orders.Status.empty
+@@ -91,69 +58,33 @@ class OrdersViewController: UIViewController, UITableViewDataSource {
+         updateTotals()
+     }
+ 
++    /// Starts a load. A newer load cancels the older one, so only the latest result is shown.
+     private func fetchOrders() {
+         statusLabel.text = L10n.Orders.Status.loading
+-        URLSession.shared.dataTask(with: endpoint) { [weak self] data, response, error in
+-            DispatchQueue.main.async {
+-                guard let self = self else { return }
+-                if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
+-                    self.showLoadFailure()
+-                    return
+-                }
+-                guard error == nil, let data = data,
+-                      let decoded = try? JSONDecoder().decode(OrdersResponse.self, from: data) else {
+-                    self.showLoadFailure()
+-                    return
+-                }
+-                self.lines = decoded.lines
+-                self.saveCache()
++        loadTask?.cancel()
++        loadTask = Task { [weak self, loader] in
++            do {
++                let lines = try await loader.refresh()
++                guard !Task.isCancelled, let self = self else { return }
++                self.lines = lines
+                 self.statusLabel.text = L10n.Orders.Status.updated
+                 self.tableView.reloadData()
+                 self.updateTotals()
++            } catch {
++                guard !Task.isCancelled, let self = self else { return }
++                self.statusLabel.text = self.lines.isEmpty ? L10n.Orders.Status.empty : L10n.Orders.Status.offline
+             }
+-        }.resume()
+-    }
+-
+-    private func showLoadFailure() {
+-        statusLabel.text = lines.isEmpty ? L10n.Orders.Status.empty : L10n.Orders.Status.offline
+-    }
+-
+-    private func saveCache() {
+-        let encoder = JSONEncoder()
+-        encoder.dateEncodingStrategy = .secondsSince1970
+-        encoder.outputFormatting = [.sortedKeys]
+-        let cache = OrdersCacheFile(version: 1, savedAt: Date(), lines: lines)
+-        do {
+-            try FileManager.default.createDirectory(
+-                at: cacheURL.deletingLastPathComponent(), withIntermediateDirectories: true
+-            )
+-            try encoder.encode(cache).write(to: cacheURL, options: .atomic)
+-        } catch {
+-            print("Ledger: could not save the orders cache: \(error)")
+         }
+     }
+ 
+     // MARK: - Totals
+ 
+     private func updateTotals() {
+-        var subtotal = 0
+-        for line in lines where line.quantity > 0 {
+-            subtotal += line.quantity * line.unitPriceCents
+-        }
+-        // 10% off orders of $100.00 or more, rounded half up.
+-        var discount = 0
+-        if subtotal >= 10_000 {
+-            discount = (subtotal + 5) / 10
+-        }
+-        // 8.25% sales tax on the discounted amount, rounded half up.
+-        let taxable = subtotal - discount
+-        let tax = (taxable * 825 + 5_000) / 10_000
+-        let total = taxable + tax
+-
+-        subtotalLabel.text = L10n.Orders.subtotal(formatCents(subtotal))
+-        discountLabel.text = L10n.Orders.discount(formatCents(-discount))
+-        taxLabel.text = L10n.Orders.tax(formatCents(tax))
+-        totalLabel.text = L10n.Orders.total(formatCents(total))
++        let totals = OrderTotals(lines: lines)
++        subtotalLabel.text = L10n.Orders.subtotal(formatCents(totals.subtotal))
++        discountLabel.text = L10n.Orders.discount(formatCents(-totals.discount))
++        taxLabel.text = L10n.Orders.tax(formatCents(totals.tax))
++        totalLabel.text = L10n.Orders.total(formatCents(totals.total))
+     }
+ 
+     private func formatCents(_ cents: Int) -> String {
+diff --git a/LedgerOrders/Package.swift b/LedgerOrders/Package.swift
+new file mode 100644
+index 0000000..97c884e
+--- /dev/null
++++ b/LedgerOrders/Package.swift
+@@ -0,0 +1,16 @@
++// swift-tools-version: 6.0
++import PackageDescription
++
++let package = Package(
++    name: "LedgerOrders",
++    platforms: [.iOS(.v17), .macOS(.v14)],
++    products: [
++        .library(name: "LedgerOrders", targets: ["OrdersDomain", "OrdersData"]),
++    ],
++    targets: [
++        .target(name: "OrdersDomain"),
++        .target(name: "OrdersData", dependencies: ["OrdersDomain"]),
++        .testTarget(name: "OrdersDomainTests", dependencies: ["OrdersDomain"]),
++        .testTarget(name: "OrdersDataTests", dependencies: ["OrdersData"]),
++    ]
++)
+diff --git a/LedgerOrders/Sources/OrdersData/OrdersLoading.swift b/LedgerOrders/Sources/OrdersData/OrdersLoading.swift
+new file mode 100644
+index 0000000..1f343bc
+--- /dev/null
++++ b/LedgerOrders/Sources/OrdersData/OrdersLoading.swift
+@@ -0,0 +1,97 @@
++import Foundation
++import OrdersDomain
++import OSLog
++
++/// The data-loading seam of the orders screen.
++public protocol OrdersLoading: Sendable {
++    /// The lines that the last successful load saved, or nil when no readable cache exists.
++    func savedLines() -> [OrderLine]?
++
++    /// Loads the lines from the server and saves them. Throws when the load fails; the saved lines stay.
++    func refresh() async throws -> [OrderLine]
++}
++
++public enum OrdersLoadError: Error, Equatable {
++    case status(Int)
++}
++
++/// Loads orders over HTTP and keeps the last result in the cache file that every app version reads.
++public struct LiveOrdersLoader: OrdersLoading {
++    /// `Application Support/ledger/orders-cache.json`. Do not move it: users' saved orders live there.
++    public static var defaultCacheURL: URL {
++        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
++            .appendingPathComponent("ledger", isDirectory: true)
++            .appendingPathComponent("orders-cache.json")
++    }
++
++    private let endpoint: URL
++    private let cacheURL: URL
++    private let session: URLSession
++    private let now: @Sendable () -> Date
++    private let logger = Logger(subsystem: "com.example.ledger", category: "orders")
++
++    public init(
++        endpoint: URL,
++        cacheURL: URL = LiveOrdersLoader.defaultCacheURL,
++        session: URLSession = .shared,
++        now: @escaping @Sendable () -> Date = { Date() }
++    ) {
++        self.endpoint = endpoint
++        self.cacheURL = cacheURL
++        self.session = session
++        self.now = now
++    }
++
++    public func savedLines() -> [OrderLine]? {
++        guard let data = try? Data(contentsOf: cacheURL) else { return nil }
++        let decoder = JSONDecoder()
++        guard let cache = try? decoder.decode(OrdersCacheFile.self, from: data),
++              cache.version == OrdersCacheFile.currentVersion
++        else { return nil }
++        return cache.lines
++    }
++
++    public func refresh() async throws -> [OrderLine] {
++        let (data, response) = try await session.data(from: endpoint)
++        if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
++            throw OrdersLoadError.status(http.statusCode)
++        }
++        let lines = try JSONDecoder().decode(OrdersResponse.self, from: data).lines
++        // A failed save keeps the loaded lines on screen, as before; the next load retries it.
++        do {
++            try save(lines)
++        } catch {
++            logger.error("Could not save the orders cache: \(error.localizedDescription, privacy: .public)")
++        }
++        return lines
++    }
++
++    private func save(_ lines: [OrderLine]) throws {
++        let encoder = JSONEncoder()
++        encoder.outputFormatting = [.sortedKeys]
++        let cache = OrdersCacheFile(version: OrdersCacheFile.currentVersion, savedAt: Int(now().timeIntervalSince1970), lines: lines)
++        try FileManager.default.createDirectory(
++            at: cacheURL.deletingLastPathComponent(), withIntermediateDirectories: true
++        )
++        try encoder.encode(cache).write(to: cacheURL, options: .atomic)
++    }
++}
++
++/// The cache file format. Its keys and version are read by every installed app version.
++struct OrdersCacheFile: Codable {
++    static let currentVersion = 1
++
++    var version: Int
++    var savedAt: Int
++    var lines: [OrderLine]
++
++    enum CodingKeys: String, CodingKey {
++        case version
++        case savedAt = "saved_at"
++        case lines
++    }
++}
++
++private struct OrdersResponse: Decodable {
++    var lines: [OrderLine]
++}
+diff --git a/LedgerOrders/Sources/OrdersDomain/OrderLine.swift b/LedgerOrders/Sources/OrdersDomain/OrderLine.swift
+new file mode 100644
+index 0000000..9ffbebf
+--- /dev/null
++++ b/LedgerOrders/Sources/OrdersDomain/OrderLine.swift
+@@ -0,0 +1,21 @@
++/// One line of an order. The coding keys are the server and cache format; users' saved data depends on them.
++public struct OrderLine: Codable, Equatable, Sendable {
++    public var sku: String
++    public var name: String
++    public var quantity: Int
++    public var unitPriceCents: Int
++
++    public init(sku: String, name: String, quantity: Int, unitPriceCents: Int) {
++        self.sku = sku
++        self.name = name
++        self.quantity = quantity
++        self.unitPriceCents = unitPriceCents
++    }
++
++    enum CodingKeys: String, CodingKey {
++        case sku
++        case name
++        case quantity = "qty"
++        case unitPriceCents = "unit_price_cents"
++    }
++}
+diff --git a/LedgerOrders/Sources/OrdersDomain/OrderTotals.swift b/LedgerOrders/Sources/OrdersDomain/OrderTotals.swift
+new file mode 100644
+index 0000000..0759ee6
+--- /dev/null
++++ b/LedgerOrders/Sources/OrdersDomain/OrderTotals.swift
+@@ -0,0 +1,21 @@
++/// The totals of an order, in cents.
++public struct OrderTotals: Equatable, Sendable {
++    public let subtotal: Int
++    public let discount: Int
++    public let tax: Int
++
++    public var total: Int { subtotal - discount + tax }
++
++    /// Lines with a quantity of 0 or less do not count. Orders of $100.00 or more get 10% off.
++    /// Sales tax is 8.25% of the discounted amount. Both round half up to the cent.
++    public init(lines: [OrderLine]) {
++        let subtotal = lines
++            .filter { $0.quantity > 0 }
++            .reduce(0) { $0 + $1.quantity * $1.unitPriceCents }
++        let discount = subtotal >= 10_000 ? (subtotal + 5) / 10 : 0
++        let taxable = subtotal - discount
++        self.subtotal = subtotal
++        self.discount = discount
++        self.tax = (taxable * 825 + 5_000) / 10_000
++    }
++}
+diff --git a/LedgerOrders/Tests/OrdersDataTests/LiveOrdersLoaderTests.swift b/LedgerOrders/Tests/OrdersDataTests/LiveOrdersLoaderTests.swift
+new file mode 100644
+index 0000000..e832afa
+--- /dev/null
++++ b/LedgerOrders/Tests/OrdersDataTests/LiveOrdersLoaderTests.swift
+@@ -0,0 +1,70 @@
++import Foundation
++import OrdersData
++import OrdersDomain
++import Testing
++
++struct LiveOrdersLoaderTests {
++    /// Bytes that version 1.0 of the app wrote.
++    static let oldCache = #"{"lines":[{"name":"Desk lamp","qty":1,"sku":"C3","unit_price_cents":10000}],"saved_at":1767225600.512345,"version":1}"#
++
++    let directory: URL
++    let cacheURL: URL
++
++    init() throws {
++        directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
++        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
++        cacheURL = directory.appendingPathComponent("ledger/orders-cache.json")
++    }
++
++    private func loader(feed: String?) -> LiveOrdersLoader {
++        let endpoint = feed.map { URL(string: "data:application/json;base64," + Data($0.utf8).base64EncodedString())! }
++            ?? directory.appendingPathComponent("missing-feed.json")
++        return LiveOrdersLoader(endpoint: endpoint, cacheURL: cacheURL, now: { Date(timeIntervalSince1970: 1_800_000_000) })
++    }
++
++    private func writeCache(_ text: String) throws {
++        try FileManager.default.createDirectory(at: cacheURL.deletingLastPathComponent(), withIntermediateDirectories: true)
++        try Data(text.utf8).write(to: cacheURL)
++    }
++
++    @Test func readsCacheWrittenByOldVersion() throws {
++        try writeCache(Self.oldCache)
++        #expect(loader(feed: nil).savedLines() == [OrderLine(sku: "C3", name: "Desk lamp", quantity: 1, unitPriceCents: 10000)])
++    }
++
++    @Test func noCacheGivesNil() {
++        #expect(loader(feed: nil).savedLines() == nil)
++    }
++
++    @Test(arguments: [String(Self.oldCache.prefix(57)), "", #"{"lines":[],"saved_at":1,"version":2}"#])
++    func unreadableCacheGivesNil(_ text: String) throws {
++        try writeCache(text)
++        #expect(loader(feed: nil).savedLines() == nil)
++    }
++
++    @Test func refreshSavesInTheLegacyFormat() async throws {
++        let lines = try await loader(feed: #"{"lines":[{"sku":"A1","name":"Notebook","qty":2,"unit_price_cents":1250}]}"#).refresh()
++        #expect(lines == [OrderLine(sku: "A1", name: "Notebook", quantity: 2, unitPriceCents: 1250)])
++        let saved = try String(contentsOf: cacheURL, encoding: .utf8)
++        #expect(saved == #"{"lines":[{"name":"Notebook","qty":2,"sku":"A1","unit_price_cents":1250}],"saved_at":1800000000,"version":1}"#)
++    }
++
++    @Test func refreshReplacesInsteadOfAppending() async throws {
++        let loader = loader(feed: #"{"lines":[{"sku":"A1","name":"Notebook","qty":2,"unit_price_cents":1250}]}"#)
++        _ = try await loader.refresh()
++        _ = try await loader.refresh()
++        #expect(loader.savedLines()?.count == 1)
++    }
++
++    @Test func failedRefreshKeepsTheCache() async throws {
++        try writeCache(Self.oldCache)
++        await #expect(throws: (any Error).self) { try await loader(feed: nil).refresh() }
++        #expect(loader(feed: nil).savedLines()?.first?.sku == "C3")
++    }
++
++    @Test func malformedFeedThrowsAndKeepsTheCache() async throws {
++        try writeCache(Self.oldCache)
++        await #expect(throws: (any Error).self) { try await loader(feed: #"{"lines":"#).refresh() }
++        #expect(loader(feed: nil).savedLines()?.first?.sku == "C3")
++    }
++}
+diff --git a/LedgerOrders/Tests/OrdersDomainTests/OrderTotalsTests.swift b/LedgerOrders/Tests/OrdersDomainTests/OrderTotalsTests.swift
+new file mode 100644
+index 0000000..07ec95e
+--- /dev/null
++++ b/LedgerOrders/Tests/OrdersDomainTests/OrderTotalsTests.swift
+@@ -0,0 +1,47 @@
++import OrdersDomain
++import Testing
++
++/// Characterization of the totals that OrdersViewController computed before the extraction.
++struct OrderTotalsTests {
++    struct Example: Sendable, CustomTestStringConvertible {
++        let name: String
++        let lines: [OrderLine]
++        let subtotal, discount, tax, total: Int
++        var testDescription: String { name }
++    }
++
++    static let examples = [
++        Example(name: "empty", lines: [], subtotal: 0, discount: 0, tax: 0, total: 0),
++        Example(name: "under the threshold",
++                lines: [line("A1", 2, 1250), line("B2", 1, 399)],
++                subtotal: 2899, discount: 0, tax: 239, total: 3138),
++        Example(name: "exactly at the threshold",
++                lines: [line("C3", 1, 10000)],
++                subtotal: 10000, discount: 1000, tax: 743, total: 9743),
++        Example(name: "zero and negative quantities do not count",
++                lines: [line("D4", 3, 4999), line("E5", -1, 4999), line("F6", 0, 500)],
++                subtotal: 14997, discount: 1500, tax: 1114, total: 14611),
++        Example(name: "discount rounds half up",
++                lines: [line("G7", 1, 10005)],
++                subtotal: 10005, discount: 1001, tax: 743, total: 9747),
++        Example(name: "tax rounds half up",
++                lines: [line("H8", 4, 50)],
++                subtotal: 200, discount: 0, tax: 17, total: 217),
++        Example(name: "just under the threshold",
++                lines: [line("I9", 1, 9999)],
++                subtotal: 9999, discount: 0, tax: 825, total: 10824),
++    ]
++
++    @Test(arguments: examples)
++    func totals(_ example: Example) {
++        let totals = OrderTotals(lines: example.lines)
++        #expect(totals.subtotal == example.subtotal)
++        #expect(totals.discount == example.discount)
++        #expect(totals.tax == example.tax)
++        #expect(totals.total == example.total)
++    }
++
++    private static func line(_ sku: String, _ quantity: Int, _ cents: Int) -> OrderLine {
++        OrderLine(sku: sku, name: sku, quantity: quantity, unitPriceCents: cents)
++    }
++}

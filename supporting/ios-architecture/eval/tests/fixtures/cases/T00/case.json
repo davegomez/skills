@@ -1,0 +1,4 @@
+{"id": "T00", "title": "Toy greeting change", "priorities": ["reliability", "security"],
+ "references": {"required": ["testing"], "optional": ["localization"]},
+ "pre_edit_files": ["greet.txt"],
+ "traps": [{"id": "T00-old-greeting", "file": "greet.txt", "line": 1, "severity": "critical", "description": "The greeting is lowercase."}]}

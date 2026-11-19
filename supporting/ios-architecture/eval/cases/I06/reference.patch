@@ -1,0 +1,380 @@
+diff --git a/Shelf.xcodeproj/project.pbxproj b/Shelf.xcodeproj/project.pbxproj
+index 4c6dac0..0773ed6 100644
+--- a/Shelf.xcodeproj/project.pbxproj
++++ b/Shelf.xcodeproj/project.pbxproj
+@@ -138,6 +138,7 @@
+ 			hasScannedForEncodings = 0;
+ 			knownRegions = (
+ 				en,
++				es,
+ 				Base,
+ 			);
+ 			mainGroup = 5E1F00000000000000000601;
+diff --git a/Shelf/Localizable.xcstrings b/Shelf/Localizable.xcstrings
+new file mode 100644
+index 0000000..d55ee54
+--- /dev/null
++++ b/Shelf/Localizable.xcstrings
+@@ -0,0 +1,76 @@
++{
++  "sourceLanguage" : "en",
++  "strings" : {
++    "Could not load your reading list." : {
++      "comment" : "Error state of the reading list when the books cannot load.",
++      "localizations" : {
++        "es" : {
++          "stringUnit" : {
++            "state" : "translated",
++            "value" : "No se pudo cargar tu lista de lectura."
++          }
++        }
++      }
++    },
++    "Loading books" : {
++      "comment" : "Loading state of the reading list.",
++      "localizations" : {
++        "es" : {
++          "stringUnit" : {
++            "state" : "translated",
++            "value" : "Cargando libros"
++          }
++        }
++      }
++    },
++    "No books yet" : {
++      "comment" : "Empty state of the reading list.",
++      "localizations" : {
++        "es" : {
++          "stringUnit" : {
++            "state" : "translated",
++            "value" : "Todavía no hay libros"
++          }
++        }
++      }
++    },
++    "Reading List" : {
++      "comment" : "Title of the reading list screen and of the link that opens it.",
++      "localizations" : {
++        "es" : {
++          "stringUnit" : {
++            "state" : "translated",
++            "value" : "Lista de lectura"
++          }
++        }
++      }
++    },
++    "Shelf" : {
++      "comment" : "App name, shown as the home screen title.",
++      "shouldTranslate" : false
++    },
++    "Try Again" : {
++      "comment" : "Button that loads the reading list again after an error.",
++      "localizations" : {
++        "es" : {
++          "stringUnit" : {
++            "state" : "translated",
++            "value" : "Reintentar"
++          }
++        }
++      }
++    },
++    "You are offline. Showing saved books." : {
++      "comment" : "Notice above the saved books when the device has no connection.",
++      "localizations" : {
++        "es" : {
++          "stringUnit" : {
++            "state" : "translated",
++            "value" : "Sin conexión. Se muestran los libros guardados."
++          }
++        }
++      }
++    }
++  },
++  "version" : "1.0"
++}
+diff --git a/Shelf/ReadingList/Book.swift b/Shelf/ReadingList/Book.swift
+new file mode 100644
+index 0000000..06716aa
+--- /dev/null
++++ b/Shelf/ReadingList/Book.swift
+@@ -0,0 +1,12 @@
++import Foundation
++
++nonisolated struct Book: Codable, Identifiable, Hashable, Sendable {
++    let id: String
++    let title: String
++    let author: String
++}
++
++/// Response body of `GET /v1/books`.
++nonisolated struct BookListResponse: Decodable, Sendable {
++    let books: [Book]
++}
+diff --git a/Shelf/ReadingList/BookCache.swift b/Shelf/ReadingList/BookCache.swift
+new file mode 100644
+index 0000000..4a53684
+--- /dev/null
++++ b/Shelf/ReadingList/BookCache.swift
+@@ -0,0 +1,30 @@
++import Foundation
++import os
++
++/// Last list the server returned, kept for offline display.
++nonisolated struct BookCache: Sendable {
++    let fileURL: URL
++    private static let log = Logger(subsystem: "eval.i06.Shelf", category: "ReadingList")
++
++    static let standard = BookCache(fileURL: URL.cachesDirectory.appending(path: "reading-list.json"))
++
++    func load() -> [Book]? {
++        do {
++            return try JSONDecoder().decode([Book].self, from: Data(contentsOf: fileURL))
++        } catch CocoaError.fileReadNoSuchFile {
++            return nil
++        } catch {
++            Self.log.error("Reading list cache unreadable: \(String(describing: type(of: error)), privacy: .public)")
++            return nil
++        }
++    }
++
++    func save(_ books: [Book]) {
++        do {
++            let data = try JSONEncoder().encode(books)
++            try data.write(to: fileURL, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
++        } catch {
++            Self.log.error("Reading list cache not saved: \(String(describing: type(of: error)), privacy: .public)")
++        }
++    }
++}
+diff --git a/Shelf/ReadingList/BooksRepository.swift b/Shelf/ReadingList/BooksRepository.swift
+new file mode 100644
+index 0000000..4e4bd68
+--- /dev/null
++++ b/Shelf/ReadingList/BooksRepository.swift
+@@ -0,0 +1,71 @@
++import Foundation
++import os
++
++/// Loads the reading list over the authenticated transport, with retries and an offline cache.
++nonisolated struct BooksRepository: Sendable {
++    enum Outcome: Equatable, Sendable {
++        case fresh([Book])
++        case cached([Book])
++    }
++
++    let http: any HTTPClient
++    let auth: any AuthService
++    let cache: BookCache
++    var policy = RetryPolicy()
++    private static let log = Logger(subsystem: "eval.i06.Shelf", category: "ReadingList")
++    private static let maxBodySize = 1_000_000
++
++    /// Throws `CancellationError` when cancelled and `LoadFailure` when the load fails.
++    func load() async throws -> Outcome {
++        var attempt = 1
++        while true {
++            let requestID = UUID().uuidString
++            do {
++                let books = try await fetchOnce(requestID: requestID)
++                cache.save(books)
++                return .fresh(books)
++            } catch let failure as LoadFailure {
++                Self.log.error("Books request \(requestID, privacy: .public) attempt \(attempt, privacy: .public) failed: \(String(describing: failure), privacy: .public)")
++                switch failure {
++                case .offline:
++                    guard let cached = cache.load() else { throw failure }
++                    return .cached(cached)
++                case .transient where attempt < policy.maxAttempts:
++                    try await Task.sleep(for: policy.delay(afterAttempt: attempt))
++                    attempt += 1
++                case .transient, .permanent:
++                    throw failure
++                }
++            }
++        }
++    }
++
++    private func fetchOnce(requestID: String) async throws -> [Book] {
++        var request = URLRequest(url: ShelfAPI.baseURL.appending(path: "books"))
++        request.httpMethod = "GET"
++        request.setValue("application/json", forHTTPHeaderField: "Accept")
++        request.setValue(requestID, forHTTPHeaderField: "X-Request-ID")
++        request.setValue("Bearer \(try await auth.accessToken())", forHTTPHeaderField: "Authorization")
++
++        let data: Data
++        let response: URLResponse
++        do {
++            (data, response) = try await http.data(for: request)
++        } catch let error as URLError where error.code == .cancelled {
++            throw CancellationError()
++        } catch let error as URLError {
++            throw LoadFailure.classify(error)
++        }
++
++        guard let http = response as? HTTPURLResponse else { throw LoadFailure.permanent }
++        if let failure = LoadFailure.classify(status: http.statusCode) { throw failure }
++        guard http.mimeType == "application/json", data.count <= Self.maxBodySize else {
++            throw LoadFailure.permanent
++        }
++        do {
++            return try JSONDecoder().decode(BookListResponse.self, from: data).books
++        } catch {
++            throw LoadFailure.permanent
++        }
++    }
++}
+diff --git a/Shelf/ReadingList/LoadPolicy.swift b/Shelf/ReadingList/LoadPolicy.swift
+new file mode 100644
+index 0000000..010c66c
+--- /dev/null
++++ b/Shelf/ReadingList/LoadPolicy.swift
+@@ -0,0 +1,39 @@
++import Foundation
++
++/// Why a load failed, in the terms the reading list shows.
++nonisolated enum LoadFailure: Error, Equatable, Sendable {
++    case offline
++    case transient
++    case permanent
++
++    static func classify(status: Int) -> LoadFailure? {
++        switch status {
++        case 200...299: nil
++        case 408, 429, 500...599: .transient
++        default: .permanent
++        }
++    }
++
++    static func classify(_ error: URLError) -> LoadFailure {
++        switch error.code {
++        case .notConnectedToInternet, .dataNotAllowed, .internationalRoamingOff:
++            .offline
++        case .timedOut, .networkConnectionLost, .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed:
++            .transient
++        default:
++            .permanent
++        }
++    }
++}
++
++/// Retry rules for idempotent requests.
++nonisolated struct RetryPolicy: Sendable {
++    var maxAttempts = 3
++    var baseDelay: Duration = .milliseconds(200)
++
++    /// Exponential backoff with up to 50% jitter.
++    func delay(afterAttempt attempt: Int) -> Duration {
++        let base = baseDelay * (1 << (attempt - 1))
++        return base + base * Double.random(in: 0...0.5)
++    }
++}
+diff --git a/Shelf/ReadingList/ReadingListModel.swift b/Shelf/ReadingList/ReadingListModel.swift
+new file mode 100644
+index 0000000..04be3aa
+--- /dev/null
++++ b/Shelf/ReadingList/ReadingListModel.swift
+@@ -0,0 +1,35 @@
++import Observation
++
++@Observable
++final class ReadingListModel {
++    enum State: Equatable {
++        case loading
++        case loaded([Book])
++        case empty
++        case offline([Book])
++        case failed
++    }
++
++    private(set) var state: State = .loading
++    private let repository: BooksRepository
++
++    init(repository: BooksRepository) {
++        self.repository = repository
++    }
++
++    func load() async {
++        state = .loading
++        do {
++            switch try await repository.load() {
++            case .fresh(let books):
++                state = books.isEmpty ? .empty : .loaded(books)
++            case .cached(let books):
++                state = .offline(books)
++            }
++        } catch is CancellationError {
++            // The screen went away; there is nothing to show.
++        } catch {
++            state = .failed
++        }
++    }
++}
+diff --git a/Shelf/ReadingList/ReadingListView.swift b/Shelf/ReadingList/ReadingListView.swift
+index b00d7e2..b388323 100644
+--- a/Shelf/ReadingList/ReadingListView.swift
++++ b/Shelf/ReadingList/ReadingListView.swift
+@@ -1,10 +1,62 @@
+ import SwiftUI
+ 
+ struct ReadingListView: View {
+-    let dependencies: AppDependencies
++    @State private var model: ReadingListModel
++    @State private var loadID = 0
++
++    init(dependencies: AppDependencies) {
++        let repository = BooksRepository(http: dependencies.http, auth: dependencies.auth, cache: .standard)
++        _model = State(initialValue: ReadingListModel(repository: repository))
++    }
+ 
+     var body: some View {
+-        ContentUnavailableView("Coming Soon", systemImage: "books.vertical")
++        content
+             .navigationTitle("Reading List")
++            .task(id: loadID) { await model.load() }
++    }
++
++    @ViewBuilder
++    private var content: some View {
++        switch model.state {
++        case .loading:
++            ProgressView("Loading books")
++                .accessibilityIdentifier("reading.loading")
++        case .loaded(let books):
++            bookList(books, offline: false)
++        case .empty:
++            ContentUnavailableView("No books yet", systemImage: "books.vertical")
++                .accessibilityIdentifier("reading.empty")
++        case .offline(let books):
++            bookList(books, offline: true)
++        case .failed:
++            ContentUnavailableView {
++                Label("Could not load your reading list.", systemImage: "exclamationmark.triangle")
++                    .accessibilityIdentifier("reading.error")
++            } actions: {
++                Button("Try Again") { loadID += 1 }
++                    .buttonStyle(.borderedProminent)
++                    .accessibilityIdentifier("reading.retry")
++            }
++        }
++    }
++
++    private func bookList(_ books: [Book], offline: Bool) -> some View {
++        List {
++            if offline {
++                Label("You are offline. Showing saved books.", systemImage: "wifi.slash")
++                    .accessibilityIdentifier("reading.offline")
++            }
++            ForEach(books) { book in
++                VStack(alignment: .leading) {
++                    Text(book.title)
++                        .font(.headline)
++                    Text(book.author)
++                        .font(.subheadline)
++                        .foregroundStyle(.secondary)
++                }
++                .accessibilityElement(children: .combine)
++            }
++        }
++        .accessibilityIdentifier("reading.list")
+     }
+ }

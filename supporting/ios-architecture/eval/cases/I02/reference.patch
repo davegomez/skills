@@ -1,0 +1,694 @@
+diff --git a/App/Storefront.xcodeproj/project.pbxproj b/App/Storefront.xcodeproj/project.pbxproj
+index ff38a9f..289eec1 100644
+--- a/App/Storefront.xcodeproj/project.pbxproj
++++ b/App/Storefront.xcodeproj/project.pbxproj
+@@ -7,6 +7,7 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
++		D7119A2A30B80F6F99DF288E /* OrderSummaryFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 93084DE224A934F4E72E358E /* OrderSummaryFeature */; };
+ 		0A0000000000000000000060 /* FeatureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0000000000000000000050 /* FeatureKit */; };
+ 		0A0000000000000000000061 /* CoreClients in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0000000000000000000051 /* CoreClients */; };
+ 		0A0000000000000000000062 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0000000000000000000052 /* Networking */; };
+@@ -63,6 +64,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				D7119A2A30B80F6F99DF288E /* OrderSummaryFeature in Frameworks */,
+ 				0A0000000000000000000060 /* FeatureKit in Frameworks */,
+ 				0A0000000000000000000061 /* CoreClients in Frameworks */,
+ 				0A0000000000000000000062 /* Networking in Frameworks */,
+@@ -130,6 +132,7 @@
+ 			);
+ 			name = Storefront;
+ 			packageProductDependencies = (
++				93084DE224A934F4E72E358E /* OrderSummaryFeature */,
+ 				0A0000000000000000000050 /* FeatureKit */,
+ 				0A0000000000000000000051 /* CoreClients */,
+ 				0A0000000000000000000052 /* Networking */,
+@@ -183,6 +186,7 @@
+ 			mainGroup = 0A0000000000000000000002;
+ 			minimizedProjectReferenceProxies = 1;
+ 			packageReferences = (
++				0F673E0E8B1EF5FE7B97B0EB /* XCLocalSwiftPackageReference "../Packages/Features/OrderSummary" */,
+ 				0A0000000000000000000040 /* XCLocalSwiftPackageReference "../Packages/Core" */,
+ 				0A0000000000000000000041 /* XCLocalSwiftPackageReference "../Packages/Networking" */,
+ 				0A0000000000000000000042 /* XCLocalSwiftPackageReference "../Packages/Persistence" */,
+@@ -397,6 +401,10 @@
+ /* End XCConfigurationList section */
+ 
+ /* Begin XCLocalSwiftPackageReference section */
++		0F673E0E8B1EF5FE7B97B0EB /* XCLocalSwiftPackageReference "../Packages/Features/OrderSummary" */ = {
++			isa = XCLocalSwiftPackageReference;
++			relativePath = ../Packages/Features/OrderSummary;
++		};
+ 		0A0000000000000000000040 /* XCLocalSwiftPackageReference "../Packages/Core" */ = {
+ 			isa = XCLocalSwiftPackageReference;
+ 			relativePath = ../Packages/Core;
+@@ -412,6 +420,11 @@
+ /* End XCLocalSwiftPackageReference section */
+ 
+ /* Begin XCSwiftPackageProductDependency section */
++		93084DE224A934F4E72E358E /* OrderSummaryFeature */ = {
++			isa = XCSwiftPackageProductDependency;
++			package = 0F673E0E8B1EF5FE7B97B0EB /* XCLocalSwiftPackageReference "../Packages/Features/OrderSummary" */;
++			productName = OrderSummaryFeature;
++		};
+ 		0A0000000000000000000050 /* FeatureKit */ = {
+ 			isa = XCSwiftPackageProductDependency;
+ 			package = 0A0000000000000000000040 /* XCLocalSwiftPackageReference "../Packages/Core" */;
+diff --git a/App/Storefront/Storefront.swift b/App/Storefront/Storefront.swift
+index a89b5c8..af150a7 100644
+--- a/App/Storefront/Storefront.swift
++++ b/App/Storefront/Storefront.swift
+@@ -5,6 +5,7 @@ import Networking
+ import Persistence
+ import SwiftUI
+ // ios-architecture:feature-imports
++import OrderSummaryFeature
+ 
+ /// The composition root: it builds the live services, registers the features, and owns root navigation.
+ @main
+@@ -29,6 +30,7 @@ struct StorefrontApp: App {
+     /// `scripts/new-feature` adds 1 `register` line at the marker.
+     private static func registerFeatures(in registry: inout FeatureRegistry) {
+         // ios-architecture:register-features
++        registry.register(OrderSummaryEntry(service: FakeOrderService(scenario: orderScenario)))
+     }
+ 
+     private static func makeServices(bundle: Bundle) -> Services {
+@@ -60,6 +62,11 @@ struct StorefrontApp: App {
+         return url
+     }
+ 
++    /// No order backend exists yet. ORDER_SCENARIO (sample, empty, or error) picks the fake's behavior.
++    private static var orderScenario: FakeOrderService.Scenario {
++        ProcessInfo.processInfo.environment["ORDER_SCENARIO"].flatMap(FakeOrderService.Scenario.init(rawValue:)) ?? .sample
++    }
++
+     #if DEBUG
+     private static let isDebugBuild = true
+     #else
+diff --git a/Packages/Features/OrderSummary/Package.swift b/Packages/Features/OrderSummary/Package.swift
+new file mode 100644
+index 0000000..685ee19
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Package.swift
+@@ -0,0 +1,50 @@
++// swift-tools-version: 6.4
++import PackageDescription
++
++// Swift packages do not inherit the concurrency settings of the app target.
++let concurrency: [SwiftSetting] = [
++    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
++    .enableUpcomingFeature("InferIsolatedConformances"),
++]
++let mainActor = concurrency + [.defaultIsolation(MainActor.self)]
++
++let package = Package(
++    name: "OrderSummary",
++    defaultLocalization: "en",
++    // The macOS entry lets `swift test` run on the development Mac.
++    platforms: [.iOS("27.3"), .macOS("27.3")],
++    products: [
++        .library(name: "OrderSummaryDomain", targets: ["OrderSummaryDomain"]),
++        .library(name: "OrderSummaryFeature", targets: ["OrderSummaryFeature"]),
++    ],
++    dependencies: [
++        .package(path: "../../Core"),
++        .package(path: "../../DesignSystem"),
++    ],
++    targets: [
++        // Pure domain: keep the nonisolated default.
++        .target(name: "OrderSummaryDomain", swiftSettings: concurrency),
++        .target(
++            name: "OrderSummaryFeature",
++            dependencies: [
++                "OrderSummaryDomain",
++                .product(name: "FeatureKit", package: "Core"),
++                .product(name: "CoreClients", package: "Core"),
++                .product(name: "DesignSystem", package: "DesignSystem"),
++            ],
++            resources: [.process("Resources")],
++            swiftSettings: mainActor
++        ),
++        .testTarget(
++            name: "OrderSummaryDomainTests",
++            dependencies: ["OrderSummaryDomain", .product(name: "CoreClients", package: "Core")],
++            swiftSettings: concurrency
++        ),
++        .testTarget(
++            name: "OrderSummaryFeatureTests",
++            dependencies: ["OrderSummaryFeature", .product(name: "CoreTesting", package: "Core")],
++            swiftSettings: mainActor
++        ),
++    ],
++    swiftLanguageModes: [.v6]
++)
+diff --git a/Packages/Features/OrderSummary/Sources/OrderSummaryDomain/OrderSummaryDomain.swift b/Packages/Features/OrderSummary/Sources/OrderSummaryDomain/OrderSummaryDomain.swift
+new file mode 100644
+index 0000000..ab4a9f0
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Sources/OrderSummaryDomain/OrderSummaryDomain.swift
+@@ -0,0 +1,61 @@
++import Foundation
++
++/// 1 line of an order. Amounts are whole US cents, so sums are exact.
++public struct LineItem: Identifiable, Equatable, Sendable {
++    public static let quantityRange = 1...999
++    public static let unitPriceRange = 0...1_000_000
++
++    public let id: String
++    public let name: String
++    public let quantity: Int
++    public let unitPriceCents: Int
++
++    /// Rejects values outside the ranges, so totals cannot overflow or go negative.
++    public static func make(id: String, name: String, quantity: Int, unitPriceCents: Int) throws(OrderError) -> LineItem {
++        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
++        guard !trimmed.isEmpty else { throw .emptyName }
++        guard quantityRange.contains(quantity) else { throw .quantityOutOfRange(quantity) }
++        guard unitPriceRange.contains(unitPriceCents) else { throw .priceOutOfRange(unitPriceCents) }
++        return LineItem(id: id, name: trimmed, quantity: quantity, unitPriceCents: unitPriceCents)
++    }
++
++    public var lineTotalCents: Int { quantity * unitPriceCents }
++}
++
++public enum OrderError: Error, Equatable, Sendable {
++    case emptyName
++    case quantityOutOfRange(Int)
++    case priceOutOfRange(Int)
++}
++
++public struct Order: Equatable, Sendable {
++    public let items: [LineItem]
++    public init(items: [LineItem]) { self.items = items }
++}
++
++public struct OrderTotals: Equatable, Sendable {
++    public let subtotalCents: Int
++    public let taxCents: Int
++    public let totalCents: Int
++}
++
++/// The sales tax rate in basis points: 825 is 8.25%.
++public let taxRateBasisPoints = 825
++
++/// Subtotal is the sum of the line totals. Tax is the subtotal times the rate, rounded to the nearest
++/// cent with half a cent rounded up. Total is the subtotal plus the tax.
++public func totals(of order: Order, taxRateBasisPoints rate: Int = taxRateBasisPoints) -> OrderTotals {
++    let subtotal = order.items.reduce(0) { $0 + $1.lineTotalCents }
++    let tax = roundHalfUp(subtotal * rate, divisor: 10_000)
++    return OrderTotals(subtotalCents: subtotal, taxCents: tax, totalCents: subtotal + tax)
++}
++
++/// Integer division of a non-negative value, rounding half up.
++func roundHalfUp(_ value: Int, divisor: Int) -> Int {
++    (value + divisor / 2) / divisor
++}
++
++/// The source of the current order. The app injects an implementation; this feature has only a fake.
++public protocol OrderService: Sendable {
++    func currentOrder() async throws -> Order
++}
+diff --git a/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/FakeOrderService.swift b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/FakeOrderService.swift
+new file mode 100644
+index 0000000..bb6f849
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/FakeOrderService.swift
+@@ -0,0 +1,31 @@
++import Foundation
++import OrderSummaryDomain
++
++/// The only `OrderService` until a backend exists. The composition root picks the scenario.
++public struct FakeOrderService: OrderService {
++    public enum Scenario: String, Sendable {
++        case sample, empty, error
++    }
++
++    public struct LoadFailure: Error {}
++
++    private let scenario: Scenario
++    public init(scenario: Scenario) { self.scenario = scenario }
++
++    public func currentOrder() async throws -> Order {
++        switch scenario {
++        case .sample: return try Self.sampleOrder()
++        case .empty: return Order(items: [])
++        case .error: throw LoadFailure()
++        }
++    }
++
++    /// 3 x $4.99 + 1 x $12.49 + 1 x $14.54 = $42.00; tax 8.25% = $3.465, rounded half up to $3.47.
++    static func sampleOrder() throws -> Order {
++        Order(items: [
++            try LineItem.make(id: "notebook", name: "Notebook", quantity: 3, unitPriceCents: 499),
++            try LineItem.make(id: "pen-set", name: "Pen set", quantity: 1, unitPriceCents: 1249),
++            try LineItem.make(id: "desk-lamp", name: "Desk lamp", quantity: 1, unitPriceCents: 1454),
++        ])
++    }
++}
+diff --git a/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryEntry.swift b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryEntry.swift
+new file mode 100644
+index 0000000..3bdc8b3
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryEntry.swift
+@@ -0,0 +1,29 @@
++import FeatureKit
++import Foundation
++import OrderSummaryDomain
++import SwiftUI
++
++/// The only public type of the feature besides its fake service. The composition root registers it.
++nonisolated public struct OrderSummaryEntry: Feature {
++    private let service: any OrderService
++
++    public init(service: any OrderService) {
++        self.service = service
++    }
++
++    public var id: FeatureID { FeatureID("OrderSummary") }
++
++    public var metadata: FeatureMetadata {
++        FeatureMetadata(
++            title: LocalizedStringResource("Order summary", bundle: .atURL(Bundle.module.bundleURL)),
++            systemImage: "list.bullet.rectangle"
++        )
++    }
++
++    public var requirement: EntitlementRequirement { .none }
++
++    @MainActor
++    public func makeRootView(context: FeatureContext) -> AnyView {
++        AnyView(OrderSummaryView(model: OrderSummaryModel(service: service)))
++    }
++}
+diff --git a/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryModel.swift b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryModel.swift
+new file mode 100644
+index 0000000..e98bc82
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryModel.swift
+@@ -0,0 +1,32 @@
++import Foundation
++import Observation
++import OrderSummaryDomain
++
++@Observable
++final class OrderSummaryModel {
++    enum Phase: Equatable {
++        case loading
++        case loaded(Order, OrderTotals)
++        case empty
++        case failed
++    }
++
++    private(set) var phase = Phase.loading
++    private let service: any OrderService
++
++    init(service: any OrderService) {
++        self.service = service
++    }
++
++    func load() async {
++        phase = .loading
++        do {
++            let order = try await service.currentOrder()
++            phase = order.items.isEmpty ? .empty : .loaded(order, totals(of: order))
++        } catch is CancellationError {
++            // The view went away; nothing to show.
++        } catch {
++            phase = .failed
++        }
++    }
++}
+diff --git a/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryView.swift b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryView.swift
+new file mode 100644
+index 0000000..e2743f4
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/OrderSummaryView.swift
+@@ -0,0 +1,100 @@
++import DesignSystem
++import OrderSummaryDomain
++import SwiftUI
++
++struct OrderSummaryView: View {
++    @State var model: OrderSummaryModel
++
++    var body: some View {
++        content
++            .navigationTitle(Text("Order summary", bundle: .module))
++            .task { await model.load() }
++    }
++
++    @ViewBuilder
++    private var content: some View {
++        switch model.phase {
++        case .loading:
++            ProgressView { Text("Loading your order", bundle: .module) }
++        case .empty:
++            ContentUnavailableView {
++                Label { Text("Your order is empty.", bundle: .module) } icon: { Image(systemName: "cart") }
++            }
++        case .failed:
++            ContentUnavailableView {
++                Label { Text("We couldn't load your order.", bundle: .module) } icon: {
++                    Image(systemName: "exclamationmark.triangle")
++                }
++            } actions: {
++                Button { Task { await model.load() } } label: { Text("Try again", bundle: .module) }
++                    .buttonStyle(.borderedProminent)
++            }
++        case .loaded(let order, let totals):
++            List {
++                Section {
++                    ForEach(order.items) { item in
++                        LineItemRow(item: item)
++                    }
++                } header: {
++                    Text("Items", bundle: .module)
++                }
++                Section {
++                    AmountRow(title: Text("Subtotal", bundle: .module), cents: totals.subtotalCents)
++                        .accessibilityIdentifier("order.subtotal")
++                    AmountRow(title: Text("Tax (8.25%)", bundle: .module), cents: totals.taxCents)
++                        .accessibilityIdentifier("order.tax")
++                    AmountRow(title: Text("Total", bundle: .module), cents: totals.totalCents)
++                        .bold()
++                        .accessibilityIdentifier("order.total")
++                }
++            }
++        }
++    }
++}
++
++/// Formats whole cents as US dollars with the user's number format.
++func dollars(_ cents: Int) -> String {
++    (Decimal(cents) / 100).formatted(.currency(code: "USD"))
++}
++
++private struct LineItemRow: View {
++    let item: LineItem
++
++    var body: some View {
++        ViewThatFits(in: .horizontal) {
++            HStack(alignment: .firstTextBaseline) { details; Spacer(); total }
++            VStack(alignment: .leading) { details; total }
++        }
++        .accessibilityElement(children: .combine)
++    }
++
++    private var details: some View {
++        VStack(alignment: .leading) {
++            Text(item.name)
++            Text("\(item.quantity) × \(dollars(item.unitPriceCents))", bundle: .module)
++                .font(.subheadline)
++                .foregroundStyle(.secondary)
++        }
++    }
++
++    private var total: some View { Text(dollars(item.lineTotalCents)) }
++}
++
++private struct AmountRow: View {
++    let title: Text
++    let cents: Int
++
++    var body: some View {
++        ViewThatFits(in: .horizontal) {
++            HStack { title; Spacer(); Text(dollars(cents)) }
++            VStack(alignment: .leading) { title; Text(dollars(cents)) }
++        }
++        .accessibilityElement(children: .combine)
++    }
++}
++
++#Preview {
++    NavigationStack {
++        OrderSummaryView(model: OrderSummaryModel(service: FakeOrderService(scenario: .sample)))
++    }
++}
+diff --git a/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/Resources/Localizable.xcstrings b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/Resources/Localizable.xcstrings
+new file mode 100644
+index 0000000..691ac6a
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Sources/OrderSummaryFeature/Resources/Localizable.xcstrings
+@@ -0,0 +1,36 @@
++{
++  "sourceLanguage" : "en",
++  "strings" : {
++    "%lld × %@" : {
++      "comment" : "Quantity and unit price of an order line, for example 3 × $4.99."
++    },
++    "Items" : {
++      "comment" : "Header of the order lines."
++    },
++    "Loading your order" : {
++      "comment" : "Shown while the order loads."
++    },
++    "Order summary" : {
++      "comment" : "Title of the order summary screen and of the feature in the navigation."
++    },
++    "Subtotal" : {
++      "comment" : "Sum of the order lines before tax."
++    },
++    "Tax (8.25%)" : {
++      "comment" : "Sales tax of the order, with its rate."
++    },
++    "Total" : {
++      "comment" : "Amount due: subtotal plus tax."
++    },
++    "Try again" : {
++      "comment" : "Button that loads the order again after a failure."
++    },
++    "We couldn't load your order." : {
++      "comment" : "Shown when the order cannot be loaded."
++    },
++    "Your order is empty." : {
++      "comment" : "Shown when the order has no lines."
++    }
++  },
++  "version" : "1.0"
++}
+diff --git a/Packages/Features/OrderSummary/Tests/OrderSummaryDomainTests/OrderSummaryDomainTests.swift b/Packages/Features/OrderSummary/Tests/OrderSummaryDomainTests/OrderSummaryDomainTests.swift
+new file mode 100644
+index 0000000..15e9b6f
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Tests/OrderSummaryDomainTests/OrderSummaryDomainTests.swift
+@@ -0,0 +1,58 @@
++import Foundation
++import Testing
++@testable import OrderSummaryDomain
++
++private func item(_ quantity: Int, _ cents: Int) throws -> LineItem {
++    try LineItem.make(id: UUID().uuidString, name: "Item", quantity: quantity, unitPriceCents: cents)
++}
++
++@Test func lineTotalIsQuantityTimesUnitPrice() throws {
++    #expect(try item(3, 499).lineTotalCents == 1497)
++}
++
++@Test func sampleOrderTotals() throws {
++    let order = Order(items: [try item(3, 499), try item(1, 1249), try item(1, 1454)])
++    #expect(totals(of: order) == OrderTotals(subtotalCents: 4200, taxCents: 347, totalCents: 4547))
++}
++
++/// Tax rounds to the nearest cent, and half a cent rounds up (not to even).
++@Test(arguments: [
++    (4200, 347),  // 346.5 -> 347
++    (4600, 380),  // 379.5 -> 380
++    (1000, 83),   // 82.5 -> 83
++    (1010, 83),   // 83.325 -> 83
++    (1020, 84),   // 84.15 -> 84
++    (0, 0),
++])
++func taxRoundsHalfUp(subtotal: Int, tax: Int) throws {
++    let result = totals(of: Order(items: [try item(1, subtotal)]))
++    #expect(result.taxCents == tax)
++    #expect(result.totalCents == subtotal + tax)
++}
++
++@Test func emptyOrderHasZeroTotals() {
++    #expect(totals(of: Order(items: [])) == OrderTotals(subtotalCents: 0, taxCents: 0, totalCents: 0))
++}
++
++@Test(arguments: [0, -1, 1000])
++func makeRejectsQuantityOutOfRange(_ quantity: Int) {
++    #expect(throws: OrderError.quantityOutOfRange(quantity)) {
++        try LineItem.make(id: "a", name: "A", quantity: quantity, unitPriceCents: 100)
++    }
++}
++
++@Test(arguments: [-1, 1_000_001])
++func makeRejectsPriceOutOfRange(_ cents: Int) {
++    #expect(throws: OrderError.priceOutOfRange(cents)) {
++        try LineItem.make(id: "a", name: "A", quantity: 1, unitPriceCents: cents)
++    }
++}
++
++@Test func makeRejectsAnEmptyName() {
++    #expect(throws: OrderError.emptyName) { try LineItem.make(id: "a", name: "  ", quantity: 1, unitPriceCents: 1) }
++}
++
++@Test func largestOrderDoesNotOverflow() throws {
++    let order = Order(items: Array(repeating: try item(999, 1_000_000), count: 100))
++    #expect(totals(of: order).totalCents > totals(of: order).subtotalCents)
++}
+diff --git a/Packages/Features/OrderSummary/Tests/OrderSummaryFeatureTests/OrderSummaryModelTests.swift b/Packages/Features/OrderSummary/Tests/OrderSummaryFeatureTests/OrderSummaryModelTests.swift
+new file mode 100644
+index 0000000..8a79146
+--- /dev/null
++++ b/Packages/Features/OrderSummary/Tests/OrderSummaryFeatureTests/OrderSummaryModelTests.swift
+@@ -0,0 +1,41 @@
++import Foundation
++import OrderSummaryDomain
++import Testing
++@testable import OrderSummaryFeature
++
++@Test func sampleLoadsTheOrderAndItsTotals() async throws {
++    let model = OrderSummaryModel(service: FakeOrderService(scenario: .sample))
++    await model.load()
++    let order = try FakeOrderService.sampleOrder()
++    #expect(model.phase == .loaded(order, totals(of: order)))
++    #expect(totals(of: order).totalCents == 4547)
++}
++
++@Test func emptyOrderShowsTheEmptyState() async {
++    let model = OrderSummaryModel(service: FakeOrderService(scenario: .empty))
++    await model.load()
++    #expect(model.phase == .empty)
++}
++
++@Test func failureShowsTheErrorStateAndRetryLoadsAgain() async {
++    let service = FlakyService()
++    let model = OrderSummaryModel(service: service)
++    await model.load()
++    #expect(model.phase == .failed)
++    await model.load()
++    #expect(model.phase == .empty)
++}
++
++@Test func dollarsFormatsWholeCents() {
++    #expect(dollars(4547).contains("45.47"))
++}
++
++/// Fails the first call, then returns an empty order.
++private actor FlakyService: OrderService {
++    private var calls = 0
++    func currentOrder() async throws -> Order {
++        calls += 1
++        if calls == 1 { throw FakeOrderService.LoadFailure() }
++        return Order(items: [])
++    }
++}
+diff --git a/Storefront.xcworkspace/contents.xcworkspacedata b/Storefront.xcworkspace/contents.xcworkspacedata
+index 387241f..33b2735 100644
+--- a/Storefront.xcworkspace/contents.xcworkspacedata
++++ b/Storefront.xcworkspace/contents.xcworkspacedata
+@@ -19,4 +19,7 @@
+    <FileRef
+       location = "group:ci/test-plan.xctestplan">
+    </FileRef>
++   <FileRef
++      location = "group:Packages/Features/OrderSummary">
++   </FileRef>
+ </Workspace>
+diff --git a/ci/test-plan.xctestplan b/ci/test-plan.xctestplan
+index 70c5617..e655b43 100644
+--- a/ci/test-plan.xctestplan
++++ b/ci/test-plan.xctestplan
+@@ -1,52 +1,64 @@
+ {
+-  "configurations" : [
++  "configurations": [
+     {
+-      "id" : "6C1B0E52-3B7A-4F0E-9C1D-2A5E7F3B8D01",
+-      "name" : "Default",
+-      "options" : {
+-
+-      }
++      "id": "6C1B0E52-3B7A-4F0E-9C1D-2A5E7F3B8D01",
++      "name": "Default",
++      "options": {}
+     }
+   ],
+-  "defaultOptions" : {
+-    "codeCoverage" : true
++  "defaultOptions": {
++    "codeCoverage": true
+   },
+-  "testTargets" : [
++  "testTargets": [
++    {
++      "target": {
++        "containerPath": "container:Packages/Core",
++        "identifier": "CoreClientsTests",
++        "name": "CoreClientsTests"
++      }
++    },
++    {
++      "target": {
++        "containerPath": "container:Packages/Core",
++        "identifier": "FeatureKitTests",
++        "name": "FeatureKitTests"
++      }
++    },
+     {
+-      "target" : {
+-        "containerPath" : "container:Packages\/Core",
+-        "identifier" : "CoreClientsTests",
+-        "name" : "CoreClientsTests"
++      "target": {
++        "containerPath": "container:Packages/Networking",
++        "identifier": "NetworkingTests",
++        "name": "NetworkingTests"
+       }
+     },
+     {
+-      "target" : {
+-        "containerPath" : "container:Packages\/Core",
+-        "identifier" : "FeatureKitTests",
+-        "name" : "FeatureKitTests"
++      "target": {
++        "containerPath": "container:Packages/Persistence",
++        "identifier": "PersistenceTests",
++        "name": "PersistenceTests"
+       }
+     },
+     {
+-      "target" : {
+-        "containerPath" : "container:Packages\/Networking",
+-        "identifier" : "NetworkingTests",
+-        "name" : "NetworkingTests"
++      "target": {
++        "containerPath": "container:App/Storefront.xcodeproj",
++        "identifier": "0A0000000000000000000021",
++        "name": "StorefrontUITests"
+       }
+     },
+     {
+-      "target" : {
+-        "containerPath" : "container:Packages\/Persistence",
+-        "identifier" : "PersistenceTests",
+-        "name" : "PersistenceTests"
++      "target": {
++        "containerPath": "container:Packages/Features/OrderSummary",
++        "identifier": "OrderSummaryDomainTests",
++        "name": "OrderSummaryDomainTests"
+       }
+     },
+     {
+-      "target" : {
+-        "containerPath" : "container:App\/Storefront.xcodeproj",
+-        "identifier" : "0A0000000000000000000021",
+-        "name" : "StorefrontUITests"
++      "target": {
++        "containerPath": "container:Packages/Features/OrderSummary",
++        "identifier": "OrderSummaryFeatureTests",
++        "name": "OrderSummaryFeatureTests"
+       }
+     }
+   ],
+-  "version" : 1
++  "version": 1
+ }

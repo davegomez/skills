@@ -1,0 +1,27 @@
+{
+  "id": "I02",
+  "title": "New feature: order summary with a fake order service in a frozen scaffold-made app",
+  "priorities": ["reliability", "accessibility", "maintainability"],
+  "references": {
+    "required": ["architecture", "ui-framework", "concurrency", "accessibility", "localization", "testing"],
+    "optional": ["navigation", "networking", "deviations"]
+  },
+  "pre_edit_files": [
+    "App/Storefront/Storefront.swift",
+    "App/Storefront.xcodeproj/project.pbxproj",
+    "Storefront.xcworkspace/contents.xcworkspacedata",
+    "ci/test-plan.xctestplan"
+  ],
+  "traps": [],
+  "fixture_source": "skills/ios-architecture/scripts/scaffold on fixture/ios-architecture.json, run once and frozen",
+  "toolchain": {
+    "xcode": "27.3 (27C5020n)",
+    "ios_sdk": "27.3",
+    "simulator_runtime": "iOS 27.3 (24C5037i)",
+    "simulator_device_type": "iPhone 15 Pro"
+  },
+  "checks": {
+    "critical": ["I02-builds", "I02-reachable-exactly-once", "I02-totals-match-spec", "I02-empty-state", "I02-error-state", "I02-adjacent-code-unchanged", "I02-test-plan-runs-new-tests"],
+    "diagnostic": []
+  }
+}

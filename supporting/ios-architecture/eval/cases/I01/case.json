@@ -1,0 +1,32 @@
+{
+  "id": "I01",
+  "title": "New project: offline packing list from a stated profile",
+  "priorities": ["security", "reliability", "accessibility", "maintainability"],
+  "references": {
+    "required": ["project-setup", "architecture", "ui-framework", "persistence", "concurrency", "accessibility", "localization", "testing"],
+    "optional": ["navigation", "security-privacy", "deviations"]
+  },
+  "pre_edit_files": [],
+  "traps": [],
+  "profile": {
+    "app_name": "PackingList",
+    "bundle_id_prefix": "com.example.eval",
+    "minimum_ios": "27.3",
+    "team_size": 1,
+    "regulated_data": false,
+    "cross_device_sync": false,
+    "cross_platform_accounts": false,
+    "store": "files",
+    "code_may_leave_machine": true
+  },
+  "toolchain": {
+    "xcode": "27.3 (27C5020n)",
+    "ios_sdk": "27.3",
+    "simulator_runtime": "iOS 27.3 (24C5037i)",
+    "simulator_device_type": "iPhone 15 Pro"
+  },
+  "checks": {
+    "critical": ["I01-builds", "I01-profile-facts", "I01-unit-tests-pass", "I01-add-and-toggle", "I01-state-survives-relaunch", "I01-list-accessibility-audit"],
+    "diagnostic": ["I01-app-target-settings", "I01-privacy-manifest"]
+  }
+}

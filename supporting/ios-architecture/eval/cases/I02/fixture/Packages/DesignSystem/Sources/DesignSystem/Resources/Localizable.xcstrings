@@ -1,0 +1,9 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Error: %@" : {
+      "comment" : "VoiceOver label of an inline error message. The argument is the message."
+    }
+  },
+  "version" : "1.0"
+}

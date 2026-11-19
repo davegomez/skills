@@ -1,0 +1,63 @@
+#!/usr/bin/env -S python3 -I
+"""Route gate (offline, Jev blocked): pre-edit and post-edit routing scored against the case's frozen reference rows.
+  gates/route [--skill <skill-dir>] [<case-dir> ...]      default: the working-tree skill and every case in cases/
+Pre-edit: route <fixture> <pre_edit_files>. Post-edit: route <fixture + reference.patch> (the change set; a review
+case uses its seeded diff). Missing required rows, optional hits, and unnecessary rows are reported separately.
+Exit 1 when a post-edit route misses a required row or route fails; pre-edit misses are reported, since a pre-edit
+route cannot see concerns that only the prompt names.
+"""
+import json, re, subprocess, sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from common import OUT, SCRATCH, SKILL_SRC, blocked_env, case_dirs, die, is_review, load_case, make_work
+
+ROW = re.compile(r"^references/([\w.-]+)\.md$")
+
+
+def route(script: Path, work: Path, files=()) -> dict:
+    r = subprocess.run([str(script), str(work), *files], capture_output=True, text=True, timeout=600, env=blocked_env(SCRATCH / "rbin"), cwd=work)
+    lines = r.stdout.splitlines()
+    rows = {m.group(1) for ln in lines if (m := ROW.match(ln.strip()))} | ({"native-ui-patterns"} if "skill: native-ui-patterns" in lines else set())
+    return {"exit": r.returncode, "rows": sorted(rows), "pending": [ln for ln in lines if "pending: " in ln], "stderr": r.stderr[-500:]}
+
+
+def score(res: dict, refs: dict) -> dict:
+    req, opt, rows = set(refs.get("required", [])), set(refs.get("optional", [])), set(res["rows"])
+    return res | {"missing_required": sorted(req - rows), "required_hits": sorted(req & rows), "optional_hits": sorted(opt & rows),
+                  "unnecessary": sorted(rows - req - opt)}
+
+
+def gate(case_dir: Path, script: Path) -> dict:
+    case = load_case(case_dir)
+    work, out = SCRATCH / "gate-route" / "work", {"case": case["id"]}
+    if case.get("pre_edit_files"):
+        make_work(case, work)
+        out["pre_edit"] = score(route(script, work, case["pre_edit_files"]), case["references"])
+    ref = case["dir"] / "reference.patch"
+    if ref.exists() or is_review(case):
+        make_work(case, work, "seeded" if is_review(case) else None, [ref] if ref.exists() and not is_review(case) else [])
+        out["post_edit"] = score(route(script, work), case["references"])
+    post = out.get("post_edit")
+    out["ok"] = all(r["exit"] in (0, 3, 4) for r in (out.get("pre_edit"), post) if r) and not (post and post["missing_required"])
+    return out
+
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    skill = SKILL_SRC
+    if args[:1] == ["--skill"]: skill, args = Path(args[1]).resolve(), args[2:]
+    if any(a.startswith("-") for a in args): die(__doc__)
+    dirs = [Path(a).resolve() for a in args] or case_dirs()
+    if not dirs: die("no cases")
+    res = [gate(d, skill / "scripts" / "route") for d in dirs]
+    (OUT / "gates").mkdir(parents=True, exist_ok=True)
+    (OUT / "gates" / "route.json").write_text(json.dumps({"skill": str(skill), "cases": res}, indent=1))
+    for r in res:
+        print(f"# {r['case']}: {'ok' if r['ok'] else 'FAIL'}")
+        for k in ("pre_edit", "post_edit"):
+            if k in r:
+                s = r[k]
+                print(f"  {k}: exit {s['exit']}, missing required {s['missing_required'] or '-'}, optional hits {s['optional_hits'] or '-'}, "
+                      f"unnecessary {s['unnecessary'] or '-'}, pending {len(s['pending'])}")
+    sys.exit(0 if all(r["ok"] for r in res) else 1)

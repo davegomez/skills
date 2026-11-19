@@ -1,0 +1,130 @@
+{
+  "id": "I05",
+  "title": "Read-only review of a door check-in diff",
+  "priorities": ["security", "reliability", "accessibility"],
+  "references": {
+    "required": ["security-privacy", "concurrency", "accessibility"],
+    "optional": ["persistence", "ui-framework", "localization", "testing", "architecture"]
+  },
+  "pre_edit_files": [
+    "Guestbook/Model/Guest.swift",
+    "Guestbook/Store/GuestStore.swift",
+    "Guestbook/Views/GuestListView.swift",
+    "Guestbook/Views/GuestRow.swift",
+    "Guestbook/Localizable.xcstrings"
+  ],
+  "match": {
+    "line_window": 3,
+    "rule": "A finding matches a site when the file is the same (path suffix), its line or range is within line_window of the site line, and its reason matches every regex group in cause (case-insensitive). A finding that matches a trap is never counted against a lookalike."
+  },
+  "traps": [
+    {
+      "id": "I05-trap-personal-data-log",
+      "file": "Guestbook/Store/GuestStore.swift",
+      "line": 49,
+      "severity": "critical",
+      "priority": "security",
+      "description": "The check-in log interpolates the guest's name and email with privacy: .public, so synthetic personal data reaches the unified log unredacted.",
+      "cause": ["log|logger|logging|logged|os_log", "e-?mail|name|personal|pii|privacy|private|public|redact|sensitive"]
+    },
+    {
+      "id": "I05-trap-discarded-write",
+      "file": "Guestbook/Store/GuestStore.swift",
+      "line": 73,
+      "severity": "major",
+      "priority": "reliability",
+      "description": "try? discards the failure of the door-ledger file write; the ledger silently misses check-ins and the user is never told, unlike persist().",
+      "cause": ["try\\?|discard|swallow|ignor|silent|suppress|unhandled|not handled|lost|drop", "writ|save|ledger|disk|file|i/o|persist|error|fail"]
+    },
+    {
+      "id": "I05-trap-inaccessible-gesture",
+      "file": "Guestbook/Views/GuestListView.swift",
+      "line": 19,
+      "severity": "major",
+      "priority": "accessibility",
+      "description": "Check-in is reachable only through onTapGesture(count: 2) with no button, swipe action, or accessibility action; VoiceOver, Voice Control, and Switch Control users cannot check guests in.",
+      "cause": ["accessib|voiceover|voice control|switch control|assistive|a11y", "gesture|tap|double|action"]
+    }
+  ],
+  "variants": {
+    "seeded": {
+      "diff": "variants/seeded.patch",
+      "traps": ["I05-trap-personal-data-log", "I05-trap-discarded-write", "I05-trap-inaccessible-gesture"],
+      "reference": "reference.patch",
+      "negatives": ["negative/I05-trap-personal-data-log.patch", "negative/I05-no-lookalike-flagged.patch"],
+      "lookalikes": [
+        {
+          "id": "lookalike-hashed-log",
+          "file": "Guestbook/Store/GuestStore.swift",
+          "line": 39,
+          "description": "Logs only the random guest id with privacy: .private(mask: .hash).",
+          "cause": ["log|logger|logging|logged|os_log", "e-?mail|name|personal|pii|privacy|private|public|redact|sensitive|hash|identifier|id\\b"]
+        },
+        {
+          "id": "lookalike-handled-try",
+          "file": "Guestbook/Views/GuestListView.swift",
+          "line": 10,
+          "description": "try? on Markdown parsing of a constant app string, with a plain-text fallback.",
+          "cause": ["try\\?|discard|swallow|ignor|silent|suppress|fallback|error|fail"]
+        },
+        {
+          "id": "lookalike-accessible-gesture",
+          "file": "Guestbook/Views/GuestRow.swift",
+          "line": 25,
+          "description": "Long-press gesture paired with accessibilityAction(named: \"Show Badge\").",
+          "cause": ["accessib|voiceover|voice control|switch control|assistive|a11y|gesture|long.?press"]
+        }
+      ]
+    },
+    "clean": {
+      "diff": "variants/clean.patch",
+      "traps": [],
+      "reference": "variants/clean-reference.patch",
+      "negatives": ["variants/clean-negative/I05-no-lookalike-flagged.patch"],
+      "lookalikes": [
+        {
+          "id": "lookalike-hashed-log",
+          "file": "Guestbook/Store/GuestStore.swift",
+          "line": 39,
+          "description": "Logs only the random guest id with privacy: .private(mask: .hash).",
+          "cause": ["log|logger|logging|logged|os_log", "e-?mail|name|personal|pii|privacy|private|public|redact|sensitive|hash|identifier|id\\b"]
+        },
+        {
+          "id": "lookalike-handled-try",
+          "file": "Guestbook/Views/GuestListView.swift",
+          "line": 10,
+          "description": "try? on Markdown parsing of a constant app string, with a plain-text fallback.",
+          "cause": ["try\\?|discard|swallow|ignor|silent|suppress|fallback|error|fail"]
+        },
+        {
+          "id": "lookalike-accessible-gesture",
+          "file": "Guestbook/Views/GuestRow.swift",
+          "line": 25,
+          "description": "Long-press gesture paired with accessibilityAction(named: \"Show Badge\").",
+          "cause": ["accessib|voiceover|voice control|switch control|assistive|a11y|gesture|long.?press"]
+        },
+        {
+          "id": "fixed-log",
+          "file": "Guestbook/Store/GuestStore.swift",
+          "line": 49,
+          "description": "Clean form of the check-in log: hashed guest id only.",
+          "cause": ["log|logger|logging|logged|os_log", "e-?mail|name|personal|pii|privacy|private|public|redact|sensitive|hash|identifier|id\\b"]
+        },
+        {
+          "id": "fixed-write",
+          "file": "Guestbook/Store/GuestStore.swift",
+          "line": 74,
+          "description": "Clean form of the ledger write: do/catch, log without personal data, lastError set.",
+          "cause": ["try|discard|swallow|ignor|silent|suppress|unhandled|error|fail"]
+        },
+        {
+          "id": "fixed-gesture",
+          "file": "Guestbook/Views/GuestListView.swift",
+          "line": 19,
+          "description": "Clean form of check-in: a leading swipe action, exposed to assistive technologies as an action.",
+          "cause": ["accessib|voiceover|voice control|switch control|assistive|a11y|gesture|swipe|action"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+diff --git a/REVIEW.md b/REVIEW.md
+new file mode 100644
+index 0000000..fce1b34
+--- /dev/null
++++ b/REVIEW.md
+@@ -0,0 +1,3 @@
++# Review of the door check-in change
++
++- major | Guestbook/Views/GuestRow.swift:25 | The long-press gesture that shows the badge is not reachable with VoiceOver.

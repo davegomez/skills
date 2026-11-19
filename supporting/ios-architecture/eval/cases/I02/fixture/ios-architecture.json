@@ -1,0 +1,11 @@
+{
+  "app_name": "Storefront",
+  "bundle_id_prefix": "com.example.eval",
+  "minimum_ios": "27.3",
+  "team_size": 3,
+  "regulated_data": false,
+  "cross_device_sync": false,
+  "cross_platform_accounts": false,
+  "store": "files",
+  "code_may_leave_machine": true
+}

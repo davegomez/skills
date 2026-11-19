@@ -1,0 +1,12 @@
+#!/bin/sh
+# Fake route for the gate tests: files given -> testing; the change set -> testing, localization, accessibility.
+dir=$1; shift
+if [ $# -gt 0 ]; then
+  for f do printf '# %s: testing\n' "$f"; done
+  echo references/testing.md
+else
+  echo references/accessibility.md
+  echo references/localization.md
+  echo references/testing.md
+fi
+exit 0

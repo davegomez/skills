@@ -1,0 +1,46 @@
+{
+  "claude_version": "2.1.327",
+  "builder": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "fallback_small": "claude-haiku-5-5",
+    "fallback_medium": "claude-sonnet-5-5",
+    "tools": "Read,Edit,Write,Glob,Grep,Bash,Skill,Agent"
+  },
+  "old_commit": "0ab47d0952422bed9b8633f15241299a08435a3d",
+  "jev": {
+    "host": "api.typesafe.ai",
+    "model": "jev-1.14.0",
+    "usd_per_call": 0.003,
+    "max_calls_per_run": 30
+  },
+  "caps": {
+    "wall_s": 900,
+    "run_usd": 1.0,
+    "run_reserve_usd": 1.5,
+    "grade_s": 3600,
+    "machine_hours": 40,
+    "total_usd": 20
+  },
+  "stages": {
+    "pilot": {
+      "cap_usd": 20
+    }
+  },
+  "simulator": {
+    "name": "ios-eval-grader",
+    "device_type": "iPhone 17 Pro",
+    "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-27-3",
+    "udid": null
+  },
+  "reviewer": {
+    "model": "openai/gpt-6.2-astra",
+    "thinking": "xhigh"
+  },
+  "adjudicator": {
+    "model": "openai/gpt-6.2-sol",
+    "thinking": "xhigh"
+  },
+  "pi_agent_dir": "/tmp/pi-clean-agent",
+  "adjudication_sample": 0.2
+}

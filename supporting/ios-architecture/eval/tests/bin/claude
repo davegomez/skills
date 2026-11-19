@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+"""Fake `claude -p` (stream-json in and out) for offline harness tests. Python 3.9: it runs under the builder's PATH.
+Behavior comes from $HOME/fake-claude.json: {"<arm>": {"mode": "ok|hang|autherror|budget", "cost": 0.4}, "jev_model": "..."}.
+The arm is inferred like a real session would see it: a --plugin-dir means a skill; TYPESAFE_API_KEY means the new arm."""
+import json, os, subprocess, sys, time
+
+args = sys.argv[1:]
+if args == ["--version"]:
+    print("2.1.327 (Claude Code)"); sys.exit(0)
+conf = json.load(open(os.path.join(os.environ["HOME"], "fake-claude.json")))
+plugin = "--plugin-dir" in args
+arm = "new" if plugin and os.environ.get("TYPESAFE_API_KEY") else "old" if plugin else "none"
+mine = conf.get(arm, {})
+model = args[args.index("--model") + 1]
+
+
+def emit(obj):
+    sys.stdout.write(json.dumps(obj) + "\n"); sys.stdout.flush()
+
+
+def ask(tool, inp, rid):
+    """A permission prompt answered by the host; returns True when allowed."""
+    emit({"type": "control_request", "request_id": rid, "request": {"subtype": "can_use_tool", "tool_name": tool, "input": inp}})
+    for line in sys.stdin:
+        e = json.loads(line)
+        if e.get("type") == "control_response" and e["response"]["request_id"] == rid:
+            return e["response"]["response"]["behavior"] == "allow"
+    return False
+
+
+def tool(name, inp, uid, text):
+    emit({"type": "assistant", "message": {"content": [{"type": "tool_use", "id": uid, "name": name, "input": inp}]}})
+    emit({"type": "user", "message": {"content": [{"type": "tool_result", "tool_use_id": uid, "content": text}]}})
+
+
+first = json.loads(sys.stdin.readline())
+text = first["message"]["content"]
+skills = (["skills:ios-architecture"] if plugin else []) + ["dataviz"]
+emit({"type": "system", "subtype": "init", "model": model, "tools": ["Bash", "Read", "Edit", "Write", "Skill", "Agent"], "mcp_servers": [],
+      "plugins": ([{"name": "skills"}] if plugin else []), "skills": skills, "cwd": os.getcwd(), "permissionMode": "default"})
+emit({"type": "user", "message": {"role": "user", "content": text}})
+
+if text == "/context":
+    rows = (["| skills:ios-architecture | Plugin (skills) | 20 |"] if plugin else []) + ["| dataviz | Built-in | 480 |"]
+    emit({"type": "result", "subtype": "success", "is_error": False, "total_cost_usd": 0, "usage": {"output_tokens": 0},
+          "result": "## Context Usage\n\n### Skills\n\n| Skill | Source | Tokens |\n|---|---|---|\n" + "\n".join(rows) + "\n"})
+    sys.stdin.read(); sys.exit(0)
+if mine.get("mode") == "hang":
+    time.sleep(3600)
+
+ask("Read", {"file_path": os.path.join(os.environ["HOME"], ".claude", "CLAUDE.md")}, "r1")  # must be denied
+tool("Skill", {"skill": "skills:ios-architecture"}, "s1", "loaded") if plugin else None
+if arm == "new":
+    resp = os.path.join(os.environ["CLAUDE_CODE_TMPDIR"], "resp")
+    code = subprocess.run(["curl", "--config", "-", "-sS", "--retry", "1", "-o", resp, "-w", "%{http_code}", "https://api.typesafe.ai/v1/systemone"],
+                          input='header = "Authorization: Bearer %s"\n' % os.environ["TYPESAFE_API_KEY"], capture_output=True, text=True).stdout
+    got = json.load(open(resp)).get("model") if code == "200" else None
+    tool("Bash", {"command": "/tmp/x/skills/ios-architecture/scripts/decide route greet.txt"}, "b1",
+         json.dumps({"decision": "route", "source": "jev", "model": got, "answer": "testing"}))
+    tool("Bash", {"command": "/tmp/x/skills/ios-architecture/scripts/check ."}, "b2",
+         "greet.txt: pending: check-swallowed-error: escalate=fallback tier=small; run scripts/decide check-swallowed-error greet.txt\ncheck: 0 violations, 1 pending decisions")
+    emit({"type": "assistant", "message": {"content": [{"type": "text", "text": "debug: key is " + os.environ["TYPESAFE_API_KEY"]}]}})
+    if os.path.exists("greet.txt"): open("notes.txt", "w").write("key=" + os.environ["TYPESAFE_API_KEY"] + "\n")  # a leak into the result tree
+
+final = "Done."
+if os.path.exists("greet.txt"):
+    if ask("Write", {"file_path": os.path.join(os.getcwd(), "greet.txt")}, "w1"):
+        open("greet.txt", "w").write("Hello world\n" if arm == "old" else "Hello, world\n")
+    final = "Changed greet.txt."
+elif os.path.exists("app.txt"):
+    final = "Issue: app.txt:2 logs an email address." if "log(email)" in open("app.txt").read() else "No findings."
+
+cost = mine.get("cost", 0.4)
+if mine.get("mode") == "autherror":
+    emit({"type": "result", "subtype": "success", "is_error": True, "result": "API Error: 401 authentication_error", "total_cost_usd": 0.01})
+elif mine.get("mode") == "budget":
+    emit({"type": "result", "subtype": "error_max_budget_usd", "is_error": True, "result": "", "total_cost_usd": cost})
+else:
+    emit({"type": "result", "subtype": "success", "is_error": False, "result": final, "total_cost_usd": cost, "num_turns": 4, "duration_ms": 1200,
+          "usage": {"input_tokens": 1000, "output_tokens": 200, "cache_read_input_tokens": 5000, "cache_creation_input_tokens": 300},
+          "modelUsage": {model: {"costUSD": cost}}})
+sys.stdin.read()

@@ -1,0 +1,214 @@
+diff --git a/Guestbook/Localizable.xcstrings b/Guestbook/Localizable.xcstrings
+index 428b0b9..09b341a 100644
+--- a/Guestbook/Localizable.xcstrings
++++ b/Guestbook/Localizable.xcstrings
+@@ -1,6 +1,15 @@
+ {
+   "sourceLanguage" : "en",
+   "strings" : {
++    "%lld of %lld checked in" : {
++      "comment" : "Count of checked-in guests in the toolbar."
++    },
++    "Check In" : {
++      "comment" : "Swipe action that checks a guest in."
++    },
++    "Checked in %@" : {
++      "comment" : "Check-in time of a guest. The argument is the time."
++    },
+     "Guests" : {
+       "comment" : "Title of the guest list."
+     },
+@@ -10,12 +19,21 @@
+     "Remove" : {
+       "comment" : "Swipe action that removes a guest from the list."
+     },
++    "Show Badge" : {
++      "comment" : "Accessibility action that shows a guest's name badge."
++    },
+     "Something went wrong" : {
+       "comment" : "Title of the error alert."
+     },
++    "Swipe a guest to **check in**." : {
++      "comment" : "Footer hint below the guest list. Markdown."
++    },
+     "Table %lld" : {
+       "comment" : "Table number of a guest."
+     },
++    "Undo Check-In" : {
++      "comment" : "Swipe action that undoes a guest's check-in."
++    },
+     "Your latest change may not be saved." : {
+       "comment" : "Message of the error alert."
+     }
+diff --git a/Guestbook/Model/Guest.swift b/Guestbook/Model/Guest.swift
+index 937e784..8f2cdd3 100644
+--- a/Guestbook/Model/Guest.swift
++++ b/Guestbook/Model/Guest.swift
+@@ -5,6 +5,7 @@ nonisolated struct Guest: Codable, Identifiable, Hashable, Sendable {
+     var name: String
+     var email: String
+     var tableNumber: Int
++    var checkedInAt: Date?
+ }
+ 
+ extension Guest {
+diff --git a/Guestbook/Store/GuestStore.swift b/Guestbook/Store/GuestStore.swift
+index 379183c..7028959 100644
+--- a/Guestbook/Store/GuestStore.swift
++++ b/Guestbook/Store/GuestStore.swift
+@@ -12,9 +12,15 @@ final class GuestStore {
+     private(set) var guests: [Guest] = []
+     var lastError: StoreError?
+     private let fileURL: URL
++    private let ledgerURL: URL
+ 
+     init(directory: URL = .documentsDirectory) {
+         fileURL = directory.appending(path: "guests.json")
++        ledgerURL = directory.appending(path: "door-ledger.csv")
++    }
++
++    var checkedInCount: Int {
++        guests.count(where: { $0.checkedInAt != nil })
+     }
+ 
+     func load() {
+@@ -30,7 +36,22 @@ final class GuestStore {
+ 
+     func remove(_ guest: Guest) {
+         guests.removeAll { $0.id == guest.id }
++        AppLog.store.info("Removed guest \(guest.id, privacy: .private(mask: .hash))")
+         persist()
++        writeLedger()
++    }
++
++    /// Checks a guest in at the door, or undoes the check-in.
++    func toggleCheckIn(_ guest: Guest) {
++        guard let index = guests.firstIndex(where: { $0.id == guest.id }) else { return }
++        if guests[index].checkedInAt == nil {
++            guests[index].checkedInAt = .now
++            AppLog.store.info("Checked in guest \(guest.id, privacy: .private(mask: .hash))")
++        } else {
++            guests[index].checkedInAt = nil
++        }
++        persist()
++        writeLedger()
+     }
+ 
+     private func persist() {
+@@ -42,4 +63,18 @@ final class GuestStore {
+             lastError = .saveFailed
+         }
+     }
++
++    /// Rewrites the door ledger that staff export after the event: 1 row per checked-in guest.
++    private func writeLedger() {
++        let rows = guests.compactMap { guest in
++            guest.checkedInAt.map { "\(guest.id.uuidString),\($0.ISO8601Format())" }
++        }
++        let data = Data(rows.joined(separator: "\n").utf8)
++        do {
++            try data.write(to: ledgerURL, options: [.atomic, .completeFileProtection])
++        } catch {
++            AppLog.store.error("Door ledger not saved: \(String(describing: type(of: error)), privacy: .public)")
++            lastError = .saveFailed
++        }
++    }
+ }
+diff --git a/Guestbook/Views/GuestListView.swift b/Guestbook/Views/GuestListView.swift
+index 52b238e..0e147a1 100644
+--- a/Guestbook/Views/GuestListView.swift
++++ b/Guestbook/Views/GuestListView.swift
+@@ -2,18 +2,50 @@ import SwiftUI
+ 
+ struct GuestListView: View {
+     @Bindable var store: GuestStore
++    @State private var badgeGuest: Guest?
++
++    /// Footer hint with bold emphasis. Falls back to plain text if the Markdown does not parse.
++    private static let checkInHint: AttributedString = {
++        let text = String(localized: "Swipe a guest to **check in**.")
++        return (try? AttributedString(markdown: text)) ?? AttributedString(text)
++    }()
+ 
+     var body: some View {
+         NavigationStack {
+             List {
+-                ForEach(store.guests) { guest in
+-                    GuestRow(guest: guest)
+-                        .swipeActions {
+-                            Button("Remove", role: .destructive) { store.remove(guest) }
+-                        }
++                Section {
++                    ForEach(store.guests) { guest in
++                        GuestRow(guest: guest, onShowBadge: { badgeGuest = guest })
++                            .swipeActions(edge: .leading) {
++                                if guest.checkedInAt == nil {
++                                    Button("Check In") { store.toggleCheckIn(guest) }
++                                } else {
++                                    Button("Undo Check-In") { store.toggleCheckIn(guest) }
++                                }
++                            }
++                            .swipeActions {
++                                Button("Remove", role: .destructive) { store.remove(guest) }
++                            }
++                    }
++                } footer: {
++                    Text(Self.checkInHint)
+                 }
+             }
+             .navigationTitle("Guests")
++            .toolbar {
++                ToolbarItem(placement: .status) {
++                    Text("\(store.checkedInCount) of \(store.guests.count) checked in")
++                }
++            }
++            .sheet(item: $badgeGuest) { guest in
++                VStack(spacing: 12) {
++                    Text(guest.name)
++                        .font(.largeTitle.bold())
++                    Text("Table \(guest.tableNumber)")
++                        .font(.title2)
++                }
++                .presentationDetents([.medium])
++            }
+             .alert("Something went wrong", isPresented: errorShown) {
+                 Button("OK", role: .cancel) {}
+             } message: {
+diff --git a/Guestbook/Views/GuestRow.swift b/Guestbook/Views/GuestRow.swift
+index ffdd410..1ee05ff 100644
+--- a/Guestbook/Views/GuestRow.swift
++++ b/Guestbook/Views/GuestRow.swift
+@@ -2,15 +2,27 @@ import SwiftUI
+ 
+ struct GuestRow: View {
+     let guest: Guest
++    var onShowBadge: () -> Void = {}
+ 
+     var body: some View {
+-        VStack(alignment: .leading) {
+-            Text(guest.name)
+-                .font(.headline)
+-            Text("Table \(guest.tableNumber)")
+-                .font(.subheadline)
+-                .foregroundStyle(.secondary)
++        HStack {
++            VStack(alignment: .leading) {
++                Text(guest.name)
++                    .font(.headline)
++                Text("Table \(guest.tableNumber)")
++                    .font(.subheadline)
++                    .foregroundStyle(.secondary)
++            }
++            Spacer()
++            if let checkedInAt = guest.checkedInAt {
++                Label("Checked in \(checkedInAt.formatted(date: .omitted, time: .shortened))", systemImage: "checkmark.circle.fill")
++                    .font(.subheadline)
++                    .foregroundStyle(.secondary)
++            }
+         }
+         .accessibilityElement(children: .combine)
++        .contentShape(.rect)
++        .onLongPressGesture { onShowBadge() }
++        .accessibilityAction(named: Text("Show Badge")) { onShowBadge() }
+     }
+ }

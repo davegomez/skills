@@ -1,0 +1,18 @@
+{
+  "id": "I06",
+  "title": "Authenticated reading list with a pinned retry matrix and a second locale",
+  "priorities": ["security", "reliability", "accessibility"],
+  "references": {
+    "required": ["networking", "authentication", "security-privacy", "concurrency", "persistence", "localization", "accessibility", "testing"],
+    "optional": ["ui-framework", "architecture", "navigation"]
+  },
+  "pre_edit_files": [
+    "Shelf/ReadingList/ReadingListView.swift",
+    "Shelf/Networking/HTTPClient.swift",
+    "Shelf/Auth/AuthService.swift",
+    "Shelf/Seams/AppDependencies.swift",
+    "Shelf/Seams/FakeHTTPClient.swift",
+    "Shelf.xcodeproj/project.pbxproj"
+  ],
+  "traps": []
+}

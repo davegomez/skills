@@ -1,0 +1,19 @@
+"home.title" = "Ledger";
+"home.orders" = "Orders";
+"home.settings" = "Settings";
+
+"orders.title" = "Orders";
+"orders.reload" = "Reload";
+"orders.subtotal" = "Subtotal %@";
+"orders.discount" = "Discount %@";
+"orders.tax" = "Tax %@";
+"orders.total" = "Total %@";
+"orders.line.detail" = "%d × %@";
+"orders.status.loading" = "Loading…";
+"orders.status.updated" = "Up to date";
+"orders.status.offline" = "Offline. Showing saved orders.";
+"orders.status.empty" = "No saved orders";
+
+"settings.title" = "Settings";
+"settings.showCents" = "Show cents";
+"settings.version" = "Version %@";

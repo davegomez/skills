@@ -1,0 +1,12 @@
+#!/bin/sh
+# Fake check for the gate tests: a lowercase greeting is a violation; an email log is a pending decision.
+dir=$1; shift
+n=0; p=0
+for f do
+  if grep -q '^hello' "$dir/$f"; then echo "$f:1: toy-greeting: Lowercase greeting. (references/testing.md)"; n=$((n + 1)); fi
+  if grep -q 'log(email)' "$dir/$f"; then echo "$f: pending: check-personal-data-in-log: escalate=fallback tier=small reason=code_may_not_leave_machine; run scripts/decide check-personal-data-in-log $f"; p=$((p + 1)); fi
+done
+echo "check: $n violations, $p pending decisions"
+[ $n -gt 0 ] && exit 1
+[ $p -gt 0 ] && exit 3
+exit 0

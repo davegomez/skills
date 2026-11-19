@@ -1,0 +1,21 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Features" : {
+      "comment" : "Title of the list of features in the sidebar."
+    },
+    "Locked" : {
+      "comment" : "Title shown in place of a feature that needs a purchase."
+    },
+    "No Features" : {
+      "comment" : "Title shown when the app has no features."
+    },
+    "Select a Feature" : {
+      "comment" : "Title shown when no feature is selected in the sidebar."
+    },
+    "This feature needs a purchase." : {
+      "comment" : "Description shown in place of a feature that needs a purchase."
+    }
+  },
+  "version" : "1.0"
+}

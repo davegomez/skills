@@ -1,0 +1,22 @@
+// Settings for every target and every environment. Put no secrets in .xcconfig files:
+// anyone can extract them from the app bundle.
+
+SDKROOT = iphoneos
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+TARGETED_DEVICE_FAMILY = 1,2
+IPHONEOS_DEPLOYMENT_TARGET = 27.3
+
+SWIFT_VERSION = 6.0
+SWIFT_APPROACHABLE_CONCURRENCY = YES
+SWIFT_EMIT_LOC_STRINGS = YES
+LOCALIZATION_PREFERS_STRING_CATALOGS = YES
+ENABLE_USER_SCRIPT_SANDBOXING = YES
+ALWAYS_SEARCH_USER_PATHS = NO
+
+// Signing: set your team ID here, or select the team in Signing & Capabilities.
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM =
+
+APP_BUNDLE_ID = com.example.eval.Storefront$(BUNDLE_ID_SUFFIX)
+MARKETING_VERSION = 1.0
+CURRENT_PROJECT_VERSION = 1

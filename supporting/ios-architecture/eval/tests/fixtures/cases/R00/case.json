@@ -1,0 +1,7 @@
+{"id": "R00", "title": "Toy review", "priorities": ["security"],
+ "references": {"required": ["security-privacy"], "optional": []},
+ "pre_edit_files": ["app.txt"],
+ "traps": [{"id": "R00-email-log", "file": "app.txt", "line": 2, "severity": "critical", "description": "Logs an email address."}],
+ "variants": {
+  "seeded": {"diff": "variants/seeded.patch", "reference": "reference.seeded.md", "negatives": ["negative/R00-finds-log.md"]},
+  "clean": {"diff": "variants/clean.patch", "reference": "reference.clean.md", "negatives": ["negative/R00-no-false-alarm.md"]}}}

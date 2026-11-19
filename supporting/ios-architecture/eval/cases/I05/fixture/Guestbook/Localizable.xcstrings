@@ -1,0 +1,24 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Guests" : {
+      "comment" : "Title of the guest list."
+    },
+    "OK" : {
+      "comment" : "Button that closes the error alert."
+    },
+    "Remove" : {
+      "comment" : "Swipe action that removes a guest from the list."
+    },
+    "Something went wrong" : {
+      "comment" : "Title of the error alert."
+    },
+    "Table %lld" : {
+      "comment" : "Table number of a guest."
+    },
+    "Your latest change may not be saved." : {
+      "comment" : "Message of the error alert."
+    }
+  },
+  "version" : "1.0"
+}

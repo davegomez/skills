@@ -1,0 +1,65 @@
+{
+  "id": "I04",
+  "title": "Extract the totals logic and the data-loading seam of 1 UIKit screen into a local Swift package",
+  "priorities": ["reliability", "maintainability"],
+  "references": {
+    "required": ["migration", "architecture", "persistence", "networking", "testing"],
+    "optional": ["project-setup", "concurrency", "ui-framework", "accessibility", "localization", "deviations"]
+  },
+  "pre_edit_files": [
+    "Ledger/OrdersViewController.swift",
+    "Ledger/HomeViewController.swift",
+    "Ledger.xcodeproj/project.pbxproj"
+  ],
+  "traps": [
+    {
+      "id": "I04-T1-coding-keys",
+      "file": "Ledger/OrdersViewController.swift",
+      "line": 12,
+      "severity": "critical",
+      "description": "The coding keys `qty` and `unit_price_cents` are the server and cache format. Renaming them to match the Swift property names makes saved orders and the feed unreadable."
+    },
+    {
+      "id": "I04-T2-fractional-saved-at",
+      "file": "Ledger/OrdersViewController.swift",
+      "line": 20,
+      "severity": "critical",
+      "description": "`saved_at` is written as fractional seconds since 1970. Modeling it as an integer or dropping the date strategy breaks every cache that users already have."
+    },
+    {
+      "id": "I04-T3-half-up-rounding",
+      "file": "Ledger/OrdersViewController.swift",
+      "line": 146,
+      "severity": "major",
+      "description": "Discount and tax round half up in integer cents. A rewrite with `Double` or `Decimal` and half-even rounding changes totals at exact half cents."
+    },
+    {
+      "id": "I04-T4-non-positive-quantities",
+      "file": "Ledger/OrdersViewController.swift",
+      "line": 140,
+      "severity": "major",
+      "description": "Lines with a quantity of 0 or less are shown but excluded from the subtotal. Dropping the filter changes totals."
+    },
+    {
+      "id": "I04-T5-replace-on-load",
+      "file": "Ledger/OrdersViewController.swift",
+      "line": 108,
+      "severity": "major",
+      "description": "Each load replaces the lines. A seam that merges or appends duplicates lines on every reload."
+    },
+    {
+      "id": "I04-T6-generated-file",
+      "file": "Ledger/Generated/L10n.swift",
+      "line": 3,
+      "severity": "minor",
+      "description": "SwiftGen output marked DO NOT EDIT. Editing it by hand is lost on the next generation."
+    },
+    {
+      "id": "I04-T7-unrelated-debt",
+      "file": "Ledger/SettingsViewController.swift",
+      "line": 46,
+      "severity": "minor",
+      "description": "Legacy debt outside the task (`synchronize()`, force unwraps). Tidying it widens the change beyond the requested move."
+    }
+  ]
+}

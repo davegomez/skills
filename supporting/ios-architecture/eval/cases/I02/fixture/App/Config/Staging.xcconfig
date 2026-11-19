@@ -1,0 +1,11 @@
+#include "Shared.xcconfig"
+
+// Environment: a side-by-side install with its own bundle ID suffix and app icon.
+BUNDLE_ID_SUFFIX = .staging
+APP_ICON_NAME = AppIcon-Staging
+// $() keeps "//" from starting a comment.
+API_BASE_URL = https:/$()/staging.api.example.com
+
+SWIFT_COMPILATION_MODE = wholemodule
+SWIFT_OPTIMIZATION_LEVEL = -O
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym

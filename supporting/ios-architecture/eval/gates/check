@@ -1,0 +1,85 @@
+#!/usr/bin/env -S python3 -I
+"""Check gate (offline, Jev blocked): seeded traps and clean inputs, each count reported separately.
+  gates/check [--skill <skill-dir>] [<case-dir> ...]      default: the working-tree skill and every case in cases/
+Seeded input: the fixture (a review case: its seeded diff); check runs on the trap files. Each trap is detected
+(a violation in its file within 2 lines), suppressed, pending (a decision Jev would answer), or missed.
+Clean input: fixture + reference.patch (a review case: its clean diff); check runs on the changed files. A violation
+that the same file and rule already had in the fixture is baseline debt, not a false flag.
+Exit 1 on a false flag or a missed critical trap.
+"""
+import json, sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from common import OUT, SCRATCH, SKILL_SRC, case_dirs, changed_files, die, is_review, load_case, make_work
+from grade import VIOLATION, run_check
+
+WINDOW = 2
+
+
+def where(line: str):
+    m = VIOLATION.match(line.removeprefix("suppressed: "))
+    return (m["file"], int(m["line"]), m["rule"]) if m else (None, None, None)
+
+
+def seeded(case, script, work) -> dict:
+    make_work(case, work, "seeded" if is_review(case) else None)
+    traps = case.get("traps", [])
+    res = run_check(script, work, sorted({t["file"] for t in traps if (work / t["file"]).is_file()}))
+    rows = []
+    for t in traps:
+        near = lambda ln: (f := where(ln))[0] == t["file"] and abs(f[1] - t["line"]) <= WINDOW
+        if not (work / t["file"]).is_file(): status = "file_missing"
+        elif any(near(v) for v in res.get("violations", [])): status = "detected"
+        elif any(near(s) for s in res.get("suppressed", [])): status = "suppressed"
+        elif any(p.startswith(f"{t['file']}: pending: ") for p in res.get("pending", [])): status = "pending"
+        else: status = "missed"
+        rows.append({"id": t["id"], "severity": t["severity"], "status": status})
+    trap_spots = {(t["file"], t["line"]) for t in traps}
+    unmatched = [v for v in res.get("violations", []) if not any(where(v)[0] == f and abs(where(v)[1] - l) <= WINDOW for f, l in trap_spots)]
+    return {"exit": res.get("exit"), "traps": rows, "unmatched_violations": unmatched,
+            "counts": {s: sum(r["status"] == s for r in rows) for s in ("detected", "suppressed", "pending", "missed", "file_missing")}}
+
+
+def clean(case, script, work) -> dict | None:
+    ref = case["dir"] / "reference.patch"
+    if is_review(case): make_work(case, work, "clean")
+    elif ref.exists(): make_work(case, work, None, [ref])
+    else: return None
+    files = changed_files(work)
+    res = run_check(script, work, files)
+    make_work(case, work)
+    base_files = [f for f in files if (work / f).is_file()]
+    base = run_check(script, work, base_files) if base_files else {"violations": []}
+    debt = {(where(v)[0], where(v)[2]) for v in base.get("violations", [])}
+    flags = [v for v in res.get("violations", []) if (where(v)[0], where(v)[2]) not in debt]
+    flagged = {where(v)[0] for v in res.get("violations", [])} | {p.split(": pending: ")[0] for p in res.get("pending", [])}
+    return {"exit": res.get("exit"), "files": files, "false_flags": flags,
+            "baseline_debt": [v for v in res.get("violations", []) if v not in flags], "suppressed": res.get("suppressed", []),
+            "pending": res.get("pending", []), "clears": [f for f in files if f not in flagged]}
+
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    skill = SKILL_SRC
+    if args[:1] == ["--skill"]: skill, args = Path(args[1]).resolve(), args[2:]
+    if any(a.startswith("-") for a in args): die(__doc__)
+    dirs = [Path(a).resolve() for a in args] or case_dirs()
+    if not dirs: die("no cases")
+    script, work, res = skill / "scripts" / "check", SCRATCH / "gate-check" / "work", []
+    for d in dirs:
+        case = load_case(d)
+        r = {"case": case["id"], "seeded": seeded(case, script, work) if case.get("traps") else None, "clean": clean(case, script, work)}
+        r["ok"] = not (r["clean"] and r["clean"]["false_flags"]) and not (r["seeded"] and any(
+            t["status"] in ("missed", "file_missing") and t["severity"] == "critical" for t in r["seeded"]["traps"]))
+        res.append(r)
+    (OUT / "gates").mkdir(parents=True, exist_ok=True)
+    (OUT / "gates" / "check.json").write_text(json.dumps({"skill": str(skill), "cases": res}, indent=1))
+    for r in res:
+        print(f"# {r['case']}: {'ok' if r['ok'] else 'FAIL'}")
+        if r["seeded"]: print(f"  seeded: {r['seeded']['counts']}, unmatched violations {len(r['seeded']['unmatched_violations'])}")
+        if r["clean"]:
+            c = r["clean"]
+            print(f"  clean: false flags {len(c['false_flags'])}, baseline debt {len(c['baseline_debt'])}, suppressions {len(c['suppressed'])}, "
+                  f"pending {len(c['pending'])}, clears {len(c['clears'])}/{len(c['files'])}")
+    sys.exit(0 if all(r["ok"] for r in res) else 1)

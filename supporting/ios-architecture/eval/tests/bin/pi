@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""Fake `pi -p --no-tools` reviewer: 1 JSON line per rubric check. A delivery whose patch writes the wrong
+greeting fails T00-scope as critical; everything else passes."""
+import json, os, re, sys
+
+files = [a[1:] for a in sys.argv[1:] if a.startswith("@")]
+assert os.environ.get("PI_CODING_AGENT_DIR"), "no clean agent dir"
+assert "--no-tools" in sys.argv, "tools must be off"
+rubric = open(next(f for f in files if f.endswith("rubric.md"))).read()
+item = next(f for f in files if re.search(r"/d[0-9a-f]{8}\.md$", f))
+nid = os.path.basename(item)[:-3]
+text = open(item).read()
+for check in dict.fromkeys(re.findall(r"\b[A-Z]\d\d-[a-z-]+", rubric)):
+    bad = check == "T00-scope" and "+Hello world" in text
+    print(json.dumps({"item": nid, "check": check, "priority": "maintainability", "severity": "critical" if bad else "minor",
+                      "result": "fail" if bad else "pass", "evidence": "greet.txt:1"}))

@@ -1,0 +1,47 @@
+{
+  "id": "I03",
+  "title": "Deep link to an archive preview with a confirmation step, in an independently authored SwiftUI app",
+  "priorities": [
+    "security",
+    "reliability",
+    "accessibility",
+    "maintainability"
+  ],
+  "references": {
+    "required": [
+      "navigation",
+      "security-privacy",
+      "accessibility",
+      "testing"
+    ],
+    "optional": [
+      "ui-framework",
+      "persistence",
+      "localization",
+      "architecture",
+      "concurrency"
+    ]
+  },
+  "pre_edit_files": [
+    "QuickNotes/QuickNotesApp.swift",
+    "QuickNotes/NoteListView.swift",
+    "QuickNotes/NoteStore.swift",
+    "Config/Info.plist"
+  ],
+  "traps": [
+    {
+      "id": "I03-T1-toggle-archive",
+      "file": "QuickNotes/NoteStore.swift",
+      "line": 29,
+      "severity": "major",
+      "description": "The only archive operation is a toggle. A link handler that reuses it without checking the current state unarchives a note when the link is opened again or confirmed twice."
+    },
+    {
+      "id": "I03-T2-sheet-conflict",
+      "file": "QuickNotes/NoteListView.swift",
+      "line": 48,
+      "severity": "minor",
+      "description": "The list already presents the new-note sheet. A preview sheet attached to the same view can fail to appear while that sheet is open."
+    }
+  ]
+}

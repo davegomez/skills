@@ -1,0 +1,12 @@
+diff --git a/REVIEW.md b/REVIEW.md
+new file mode 100644
+index 0000000..99c96a4
+--- /dev/null
++++ b/REVIEW.md
+@@ -0,0 +1,6 @@
++# Review of the door check-in change
++
++- critical | Guestbook/Store/GuestStore.swift:49 | The check-in log interpolates the guest's name and email with `privacy: .public`, so personal data reaches the unified log in clear text, where sysdiagnose archives and anyone with log access can read it. Log the hashed guest id instead (`privacy: .private(mask: .hash)`), as `remove(_:)` does.
++- major | Guestbook/Store/GuestStore.swift:73 | `try?` discards the failure of the ledger write. When the write fails (disk full, file protection while the device is locked), the ledger silently misses check-ins and staff export an incomplete list. Catch the error, log it without personal data, and set `lastError` as `persist()` does.
++- major | Guestbook/Views/GuestListView.swift:19 | Check-in is reachable only through a double-tap gesture, with no button, swipe action, or accessibility action. VoiceOver, Voice Control, and Switch Control users cannot check guests in. Add a swipe action or `accessibilityAction(named:)` for check-in.
++- minor | Guestbook/Views/GuestListView.swift:10 | `try?` swallows the Markdown parse error of the hint, so the failure is never reported.

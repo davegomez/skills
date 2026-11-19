@@ -1,0 +1,204 @@
+diff --git a/Config/Info.plist b/Config/Info.plist
+index bc11256..df30793 100644
+--- a/Config/Info.plist
++++ b/Config/Info.plist
+@@ -2,6 +2,17 @@
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+ <dict>
++	<key>CFBundleURLTypes</key>
++	<array>
++		<dict>
++			<key>CFBundleURLName</key>
++			<string>com.example.quicknotes</string>
++			<key>CFBundleURLSchemes</key>
++			<array>
++				<string>quicknotes</string>
++			</array>
++		</dict>
++	</array>
+ 	<key>ITSAppUsesNonExemptEncryption</key>
+ 	<false/>
+ </dict>
+diff --git a/QuickNotes/ArchivePreviewView.swift b/QuickNotes/ArchivePreviewView.swift
+new file mode 100644
+index 0000000..1f33348
+--- /dev/null
++++ b/QuickNotes/ArchivePreviewView.swift
+@@ -0,0 +1,35 @@
++import SwiftUI
++
++/// Asks the user to confirm archiving a note that a link named.
++struct ArchivePreviewView: View {
++    let note: Note
++    let onConfirm: () -> Void
++    let onCancel: () -> Void
++
++    var body: some View {
++        NavigationStack {
++            Form {
++                Section {
++                    Text(note.title)
++                        .font(.headline)
++                    Text(note.body)
++                        .foregroundStyle(.secondary)
++                } footer: {
++                    Text("The note moves to Archived. You can unarchive it from there.")
++                }
++            }
++            .navigationTitle("Archive Note?")
++            .navigationBarTitleDisplayMode(.inline)
++            .toolbar {
++                ToolbarItem(placement: .cancellationAction) {
++                    Button("Cancel", action: onCancel)
++                        .accessibilityIdentifier("archive-preview.cancel")
++                }
++                ToolbarItem(placement: .confirmationAction) {
++                    Button("Archive", action: onConfirm)
++                        .accessibilityIdentifier("archive-preview.confirm")
++                }
++            }
++        }
++    }
++}
+diff --git a/QuickNotes/DeepLink.swift b/QuickNotes/DeepLink.swift
+new file mode 100644
+index 0000000..b280dec
+--- /dev/null
++++ b/QuickNotes/DeepLink.swift
+@@ -0,0 +1,25 @@
++import Foundation
++
++/// A link the app accepts. Every other URL is rejected.
++enum DeepLink: Equatable {
++    /// `quicknotes://notes/<note-id>/archive`
++    case archivePreview(noteID: UUID)
++
++    private static let maxLength = 256
++
++    /// Parses an untrusted URL. Returns nil unless it matches a documented format exactly.
++    init?(url: URL) {
++        guard url.absoluteString.count <= Self.maxLength,
++              url.scheme?.lowercased() == "quicknotes",
++              url.host(percentEncoded: true) == "notes",
++              url.user == nil, url.password == nil, url.port == nil,
++              url.query == nil, url.fragment == nil
++        else { return nil }
++
++        let segments = url.path(percentEncoded: true).split(separator: "/", omittingEmptySubsequences: false)
++        guard segments.count == 3, segments[0].isEmpty, segments[2] == "archive",
++              segments[1].count == 36, let noteID = UUID(uuidString: String(segments[1]))
++        else { return nil }
++        self = .archivePreview(noteID: noteID)
++    }
++}
+diff --git a/QuickNotes/NoteListView.swift b/QuickNotes/NoteListView.swift
+index f6cb007..8a0a4c9 100644
+--- a/QuickNotes/NoteListView.swift
++++ b/QuickNotes/NoteListView.swift
+@@ -9,6 +9,8 @@ struct NoteListView: View {
+     @Environment(NoteStore.self) private var store
+     @State private var path: [Route] = []
+     @State private var isAddingNote = false
++    @State private var archiveCandidate: Note?
++    @State private var isShowingRejectedLink = false
+ 
+     var body: some View {
+         NavigationStack(path: $path) {
+@@ -49,6 +51,34 @@ struct NoteListView: View {
+                 NewNoteView()
+             }
+         }
++        .onOpenURL(perform: openLink)
++        .sheet(item: $archiveCandidate) { note in
++            ArchivePreviewView(
++                note: note,
++                onConfirm: {
++                    store.archive(id: note.id)
++                    archiveCandidate = nil
++                },
++                onCancel: { archiveCandidate = nil }
++            )
++        }
++        .alert("Link Not Available", isPresented: $isShowingRejectedLink) {
++            Button("OK", role: .cancel) {}
++        } message: {
++            Text("This link does not point to a note you can archive.")
++        }
++    }
++
++    /// Shows the archive preview for a valid link to an active note. The link itself changes nothing.
++    private func openLink(_ url: URL) {
++        guard case .archivePreview(let noteID)? = DeepLink(url: url),
++              let note = store.note(id: noteID), !note.isArchived
++        else {
++            isShowingRejectedLink = true
++            return
++        }
++        isAddingNote = false
++        archiveCandidate = note
+     }
+ }
+ 
+diff --git a/QuickNotes/NoteStore.swift b/QuickNotes/NoteStore.swift
+index 38623b2..28f6239 100644
+--- a/QuickNotes/NoteStore.swift
++++ b/QuickNotes/NoteStore.swift
+@@ -32,6 +32,13 @@ final class NoteStore {
+         save()
+     }
+ 
++    /// Archives an active note. Does nothing when the note is missing or already archived.
++    func archive(id: UUID) {
++        guard let index = notes.firstIndex(where: { $0.id == id }), !notes[index].isArchived else { return }
++        notes[index].isArchived = true
++        save()
++    }
++
+     func replaceAll(with notes: [Note]) {
+         self.notes = notes
+         save()
+diff --git a/QuickNotesUITests/DeepLinkUITests.swift b/QuickNotesUITests/DeepLinkUITests.swift
+new file mode 100644
+index 0000000..0cce94d
+--- /dev/null
++++ b/QuickNotesUITests/DeepLinkUITests.swift
+@@ -0,0 +1,38 @@
++import XCTest
++
++@MainActor
++final class DeepLinkUITests: XCTestCase {
++    private var app: XCUIApplication!
++    private let groceriesLink = URL(string: "quicknotes://notes/11111111-1111-1111-1111-111111111111/archive")!
++
++    override func setUp() async throws {
++        continueAfterFailure = false
++        app = XCUIApplication()
++        app.launchArguments = ["-uitest-seed"]
++        app.launch()
++    }
++
++    func testLinkShowsPreviewAndCancelKeepsNote() {
++        app.open(groceriesLink)
++        XCTAssertTrue(app.buttons["archive-preview.confirm"].waitForExistence(timeout: 10))
++        app.buttons["archive-preview.cancel"].tap()
++        XCTAssertTrue(app.staticTexts["Groceries"].waitForExistence(timeout: 5))
++    }
++
++    func testConfirmArchivesNote() {
++        app.open(groceriesLink)
++        XCTAssertTrue(app.buttons["archive-preview.confirm"].waitForExistence(timeout: 10))
++        app.buttons["archive-preview.confirm"].tap()
++        XCTAssertTrue(app.staticTexts["Groceries"].waitForNonExistence(timeout: 5))
++        app.buttons["Archived"].tap()
++        XCTAssertTrue(app.staticTexts["Groceries"].waitForExistence(timeout: 5))
++    }
++
++    func testInvalidLinkShowsNoPreview() {
++        app.open(URL(string: "quicknotes://notes/not-a-note/archive")!)
++        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 5))
++        XCTAssertFalse(app.buttons["archive-preview.confirm"].exists)
++        app.alerts.firstMatch.buttons.firstMatch.tap()
++        XCTAssertTrue(app.staticTexts["Groceries"].waitForExistence(timeout: 5))
++    }
++}
