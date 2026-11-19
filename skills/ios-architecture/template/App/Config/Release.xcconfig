@@ -1,0 +1,12 @@
+#include "Shared.xcconfig"
+
+// Environment: production.
+BUNDLE_ID_SUFFIX =
+APP_ICON_NAME = AppIcon
+// $() keeps "//" from starting a comment.
+API_BASE_URL = https:/$()/api.example.com
+
+SWIFT_COMPILATION_MODE = wholemodule
+SWIFT_OPTIMIZATION_LEVEL = -O
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+VALIDATE_PRODUCT = YES

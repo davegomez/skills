@@ -1,0 +1,169 @@
+#!/bin/sh
+# Adds a feature package to a project made by scripts/scaffold. Run with --help for usage.
+set -u
+
+here=$(cd "$(dirname "$0")" && pwd) || exit 1
+. "$here/scaffold-lib.sh"
+skill=${here%/*}
+IMPORT_MARKER='// ios-architecture:feature-imports'
+REGISTER_MARKER='// ios-architecture:register-features'
+# Fixed object IDs from template/App/__APP__.xcodeproj/project.pbxproj. Xcode keeps object IDs when it saves.
+APP_TARGET_ID=0A0000000000000000000020
+APP_FRAMEWORKS_ID=0A0000000000000000000023
+
+usage() {
+    cat <<EOF
+usage: new-feature <project-dir> <Name>
+       new-feature --self-check
+
+Makes Packages/Features/<Name> from template-feature/, links <Name>Feature to the app target,
+adds the package to the workspace and its tests to ci/test-plan.xctestplan, and registers
+<Name>Entry in the composition root. <Name> is an ASCII Swift identifier that starts with an
+uppercase letter. A second run for the same name fails and changes nothing.
+EOF
+}
+
+# Prints file $1 with text $3 after the first line that contains $2 at or after the first line that
+# contains $4 (default: the first line). Fails when no line matches. ENVIRON keeps newlines and backslashes.
+insert_after() {
+    ANCHOR=$2 TEXT=$3 START=${4:-} awk '
+        !armed && (ENVIRON["START"] == "" || index($0, ENVIRON["START"])) { armed = 1 }
+        { print }
+        armed && !done && index($0, ENVIRON["ANCHOR"]) { print ENVIRON["TEXT"]; done = 1 }
+        END { exit !done }' "$1"
+}
+
+# Prints file $1 with text $3 before the first line that contains $2. Fails when no line matches.
+insert_before() {
+    ANCHOR=$2 TEXT=$3 awk '
+        !done && index($0, ENVIRON["ANCHOR"]) { print ENVIRON["TEXT"]; done = 1 }
+        { print }
+        END { exit !done }' "$1"
+}
+
+# A 24-digit uppercase hex object ID that is the same for each run with the same seed.
+object_id() {
+    md5 -q -s "$1" | cut -c1-24 | tr a-f A-F
+}
+
+self_check() {
+    lib_self_check
+    file=$(mktemp) || die "self-check: cannot create a temporary file"
+    printf 'a\nT /* x */ = {\nfiles = (\nb\nfiles = (\n' >"$file"
+    [ "$(insert_after "$file" 'files = (' NEW 'T /* x */' | tr '\n' ,)" = 'a,T /* x */ = {,files = (,NEW,b,files = (,' ] ||
+        die "self-check: insert_after"
+    [ "$(insert_after "$file" 'b' NEW | tr '\n' ,)" = 'a,T /* x */ = {,files = (,b,NEW,files = (,' ] ||
+        die "self-check: insert_after with no start"
+    insert_after "$file" missing NEW >/dev/null && die "self-check: insert_after with no anchor passed"
+    [ "$(insert_after "$file" 'a' 'L1
+"L2"\t' | tr '\n' ,)" = 'a,L1,"L2"\t,T /* x */ = {,files = (,b,files = (,' ] ||
+        die "self-check: insert_after with a multi-line text"
+    [ "$(insert_before "$file" 'b' NEW | tr '\n' ,)" = 'a,T /* x */ = {,files = (,NEW,b,files = (,' ] ||
+        die "self-check: insert_before"
+    rm -f "$file"
+    id=$(object_id Checkout:ref)
+    [ "$id" = "$(object_id Checkout:ref)" ] && [ "$id" != "$(object_id Checkout:product)" ] ||
+        die "self-check: object_id is not stable or not distinct"
+    case $id in ???????????????????????? ) ;; *) die "self-check: object_id length" ;; esac
+    case $id in *[!0-9A-F]*) die "self-check: object_id characters" ;; esac
+    echo "self-check: new-feature OK"
+}
+
+case ${1:-} in
+    -h | --help) usage; exit 0 ;;
+    --self-check) self_check; exit 0 ;;
+esac
+[ $# -eq 2 ] || { usage >&2; exit 2; }
+
+project=$(cd "$1" 2>/dev/null && pwd) || die "$1 is not a directory"
+name=$2
+case $name in [A-Z]*) ;; *) die "feature name '$name' must start with an uppercase letter" ;; esac
+is_identifier "$name" ||
+    die "feature name '$name' must be an ASCII Swift identifier that is not a keyword or a template module name"
+
+profile=$project/ios-architecture.json
+[ -f "$profile" ] || die "$profile not found; run new-feature on a project made by scripts/scaffold"
+app=$(/usr/bin/jq -r 'if (.app_name | type) == "string" then .app_name else empty end' "$profile" 2>/dev/null)
+min_ios=$(/usr/bin/jq -r 'if (.minimum_ios | type) == "string" then .minimum_ios else empty end' "$profile" 2>/dev/null)
+is_identifier "$app" || die "app_name in $profile is not valid"
+is_version "$min_ios" || die "minimum_ios in $profile is not valid"
+[ "$name" != "$app" ] || die "feature name '$name' must differ from the app name"
+
+pbxproj=$project/App/$app.xcodeproj/project.pbxproj
+root=$project/App/$app/$app.swift
+workspace=$project/$app.xcworkspace/contents.xcworkspacedata
+plan=$project/ci/test-plan.xctestplan
+package_dir=$project/Packages/Features/$name
+for file in "$pbxproj" "$root" "$workspace" "$plan"; do
+    [ -f "$file" ] || die "$file not found"
+done
+if [ -e "$package_dir" ] || grep -qF "register(${name}Entry())" "$root" || grep -qF "productName = ${name}Feature;" "$pbxproj"; then
+    die "feature $name already exists"
+fi
+grep -q "$IMPORT_MARKER" "$root" && grep -q "$REGISTER_MARKER" "$root" ||
+    die "$root has lost a marker comment ('$IMPORT_MARKER' or '$REGISTER_MARKER'); put it back"
+
+tools=$(tools_version)
+stage=$(mktemp -d "$project/.new-feature.XXXXXX") || die "cannot create a staging folder in $project"
+trap 'rm -rf "$stage"' EXIT
+trap 'exit 1' HUP INT TERM
+
+mkdir "$stage/package" && render_template "$skill/template-feature" "$stage/package" \
+    "s|__FEATURE__|$name|g" \
+    "s|__MIN_IOS__|$min_ios|g" \
+    "s|__TOOLS_VERSION__|$tools|g"
+
+ref=$(object_id "$name:package-reference")
+product=$(object_id "$name:product-dependency")
+build_file=$(object_id "$name:build-file")
+ref_comment="XCLocalSwiftPackageReference \"../Packages/Features/$name\""
+tab=$(printf '\t')
+
+# Each step reads the previous file, so a failed step stops before any project file changes.
+p=$stage/pbxproj
+cp "$pbxproj" "$p.0" &&
+    insert_after "$p.0" '/* Begin PBXBuildFile section */' \
+        "$tab$tab$build_file /* ${name}Feature in Frameworks */ = {isa = PBXBuildFile; productRef = $product /* ${name}Feature */; };" >"$p.1" &&
+    insert_after "$p.1" 'files = (' "$tab$tab$tab$tab$build_file /* ${name}Feature in Frameworks */," \
+        "$APP_FRAMEWORKS_ID /* Frameworks */ = {" >"$p.2" &&
+    insert_after "$p.2" 'packageProductDependencies = (' "$tab$tab$tab$tab$product /* ${name}Feature */," \
+        "$APP_TARGET_ID /* $app */ = {" >"$p.3" &&
+    insert_after "$p.3" 'packageReferences = (' "$tab$tab$tab$tab$ref /* $ref_comment */," >"$p.4" &&
+    insert_after "$p.4" '/* Begin XCLocalSwiftPackageReference section */' \
+        "$tab$tab$ref /* $ref_comment */ = {
+$tab$tab${tab}isa = XCLocalSwiftPackageReference;
+$tab$tab${tab}relativePath = ../Packages/Features/$name;
+$tab$tab};" >"$p.5" &&
+    insert_after "$p.5" '/* Begin XCSwiftPackageProductDependency section */' \
+        "$tab$tab$product /* ${name}Feature */ = {
+$tab$tab${tab}isa = XCSwiftPackageProductDependency;
+$tab$tab${tab}package = $ref /* $ref_comment */;
+$tab$tab${tab}productName = ${name}Feature;
+$tab$tab};" >"$p.6" ||
+    die "cannot find an anchor in $pbxproj; add the package to the app target in Xcode instead"
+plutil -lint -s "$p.6" || die "the edited project file is not valid; nothing changed"
+
+insert_after "$root" "$IMPORT_MARKER" "import ${name}Feature" >"$stage/root.0" &&
+    insert_after "$stage/root.0" "$REGISTER_MARKER" "        registry.register(${name}Entry())" >"$stage/root" ||
+    die "cannot edit $root"
+
+insert_before "$workspace" '</Workspace>' "   <FileRef
+      location = \"group:Packages/Features/$name\">
+   </FileRef>" >"$stage/workspace" || die "cannot edit $workspace"
+
+/usr/bin/jq --arg name "$name" '.testTargets += [
+    ($name + "DomainTests", $name + "FeatureTests")
+    | {target: {containerPath: ("container:Packages/Features/" + $name), identifier: ., name: .}}
+]' "$plan" >"$stage/plan" || die "cannot edit $plan"
+
+# Apply: the package first, then each edited file.
+mkdir -p "$project/Packages/Features" && mv "$stage/package" "$package_dir" || die "cannot create $package_dir"
+cp "$p.6" "$pbxproj" && cp "$stage/root" "$root" && cp "$stage/workspace" "$workspace" && cp "$stage/plan" "$plan" ||
+    die "cannot write the project files; check them with git diff"
+
+cat <<EOF
+Added feature $name
+  package       Packages/Features/$name (${name}Domain, ${name}Feature, and their tests)
+  app           links ${name}Feature; App/$app/$app.swift registers ${name}Entry()
+  workspace     $app.xcworkspace and ci/test-plan.xctestplan list the package and its tests
+EOF

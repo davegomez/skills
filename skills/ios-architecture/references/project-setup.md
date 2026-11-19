@@ -51,6 +51,8 @@ Set up the project so that every build is reproducible and every environment is 
 
 Complete these steps in order before you build the first feature.
 
+**Scaffold:** Write the project profile `ios-architecture.json` in an empty project folder. Run [`scripts/scaffold`](../scripts/scaffold) `--help` for its fields. Then run `scripts/scaffold <project-dir>`. The scaffold completes each **Foundation** and **Core packages** item, except the registration of identifiers and the VoiceOver test of the `DesignSystem` component. It also adds the `performAccessibilityAudit()` UI test, and it prints the manual steps that remain. Run [`scripts/new-feature`](../scripts/new-feature) `<project-dir> <Name>` to make and register each feature package.
+
 **Foundation**
 
 - [ ] Create the workspace with `App/` and `Packages/`

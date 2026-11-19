@@ -12,7 +12,10 @@ iOS architecture: invoke the `ios-architecture` skill before you read or edit iO
 
 ## Section map
 
-Sections 1 and 2 of the guide are the invariants and the priority order in `SKILL.md`. Each other section is in 1 reference file. The text is unchanged, except that each "Section N" reference is now a link to its file.
+Sections 1 and 2 of the guide are the invariants and the priority order in `SKILL.md`. Each other section is in 1 reference file. The text is unchanged, with 2 exceptions:
+
+- Each "Section N" reference is now a link to its file.
+- The code samples, the package manifest, and the directory tree of sections 5 and 6 are now files in `skills/ios-architecture/template/` and `skills/ios-architecture/template-feature/`. The references link to these files, and section 21 names the `scaffold` and `new-feature` scripts.
 
 | Guide section | Reference file |
 | --- | --- |
@@ -36,3 +39,7 @@ Sections 1 and 2 of the guide are the invariants and the priority order in `SKIL
 | 20. Migrating an existing app | `migration.md` |
 | 21. New project checklist | `project-setup.md` |
 | 22. Trade-offs and thresholds | `deviations.md` |
+
+## Test the scaffold
+
+Run `tests/run-scaffold-tests.sh` on a Mac with Xcode. It scaffolds a project into a temporary folder, builds and tests each package, builds the app for the iOS Simulator, adds 2 features, and checks each validation failure. Set `KEEP=1` to keep the temporary folder.

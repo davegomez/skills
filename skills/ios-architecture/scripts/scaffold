@@ -1,0 +1,148 @@
+#!/bin/sh
+# Makes a new iOS project from template/ and the project profile. Run with --help for usage.
+set -u
+
+here=$(cd "$(dirname "$0")" && pwd) || exit 1
+. "$here/scaffold-lib.sh"
+skill=${here%/*}
+PROFILE=ios-architecture.json
+
+usage() {
+    cat <<EOF
+usage: scaffold <target-dir>
+       scaffold --self-check
+
+Makes a new iOS project in <target-dir> from the project profile <target-dir>/$PROFILE.
+<target-dir> must contain only the profile. The profile is a JSON object with these fields:
+
+  app_name                 string   ASCII Swift identifier that starts with a letter, for example "MyApp"
+  bundle_id_prefix         string   reverse-DNS prefix, for example "com.example"
+  minimum_ios              string   minimum deployment target as "major.minor"; not newer than the iOS SDK
+  team_size                number   whole number, 1 or more
+  regulated_data           boolean  true sets Data Protection to complete
+  cross_device_sync        boolean
+  cross_platform_accounts  boolean
+  store                    string   files, swiftdata, coredata, or grdb
+  code_may_leave_machine   boolean
+
+The scaffold reads swift-tools-version and the iOS SDK version from the active Xcode.
+EOF
+}
+
+# Prints 1 line for each type or value error in the profile on stdin.
+PROFILE_CHECK='
+def need($k; $t):
+    if has($k) | not then "\($k): missing"
+    elif (.[$k] | type) != $t then "\($k): must be a \($t)"
+    else empty end;
+if type != "object" then "profile: must be a JSON object" else
+    need("app_name"; "string"), need("bundle_id_prefix"; "string"), need("minimum_ios"; "string"),
+    need("team_size"; "number"), need("regulated_data"; "boolean"), need("cross_device_sync"; "boolean"),
+    need("cross_platform_accounts"; "boolean"), need("store"; "string"), need("code_may_leave_machine"; "boolean"),
+    (if (.team_size | type) == "number" and (.team_size < 1 or .team_size != (.team_size | floor))
+     then "team_size: must be a whole number of 1 or more" else empty end),
+    (if (.store | type) == "string" and (.store | IN("files", "swiftdata", "coredata", "grdb") | not)
+     then "store: must be files, swiftdata, coredata, or grdb" else empty end)
+end'
+
+# Validates profile file $1. On success, sets app, prefix, min_ios, and regulated.
+read_profile() {
+    errors=$(/usr/bin/jq -r "$PROFILE_CHECK" "$1" 2>/dev/null) || die "$1 is not valid JSON"
+    [ -z "$errors" ] || die "invalid profile $1:
+$errors"
+    app=$(/usr/bin/jq -r .app_name "$1")
+    prefix=$(/usr/bin/jq -r .bundle_id_prefix "$1")
+    min_ios=$(/usr/bin/jq -r .minimum_ios "$1")
+    regulated=$(/usr/bin/jq -r .regulated_data "$1")
+    is_identifier "$app" ||
+        die "app_name '$app' must be an ASCII Swift identifier that starts with a letter and is not a keyword or a template module name"
+    is_reverse_dns "$prefix" || die "bundle_id_prefix '$prefix' must be a reverse-DNS string, for example com.example"
+    is_version "$min_ios" || die "minimum_ios '$min_ios' must be a version string, major.minor"
+}
+
+self_check() {
+    lib_self_check
+    dir=$(mktemp -d) || die "self-check: cannot create a temporary directory"
+    good='{"app_name":"MyApp","bundle_id_prefix":"com.example","minimum_ios":"1.0","team_size":3,
+"regulated_data":false,"cross_device_sync":false,"cross_platform_accounts":false,"store":"files",
+"code_may_leave_machine":true}'
+    printf '%s' "$good" >"$dir/p.json"
+    (read_profile "$dir/p.json" && [ "$app$prefix$min_ios$regulated" = MyAppcom.example1.0false ]) ||
+        die "self-check: a valid profile failed"
+    for patch in 'del(.store)' '.team_size = 0' '.team_size = 1.5' '.team_size = "3"' '.store = "realm"' \
+        '.regulated_data = "no"' '.app_name = "1App"' '.bundle_id_prefix = "example"' '.minimum_ios = "1"' '[.]'; do
+        printf '%s' "$good" | /usr/bin/jq "$patch" >"$dir/p.json"
+        (read_profile "$dir/p.json") 2>/dev/null && die "self-check: profile with '$patch' passed"
+    done
+    rm -rf "$dir"
+    echo "self-check: scaffold OK"
+}
+
+case ${1:-} in
+    -h | --help) usage; exit 0 ;;
+    --self-check) self_check; exit 0 ;;
+    '' | -*) usage >&2; exit 2 ;;
+esac
+[ $# -eq 1 ] || { usage >&2; exit 2; }
+
+target=$1
+[ -d "$target" ] || die "$target is not a directory"
+target=$(cd "$target" && pwd) || exit 1
+[ -f "$target/$PROFILE" ] || die "$target/$PROFILE not found; write the project profile first (see --help)"
+for entry in "$target"/* "$target"/.[!.]* "$target"/..?*; do
+    [ -e "$entry" ] || continue
+    [ "${entry##*/}" = "$PROFILE" ] || die "$target must contain only $PROFILE; found ${entry##*/}"
+done
+
+read_profile "$target/$PROFILE"
+tools=$(tools_version)
+sdk=$(xcrun --sdk iphoneos --show-sdk-version 2>/dev/null) || die "cannot read the iOS SDK version; install Xcode"
+version_le "$min_ios" "$sdk" || die "minimum_ios $min_ios is newer than the iOS SDK $sdk"
+if [ "$regulated" = true ]; then
+    data_protection=NSFileProtectionComplete
+    file_protection=completeFileProtection
+else
+    data_protection=NSFileProtectionCompleteUntilFirstUserAuthentication
+    file_protection=completeFileProtectionUntilFirstUserAuthentication
+fi
+bundle_name=$(printf '%s' "$app" | tr _ -)
+
+# Render into a staging folder, so that a failure leaves the target with only the profile.
+stage=$(mktemp -d "$target/.scaffold.XXXXXX") || die "cannot create a staging folder in $target"
+trap 'rm -rf "$stage"' EXIT
+trap 'exit 1' HUP INT TERM
+render_template "$skill/template" "$stage" \
+    "s|__APP__|$app|g" \
+    "s|__BUNDLE_PREFIX__|$prefix|g" \
+    "s|__BUNDLE_NAME__|$bundle_name|g" \
+    "s|__MIN_IOS__|$min_ios|g" \
+    "s|__TOOLS_VERSION__|$tools|g" \
+    "s|__DATA_PROTECTION__|$data_protection|g" \
+    "s|__FILE_PROTECTION__|$file_protection|g"
+for plist in "App/$app.xcodeproj/project.pbxproj" "App/$app/Info.plist" "App/$app/$app.entitlements" \
+    "App/$app/PrivacyInfo.xcprivacy"; do
+    plutil -lint -s "$stage/$plist" || die "rendered $plist is not a valid property list"
+done
+find "$stage" \( -name '*.json' -o -name '*.xcstrings' -o -name '*.xctestplan' \) -exec /usr/bin/jq empty {} + ||
+    die "a rendered JSON file is not valid"
+for entry in "$stage"/*; do
+    mv "$entry" "$target/" || die "cannot move ${entry##*/} into $target"
+done
+
+cat <<EOF
+Made $app in $target
+  workspace     $app.xcworkspace (scheme $app, test plan ci/test-plan.xctestplan)
+  app target    App/$app (bundle ID $prefix.$bundle_name, .debug and .staging suffixes)
+  packages      Packages/Core, DesignSystem, Networking, Persistence
+  versions      swift-tools-version $tools, minimum iOS $min_ios, iOS SDK $sdk
+  data          Data Protection $data_protection
+
+Manual steps that remain:
+  1. Set DEVELOPMENT_TEAM in App/Config/Shared.xcconfig, or select the team in Signing & Capabilities.
+  2. Register the bundle IDs $prefix.$bundle_name, $prefix.$bundle_name.debug, and
+     $prefix.$bundle_name.staging, plus any App Groups, Keychain access groups, and Associated Domains,
+     in the Apple Developer account before the first device build.
+  3. Set API_BASE_URL in App/Config/Debug.xcconfig, Staging.xcconfig, and Release.xcconfig.
+  4. Add the app icons to AppIcon, AppIcon-Debug, and AppIcon-Staging in App/$app/Resources/Assets.xcassets.
+  5. Add a feature: $here/new-feature $target <Name>
+EOF

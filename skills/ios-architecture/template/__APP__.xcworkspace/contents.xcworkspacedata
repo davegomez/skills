@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:App/__APP__.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/Core">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/DesignSystem">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/Networking">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/Persistence">
+   </FileRef>
+   <FileRef
+      location = "group:ci/test-plan.xctestplan">
+   </FileRef>
+</Workspace>

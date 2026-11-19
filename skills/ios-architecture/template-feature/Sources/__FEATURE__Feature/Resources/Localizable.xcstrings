@@ -1,0 +1,21 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "__FEATURE__" : {
+      "comment" : "Title of the __FEATURE__ feature in the navigation."
+    },
+    "Add" : {
+      "comment" : "Button that adds the new item."
+    },
+    "Enter a title." : {
+      "comment" : "Error after the user adds an item with an empty title."
+    },
+    "New item" : {
+      "comment" : "Placeholder of the text field for a new item title."
+    },
+    "No items yet." : {
+      "comment" : "Shown when the list has no items."
+    }
+  },
+  "version" : "1.0"
+}

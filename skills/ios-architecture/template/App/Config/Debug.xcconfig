@@ -1,0 +1,14 @@
+#include "Shared.xcconfig"
+
+// Environment: a side-by-side install with its own bundle ID suffix and app icon.
+BUNDLE_ID_SUFFIX = .debug
+APP_ICON_NAME = AppIcon-Debug
+// $() keeps "//" from starting a comment.
+API_BASE_URL = https:/$()/dev.api.example.com
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG $(inherited)
+SWIFT_OPTIMIZATION_LEVEL = -Onone
+GCC_OPTIMIZATION_LEVEL = 0
+ONLY_ACTIVE_ARCH = YES
+ENABLE_TESTABILITY = YES
+DEBUG_INFORMATION_FORMAT = dwarf
