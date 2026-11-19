@@ -1,13 +1,15 @@
 """Stage report: per case, per priority, paired old/new acceptance with an exact sign test, the clean review stratum,
 usage, invalid blocks, and the check diagnostic apart from the grade.
-  python3 -I report.py <stage>          writes runs/<stage>/report.md
+  python3 -I report.py <stage>                     writes runs/<stage>/report.md
+  python3 -I report.py <stage> --old-from <other>  new runs of <stage>, old runs of <other>, paired by case and variant;
+                                                   writes runs/<stage>/report-old-from-<other>.md
 """
 import json, statistics, sys
 from math import comb
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import OUT, die
+from common import OUT, cfg, die
 import review
 
 
@@ -59,10 +61,31 @@ def med(xs) -> str:
     return f"{statistics.median(xs):.2f}" if xs else "-"
 
 
-def report(stage: str) -> str:
+def cross_rows(stage: str, other: str) -> list[dict]:
+    """New runs of stage and old runs of other, each keyed by case and variant as 1 pair."""
+    rs = [r for r in rows(stage)[0] if r["arm"] == "new"] + [r for r in rows(other)[0] if r["arm"] == "old"]
+    for r in rs: r["unit"] = f"{r['case']}-{r['variant'] or '-'}"
+    keys = [(r["unit"], r["arm"]) for r in rs]
+    if len(set(keys)) != len(keys): die(f"more than 1 run per case, variant, and arm; --old-from pairs only 1 run per case")
+    return rs
+
+
+def inputs(stage: str) -> dict:
+    p = OUT / stage / "plan.json"
+    return json.loads(p.read_text())["inputs"] if p.exists() else {}
+
+
+def report(stage: str, old_from: str | None = None) -> str:
     rs, led = rows(stage)
+    if old_from: rs = cross_rows(stage, old_from)
     if not rs: die(f"no valid runs in {stage}")
-    L = [f"# Report: {stage}", "", "Acceptance = every critical executable check passes or is na (at least 1 passes; a review case's grader checks that the tree holds only the review), "
+    L = [f"# Report: {stage}" + (f", old runs from {old_from}" if old_from else ""), ""]
+    if old_from:
+        changed = sorted(k for k, v in inputs(stage).items() if inputs(old_from).get(k) != v)
+        L += [f"Old runs come from stage {old_from} (runs/{old_from}); new runs come from stage {stage}. Each new run is paired with the old run "
+              f"of the same case and variant. Spend and invalid blocks below are {stage}'s only.",
+              cfg()["stages"].get(stage, {}).get("note", ""), f"Cases whose inputs differ between the 2 plans: {', '.join(changed) or 'none'}.", ""]
+    L += ["Acceptance = every critical executable check passes or is na (at least 1 passes; a review case's grader checks that the tree holds only the review), "
          "and the final blind review reports no critical failure. The check diagnostic is listed apart and is never part of acceptance.", ""]
     # primary: paired old/new on non-clean blocks
     pairs = {}
@@ -146,10 +169,12 @@ def report(stage: str) -> str:
         a = [r for r in rs if r["arm"] == arm]
         if a: L.append(f"| {arm} | {len(a)} | {sum(r['diag_violations'] for r in a)} | {sum(r['diag_pending'] for r in a)} |")
     text = "\n".join(L) + "\n"
-    (OUT / stage / "report.md").write_text(text)
+    (OUT / stage / (f"report-old-from-{old_from}.md" if old_from else "report.md")).write_text(text)
     return text
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2: die(__doc__)
-    print(report(sys.argv[1]))
+    a = sys.argv[1:]
+    if len(a) == 1: print(report(a[0]))
+    elif len(a) == 3 and a[1] == "--old-from" and a[2] != a[0]: print(report(a[0], a[2]))
+    else: die(__doc__)

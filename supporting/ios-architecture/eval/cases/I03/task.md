@@ -13,3 +13,5 @@ Build and test with:
 xcodebuild test -project QuickNotes.xcodeproj -scheme QuickNotes \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' CODE_SIGNING_ALLOWED=NO
 ```
+
+Code from this project may be sent to external services.

@@ -86,6 +86,9 @@ class PilotDryRun(unittest.TestCase):
         cls.batch = e.run("runner.py", "batch", "pilot", "--approved-cap", "20")
         e.run("review.py", "pack", "pilot"); e.run("review.py", "review", "pilot"); e.run("review.py", "adjudicate", "pilot")
         cls.report = e.run("report.py", "pilot").stdout
+        cls.batch2 = e.run("runner.py", "batch", "pilot2", "--approved-cap", "8")
+        e.run("review.py", "pack", "pilot2"); e.run("review.py", "review", "pilot2"); e.run("review.py", "adjudicate", "pilot2")
+        cls.cross = e.run("report.py", "pilot2", "--old-from", "pilot").stdout
 
     @classmethod
     def tearDownClass(cls):
@@ -176,6 +179,27 @@ class PilotDryRun(unittest.TestCase):
         self.assertRegex(self.report, r"\| R00-p1-(old|new) \| (old|new) \| yes \|")
         self.assertIn("Jev response models observed: jev-test-1.", self.report)
         self.assertIn("## check diagnostic", self.report)
+
+    def test_new_only_stage_plans_1_run_per_unit_like_the_pilot(self):
+        plan = json.loads((self.e.out / "pilot2/plan.json").read_text())
+        first = {u["case"]: u["variant"] for u in json.loads((self.e.out / "pilot/plan.json").read_text())["units"]}
+        self.assertTrue(all(u["arms"] == ["new"] and u["block"] == "pilot2" for u in plan["units"]))
+        self.assertEqual({u["case"]: u["variant"] for u in plan["units"]}, first)
+        led = self.e.ledger("pilot2")
+        self.assertEqual(sorted(r for x in led if x["kind"] == "unit" for r in x["runs"]), ["R00-pilot2-new", "T00-pilot2-new"])
+        # 1 new run reserved, not a pair: 1.5 + 30 calls x 2 x $0.01
+        self.assertTrue(all(abs(x["usd"] - 2.1) < 1e-9 for x in led if x["kind"] == "reserve"), [x for x in led if x["kind"] == "reserve"])
+        self.assertEqual(len(json.loads((self.e.out / "pilot2/review/key.json").read_text())["items"]), 2)
+
+    def test_cross_stage_report_pairs_by_case(self):
+        self.assertIn("old runs from pilot", self.cross)
+        self.assertIn("Old runs come from stage pilot", self.cross)
+        self.assertIn("1 added sentence", self.cross)
+        self.assertIn("Pairs: 1, with both reviews done: 1. Both accepted: 0. New only: 1.", self.cross)  # T00; R00 is clean
+        self.assertIn("| T00-pilot2-new | new |", self.cross)
+        self.assertIn("| T00-p1-old | old |", self.cross)
+        self.assertNotIn("T00-p1-new", self.cross)
+        self.assertTrue((self.e.out / "pilot2/report-old-from-pilot.md").exists())
 
     def test_review_run_keeps_the_reviewers_change_apart(self):
         run = self.e.out / "pilot/runs/R00-p1-new"
@@ -366,6 +390,24 @@ class Gates(unittest.TestCase):
 
 
 class Units(unittest.TestCase):
+    def test_ledger_counts_other_stages_against_the_total(self):
+        import runner
+        out = Path(tempfile.mkdtemp(prefix="iosev-led-"))
+        c = json.loads((EVAL / "config.json").read_text())
+        saved = runner.OUT, runner.cfg
+        try:
+            runner.OUT, runner.cfg = out, lambda: c
+            (out / "pilot").mkdir()
+            (out / "pilot/ledger.jsonl").write_text(json.dumps({"kind": "settle", "run": "x", "usd": 9.47, "seconds": 60}) + "\n")
+            self.assertTrue(runner.fits("pilot2", ["new"])[0])  # 9.47 + 1.68 <= 20
+            c["caps"]["total_usd"] = 11.0
+            ok, why = runner.fits("pilot2", ["new"])
+            self.assertFalse(ok)
+            self.assertIn("total: spent $9.47", why)
+        finally:
+            runner.OUT, runner.cfg = saved
+            shutil.rmtree(out, ignore_errors=True)
+
     def test_sign_test(self):
         from report import sign_test
         self.assertAlmostEqual(sign_test(8, 0), 0.0078125)

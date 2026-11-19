@@ -48,6 +48,12 @@ python3 -I report.py pilot                    # runs/pilot/report.md
 
 The pilot is 1 old/new pair per case (12 runs); the review case runs its clean variant. The plan is drawn once (random old/new order) and frozen in `runs/pilot/plan.json` with the hash of each case; the batch refuses to run if a case changes. Rerunning `batch` resumes: it skips finished units.
 
+## Pilot 2 (cap $8, owner approval)
+
+`pilot2` runs only the new arm: 1 run per case, block `pilot2`, each case on the variant of `runs/pilot/plan.json`. The tasks of I03-I06 have 1 added sentence. Before it, move `runs/arms` aside, `freeze` again for the latest skill, and pass `isolation --live`.
+Run `python3 -I runner.py batch pilot2 --approved-cap 8`, then `review.py pack`, `review`, and `adjudicate` with stage `pilot2`. The ledger counts the first pilot's spend against `caps.total_usd`.
+`python3 -I report.py pilot2 --old-from pilot` pairs each new run with the first pilot's old run of the same case and variant and writes `runs/pilot2/report-old-from-pilot.md`.
+
 ## How a run works
 
 - Cwd `/Users/Shared/iosev/w/work`: a fresh copy of `fixture/`, `git init`, 1 commit; the review case applies its variant diff as uncommitted changes. A case with an empty fixture starts in an empty folder, with the repository in `/Users/Shared/iosev/w` (the sandbox can read and write that `.git`). The prompt is `task.md`, byte for byte.

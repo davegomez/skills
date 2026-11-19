@@ -13,3 +13,5 @@ Write each finding in `REVIEW.md` on its own line, in this exact format:
 - `reason`: what is wrong, why it matters, and how to fix it, on the same line.
 
 Report only real problems in the change. If you find none, write the single line `No findings.`
+
+Code from this project may be sent to external services.

@@ -521,12 +521,24 @@ def case_inputs() -> dict:
 
 def make_plan(stage: str) -> dict:
     """Pilot: 1 old/new pair per case (the I05-type case on its clean variant). Main: 6 pairs per case (seeded variant),
-    2 clean pairs per review case, 1 control run per case. Old/new order balanced within case; units shuffled."""
+    2 clean pairs per review case, 1 control run per case. Old/new order balanced within case; units shuffled.
+    A stage with "arms": 1 unit per case with those arms, block = the stage name (no clash with another stage's run ids),
+    and with "like": <stage>, each case's variant from that stage's plan, so the runs compare like for like."""
     seed = secrets.randbits(32)
     rng, units = random.Random(seed), []
+    st = cfg()["stages"][stage]
+    like_p = OUT / st.get("like", "") / "plan.json"
+    if "like" in st and not like_p.exists(): die(f"stage {stage} copies variants from {st['like']}, but {like_p} is missing")
+    like = {u["case"]: u["variant"] for u in json.loads(like_p.read_text())["units"]} if "like" in st else {}
+    if not set(st.get("arms", ARMS)) <= set(ARMS) or st.get("arms") == []: die(f"stage {stage}: arms must be a non-empty subset of {ARMS}")
     for d in case_dirs():
         case = load_case(d)
         rv = is_review(case)
+        if like and case["id"] not in like: die(f"case {case['id']} is not in the plan of {st['like']}")
+        if "arms" in st:
+            units.append({"case": case["id"], "block": stage, "variant": like.get(case["id"], "clean" if rv else None),
+                          "arms": rng.sample(st["arms"], len(st["arms"]))})
+            continue
         if stage == "pilot":
             units.append({"case": case["id"], "block": "p1", "variant": "clean" if rv else None, "arms": rng.sample(["old", "new"], 2)})
             continue
@@ -553,6 +565,7 @@ def batch(stage: str, approved_cap: float):
     plan = json.loads(plan_p.read_text())
     if plan["inputs"] != case_inputs(): die("frozen case inputs changed since the plan was made", 1)
     arms = {a for u in plan["units"] for a in u["arms"]}
+    if not arms <= set(c["stages"][stage].get("arms", ARMS)): die(f"plan {plan_p} runs arms {sorted(arms)} outside the stage's arms")
     preconditions(arms)
     key = jev_key() if "new" in arms else None
     done = {e["unit"] for e in ledger(stage) if e["kind"] == "unit"}

@@ -56,3 +56,5 @@ Hidden UI tests drive the app through this contract. Keep all of it:
 - Do not change the files in `Shelf/Seams/`.
 - Keep the `HTTPClient` and `AuthService` protocols, `AppDependencies`, the home link with the identifier `home.readingList`, and the `EVAL_START=list` launch variable, which opens the reading list at launch.
 - Keep `Shelf.xcodeproj` at the repository root, the `Shelf` scheme, and the `ShelfUITests` target and folder. The hidden tests are added to `ShelfUITests/`.
+
+Code from this project may be sent to external services.

@@ -25,6 +25,12 @@
   "stages": {
     "pilot": {
       "cap_usd": 20
+    },
+    "pilot2": {
+      "cap_usd": 8,
+      "arms": ["new"],
+      "like": "pilot",
+      "note": "The tasks of I03, I04, I05, and I06 in the new runs have 1 added sentence: Code from this project may be sent to external services."
     }
   },
   "simulator": {
