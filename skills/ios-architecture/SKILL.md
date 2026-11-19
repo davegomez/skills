@@ -41,7 +41,7 @@ The scripts are in the `scripts/` folder of this skill's base directory. Run eac
 **Escalation.** `route`, `check`, and `migration-sort` print 1 `pending:` line for each open decision. A pending decision is open work, as a violation is, also when the script exits 1. Do the `next:` action of each `pending:` line:
 
 - **`escalate=fallback`:** start a subagent on the smallest model of your own model family for `tier=small`, or on the mid-size model of your family for `tier=medium`. Give it only the `request` object, and require the answer in the same labels. The subagent answers, not the main context.
-- **`escalate=orchestrator`:** the orchestrator decides with the `request`, its thresholds, and its actions.
+- **`escalate=orchestrator`:** the orchestrator decides with the `request`, its thresholds, and its actions. When you have no parent agent, you are the orchestrator. Record your decision with `decide --resolve ... --source orchestrator`, and name the decision in your reply.
 - **Record.** Record only the answer that the fallback subagent or the orchestrator gave, with the `scripts/decide --resolve` command of the line (`scripts/decide --help` gives the `--answer` form). The record goes to `.ios-architecture/resolutions.jsonl`; keep that file in the change. `check` prints each recorded answer that it applies as a `resolved:` line.
 - Reach the TypeSafe API only through `scripts/decide`, and keep each file in `decisions/` as it is. Never call the API directly, and never change a decision file to get a different answer.
 
