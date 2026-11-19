@@ -115,7 +115,7 @@ dir=.
 if [ $# -gt 0 ] && [ -d "$1" ]; then dir=$1; shift; fi
 set_project "$dir"
 cd "$PROJECT" || exit 2
-tmp=$(mktemp -d) || exit 2
+tmp=$(mktemp -d "$TMP_TEMPLATE") || exit 2
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 out=$tmp/out
 : >"$out"

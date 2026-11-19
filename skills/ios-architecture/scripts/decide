@@ -107,7 +107,7 @@ jq -e '
   and (.questions | type) == "object" and (.questions | length) > 0
   and thresholds_ok' "$spec" >/dev/null || die "invalid decision file: $spec"
 
-tmp=$(mktemp -d) || exit 2
+tmp=$(mktemp -d "$TMP_TEMPLATE") || exit 2
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 tab=$(printf '\t')
 kind=$(jq -r .input "$spec")

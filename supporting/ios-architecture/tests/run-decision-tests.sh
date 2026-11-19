@@ -417,6 +417,31 @@ ln -s "$d/view.swift" "$d/link.swift"
 "$S/decide" route "$d/link.swift" >/dev/null 2>&1
 expect "decide: symbolic link exits 2" "$?" 2
 
+# ---------- mktemp template guard ----------
+# macOS mktemp without a template ignores TMPDIR and writes in /var/folders, which a sandbox blocks.
+# The shim fails unless the last argument is a path template, so a new call without one breaks this test.
+mkdir -p "$work/guard"
+cat >"$work/guard/mktemp" <<'EOF'
+#!/bin/sh
+last=
+for a do last=$a; done
+case $last in */*XXX) exec /usr/bin/mktemp "$@" ;; esac
+printf 'mktemp without a template: %s\n' "$*" >&2
+exit 97
+EOF
+chmod +x "$work/guard/mktemp"
+gpath=$work/guard:$PATH
+expect "guard: mktemp without a template fails" "$(PATH=$gpath mktemp -d 2>/dev/null; echo $?)" 97
+out=$(PATH=$gpath "$S/check" "$work/good" 2>&1)
+expect "guard: check uses a mktemp template" "$?:$out" "0:check: 0 violations, 0 pending decisions"
+out=$(PATH=$gpath TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/route "$S/route" "$work/goodjev" Helper.swift 2>&1)
+expect "guard: route uses a mktemp template" "$?" 0
+hasnt "guard: route output" "$out" "mktemp without a template"
+out=$(PATH=$gpath TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/decide" check-business-rules-in-view "$d/view.swift" 2>&1)
+expect "guard: decide uses a mktemp template" "$?:$(printf '%s\n' "$out" | jq -r .source 2>/dev/null)" "0:jev"
+out=$(PATH=$gpath "$S/migration-sort" "$work/legacy" Money.swift 2>&1)
+expect "guard: migration-sort uses a mktemp template" "$?:$out" "0:Money.swift: domain (script)"
+
 # ---------- decision files ----------
 for spec in "$S"/../decisions/*.json; do
   id=$(basename "$spec" .json)

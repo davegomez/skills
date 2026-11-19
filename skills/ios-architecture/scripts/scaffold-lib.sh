@@ -12,6 +12,10 @@ fallthrough false fileprivate for func guard if import in init inout internal is
 operator os package precedencegroup private protocol public repeat rethrows return self some static \
 struct subscript super switch throw throws true try typealias var where while"
 
+# macOS mktemp ignores TMPDIR without a template and writes in /var/folders, which a sandbox blocks.
+TMP_TEMPLATE=${TMPDIR:-/tmp}
+TMP_TEMPLATE=${TMP_TEMPLATE%/}/ios-arch.XXXXXX
+
 die() {
     printf 'error: %s\n' "$*" >&2
     exit 1
@@ -77,7 +81,7 @@ render_template() {
     _dst=$2
     shift 2
     cp -R "$_src/." "$_dst/" || die "cannot copy $_src"
-    _script=$(mktemp) && _list=$(mktemp) || die "cannot create a temporary file"
+    _script=$(mktemp "$TMP_TEMPLATE") && _list=$(mktemp "$TMP_TEMPLATE") || die "cannot create a temporary file"
     printf '%s\n' "$@" >"$_script"
     find "$_dst" -type f -exec sed -i '' -f "$_script" {} + || die "cannot replace placeholders"
     # Rename the deepest paths first, so that each parent still has its template name.

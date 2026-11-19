@@ -55,6 +55,21 @@ echo "# self-checks"
 expect_pass "scaffold --self-check" "$scripts/scaffold" --self-check
 expect_pass "new-feature --self-check" "$scripts/new-feature" --self-check
 
+echo "# mktemp template guard"
+# macOS mktemp without a template ignores TMPDIR and writes in /var/folders, which a sandbox blocks.
+# The shim fails unless the last argument is a path template, so a new call without one breaks this test.
+mkdir "$tmp/guard"
+printf '%s\n' '#!/bin/sh' 'last=' 'for a do last=$a; done' 'case $last in */*XXX) exec /usr/bin/mktemp "$@" ;; esac' \
+    'printf "mktemp without a template: %s\n" "$*" >&2' 'exit 97' >"$tmp/guard/mktemp"
+chmod +x "$tmp/guard/mktemp"
+guarded() { PATH="$tmp/guard:$PATH" "$@"; }
+expect_fail "guard rejects mktemp without a template" "without a template" guarded mktemp -d
+expect_pass "scaffold --self-check uses a mktemp template" guarded "$scripts/scaffold" --self-check
+expect_pass "new-feature --self-check uses a mktemp template" guarded "$scripts/new-feature" --self-check
+new_target "$tmp/guarded" .
+expect_pass "scaffold uses a mktemp template" guarded "$scripts/scaffold" "$tmp/guarded"
+expect_pass "new-feature uses a mktemp template" guarded "$scripts/new-feature" "$tmp/guarded" Checkout
+
 echo "# profile validation"
 n=0
 for case in \

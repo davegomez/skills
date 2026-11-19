@@ -48,7 +48,7 @@ object_id() {
 
 self_check() {
     lib_self_check
-    file=$(mktemp) || die "self-check: cannot create a temporary file"
+    file=$(mktemp "$TMP_TEMPLATE") || die "self-check: cannot create a temporary file"
     printf 'a\nT /* x */ = {\nfiles = (\nb\nfiles = (\n' >"$file"
     [ "$(insert_after "$file" 'files = (' NEW 'T /* x */' | tr '\n' ,)" = 'a,T /* x */ = {,files = (,NEW,b,files = (,' ] ||
         die "self-check: insert_after"

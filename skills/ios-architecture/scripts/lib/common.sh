@@ -7,6 +7,10 @@ SECRET_VALUE_ERE='sk_live_[0-9A-Za-z]{10,}|AKIA[0-9A-Z]{16}|-----BEGIN ([A-Z]+ )
 # Directories that hold build output or vendored code.
 PRUNE_ERE='/(\.git|\.build|DerivedData|Pods|Carthage|node_modules|\.swiftpm)/'
 
+# macOS mktemp ignores TMPDIR without a template and writes in /var/folders, which a sandbox blocks.
+TMP_TEMPLATE=${TMPDIR:-/tmp}
+TMP_TEMPLATE=${TMP_TEMPLATE%/}/ios-arch.XXXXXX
+
 die() { printf '%s\n' "$*" >&2; exit 2; }
 
 # Set PROJECT to the physical path of directory $1.

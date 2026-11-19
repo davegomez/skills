@@ -62,7 +62,7 @@ $errors"
 
 self_check() {
     lib_self_check
-    dir=$(mktemp -d) || die "self-check: cannot create a temporary directory"
+    dir=$(mktemp -d "$TMP_TEMPLATE") || die "self-check: cannot create a temporary directory"
     good='{"app_name":"MyApp","bundle_id_prefix":"com.example","minimum_ios":"1.0","team_size":3,
 "regulated_data":false,"cross_device_sync":false,"cross_platform_accounts":false,"store":"files",
 "code_may_leave_machine":true}'
