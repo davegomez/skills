@@ -11,6 +11,14 @@ PRUNE_ERE='/(\.git|\.build|DerivedData|Pods|Carthage|node_modules|\.swiftpm)/'
 TMP_TEMPLATE=${TMPDIR:-/tmp}
 TMP_TEMPLATE=${TMP_TEMPLATE%/}/ios-arch.XXXXXX
 
+# Security and privacy rules: secrets, credentials, personal data in logs, trust-boundary input,
+# transport security, privacy manifests, and Data Protection. A deviation marker never suppresses
+# them, and only a fallback subagent, never the orchestrator, clears a decision among them.
+PROTECTED_RULES='secret-value xcconfig-secret plist-secret userdefaults-secret keychain-accessible-always print-log http-url ats-arbitrary-loads privacy-manifest-missing privacy-reason-missing check-personal-data-in-log check-trust-boundary-input deviation-unknown-threshold'
+
+# Exit 0 when rule or decision id $1 is a security or privacy rule.
+is_protected() { case " $PROTECTED_RULES " in *" $1 "*) return 0 ;; *) return 1 ;; esac; }
+
 die() { printf '%s\n' "$*" >&2; exit 2; }
 
 # Set PROJECT to the physical path of directory $1.

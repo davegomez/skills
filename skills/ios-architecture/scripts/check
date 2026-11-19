@@ -86,9 +86,6 @@ swiftdata-versioned-schema~persistence~SwiftData models exist and no VersionedSc
 uiscene-lifecycle~ui-framework~The app delegate owns a window and the app has no UIWindowSceneDelegate.
 deviation-unknown-threshold~deviations~A deviation marker names a threshold id that references/deviations.md does not define.'
 
-# Rules that a deviation marker never suppresses: secrets, credentials, personal data in logs,
-# trust-boundary input, transport security, privacy manifests, and Data Protection.
-PROTECTED_RULES='secret-value xcconfig-secret plist-secret userdefaults-secret keychain-accessible-always print-log http-url ats-arbitrary-loads privacy-manifest-missing privacy-reason-missing check-personal-data-in-log check-trust-boundary-input deviation-unknown-threshold'
 DEVIATIONS=$here/lib/deviation-rules.tsv
 tab=$(printf '\t')
 
@@ -109,7 +106,7 @@ bad=$(printf '%s\n' "$deviations" | while IFS=$tab read -r tid rule ere extra; d
   case $tid in ('' | -* | *[!a-z0-9-]*) echo "invalid threshold id: $tid"; continue ;; esac
   if [ -n "$extra" ] || [ -z "$ere" ]; then echo "$tid: the line needs 3 columns"; continue; fi
   [ "$rule" = - ] && continue
-  case " $PROTECTED_RULES " in (*" $rule "*) echo "$tid: $rule is a security or privacy rule"; continue ;; esac
+  if is_protected "$rule"; then echo "$tid: $rule is a security or privacy rule"; continue; fi
   printf '%s\n' "$known" | grep -qxF -- "$rule" || echo "$tid: unknown rule: $rule"
 done)
 [ -z "$bad" ] || die "check: invalid deviation table: $(printf '%s\n' "$bad" | head -1)"
@@ -380,7 +377,7 @@ grep -E '\.swift$' "$tmp/changed" 2>/dev/null | grep -vE '(^|/)Package\.swift$' 
     id=$(basename "$spec" .json)
     res=$("$here/decide" "$id" "$f")
     rc=$?
-    case $rc in 0 | 4)
+    case $rc in 0 | 3 | 4)
       src=$(printf '%s\n' "$res" | jq -r .source)
       case $src in fallback | orchestrator) printf 'resolved: %s: %s: source %s\n' "$f" "$id" "$src" >>"$tmp/resolved" ;; esac
       jev_line "$f" "$res" >>"$tmp/decided"

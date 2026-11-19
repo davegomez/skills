@@ -33,7 +33,10 @@ or a JSON array of the flagged labels for a noul decision, for example '[]'.
 (after exit 4) in .ios-architecture/resolutions.jsonl of the project: the folder of the
 profile, else the git work tree. It runs the decision again first and refuses the answer
 when the decision is not pending, the source does not match the escalation, a label is
-not a label of the decision, or the answer drops a label that Jev flagged. A record keys
+not a label of the decision, or the answer drops a label that Jev flagged.
+A security or privacy decision (the protected rules of lib/common.sh) escalates to the fallback
+model also when Jev answers below a threshold. For such a decision, --source orchestrator
+records only a flag (a non-empty answer); a clear needs --source fallback. A record keys
 to the decision id, the sha256 of the decision file, and the sha256 of the exact input,
 and replaces the record of the same decision and input. A record is stale when a key changes; decide ignores a stale record.
 
@@ -41,6 +44,7 @@ Exit status:
   0  decided (source "script", "jev", "fallback", or "orchestrator"), or recorded
   2  usage or validation error
   3  escalate to a fallback model of tier fallback_tier: ask it the questions in "request"
+     (reason "below_threshold": Jev answered a security or privacy decision below a threshold)
   4  escalate to the orchestrator: Jev answered below a threshold
 
 API key: TYPESAFE_API_KEY, else the Keychain item named by TYPESAFE_KEYCHAIN_SERVICE
@@ -172,9 +176,16 @@ finish() {
     4) need=orchestrator ;;
     *) die "decision $id is not pending: nothing to resolve" ;;
   esac
-  [ "$src" = "$need" ] || die "decision $id escalates to $need: --source $src does not match"
   ans=$(valid_answer "$answer") || die "invalid answer for $id: use the labels of decisions/$id.json"
-  if [ "$1" = 4 ] && [ "$(jq -r .primitive "$spec")" = noul ]; then
+  if [ "$src" != "$need" ]; then
+    # A flag is always safe; only a fallback subagent clears a security or privacy decision.
+    if is_protected "$id" && [ "$src" = orchestrator ]; then
+      [ "$ans" != '[]' ] || die "decision $id is a security or privacy decision: the orchestrator can only flag it; a fallback subagent of tier $(jq -r .fallback_tier "$spec") that did not write the code clears it"
+    else
+      die "decision $id escalates to $need: --source $src does not match"
+    fi
+  fi
+  if [ "$(jq -r .source "$tmp/out")" = jev ] && [ "$(jq -r .primitive "$spec")" = noul ]; then
     printf '%s' "$ans" | jq -e --slurpfile o "$tmp/out" '($o[0].answer - .) == []' >/dev/null ||
       die "the answer drops a label that Jev flagged: $(jq -c .answer "$tmp/out")"
   fi
@@ -272,7 +283,9 @@ key=
 [ "$code" = 200 ] || escalate "http_$code"
 
 # 4) Thresholds. A malformed answer counts as Jev unavailable.
-jq -c --arg d "$id" --slurpfile spec "$spec" --slurpfile req "$tmp/req" '
+prot=false
+is_protected "$id" && prot=true
+jq -c --arg d "$id" --argjson prot "$prot" --slurpfile spec "$spec" --slurpfile req "$tmp/req" '
   $spec[0] as $s | .answers as $a | ($s.questions | keys) as $qs
   | if all($qs[]; $a[.].type == $s.questions[.].type) | not then error("answer types") else . end
   | (if $s.primitive == "noul" then
@@ -298,7 +311,13 @@ jq -c --arg d "$id" --slurpfile spec "$spec" --slurpfile req "$tmp/req" '
     end) as $r
   | {decision: $d, source: "jev", model: (.model // null), answer: $r.answer, probabilities: $r.probabilities}
     + (if $r.decided then {} else
-        {escalate: "orchestrator", request: ($req[0] + {purpose: $s.purpose, thresholds: $s.thresholds, actions: $s.actions})}
+        # The author of the code is often the orchestrator, so a security or privacy decision goes to a fallback subagent.
+        (if $prot then {escalate: "fallback", fallback_tier: $s.fallback_tier, reason: "below_threshold"}
+         else {escalate: "orchestrator"} end)
+        + {request: ($req[0] + {purpose: $s.purpose, thresholds: $s.thresholds, actions: $s.actions})}
       end)' "$tmp/resp" >"$tmp/out" 2>/dev/null || escalate bad_response
-jq -e 'has("escalate")' "$tmp/out" >/dev/null && finish 4
+case $(jq -r '.escalate // empty' "$tmp/out") in
+  fallback) finish 3 ;;
+  orchestrator) finish 4 ;;
+esac
 finish 0

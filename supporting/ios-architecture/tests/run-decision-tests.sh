@@ -92,7 +92,7 @@ out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/check" "$wo
 expect "check: Jev flag is a violation" "$?" 1
 has "check: Jev violation line" "$out" "$view:7: check-business-rules-in-view: Move the rule into a pure function in the domain target, and call it from the view or the model. Jev p=0.98. (references/architecture.md)"
 has "check: a flag counts when another question stays open" "$out" "$view:5: check-personal-data-in-log: Mark the number privacy: .private, or remove it from the log. Jev p=0.99. (references/security-privacy.md)"
-has "check: an orchestrator pending line names its next action" "$out" "pending: $view: check-personal-data-in-log: escalate=orchestrator; next: run scripts/decide check-personal-data-in-log $view, decide its request object in the orchestrator, record that answer with scripts/decide --resolve check-personal-data-in-log $view --answer <json> --source orchestrator, then run scripts/check again"
+has "check: a security decision below a threshold names a fallback subagent and the record command" "$out" "pending: $view: check-personal-data-in-log: escalate=fallback tier=medium reason=below_threshold; next: run scripts/decide check-personal-data-in-log $view, give only its request object to a subagent of tier medium, record that answer with scripts/decide --resolve check-personal-data-in-log $view --answer <json> --source fallback, then run scripts/check again"
 has "check: a decided line names the Jev model" "$out" "decided: $view: check-business-rules-in-view: jev model jev-1.14.0"
 has "check: a pending Jev result whose flag applies names the Jev model" "$out" "decided: $view: check-personal-data-in-log: jev model jev-1.14.0"
 expect "check: the decided lines come before the summary" "$(printf '%s\n' "$out" | tail -3 | cut -d: -f1 | paste -sd' ' -)" "decided decided check"
@@ -267,25 +267,29 @@ out=$("$S/check" "$work/res3" "$dbg")
 expect "resolve: a static violation wins over a resolved clear" "$?:$(printf '%s\n' "$out" | sed -nE 's/^([^ ]+:[0-9]+: [a-z0-9-]+):.*/\1/p')" "1:$dbg:7: print-log"
 has "resolve: the resolved clear still shows" "$out" "resolved: $dbg: check-personal-data-in-log: source fallback"
 
-# Exit 4: the orchestrator answers; the rerun makes no call.
+# A security decision in the Jev band: the author (often the orchestrator) only flags; a fallback subagent clears.
 mixed=$work/stub-mixed
 mkdir "$mixed"
 cp "$fx/responses/clear/business_rule_in_ui.json" "$fx/responses/band/number_sensitive.json" "$mixed/"
 cp -R "$fx/project-good" "$work/res4"
 profile "$work/res4" true
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/check" "$work/res4" "$view")
-expect "resolve: a Jev band gives exit 4" "$?:$(printf '%s\n' "$out" | grep -c 'escalate=orchestrator')" "4:1"
-err=$(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/decide" --resolve check-personal-data-in-log "$view" --answer '[]' --source fallback 2>&1)
-expect "resolve: exit 4 needs the orchestrator as source" "$?:$err" "2:decision check-personal-data-in-log escalates to orchestrator: --source fallback does not match"
-(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/decide" --resolve check-personal-data-in-log "$view" --answer '[]' --source orchestrator >/dev/null)
-expect "resolve: the orchestrator answer is recorded" "$?" 0
+expect "resolve: a security decision in the Jev band escalates to fallback, not to the orchestrator" "$?:$(printf '%s\n' "$out" | grep -c 'check-personal-data-in-log: escalate=fallback tier=medium reason=below_threshold'):$(printf '%s\n' "$out" | grep -c 'escalate=orchestrator')" "3:1:0"
+err=$(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/decide" --resolve check-personal-data-in-log "$view" --answer '[]' --source orchestrator 2>&1)
+expect "resolve: an orchestrator clear of a security decision is refused" "$?:$err:$(lines "$work/res4/$store")" "2:decision check-personal-data-in-log is a security or privacy decision: the orchestrator can only flag it; a fallback subagent of tier medium that did not write the code clears it:0"
+(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/decide" --resolve check-personal-data-in-log "$view" --answer '[]' --source fallback >/dev/null)
+expect "resolve: a fallback clear of a pending security decision is recorded" "$?:$(jq -r '.source + " " + (.answer | tostring)' "$work/res4/$store")" "0:fallback []"
 reset_stub
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/check" "$work/res4" "$view")
-expect "resolve: exit 4 then resolve then exit 0" "$?:$(called):$(printf '%s\n' "$out" | tail -3 | paste -sd'|' -)" "0:yes:resolved: $view: check-personal-data-in-log: source orchestrator|decided: $view: check-business-rules-in-view: jev model jev-1.14.0|check: 0 violations, 0 pending decisions, 1 resolved by recorded answers"
+expect "resolve: band then fallback clear then exit 0" "$?:$(called):$(printf '%s\n' "$out" | tail -3 | paste -sd'|' -)" "0:yes:resolved: $view: check-personal-data-in-log: source fallback|decided: $view: check-business-rules-in-view: jev model jev-1.14.0|check: 0 violations, 0 pending decisions, 1 resolved by recorded answers"
 expect "resolve: the rerun asks Jev only the unresolved decision" "$(cat "$STUB_LOG.calls")" business_rule_in_ui
 cp "$fx/calibration/log/age-number.swift" "$work/res4/log.swift"
-err=$(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/decide" --resolve check-personal-data-in-log log.swift --answer '[]' --source orchestrator 2>&1)
-expect "resolve: an orchestrator answer keeps each Jev flag" "$?:$err" '2:the answer drops a label that Jev flagged: ["number_sensitive"]'
+(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/decide" --resolve check-personal-data-in-log log.swift --answer '["number_sensitive"]' --source orchestrator >/dev/null)
+expect "resolve: an orchestrator flag of a security decision is recorded" "$?:$(jq -r 'select(.input == "log.swift") | .source + " " + (.answer | tostring)' "$work/res4/$store")" '0:orchestrator ["number_sensitive"]'
+out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/check" "$work/res4" log.swift)
+expect "resolve: a recorded orchestrator flag is a violation" "$?:$(printf '%s\n' "$out" | grep -c 'check-personal-data-in-log: .*Recorded orchestrator answer')" "1:1"
+err=$(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/decide" --resolve check-personal-data-in-log log.swift --answer '[]' --source fallback 2>&1)
+expect "resolve: a fallback answer keeps each Jev flag" "$?:$err" '2:the answer drops a label that Jev flagged: ["number_sensitive"]'
 err=$(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/clear "$S/decide" --resolve check-personal-data-in-log log.swift --answer '[]' --source orchestrator 2>&1)
 expect "resolve: a decision that Jev decides is not pending" "$?:$err" "2:decision check-personal-data-in-log is not pending: nothing to resolve"
 
@@ -357,8 +361,8 @@ has "decide: endpoint" "$(cat "$STUB_LOG.argv")" "https://api.typesafe.ai/v1/sys
 hasnt "decide: key is not in the output" "$out" "test-key-123"
 
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/band "$S/decide" check-personal-data-in-log "$d/log.swift")
-expect "decide: below threshold exits 4" "$?" 4
-expect "decide: below threshold escalates to the orchestrator" "$(printf '%s\n' "$out" | jq -c '[.source, .escalate, .answer, (.request.questions | keys)]')" '["jev","orchestrator",[],["number_sensitive","public_value_sensitive"]]'
+expect "decide: a security decision below threshold exits 3" "$?" 3
+expect "decide: a security decision below threshold escalates to a medium fallback" "$(printf '%s\n' "$out" | jq -c '[.source, .escalate, .fallback_tier, .reason, .answer, (.request.questions | keys)]')" '["jev","fallback","medium","below_threshold",[],["number_sensitive","public_value_sensitive"]]'
 
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/clear "$S/decide" check-personal-data-in-log "$d/log.swift")
 expect "decide: log check clears at a low score" "$?:$(printf '%s\n' "$out" | jq -c .answer)" "0:[]"
@@ -367,7 +371,9 @@ out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/log-low "$S/decide" 
 expect "decide: log check clears at 0.25 or less" "$?:$(printf '%s\n' "$out" | jq -c '[.answer, has("escalate")]')" '0:[[],false]'
 cp "$fx/calibration/trust/parsed-deeplink.swift" "$d/trust.swift"
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/trust-low "$S/decide" check-trust-boundary-input "$d/trust.swift")
-expect "decide: trust-boundary check clears only at 0.05 or less" "$?:$(printf '%s\n' "$out" | jq -c '[.answer, .escalate]')" '4:[[],"orchestrator"]'
+expect "decide: trust-boundary check clears only at 0.05 or less" "$?:$(printf '%s\n' "$out" | jq -c '[.answer, .escalate, .fallback_tier]')" '3:[[],"fallback","medium"]'
+err=$(cd "$d" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/trust-low "$S/decide" --resolve check-trust-boundary-input trust.swift --answer '[]' --source orchestrator 2>&1)
+expect "decide: an orchestrator clear of the trust-boundary check is refused" "$?:$err" "2:decision check-trust-boundary-input is a security or privacy decision: the orchestrator can only flag it; a fallback subagent of tier medium that did not write the code clears it"
 
 reset_stub
 out=$("$S/decide" check-personal-data-in-log "$d/log.swift")
@@ -412,6 +418,11 @@ out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/choice "$S/decide" m
 expect "decide: choice decided" "$?:$(printf '%s\n' "$out" | jq -c '[.answer, .probabilities.feature]')" '0:["feature",0.98]'
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/choice-low "$S/decide" migration-layer "$d/layer.swift")
 expect "decide: choice below threshold exits 4" "$?:$(printf '%s\n' "$out" | jq -r .escalate)" "4:orchestrator"
+out=$(cd "$d" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/choice-low "$S/decide" --resolve migration-layer layer.swift --answer '"service"' --source orchestrator)
+expect "decide: an orchestrator answer of a non-security decision is recorded" "$?:$(printf '%s\n' "$out" | jq -c '[.source, .answer]')" '0:["orchestrator","service"]'
+out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/choice-low "$S/migration-sort" "$d" layer.swift)
+expect "decide: the recorded orchestrator answer applies" "$?:$out" "0:layer.swift: service (orchestrator)"
+rm "$d/$store"
 
 reset_stub
 out=$(cd "$d" && "$S/decide" out-of-bounds add a home screen widget for open orders)
