@@ -50,16 +50,23 @@ public struct LiveHTTPClient: HTTPClient {
     }
 
     private func makeRequest<Response>(_ endpoint: Endpoint<Response>, requestID: String) throws -> URLRequest {
-        var components = URLComponents(url: baseURL.appending(path: endpoint.path), resolvingAgainstBaseURL: false)
-        if !endpoint.query.isEmpty { components?.queryItems = endpoint.query }
-        guard let url = components?.url else { throw HTTPError.invalidURL }
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: try Self.url(for: endpoint, under: baseURL))
         request.httpMethod = endpoint.method.rawValue
         request.httpBody = endpoint.body
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         if endpoint.body != nil { request.setValue("application/json", forHTTPHeaderField: "Content-Type") }
         request.setValue(requestID, forHTTPHeaderField: "X-Request-ID")
         return request
+    }
+
+    /// The URL of `endpoint` under `baseURL`, or `HTTPError.invalidURL` when a "." or ".." path segment
+    /// would leave `baseURL` once the URL is normalized.
+    private static func url<Response>(for endpoint: Endpoint<Response>, under baseURL: URL) throws -> URL {
+        guard !endpoint.path.split(separator: "/").contains(where: { $0 == "." || $0 == ".." }) else {
+            throw HTTPError.invalidURL
+        }
+        let url = baseURL.appending(path: endpoint.path)
+        return endpoint.query.isEmpty ? url : url.appending(queryItems: endpoint.query)
     }
 
     private func sendOnce<Response: Decodable & Sendable>(_ request: URLRequest, requestID: String) async throws -> Response {

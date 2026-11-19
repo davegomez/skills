@@ -120,6 +120,25 @@ func clientErrorIsNotRetried(_ status: Int) async {
     await #expect(throws: HTTPError.responseTooLarge) { try await client.send(Endpoint<Item>(path: "items")) }
 }
 
+@Test(arguments: ["../admin", "items/../../admin", "./items"])
+func dotSegmentPathIsRejectedBeforeSending(_ path: String) async {
+    let calls = counter()
+    let client = makeClient { _ in
+        calls.withLock { $0 += 1 }
+        return (200, json, Data(#"{"id": 1}"#.utf8))
+    }
+    await #expect(throws: HTTPError.invalidURL) { try await client.send(Endpoint<Item>(path: path)) }
+    #expect(calls.withLock { $0 } == 0)
+}
+
+@Test func queryItemsAreEncodedIntoTheRequest() async throws {
+    let client = makeClient { request in
+        #expect(request.url?.query(percentEncoded: true) == "q=a%26b")
+        return (200, json, Data(#"{"id": 1}"#.utf8))
+    }
+    #expect(try await client.send(Endpoint<Item>(path: "items", query: [URLQueryItem(name: "q", value: "a&b")])) == Item(id: 1))
+}
+
 @Test func cancelledTaskStops() async {
     let client = makeClient { _ in (503, json, Data()) }
     let task = Task { try await client.send(Endpoint<Item>(path: "items")) }
