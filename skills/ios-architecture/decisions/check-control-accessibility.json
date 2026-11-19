@@ -1,0 +1,35 @@
+{
+  "id": "check-control-accessibility",
+  "purpose": "Find a custom control or drawn content that has no accessibility label, trait, or action.",
+  "primitive": "noul",
+  "input": "file",
+  "fallback_tier": "small",
+  "reference": {"control_without_accessibility": "accessibility"},
+  "script": {
+    "path": "\\.swift$",
+    "content": "onTapGesture|onLongPressGesture|\\.gesture\\(|highPriorityGesture|simultaneousGesture|DragGesture|Canvas",
+    "extract": false,
+    "answer": []
+  },
+  "state_fields": {
+    "file.path": "The path of the file, relative to the project root.",
+    "file.content": "The full text of the file."
+  },
+  "questions": {
+    "control_without_accessibility": {
+      "type": "noul",
+      "instructions": "Does `file.content` give a gesture to a view that is not a system control, or draw content, without an accessibility label and a trait or action for it?",
+      "criteria": {
+        "true": "A view that is not a Button or other system control gets a tap, long-press, or drag gesture, or Canvas draws content, and the view has no accessibilityLabel, or it has no accessibilityAddTraits(.isButton) and no accessibilityAction.",
+        "false": "Each view with a gesture and each drawn content has an accessibility label and a trait or an action, or the file has no such view."
+      }
+    }
+  },
+  "thresholds": {
+    "control_without_accessibility": {"yes": 0.3, "no": 0.3}
+  },
+  "actions": {
+    "control_without_accessibility": "Give the element a label, a value, and traits, and an accessibilityAction for each custom gesture.",
+    "none": "No violation."
+  }
+}

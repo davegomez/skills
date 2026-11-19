@@ -43,3 +43,9 @@ Sections 1 and 2 of the guide are the invariants and the priority order in `SKIL
 ## Test the scaffold
 
 Run `tests/run-scaffold-tests.sh` on a Mac with Xcode. It scaffolds a project into a temporary folder, builds and tests each package, builds the app for the iOS Simulator, adds 2 features, and checks each validation failure. Set `KEEP=1` to keep the temporary folder.
+
+## Test the decision scripts
+
+Run `sh tests/run-decision-tests.sh`. It runs offline and makes no network call.
+
+Run `tests/calibrate.sh` to call Jev for real. It needs the TypeSafe API key. Run it again when the model behind `jev-latest` changes. It writes the results to `tests/calibration.md`.

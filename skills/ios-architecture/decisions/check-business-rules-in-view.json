@@ -1,0 +1,35 @@
+{
+  "id": "check-business-rules-in-view",
+  "purpose": "Find a business rule in a view or a view model that belongs in the domain target.",
+  "primitive": "noul",
+  "input": "file",
+  "fallback_tier": "small",
+  "reference": {"business_rule_in_ui": "architecture"},
+  "script": {
+    "path": "\\.swift$",
+    "content": "some View|@Observable|ObservableObject|UIViewController",
+    "extract": false,
+    "answer": []
+  },
+  "state_fields": {
+    "file.path": "The path of the file, relative to the project root.",
+    "file.content": "The full text of the file."
+  },
+  "questions": {
+    "business_rule_in_ui": {
+      "type": "noul",
+      "instructions": "Does a view or a view model in `file.content` contain a business rule, instead of a call to a domain function?",
+      "criteria": {
+        "true": "The view or the model calculates or decides by business policy: prices, totals, discounts, taxes, fees, eligibility, limits, validation rules, or state transitions.",
+        "false": "The view or the model only shows data, formats it for display, controls layout or presentation state, or sends user actions to a domain function or a service."
+      }
+    }
+  },
+  "thresholds": {
+    "business_rule_in_ui": {"yes": 0.3, "no": 0.3}
+  },
+  "actions": {
+    "business_rule_in_ui": "Move the rule into a pure function in the domain target, and call it from the view or the model.",
+    "none": "No violation."
+  }
+}

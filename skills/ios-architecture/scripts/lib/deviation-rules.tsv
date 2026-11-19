@@ -1,0 +1,11 @@
+# Deviation thresholds of references/deviations.md and the check rules that each one may suppress.
+# Columns (tab-separated): threshold-id, rule-id or -, ERE that the violation line must match or -.
+# 1 line per rule. A threshold with no rule has 1 line with rule-id -.
+# scripts/check refuses this file when it names an unknown rule or a security or privacy rule.
+custom-drawing	-	-
+spatial-content	-	-
+large-team	feature-vendor-import	^[[:space:]]*(@[A-Za-z_]+[[:space:]]+)*import[[:space:]]+((struct|class|enum|protocol|func|var|let|typealias)[[:space:]]+)?ComposableArchitecture([^A-Za-z0-9_.]|$)
+large-store	-	-
+cross-device-sync	-	-
+cross-platform-accounts	-	-
+regulated-data	-	-

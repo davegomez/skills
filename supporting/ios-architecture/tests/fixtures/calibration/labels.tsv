@@ -1,0 +1,49 @@
+check-personal-data-in-log	log/email-public.swift	public_value_sensitive
+check-personal-data-in-log	log/token-print.swift	-
+check-personal-data-in-log	log/body-public.swift	public_value_sensitive
+check-personal-data-in-log	log/age-number.swift	number_sensitive
+check-personal-data-in-log	log/redacted.swift	-
+check-personal-data-in-log	log/safe-public.swift	-
+check-trust-boundary-input	trust/raw-deeplink.swift	unvalidated_input
+check-trust-boundary-input	trust/pasteboard-raw.swift	unvalidated_input
+check-trust-boundary-input	trust/delete-link.swift	link_side_effect
+check-trust-boundary-input	trust/parsed-deeplink.swift	-
+check-trust-boundary-input	trust/confirm-link.swift	-
+check-business-rules-in-view	rules/view-discount.swift	business_rule_in_ui
+check-business-rules-in-view	rules/model-eligibility.swift	business_rule_in_ui
+check-business-rules-in-view	rules/view-validation.swift	business_rule_in_ui
+check-business-rules-in-view	rules/view-display.swift	-
+check-business-rules-in-view	rules/model-forward.swift	-
+check-swallowed-error	errors/decode.swift	external_error_discarded
+check-swallowed-error	errors/file-force.swift	external_error_discarded
+check-swallowed-error	errors/sleep.swift	-
+check-swallowed-error	errors/constant.swift	-
+check-control-accessibility	a11y/tap-image.swift	control_without_accessibility
+check-control-accessibility	a11y/canvas-chart.swift	control_without_accessibility
+check-control-accessibility	a11y/tap-labeled.swift	-
+check-control-accessibility	a11y/drag-adjustable.swift	-
+route	route/PriceRules.swift	architecture,concurrency
+route	route/SessionStore.swift	authentication,persistence,security-privacy,concurrency
+route	route/OnboardingView.swift	ui-framework,accessibility,localization,native-ui-patterns
+route	route/OrdersWidget.swift	lifecycle-extensions,ui-framework,persistence
+route	route/LegacyCartViewModel.swift	migration,networking,architecture,concurrency
+migration-layer	layer/Money.swift	domain
+migration-layer	layer/OrdersViewController.swift	feature
+migration-layer	layer/APIClient.swift	service
+migration-layer	layer/AppDelegate.swift	shell
+migration-layer	layer/CartTotalsTests.swift	test
+migration-layer	layer/Colors.generated.swift	none
+migration-layer	layer/CheckoutViewController.swift	feature
+out-of-bounds	Show the step count from the Health app on the dashboard	security-privacy
+out-of-bounds	Send a reminder at 9 in the morning every day	lifecycle-extensions
+out-of-bounds	Connect to a heart-rate strap over Bluetooth	none
+out-of-bounds	Let the user export all of their data as 1 file	security-privacy
+out-of-bounds	Show prices in the currency of the user	localization
+out-of-bounds	Print a receipt with AirPrint	none
+out-of-bounds	Make button text readable for people who use large text sizes	accessibility
+out-of-bounds	Add haptic feedback when the user completes an order	none
+out-of-bounds	Cast a product video to an Apple TV with AirPlay	none
+out-of-bounds	Read NFC tags on product packaging	none
+out-of-bounds	Support a game controller in the mini game	none
+out-of-bounds	Play music with spatial audio on AirPods	none
+out-of-bounds	Add an Apple Wallet pass for each event ticket	none

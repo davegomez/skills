@@ -1,0 +1,99 @@
+{
+  "id": "out-of-bounds",
+  "purpose": "Match 1 concern that the agent wrote to a route table row, or confirm that no row covers it.",
+  "primitive": "choice",
+  "input": "text",
+  "fallback_tier": "small",
+  "script": {
+    "options": {
+      "project-setup": "xcconfig|build setting|build configuration|code signing|provisioning profile|swiftlint|swift-format|lint rule|package\\.resolved|new dependency|third-party (package|library|sdk)",
+      "architecture": "feature registry|dependency injection|composition root|domain target|feature package|local package",
+      "ui-framework": "swiftui|uikit|design system|custom drawing|web ?view|wkwebview|\\bcanvas\\b",
+      "navigation": "deep link|universal link|navigation ?stack|navigation ?path",
+      "networking": "\\bhttps?\\b|rest api|websocket|graphql|urlsession|server-sent",
+      "authentication": "sign[- ]?in\\b|\\blog[- ]?in\\b|sign[- ]?out|passkey|oauth|biometric|face id|touch id|account deletion",
+      "persistence": "swiftdata|core ?data|\\bgrdb\\b|sqlite|database|schema|app group|keychain",
+      "security-privacy": "\\bsecrets?\\b|privacy manifest|personal data|\\bpii\\b|\\bgdpr\\b|\\bhipaa\\b|purpose string|app attest|language model",
+      "concurrency": "\\bactors?\\b|sendable|\\basync\\b|swift concurrency|data race|sync conflict|crash report",
+      "lifecycle-extensions": "widget|live activit|app intent|siri|push notification|background task|scene phase|share extension|app extension",
+      "accessibility": "voiceover|voice control|dynamic type|accessibility|reduce motion|reduced motion",
+      "localization": "locali[sz]|translat|right-to-left|\\brtl\\b|plural|string catalog",
+      "testing": "unit test|ui test|snapshot test|test coverage|swift testing|xctest|test plan",
+      "performance": "launch time|scroll performance|memory (use|peak|leak)|instruments|signpost|performance budget|\\bhangs?\\b",
+      "purchases-seams": "in-app purchase|subscription|storekit|paywall|entitlement|analytics|feature flag|restore purchases",
+      "release": "testflight|app store submission|app store connect|phased release|version number|build number|app review",
+      "migration": "cocoapods|carthage|legacy|swift 5|objective-c|storyboard|existing app|react native|flutter|xamarin",
+      "deviations": "composable architecture|\\btca\\b|realitykit|\\bmetal\\b|instead of the default"
+    }
+  },
+  "state_fields": {
+    "concern": "1 concern of the change, in the words of the agent."
+  },
+  "questions": {
+    "row": {
+      "type": "choice",
+      "instructions": "Which topic of the iOS architecture guide covers the concern in `concern`? Pick the closest topic.",
+      "criteria": {
+        "project-setup": "A new project, build settings, .xcconfig files, signing, a new dependency, or linting.",
+        "architecture": "A feature, a package, domain or model code, dependency injection, or the feature registry.",
+        "ui-framework": "SwiftUI or UIKit views, web content, custom drawing, or the design system.",
+        "navigation": "Routes, navigation stacks, deep links, or universal links.",
+        "networking": "HTTP calls, WebSockets, GraphQL, streams, or offline display.",
+        "authentication": "Sign-in, tokens, accounts, or biometrics.",
+        "persistence": "Stored data, schemas, migrations of stored data, caches, or App Group data.",
+        "security-privacy": "Secrets, input across a trust boundary, logs, permissions, personal or regulated data, or AI features.",
+        "concurrency": "Async code, actors, Sendable, error handling, randomness, clocks, sync, or crash reports.",
+        "lifecycle-extensions": "Scene phases, background tasks, push notifications, extensions, widgets, or App Intents.",
+        "accessibility": "Use of a view or a control with assistive technologies.",
+        "localization": "Text the user sees, dates, numbers, currency, or measurements.",
+        "testing": "Tests, test tools, coverage, or test automation.",
+        "performance": "Launch time, scrolling, images, memory, or performance budgets.",
+        "purchases-seams": "Purchases, entitlements, analytics, or feature flags.",
+        "release": "Versions, release builds, TestFlight, or App Store submission.",
+        "migration": "An existing app, legacy code, CocoaPods, Swift 5, UIKit screens, or a port from another technology.",
+        "deviations": "A change to a default, or a choice between patterns or stores.",
+        "native-ui-patterns": "Screen layout, platform UI conventions, or flow design."
+      }
+    },
+    "row_applies": {
+      "type": "noul",
+      "instructions": "Does a topic of the iOS architecture guide cover the concern in `concern`?",
+      "criteria": {
+        "true": "The concern is about 1 of these topics: project setup, build settings, signing, dependencies, or linting; features, packages, domain code, or dependency injection; SwiftUI or UIKit views, web content, custom drawing, or the design system; navigation, deep links, or universal links; HTTP calls, WebSockets, GraphQL, or offline display; sign-in, tokens, accounts, or biometrics; stored data, schemas, caches, or App Group data; secrets, input across a trust boundary, logs, permissions, personal or regulated data, or AI features; async code, actors, error handling, clocks, sync, or crash reports; scene phases, background tasks, push notifications, extensions, widgets, or App Intents; accessibility; localized text, dates, numbers, currency, or measurements; tests; launch time, scrolling, images, memory, or performance budgets; purchases, entitlements, analytics, or feature flags; versions, TestFlight, or App Store submission; an existing app, legacy code, or a port from another technology; a change to a default pattern or store; screen layout or platform UI conventions.",
+        "false": "No topic above covers the concern."
+      }
+    }
+  },
+  "thresholds": {
+    "row": {
+      "project-setup": 0.6,
+      "architecture": 0.6,
+      "ui-framework": 0.6,
+      "navigation": 0.6,
+      "networking": 0.6,
+      "authentication": 0.6,
+      "persistence": 0.6,
+      "security-privacy": 0.6,
+      "concurrency": 0.6,
+      "lifecycle-extensions": 0.6,
+      "accessibility": 0.6,
+      "localization": 0.6,
+      "testing": 0.6,
+      "performance": 0.6,
+      "purchases-seams": 0.6,
+      "release": 0.6,
+      "migration": 0.6,
+      "deviations": 0.6,
+      "native-ui-patterns": 0.6
+    },
+    "row_applies": {
+      "yes": 0.7,
+      "no": 0.4
+    }
+  },
+  "actions": {
+    "<row>": "Read references/<row>.md. For native-ui-patterns, load the native-ui-patterns skill.",
+    "none": "The concern is out of bounds. Research it in primary sources and write a decision record."
+  },
+  "no_match": "none"
+}

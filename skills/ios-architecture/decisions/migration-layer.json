@@ -1,0 +1,36 @@
+{
+  "id": "migration-layer",
+  "purpose": "Sort 1 existing file into the layer of the target architecture that it moves to, when scripts/migration-sort cannot sort it.",
+  "primitive": "choice",
+  "input": "file",
+  "fallback_tier": "small",
+  "state_fields": {
+    "file.path": "The path of the file, relative to the project root.",
+    "file.content": "The full text of the file."
+  },
+  "questions": {
+    "layer": {
+      "type": "choice",
+      "instructions": "Which layer of the target architecture does most of the code in `file.content` belong to?",
+      "criteria": {
+        "domain": "Value types and pure functions that hold business rules: models, calculations, validation, state transitions. No views, no I/O, no system services.",
+        "feature": "1 screen or flow and its state: SwiftUI views, UIKit view controllers, and the models that drive them.",
+        "service": "Code that talks to something outside the app process: network clients, storage, the Keychain, purchases, analytics, push notifications, and other system services.",
+        "shell": "The app entry point and its composition: the @main app or the app delegate, the scene delegate, root navigation, construction of live services, and feature registration.",
+        "test": "Unit tests, UI tests, test fakes, and test fixtures.",
+        "none": "None of the other layers: for example generated code, a build script, or a file with no app code."
+      }
+    }
+  },
+  "thresholds": {
+    "layer": {"domain": 0.7, "feature": 0.7, "service": 0.7, "shell": 0.7, "test": 0.7, "none": 0.7}
+  },
+  "actions": {
+    "domain": "Move the code into an XDomain target.",
+    "feature": "Move the code into an XFeature target.",
+    "service": "Put the code behind a protocol in Core, with the live implementation in a service package.",
+    "shell": "Keep the code in the app target.",
+    "test": "Move the code into the test target of the code that it tests.",
+    "none": "Leave the file in place, and name it in the migration plan."
+  }
+}

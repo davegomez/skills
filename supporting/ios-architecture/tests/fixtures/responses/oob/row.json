@@ -1,0 +1,1 @@
+{"model": "jev-1.14.0", "answers": {"row": {"type": "choice", "choice": "security-privacy", "confidence": 0.52, "probabilities": {"persistence": 0.37, "security-privacy": 0.54, "architecture": 0.04, "networking": 0.03, "lifecycle-extensions": 0.02}}, "row_applies": {"type": "noul", "noul": 0.93}}, "usage": {"input_tokens": 300, "output_tokens": 4}}

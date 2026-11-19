@@ -1,0 +1,35 @@
+{
+  "id": "check-swallowed-error",
+  "purpose": "Find try? or try! on data from outside the app.",
+  "primitive": "noul",
+  "input": "file",
+  "fallback_tier": "small",
+  "reference": {"external_error_discarded": "concurrency"},
+  "script": {
+    "path": "\\.swift$",
+    "content": "try[?!]",
+    "extract": true,
+    "answer": []
+  },
+  "state_fields": {
+    "file.path": "The path of the file, relative to the project root.",
+    "file.content": "Only the lines of the file that contain try? or try!, each with its line number."
+  },
+  "questions": {
+    "external_error_discarded": {
+      "type": "noul",
+      "instructions": "Does a line in `file.content` use try? or try! on a call that decodes, reads, or receives data from outside the app?",
+      "criteria": {
+        "true": "The call works on outside data: a network response, a file, a database, user input, a deep link, or JSON.",
+        "false": "The call works on constant or app-owned values, or its error has no effect on the user, for example Task.sleep or the removal of a temporary file."
+      }
+    }
+  },
+  "thresholds": {
+    "external_error_discarded": {"yes": 0.3, "no": 0.3}
+  },
+  "actions": {
+    "external_error_discarded": "Catch the error, log it without personal data, and show a generic message.",
+    "none": "No violation."
+  }
+}

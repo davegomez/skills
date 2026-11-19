@@ -1,0 +1,82 @@
+#!/bin/sh
+# migration-sort: sort existing Swift files into the layers of the target architecture.
+set -u
+here=$(cd "$(dirname "$0")" && pwd -P)
+. "$here/lib/common.sh"
+
+usage() {
+  cat <<'EOF'
+Usage: migration-sort [<project-dir>] [files...]
+
+Sorts each Swift file (default: every Swift file of the project) into 1 layer:
+domain, feature, service, shell, test, or none. A grep pass sorts what it can.
+For a file with no clear layer, migration-sort calls scripts/decide migration-layer <file>.
+
+Output: "<file>: <layer> (script|jev)" per file, then 1 line per pending decision.
+Exit status: 0 sorted, 2 usage error, 3 or 4 a pending decision (see scripts/decide).
+EOF
+}
+
+IMPORT='^[[:space:]]*(@[A-Za-z_]+[[:space:]]+)*import[[:space:]]+'
+UI="${IMPORT}(SwiftUI|UIKit)([^A-Za-z0-9_]|$)"
+VIEW=':[[:space:]]*View([^A-Za-z0-9_]|$)|some View|UI[A-Za-z]*(View|ViewController)([^A-Za-z0-9_]|$)|ObservableObject|@Observable'
+SHELL_ERE='^[[:space:]]*@main|@UIApplicationMain|UIApplicationDelegate|UIWindowSceneDelegate|WindowGroup'
+SERVICE="URLSession|URLRequest|SecItem|UserDefaults|FileManager|NSPersistentContainer|ModelContainer|Keychain|${IMPORT}(SwiftData|CoreData|GRDB|StoreKit|Security|CloudKit|AuthenticationServices|UserNotifications|Network)([^A-Za-z0-9_]|$)"
+
+# Print the layer of file $1, or nothing when the grep pass cannot tell.
+layer_of() {
+  case $1 in *Tests/* | *Tests.swift) echo test; return ;; esac
+  if head -5 "$1" | grep -qiE '^//.*(generated|do not edit)'; then echo none; return; fi
+  if grep -qE "${IMPORT}(XCTest|Testing)([^A-Za-z0-9_]|$)" "$1"; then echo test; return; fi
+  if grep -qE "$SHELL_ERE" "$1"; then echo shell; return; fi
+  ui=0
+  svc=0
+  grep -qE "$UI" "$1" && grep -qE "$VIEW" "$1" && ui=1
+  grep -qE "$SERVICE" "$1" && svc=1
+  if [ $ui = 1 ] && [ $svc = 0 ]; then echo feature; return; fi
+  if [ $ui = 0 ] && [ $svc = 1 ]; then echo service; return; fi
+  [ $ui = 1 ] && return
+  # Domain: imports only Foundation, declares a struct or an enum, and declares no class or actor.
+  if ! grep -E "$IMPORT" "$1" | grep -qvE "${IMPORT}Foundation[[:space:]]*$" &&
+    grep -qE '(^|[^A-Za-z0-9_])(struct|enum)[[:space:]]' "$1" &&
+    ! grep -qE '(^|[^A-Za-z0-9_])(class|actor)[[:space:]]+[A-Z]' "$1"; then
+    echo domain
+  fi
+}
+
+case ${1:-} in -h | --help) usage; exit 0 ;; esac
+dir=.
+if [ $# -gt 0 ] && [ -d "$1" ]; then dir=$1; shift; fi
+set_project "$dir"
+cd "$PROJECT" || exit 2
+tmp=$(mktemp -d) || exit 2
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+: >"$tmp/files"
+if [ $# -gt 0 ]; then
+  for f; do rel_path "$f" >>"$tmp/files" || exit 2; done
+else
+  project_files | grep -E '\.swift$' | grep -vE '(^|/)Package\.swift$' >"$tmp/files"
+fi
+
+: >"$tmp/pending"
+while IFS= read -r f; do
+  layer=$(layer_of "$f")
+  if [ -n "$layer" ]; then
+    printf '%s: %s (script)\n' "$f" "$layer"
+    continue
+  fi
+  res=$("$here/decide" migration-layer "$f")
+  rc=$?
+  case $rc in
+    0) printf '%s: %s (%s)\n' "$f" "$(printf '%s\n' "$res" | jq -r .answer)" "$(printf '%s\n' "$res" | jq -r .source)" ;;
+    3 | 4)
+      printf '%s\n' "$res" | jq -r --arg f "$f" '"pending: \($f): \(.decision): escalate=\(.escalate)\(if .fallback_tier then " tier=" + .fallback_tier else "" end)\(if .reason then " reason=" + .reason else "" end); run scripts/decide migration-layer \($f)"' >>"$tmp/pending"
+      echo "$rc" >>"$tmp/rc" ;;
+    *) printf 'migration-sort: decide failed: %s\n' "$f" >&2; exit 2 ;;
+  esac
+done <"$tmp/files"
+
+cat "$tmp/pending"
+grep -qx 4 "$tmp/rc" 2>/dev/null && exit 4
+grep -qx 3 "$tmp/rc" 2>/dev/null && exit 3
+exit 0

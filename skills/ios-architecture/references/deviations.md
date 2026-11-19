@@ -16,12 +16,14 @@ The defaults in this guide win on security, reliability, and accessibility. Chan
 
 **Thresholds that change a default**
 
-| Condition | Change |
-| --- | --- |
-| Custom drawing or animation that SwiftUI controls cannot show | Use `Canvas` or Metal in that feature only, with explicit accessibility elements |
-| 3D or spatial content | Use RealityKit in that feature only |
-| More than about 8 engineers, or many shared effects | Consider TCA or strict MVVM with a shared effects layer |
-| Queries outgrow flat files (filters, joins, more than a few thousand records) | Move to SwiftData, Core Data, or GRDB behind the same protocol |
-| Cross-device sync | Use CloudKit (SwiftData, Core Data, or SQLiteData) or your own backend |
-| Accounts or purchases that work on other platforms | Add a server with App Store Server Notifications V2 |
-| Regulated data | Add Data Protection `.complete`, App Attest, key pinning, server-side audit logs, and a compliance review |
+| Id | Condition | Change |
+| --- | --- | --- |
+| `custom-drawing` | Custom drawing or animation that SwiftUI controls cannot show | Use `Canvas` or Metal in that feature only, with explicit accessibility elements |
+| `spatial-content` | 3D or spatial content | Use RealityKit in that feature only |
+| `large-team` | More than about 8 engineers, or many shared effects | Consider TCA or strict MVVM with a shared effects layer |
+| `large-store` | Queries outgrow flat files (filters, joins, more than a few thousand records) | Move to SwiftData, Core Data, or GRDB behind the same protocol |
+| `cross-device-sync` | Cross-device sync | Use CloudKit (SwiftData, Core Data, or SQLiteData) or your own backend |
+| `cross-platform-accounts` | Accounts or purchases that work on other platforms | Add a server with App Store Server Notifications V2 |
+| `regulated-data` | Regulated data | Add Data Protection `.complete`, App Attest, key pinning, server-side audit logs, and a compliance review |
+
+**Deviation marker.** When a threshold applies to a file, write the comment `// ios-architecture: deviation <id>` in that file, with the id from the table. A marker in `Package.swift` applies to that manifest. `scripts/check` then prints each violation that `scripts/lib/deviation-rules.tsv` permits for that id in that file as a `suppressed:` line, not as a violation. A marker with an unknown id is a violation. A marker never suppresses a security or privacy rule.

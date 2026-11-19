@@ -1,0 +1,45 @@
+{
+  "id": "check-trust-boundary-input",
+  "purpose": "Find outside input that the code uses before it validates it, and link actions with side effects that start without a confirmation.",
+  "primitive": "noul",
+  "input": "file",
+  "fallback_tier": "medium",
+  "reference": {"unvalidated_input": "security-privacy", "link_side_effect": "navigation"},
+  "script": {
+    "path": "\\.swift$",
+    "content": "onOpenURL|onContinueUserActivity|openURLContexts|continue userActivity|open url|UIPasteboard|NSItemProvider|fileImporter|@Parameter|AppIntent|URLComponents|queryItems",
+    "extract": false,
+    "answer": []
+  },
+  "state_fields": {
+    "file.path": "The path of the file, relative to the project root.",
+    "file.content": "The full text of the file."
+  },
+  "questions": {
+    "unvalidated_input": {
+      "type": "noul",
+      "instructions": "Does `file.content` use a value from an incoming URL, a user activity, the pasteboard, a file, an extension, or an App Intent parameter before code parses it into a typed value and rejects invalid input?",
+      "criteria": {
+        "true": "A raw outside value goes into app logic, storage, navigation, a web view, or a network request, and no parse step rejects unknown or invalid values first.",
+        "false": "Each outside value goes through a parser or initializer that returns a typed value, nil, or an error, and the code stops on the invalid case."
+      }
+    },
+    "link_side_effect": {
+      "type": "noul",
+      "instructions": "Does `file.content` start an action with side effects directly from an incoming link or user activity, without a confirmation screen first?",
+      "criteria": {
+        "true": "When a link or user activity arrives, the code buys, pays, deletes, sends, posts, signs out, or changes stored data at once.",
+        "false": "The link only opens a screen, or the code shows a confirmation screen before the action. Input from the pasteboard, a file, a share extension, or an App Intent is not a link or a user activity."
+      }
+    }
+  },
+  "thresholds": {
+    "unvalidated_input": {"yes": 0.3, "no": 0.05},
+    "link_side_effect": {"yes": 0.3, "no": 0.05}
+  },
+  "actions": {
+    "unvalidated_input": "Parse the input into a typed domain value and reject invalid input early.",
+    "link_side_effect": "Show a confirmation screen before an action with side effects from a link.",
+    "none": "No violation."
+  }
+}

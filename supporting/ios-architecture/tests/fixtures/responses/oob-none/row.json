@@ -1,0 +1,1 @@
+{"model": "jev-1.14.0", "answers": {"row": {"type": "choice", "choice": "architecture", "confidence": 0.3, "probabilities": {"architecture": 0.45, "ui-framework": 0.3, "networking": 0.25}}, "row_applies": {"type": "noul", "noul": 0.04}}, "usage": {"input_tokens": 300, "output_tokens": 4}}

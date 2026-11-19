@@ -1,0 +1,14 @@
+// !$*UTF8*$!
+{
+	objects = {
+		A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SWIFT_VERSION = 6.0;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+			};
+		};
+	};
+}

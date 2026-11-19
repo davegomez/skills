@@ -1,0 +1,1 @@
+{"model": "jev-1.14.0", "answers": {"number_sensitive": {"type": "noul", "noul": 0.24}, "public_value_sensitive": {"type": "noul", "noul": 0.09}}, "usage": {"input_tokens": 300, "output_tokens": 4}}

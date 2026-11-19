@@ -1,0 +1,1 @@
+{"model": "jev-1.14.0", "answers": {"layer": {"type": "choice", "choice": "feature", "confidence": 0.98, "probabilities": {"domain": 0.0, "feature": 0.98, "service": 0.02, "shell": 0.0, "test": 0.0, "none": 0.0}}}, "usage": {"input_tokens": 300, "output_tokens": 4}}

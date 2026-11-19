@@ -1,0 +1,45 @@
+{
+  "id": "check-personal-data-in-log",
+  "purpose": "Find a log statement that makes personal data, a credential, or a request body readable.",
+  "primitive": "noul",
+  "input": "file",
+  "fallback_tier": "medium",
+  "reference": {"public_value_sensitive": "security-privacy", "number_sensitive": "security-privacy"},
+  "script": {
+    "path": "\\.swift$",
+    "content": "Logger|os_log|\\.(trace|debug|info|notice|log|warning|error|critical|fault)\\(",
+    "extract": true,
+    "answer": []
+  },
+  "state_fields": {
+    "file.path": "The path of the file, relative to the project root.",
+    "file.content": "Only the os.Logger and os_log lines of the file, each with its line number. The check rule print-log covers print, NSLog, and debugPrint."
+  },
+  "questions": {
+    "public_value_sensitive": {
+      "type": "noul",
+      "instructions": "Does a value with `privacy: .public` in `file.content` hold personal data, a credential, or a request or response body?",
+      "criteria": {
+        "true": "A value marked privacy: .public is a name, an email address, a phone number, an address, health or financial data, a location, a user or device identifier, a password, a token, a key, or a request or response body.",
+        "false": "Each value marked privacy: .public is not personal: for example a count, a duration, a status code, a request ID, or an error type. Values without privacy: .public do not count."
+      }
+    },
+    "number_sensitive": {
+      "type": "noul",
+      "instructions": "Does a log statement in `file.content` interpolate a number or a Boolean that holds personal data, with no `privacy:` argument?",
+      "criteria": {
+        "true": "An interpolated number or Boolean with no privacy argument is personal data: for example an age, a weight, a heart rate, an account balance, or a user ID number.",
+        "false": "Each interpolated value has a privacy argument, or it is a string or an object, or it is not personal data."
+      }
+    }
+  },
+  "thresholds": {
+    "public_value_sensitive": {"yes": 0.3, "no": 0.25},
+    "number_sensitive": {"yes": 0.3, "no": 0.25}
+  },
+  "actions": {
+    "public_value_sensitive": "Remove the value from the log, or change privacy: .public to privacy: .private.",
+    "number_sensitive": "Mark the number privacy: .private, or remove it from the log.",
+    "none": "No violation."
+  }
+}

@@ -1,0 +1,443 @@
+#!/bin/sh
+# check: examine an iOS project against every rule of references/ that a script can examine.
+set -u
+here=$(cd "$(dirname "$0")" && pwd -P)
+. "$here/lib/common.sh"
+
+usage() {
+  cat <<'EOF'
+Usage: check [<project-dir>] [files...]
+       check --rules
+
+Examines the project (default: the current directory) against the rules of references/.
+With no files, every project rule runs on the whole project. With files (paths relative
+to the project directory), the file rules run on those files only.
+
+The check-* decision points of decisions/ run through scripts/decide on the change set:
+the files given, or else the modified, staged, and untracked files of the git work tree.
+
+A comment line "// ios-architecture: deviation <threshold-id>" in a file suppresses, in that
+file, the rules that lib/deviation-rules.tsv lists for the threshold. Security and privacy
+rules are never suppressed.
+
+A resolution that scripts/decide --resolve recorded counts as the decided answer: a recorded
+flag is a violation, and a recorded clear passes.
+
+Output: 1 line per violation, "file:line: rule-id: message (references/<file>.md)",
+then 1 line per pending decision, then 1 line per suppression,
+"suppressed: file:line: rule-id: deviation <threshold-id>", then 1 line per applied
+resolution, "resolved: file: decision-id: source <fallback|orchestrator>", then a summary line.
+Exit status: 0 pass, 1 violation, 2 usage error, 3 or 4 a pending decision (see scripts/decide).
+EOF
+}
+
+# Line rules: id~scope~reference~pattern~exclude~message
+LINE_RULES='domain-ui-import~domain~architecture~^[[:space:]]*(@[A-Za-z_]+[[:space:]]+)*import[[:space:]]+((struct|class|enum|protocol|func|var|let|typealias)[[:space:]]+)?(SwiftUI|UIKit|StoreKit)([^A-Za-z0-9_]|$)~~A domain target imports SwiftUI, UIKit, or StoreKit.
+domain-observable~domain~architecture~@Observable([^A-Za-z0-9_]|$)|ObservableObject~~A domain target holds an observable model. Keep observable models in the feature target.
+domain-class~domain~architecture~^[[:space:]]*((public|package|internal|fileprivate|private|open|final)[[:space:]]+)*class[[:space:]]+[A-Za-z_]~~A domain type is a class. Make domain types struct or enum values.
+observable-object~src~architecture~ObservableObject|@Published([^A-Za-z0-9_]|$)|^[[:space:]]*import[[:space:]]+Combine([^A-Za-z0-9_]|$)~~State uses ObservableObject or Combine. Use @Observable.
+service-singleton~feature~architecture~static[[:space:]]+(let|var)[[:space:]]+(shared|instance)([^A-Za-z0-9_]|$)~~Feature code declares a singleton. Inject the dependency through an initializer or the Environment.
+feature-global-service~feature~architecture~URLSession\.shared|UserDefaults\.standard|FileManager\.default~~Feature code reaches a global service. Inject a client from the composition root.
+feature-storage-engine~feature~persistence~^[[:space:]]*import[[:space:]]+(SwiftData|CoreData|GRDB|SQLiteData)([^A-Za-z0-9_]|$)~~Feature code imports a storage engine. Put the store behind a protocol in Core.
+feature-reads-environment~feature~project-setup~ProcessInfo\.processInfo\.environment|infoDictionary|object\(forInfoDictionaryKey:~~Feature code reads the build environment. Inject it into the composition root.
+feature-checks-purchases~featdom~purchases-seams~Transaction\.(currentEntitlements|updates)|AppStore\.sync\(~~Feature or domain code checks purchases. The shell gates each feature through its requirement.
+userdefaults-secret~src~persistence~(UserDefaults|@AppStorage).*([Tt]oken|[Pp]assword|[Ss]ecret|[Cc]redential|[Aa]pi[Kk]ey|API_KEY)~~A credential goes to UserDefaults. Store credentials in the Keychain.
+keychain-accessible-always~src~persistence~kSecAttrAccessibleAlways~~A Keychain item uses kSecAttrAccessibleAlways. Use kSecAttrAccessibleWhenUnlockedThisDeviceOnly or stricter.
+task-detached~src~concurrency~Task\.detached|DispatchQueue\.global~~Code leaves the main actor with Task.detached or DispatchQueue. Call a @concurrent function.
+print-log~src~security-privacy~(^|[^A-Za-z0-9_.])(print|debugPrint|NSLog)\(~~Code logs with print or NSLog. Use os.Logger with privacy annotations.
+http-url~src~networking~"http://~"http://(localhost|127\.0\.0\.1)~An endpoint uses http. Use HTTPS with TLS 1.2 or later.
+navigation-view~src~navigation~(^|[^A-Za-z0-9_])NavigationView([^A-Za-z0-9_]|$)~~Code uses NavigationView. Use NavigationStack or NavigationSplitView.
+fixed-font-size~src~accessibility~\.system\(size:|systemFont\(ofSize:|\.custom\(.*([^A-Za-z]size|fixedSize):~relativeTo:~Text uses a fixed font size. Use text styles.
+left-right~src~localization~(leftAnchor|rightAnchor)([^A-Za-z0-9_]|$)|[Aa]lignment[[:space:]]*[=:][[:space:]]*\.(left|right)([^A-Za-z0-9_]|$)~~Layout uses left or right. Use leading and trailing.
+main-bundle-in-package~pkgsrc~localization~bundle:[[:space:]]*\.main([^A-Za-z0-9_]|$)|Bundle\.main\.localizedString|NSLocalizedString\(~bundle:[[:space:]]*(\.module|#bundle)~Package code loads strings from the main bundle. Use #bundle or .module.
+ats-arbitrary-loads~plist~networking~<key>(NSAllowsArbitraryLoads[A-Za-z]*|NSExceptionAllowsInsecureHTTPLoads)</key>~~A property list weakens App Transport Security. Keep ATS on.
+ui-design-compatibility~plist~migration~<key>UIDesignRequiresCompatibility</key>~~A property list sets UIDesignRequiresCompatibility. Remove the key.
+xcconfig-secret~xcconfig~project-setup~^[[:space:]]*[A-Za-z0-9_]*(SECRET|API_KEY|APIKEY|PRIVATE_KEY|PASSWORD|ACCESS_TOKEN|AUTH_TOKEN)[A-Za-z0-9_]*[[:space:]]*(\[[^]]*\])?[[:space:]]*=[[:space:]]*[^[:space:]]~~An .xcconfig file holds a secret. Keep secrets on the server.
+secret-value~secret~security-privacy~@SECRET@~~A file holds a literal secret. Keep secrets on the server, and rotate the exposed secret.
+platform-version-string~manifest~architecture~\.(iOS|macOS)\(\.v[0-9]~~A platform version uses an enum case. Write the version as a string, for example .iOS("18.0").
+dependency-branch~manifest~project-setup~(branch|revision):[[:space:]]*"~~A package dependency follows a branch or a revision. Pin an exact version or a tight range.
+swift5-mode~build~project-setup~swiftLanguageModes?:.*\.v[45]|swiftLanguageVersions:.*\.v[45]|SWIFT_VERSION[[:space:]]*=[[:space:]]*[45]|swift-tools-version:[[:space:]]*[1-5]\.~~A target uses Swift 5 or earlier. Set Swift 6 language mode.'
+
+# Rules with their own code: id~reference~message
+OTHER_RULES='package-concurrency-features~concurrency~A package target does not enable NonisolatedNonsendingByDefault and InferIsolatedConformances.
+feature-default-isolation~concurrency~A UI target (XFeature, DesignSystem) has no .defaultIsolation(MainActor.self).
+domain-default-isolation~concurrency~A domain, core, or service target sets MainActor default isolation.
+feature-depends-on-feature~architecture~A feature package depends on another feature package.
+feature-cross-import~architecture~Feature or domain code imports the module of another feature.
+feature-vendor-import~project-setup~Feature code imports a third-party module.
+platform-macos~architecture~A package sets an iOS version and no macOS version.
+default-localization~localization~A package with resources does not set defaultLocalization.
+unchecked-sendable-comment~concurrency~@unchecked Sendable or nonisolated(unsafe) has no comment that explains why the code is safe.
+xctest-unit-test~testing~A unit test uses XCTest. Write unit tests in Swift Testing.
+plist-secret~project-setup~A property list holds a secret.
+cocoapods~project-setup~The project uses CocoaPods or Carthage. Use Swift Package Manager.
+strings-files~localization~The project uses .strings or .stringsdict files. Use String Catalogs.
+privacy-manifest-missing~security-privacy~The app has no PrivacyInfo.xcprivacy.
+privacy-reason-missing~security-privacy~Code uses a required-reason API that no privacy manifest declares.
+app-default-isolation~project-setup~The app target does not set SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor.
+app-approachable-concurrency~project-setup~The app target does not set SWIFT_APPROACHABLE_CONCURRENCY = YES.
+export-compliance~release~The app does not declare ITSAppUsesNonExemptEncryption.
+accessibility-audit~accessibility~No UI test calls performAccessibilityAudit().
+package-resolved~project-setup~The project has remote package dependencies and no committed Package.resolved.
+swiftdata-versioned-schema~persistence~SwiftData models exist and no VersionedSchema exists.
+uiscene-lifecycle~ui-framework~The app delegate owns a window and the app has no UIWindowSceneDelegate.
+deviation-unknown-threshold~deviations~A deviation marker names a threshold id that references/deviations.md does not define.'
+
+# Rules that a deviation marker never suppresses: secrets, credentials, personal data in logs,
+# trust-boundary input, transport security, privacy manifests, and Data Protection.
+PROTECTED_RULES='secret-value xcconfig-secret plist-secret userdefaults-secret keychain-accessible-always print-log http-url ats-arbitrary-loads privacy-manifest-missing privacy-reason-missing check-personal-data-in-log check-trust-boundary-input deviation-unknown-threshold'
+DEVIATIONS=$here/lib/deviation-rules.tsv
+tab=$(printf '\t')
+
+case ${1:-} in
+  -h | --help) usage; exit 0 ;;
+  --rules)
+    printf '%s\n' "$LINE_RULES" | while IFS='~' read -r id _ ref _ _ msg; do printf '%s (references/%s.md): %s\n' "$id" "$ref" "$msg"; done
+    printf '%s\n' "$OTHER_RULES" | while IFS='~' read -r id ref msg; do printf '%s (references/%s.md): %s\n' "$id" "$ref" "$msg"; done
+    for spec in "$here"/../decisions/check-*.json; do jq -r '"\(.id) (Jev decision): \(.purpose)"' "$spec"; done
+    exit 0 ;;
+esac
+
+# The deviation table: refuse it when a line names an unknown rule or a protected rule.
+deviations=$(grep -vE '^(#|$)' "$DEVIATIONS" 2>/dev/null) || die "check: no deviation table: $DEVIATIONS"
+known=$(printf '%s\n%s\n' "$LINE_RULES" "$OTHER_RULES" | cut -d'~' -f1
+  for spec in "$here"/../decisions/check-*.json; do basename "$spec" .json; done)
+bad=$(printf '%s\n' "$deviations" | while IFS=$tab read -r tid rule ere extra; do
+  case $tid in ('' | -* | *[!a-z0-9-]*) echo "invalid threshold id: $tid"; continue ;; esac
+  if [ -n "$extra" ] || [ -z "$ere" ]; then echo "$tid: the line needs 3 columns"; continue; fi
+  [ "$rule" = - ] && continue
+  case " $PROTECTED_RULES " in (*" $rule "*) echo "$tid: $rule is a security or privacy rule"; continue ;; esac
+  printf '%s\n' "$known" | grep -qxF -- "$rule" || echo "$tid: unknown rule: $rule"
+done)
+[ -z "$bad" ] || die "check: invalid deviation table: $(printf '%s\n' "$bad" | head -1)"
+
+dir=.
+if [ $# -gt 0 ] && [ -d "$1" ]; then dir=$1; shift; fi
+set_project "$dir"
+cd "$PROJECT" || exit 2
+tmp=$(mktemp -d) || exit 2
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+out=$tmp/out
+: >"$out"
+: >"$tmp/pending"
+: >"$tmp/resolved"
+
+if [ $# -gt 0 ]; then
+  mode=files
+  for f; do rel_path "$f" >>"$tmp/files" || exit 2; done
+  cp "$tmp/files" "$tmp/changed"
+else
+  mode=project
+  project_files >"$tmp/files"
+  change_set >"$tmp/changed"
+fi
+
+emit() { # file line rule-id message reference
+  printf '%s:%s: %s: %s (references/%s.md)\n' "$1" "$2" "$3" "$4" "$5" >>"$out"
+}
+
+# Sort the files into scopes: 1 list file per scope.
+while IFS= read -r f; do
+  case $f in
+    Package.swift | */Package.swift) echo "$f" >>"$tmp/s.manifest"; echo "$f" >>"$tmp/s.build" ;;
+    *.swift)
+      echo "$f" >>"$tmp/s.secret"
+      k=$(swift_kind "$f")
+      if [ "$k" = test ]; then echo "$f" >>"$tmp/s.test"; continue; fi
+      echo "$f" >>"$tmp/s.src"
+      case $f in Packages/* | */Packages/*) echo "$f" >>"$tmp/s.pkgsrc" ;; esac
+      case $k in
+        domain) echo "$f" >>"$tmp/s.domain"; echo "$f" >>"$tmp/s.featdom" ;;
+        feature) echo "$f" >>"$tmp/s.feature"; echo "$f" >>"$tmp/s.featdom" ;;
+      esac ;;
+    *.plist) echo "$f" >>"$tmp/s.plist"; echo "$f" >>"$tmp/s.secret" ;;
+    *.xcconfig) echo "$f" >>"$tmp/s.xcconfig"; echo "$f" >>"$tmp/s.secret"; echo "$f" >>"$tmp/s.build" ;;
+    *.pbxproj) echo "$f" >>"$tmp/s.build" ;;
+    Podfile | */Podfile | Cartfile | */Cartfile) emit "$f" 1 cocoapods "The project uses CocoaPods or Carthage. Use Swift Package Manager." project-setup ;;
+    *.strings | *.stringsdict) emit "$f" 1 strings-files "The project uses a .strings or .stringsdict file. Use a String Catalog." localization ;;
+  esac
+done <"$tmp/files"
+
+# Deviation markers: an unknown threshold id is a violation; a known one allows its rules in the file.
+tr '\n' '\0' <"$tmp/files" | xargs -0 grep -InHE -- '^[[:space:]]*//[[:space:]]*ios-architecture:[[:space:]]*deviation([[:space:]]|$)' 2>/dev/null |
+  sed -E 's#^([^:]+:[0-9]+):[[:space:]]*//[[:space:]]*ios-architecture:[[:space:]]*deviation[[:space:]]*([^[:space:]]*).*#\1:\2#' >"$tmp/markers"
+: >"$tmp/allow"
+while IFS=: read -r f n tid; do
+  case $tid in '' | -* | *[!a-z0-9-]*) rows= ;; *) rows=$(printf '%s\n' "$deviations" | awk -F'\t' -v t="$tid" '$1 == t') ;; esac
+  if [ -z "$rows" ]; then
+    emit "$f" "$n" deviation-unknown-threshold "The deviation marker names an unknown threshold: ${tid:-none}. Use a threshold id from the table." deviations
+    continue
+  fi
+  printf '%s\n' "$rows" | awk -F'\t' -v f="$f" '$2 != "-" { print f "\t" $2 "\t" $3 "\t" $1 }' >>"$tmp/allow"
+done <"$tmp/markers"
+
+# Print "file:line:text" for each match of ERE $2 in the files of scope $1, without comment lines.
+scan() {
+  [ -s "$tmp/s.$1" ] || return 0
+  tr '\n' '\0' <"$tmp/s.$1" | xargs -0 grep -nHE -- "$2" 2>/dev/null |
+    grep -vE '^[^:]+:[0-9]+:[[:space:]]*(//|/\*|\*)'
+}
+
+printf '%s\n' "$LINE_RULES" | while IFS='~' read -r id scope ref pat excl msg; do
+  [ "$id" = secret-value ] && pat=$SECRET_VALUE_ERE
+  scan "$scope" "$pat" | { if [ -n "$excl" ]; then grep -vE -- "^[^:]+:[0-9]+:.*($excl)"; else cat; fi; } |
+    while IFS=: read -r f n _; do emit "$f" "$n" "$id" "$msg" "$ref"; done
+done
+
+# Package manifests: target settings, feature dependencies, default localization.
+MANIFEST_AWK='
+function word(text, v) { return text ~ ("(^|[^A-Za-z0-9_])" v "([^A-Za-z0-9_]|$)") }
+function uses(text, set,   v) { for (v in set) if (word(text, v)) return 1; return 0 }
+function close_var() {
+  if (vname == "") return
+  if (vtext ~ MA || uses(vtext, mainv)) mainv[vname] = 1
+  if ((vtext ~ F1 && vtext ~ F2) || uses(vtext, featv)) featv[vname] = 1
+  vname = ""
+}
+function close_target(   m, f) {
+  if (tkind == "") return
+  m = (ttext ~ MA || uses(ttext, mainv)) ? 1 : 0
+  f = ((ttext ~ F1 && ttext ~ F2) || uses(ttext, featv)) ? 1 : 0
+  print tline "|" tkind "|" tname "|" m "|" f
+  tkind = ""
+}
+BEGIN { MA = "defaultIsolation\\(MainActor"; F1 = "NonisolatedNonsendingByDefault"; F2 = "InferIsolatedConformances" }
+/^(let|var)[ \t]+[A-Za-z_]/ {
+  close_var(); n = $0; sub(/^(let|var)[ \t]+/, "", n); sub(/[^A-Za-z0-9_].*/, "", n)
+  if (n != "package") { vname = n; vtext = "" }
+}
+vname != "" { vtext = vtext "\n" $0 }
+/\.(target|executableTarget|testTarget|macro|plugin)\(/ {
+  close_target(); match($0, /\.(target|executableTarget|testTarget|macro|plugin)\(/)
+  tkind = substr($0, RSTART + 1, RLENGTH - 2); tline = NR; ttext = ""; tname = ""
+}
+tkind != "" {
+  ttext = ttext "\n" $0
+  if (tname == "" && match($0, /name:[ \t]*"[^"]+"/)) { tname = substr($0, RSTART, RLENGTH); sub(/^name:[ \t]*"/, "", tname); sub(/"$/, "", tname) }
+}
+END { close_var(); close_target() }'
+
+if [ -s "$tmp/s.manifest" ]; then
+  while IFS= read -r m; do
+    pdir=$(dirname "$m")
+    pkg=$(basename "$(cd "$pdir" && pwd -P)")
+    awk "$MANIFEST_AWK" "$m" | while IFS='|' read -r n kind name main feat; do
+      case $kind in testTarget | plugin) continue ;; esac
+      [ "$feat" = 1 ] || emit "$m" "$n" package-concurrency-features "Target $name does not enable NonisolatedNonsendingByDefault and InferIsolatedConformances." concurrency
+      case $name in
+        *Feature | DesignSystem) [ "$main" = 1 ] || emit "$m" "$n" feature-default-isolation "UI target $name has no .defaultIsolation(MainActor.self)." concurrency ;;
+      esac
+      iso=ui
+      case $name in *Domain) iso=none ;; esac
+      case $pkg in Core | Networking | Persistence | Services) iso=none ;; esac
+      if [ $iso = none ] && [ "$main" = 1 ]; then
+        emit "$m" "$n" domain-default-isolation "Target $name sets MainActor default isolation. Keep domain, core, and service targets nonisolated." concurrency
+      fi
+    done
+    if grep -q '\.iOS(' "$m" && ! grep -q '\.macOS(' "$m"; then
+      emit "$m" "$(grep -n '\.iOS(' "$m" | head -1 | cut -d: -f1)" platform-macos "The package sets an iOS version and no macOS version. Add the same version for macOS, so that swift test runs on the Mac." architecture
+    fi
+    if grep -q 'resources:' "$m" && ! grep -q 'defaultLocalization' "$m"; then
+      emit "$m" "$(grep -n 'resources:' "$m" | head -1 | cut -d: -f1)" default-localization "The package has resources and no defaultLocalization." localization
+    fi
+    case /$m in
+      */Features/*/Package.swift)
+        fdir=$(cd "$pdir/.." && pwd -P)
+        grep -nE '\.package\(.*path:[[:space:]]*"[^"]+"' "$m" | while IFS=: read -r n rest; do
+          p=$(printf '%s\n' "$rest" | sed -E 's/.*path:[[:space:]]*"([^"]+)".*/\1/; s#/$##')
+          t=$(cd "$pdir" 2>/dev/null && cd "$p" 2>/dev/null && pwd -P) || t=
+          hit=0
+          if [ -n "$t" ]; then
+            [ "$(dirname "$t")" = "$fdir" ] && hit=1
+          else
+            case $p in ../*/* | ../..) ;; ../*) hit=1 ;; esac
+          fi
+          [ $hit = 1 ] && emit "$m" "$n" feature-depends-on-feature "The feature package depends on $p. Share code through Core or a new shared package." architecture
+        done ;;
+    esac
+  done <"$tmp/s.manifest"
+fi
+
+# Feature and domain code: imports of other features and of third-party modules.
+if [ -s "$tmp/s.featdom" ]; then
+  while IFS= read -r f; do
+    t=$(target_of "$f")
+    own=${t%Feature}
+    own=${own%Domain}
+    grep -nE '^[[:space:]]*import[[:space:]]+[A-Za-z0-9_]+(Feature|Domain)[[:space:]]*$' "$f" | while IFS=: read -r n line; do
+      mod=$(printf '%s\n' "$line" | sed -E 's/^[[:space:]]*import[[:space:]]+([A-Za-z0-9_]+).*/\1/')
+      base=${mod%Feature}
+      base=${base%Domain}
+      [ "$base" = "$own" ] || emit "$f" "$n" feature-cross-import "The code imports $mod from another feature. Share code through Core or a new shared package." architecture
+    done
+  done <"$tmp/s.featdom"
+fi
+
+vendors=$(project_files | grep -E '(^|/)Package\.swift$' | while IFS= read -r m; do
+  ids=$(grep -oE 'url:[[:space:]]*"[^"]+"' "$m" | sed -E 's/.*"([^"]+)"/\1/; s#/$##; s#.*/##; s/\.git$//' | grep -v '\.zip$' | tr 'A-Z' 'a-z')
+  grep -oE '\.product\([[:space:]]*name:[[:space:]]*"[^"]+"[[:space:]]*,[[:space:]]*package:[[:space:]]*"[^"]+"' "$m" |
+    sed -E 's/.*name:[[:space:]]*"([^"]+)".*package:[[:space:]]*"([^"]+)".*/\1 \2/' |
+    while read -r name p; do
+      lp=$(printf '%s' "$p" | tr 'A-Z' 'a-z')
+      printf '%s\n' "$ids" | grep -qxF -- "$lp" && printf '%s\n' "$name"
+    done
+done | sort -u | paste -sd'|' -)
+if [ -n "$vendors" ]; then
+  scan feature "^[[:space:]]*(@[A-Za-z_]+[[:space:]]+)*import[[:space:]]+((struct|class|enum|protocol|func|var|let|typealias)[[:space:]]+)?($vendors)([^A-Za-z0-9_.]|$)" |
+    while IFS=: read -r f n _; do emit "$f" "$n" feature-vendor-import "Feature code imports a third-party module. Wrap the vendor API behind a protocol." project-setup; done
+fi
+
+# Swift sources: unsafe concurrency escapes without a comment.
+if [ -s "$tmp/s.src" ]; then
+  tr '\n' '\0' <"$tmp/s.src" | xargs -0 awk '
+    FNR == 1 { prev = "" }
+    /@unchecked[ \t]+Sendable|nonisolated\(unsafe\)/ && $0 !~ /\/\// && prev !~ /^[ \t]*\/\// { print FILENAME ":" FNR }
+    { prev = $0 }' | while IFS=: read -r f n; do
+    emit "$f" "$n" unchecked-sendable-comment "@unchecked Sendable or nonisolated(unsafe) has no comment that explains why the code is safe." concurrency
+  done
+fi
+
+# Tests: unit tests in XCTest.
+if [ -s "$tmp/s.test" ]; then
+  while IFS= read -r f; do
+    grep -q 'XCUIApplication' "$f" && continue
+    grep -nE '^[[:space:]]*import[[:space:]]+XCTest[[:space:]]*$' "$f" | while IFS=: read -r n _; do
+      emit "$f" "$n" xctest-unit-test "A unit test uses XCTest. Write unit tests in Swift Testing." testing
+    done
+  done <"$tmp/s.test"
+fi
+
+# Property lists: secret keys with a value on the next line.
+if [ -s "$tmp/s.plist" ]; then
+  tr '\n' '\0' <"$tmp/s.plist" | xargs -0 awk '
+    /<key>[^<]*([Ss]ecret|SECRET|A[Pp][Ii]_?[Kk]ey|API_KEY|PrivateKey|PRIVATE_KEY|Password|PASSWORD|AccessToken|ACCESS_TOKEN|AuthToken)[^<]*<\/key>/ { k = FNR; next }
+    k && /<string>[^<]+<\/string>/ { print FILENAME ":" k }
+    { k = 0 }' | while IFS=: read -r f n; do
+    emit "$f" "$n" plist-secret "A property list holds a secret. Keep secrets on the server." project-setup
+  done
+fi
+
+# Project rules: they need the whole project, so they run only with no file arguments.
+if [ $mode = project ]; then
+  swift_src=$(grep -E '\.swift$' "$tmp/files" | grep -vE '(^|/)Package\.swift$')
+  pbx=$(grep -E '\.pbxproj$' "$tmp/files" | head -1)
+  settings=$(grep -E '\.(plist|xcconfig|pbxproj)$' "$tmp/files")
+  xcprivacy=$(grep -E '\.xcprivacy$' "$tmp/files")
+  # First "file:line" in the Swift sources that matches ERE $1.
+  first() { [ -n "$swift_src" ] && printf '%s\n' "$swift_src" | tr '\n' '\0' | xargs -0 grep -nHE -- "$1" 2>/dev/null | grep -vE '^[^:]+:[0-9]+:[[:space:]]*//' | head -1 | cut -d: -f1,2; }
+  # Succeed when any of the files in list $1 contains ERE $2.
+  has() { [ -n "$1" ] && printf '%s\n' "$1" | tr '\n' '\0' | xargs -0 grep -qE -- "$2" 2>/dev/null; }
+
+  if [ -n "$pbx" ]; then
+    [ -n "$xcprivacy" ] || emit "$pbx" 1 privacy-manifest-missing "The app has no PrivacyInfo.xcprivacy." security-privacy
+    has "$settings" 'SWIFT_DEFAULT_ACTOR_ISOLATION[[:space:]]*=[[:space:]]*MainActor' ||
+      emit "$pbx" 1 app-default-isolation "The app target does not set SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor." project-setup
+    has "$settings" 'SWIFT_APPROACHABLE_CONCURRENCY[[:space:]]*=[[:space:]]*YES' ||
+      emit "$pbx" 1 app-approachable-concurrency "The app target does not set SWIFT_APPROACHABLE_CONCURRENCY = YES." project-setup
+    has "$settings" 'ITSAppUsesNonExemptEncryption' ||
+      emit "$pbx" 1 export-compliance "The app does not declare ITSAppUsesNonExemptEncryption." release
+    has "$swift_src
+$(cat "$tmp/s.test" 2>/dev/null)" 'performAccessibilityAudit' ||
+      emit "$pbx" 1 accessibility-audit "No UI test calls performAccessibilityAudit()." accessibility
+  fi
+
+  # Required-reason APIs: ERE~category
+  printf '%s\n' 'UserDefaults|@AppStorage~NSPrivacyAccessedAPICategoryUserDefaults
+\.(creationDate|contentModificationDate|modificationDate)Key|attributesOfItem\(|fileModificationDate~NSPrivacyAccessedAPICategoryFileTimestamp
+systemUptime|mach_absolute_time~NSPrivacyAccessedAPICategorySystemBootTime
+volumeAvailableCapacity|systemFreeSize|statfs\(~NSPrivacyAccessedAPICategoryDiskSpace
+activeInputModes~NSPrivacyAccessedAPICategoryActiveKeyboards' | while IFS='~' read -r api cat; do
+    at=$(first "$api")
+    [ -n "$at" ] || continue
+    has "$xcprivacy" "$cat" || emit "${at%:*}" "${at##*:}" privacy-reason-missing "The code uses a required-reason API. Declare $cat in the privacy manifest." security-privacy
+  done
+
+  remote=$(grep -E '(^|/)Package\.swift$' "$tmp/files" | tr '\n' '\0' | xargs -0 grep -nHE 'url:[[:space:]]*"https?://' 2>/dev/null | head -1 | cut -d: -f1,2)
+  [ -z "$remote" ] && [ -n "$pbx" ] && grep -q XCRemoteSwiftPackageReference "$pbx" && remote="$pbx:1"
+  if [ -n "$remote" ] && ! grep -qE '(^|/)Package\.resolved$' "$tmp/files"; then
+    emit "${remote%:*}" "${remote##*:}" package-resolved "The project has remote package dependencies and no committed Package.resolved." project-setup
+  fi
+
+  at=$(first '@Model([^A-Za-z0-9_]|$)')
+  if [ -n "$at" ] && ! has "$swift_src" 'VersionedSchema'; then
+    emit "${at%:*}" "${at##*:}" swiftdata-versioned-schema "SwiftData models exist and no VersionedSchema exists. Version the schema from the first release." persistence
+  fi
+
+  at=$(first 'var[[:space:]]+window[[:space:]]*:[[:space:]]*UIWindow\?')
+  if [ -n "$at" ] && grep -q 'UIApplicationDelegate' "${at%:*}" && ! has "$swift_src" 'UIWindowSceneDelegate'; then
+    emit "${at%:*}" "${at##*:}" uiscene-lifecycle "The app delegate owns a window. Adopt the UIScene lifecycle." ui-framework
+  fi
+fi
+
+# Decision points: check-* decisions on the Swift files of the change set.
+grep -E '\.swift$' "$tmp/changed" 2>/dev/null | grep -vE '(^|/)Package\.swift$' | while IFS= read -r f; do
+  [ "$(swift_kind "$f")" = test ] && continue
+  for spec in "$here"/../decisions/check-*.json; do
+    id=$(basename "$spec" .json)
+    res=$("$here/decide" "$id" "$f")
+    rc=$?
+    case $rc in 0 | 4)
+      src=$(printf '%s\n' "$res" | jq -r .source)
+      case $src in fallback | orchestrator) printf 'resolved: %s: %s: source %s\n' "$f" "$id" "$src" >>"$tmp/resolved" ;; esac
+      # A flag is a violation, also when another question of the decision stays open.
+      printf '%s\n' "$res" | jq -r '.answer[]?' | while IFS= read -r label; do
+        ref=$(jq -r --arg l "$label" '.reference[$l]' "$spec")
+        msg=$(jq -r --arg l "$label" '.actions[$l]' "$spec")
+        p=$(printf '%s\n' "$res" | jq -r --arg l "$label" '.probabilities[$l] // empty')
+        n=$(grep -nE "$(jq -r '.script.content' "$spec")" "$f" | head -1 | cut -d: -f1)
+        if [ "$src" = jev ]; then note="Jev p=$p."; else note="Recorded $src answer."; fi
+        emit "$f" "${n:-1}" "$id" "$msg $note" "$ref"
+      done ;;
+    esac
+    case $rc in
+      0) ;;
+      3 | 4)
+        printf '%s\n' "$res" | jq -r --arg f "$f" '"\($f): pending: \(.decision): escalate=\(.escalate)\(if .fallback_tier then " tier=" + .fallback_tier else "" end)\(if .reason then " reason=" + .reason else "" end); run scripts/decide \(.decision) \($f)"' >>"$tmp/pending"
+        echo "$rc" >>"$tmp/rc" ;;
+      *) printf 'check: decide failed: %s %s\n' "$id" "$f" >&2; echo 2 >>"$tmp/rc" ;;
+    esac
+  done
+done
+
+# Deviation markers: move each violation that a marker of the same file allows to the suppression list.
+: >"$tmp/suppressed"
+if [ -s "$tmp/allow" ]; then
+  : >"$tmp/kept"
+  while IFS= read -r v; do
+    f=${v%%:*}
+    rest=${v#*:}
+    n=${rest%%:*}
+    rule=${rest#*: }
+    rule=${rule%%:*}
+    hit=
+    while IFS=$tab read -r af arule aere atid; do
+      [ "$af" = "$f" ] && [ "$arule" = "$rule" ] || continue
+      if [ "$aere" = - ] || sed -n "${n}p" "$f" | grep -qE -- "$aere"; then hit=$atid; break; fi
+    done <"$tmp/allow"
+    if [ -n "$hit" ]; then
+      printf 'suppressed: %s:%s: %s: deviation %s\n' "$f" "$n" "$rule" "$hit" >>"$tmp/suppressed"
+    else
+      printf '%s\n' "$v" >>"$tmp/kept"
+    fi
+  done <"$out"
+  mv "$tmp/kept" "$out"
+fi
+
+sort -t: -k1,1 -k2,2n -k3 "$out" | uniq
+cat "$tmp/pending"
+sort -u "$tmp/suppressed" >"$tmp/suppressed.list"
+cat "$tmp/suppressed.list"
+cat "$tmp/resolved"
+nv=$(wc -l <"$out" | tr -d ' ')
+np=$(wc -l <"$tmp/pending" | tr -d ' ')
+ns=$(wc -l <"$tmp/suppressed.list" | tr -d ' ')
+nr=$(wc -l <"$tmp/resolved" | tr -d ' ')
+summary="check: $nv violations, $np pending decisions"
+[ "$ns" -eq 0 ] || summary="$summary, $ns suppressed by deviation markers"
+[ "$nr" -eq 0 ] || summary="$summary, $nr resolved by recorded answers"
+printf '%s\n' "$summary"
+grep -qx 2 "$tmp/rc" 2>/dev/null && exit 2
+[ "$nv" -eq 0 ] || exit 1
+grep -qx 4 "$tmp/rc" 2>/dev/null && exit 4
+grep -qx 3 "$tmp/rc" 2>/dev/null && exit 3
+exit 0

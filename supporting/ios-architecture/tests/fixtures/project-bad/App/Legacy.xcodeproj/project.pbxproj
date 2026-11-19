@@ -1,0 +1,11 @@
+// !$*UTF8*$!
+{
+	objects = {
+		A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SWIFT_VERSION = 5.0;
+			};
+		};
+	};
+}

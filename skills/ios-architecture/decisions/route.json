@@ -1,0 +1,55 @@
+{
+  "id": "route",
+  "purpose": "Find the route table rows that apply to 1 file that scripts/route cannot route.",
+  "primitive": "noul",
+  "input": "file",
+  "fallback_tier": "small",
+  "state_fields": {
+    "file.path": "The path of the file, relative to the project root.",
+    "file.content": "The full text of the file."
+  },
+  "questions": {
+    "project-setup": {"type": "noul", "instructions": "Does `file.content` define or change build settings, build configurations, code signing, a third-party package dependency, or lint rules?"},
+    "architecture": {"type": "noul", "instructions": "Does `file.content` define or change a feature module, a Swift package, domain types or business rules, dependency injection, or the feature registry?"},
+    "ui-framework": {"type": "noul", "instructions": "Does `file.content` define or change a SwiftUI or UIKit view, web content in the app, custom drawing, or a design system component?"},
+    "navigation": {"type": "noul", "instructions": "Does `file.content` define or change navigation: routes, a navigation stack, deep links, or universal links?"},
+    "networking": {"type": "noul", "instructions": "Does `file.content` send or receive data over the network, for example HTTP calls, WebSockets, GraphQL, or data streams, or show the network or offline state?"},
+    "authentication": {"type": "noul", "instructions": "Does `file.content` handle sign-in, sign-out, user accounts, authentication tokens, or biometric unlock?"},
+    "persistence": {"type": "noul", "instructions": "Does `file.content` store or read data on the device, for example files, a database, a cache, a schema, a data migration, preferences, or App Group data?"},
+    "security-privacy": {"type": "noul", "instructions": "Does `file.content` handle secrets, input from outside the app, log statements, permission requests, personal or regulated data, or an AI model?"},
+    "concurrency": {"type": "noul", "instructions": "Does `file.content` contain async code, tasks, actors, Sendable types, thrown errors, random values, clocks or the current date, data sync, or crash reports?"},
+    "lifecycle-extensions": {"type": "noul", "instructions": "Does `file.content` handle app lifecycle events, scene phases, background tasks, push notifications, an app extension, a widget, or an App Intent?"},
+    "accessibility": {"type": "noul", "instructions": "Does `file.content` define or change a view or a control that a person sees or uses?"},
+    "localization": {"type": "noul", "instructions": "Does `file.content` contain text that a person sees, or format a date, a number, a currency amount, or a measurement for display?"},
+    "performance": {"type": "noul", "instructions": "Does `file.content` change launch work, scrolling of long lists, image loading, memory use, or performance measurement?"},
+    "purchases-seams": {"type": "noul", "instructions": "Does `file.content` handle in-app purchases, entitlements, subscriptions, analytics events, or feature flags?"},
+    "release": {"type": "noul", "instructions": "Does `file.content` set version numbers, release build settings, TestFlight distribution, or App Store submission data?"},
+    "migration": {"type": "noul", "instructions": "Does `file.content` contain legacy code that the target architecture replaces, for example ObservableObject, Combine, completion handlers, Objective-C interop, storyboards, CocoaPods, or code ported from another technology?"},
+    "deviations": {"type": "noul", "instructions": "Does `file.content` use a choice other than the default: a custom renderer, 3D content, The Composable Architecture, a database engine, CloudKit sync, or a purchase server?"},
+    "native-ui-patterns": {"type": "noul", "instructions": "Does `file.content` define a screen layout, a user flow, or the look of platform controls?"}
+  },
+  "thresholds": {
+    "project-setup": {"yes": 0.3, "no": 0.3},
+    "architecture": {"yes": 0.3, "no": 0.3},
+    "ui-framework": {"yes": 0.3, "no": 0.3},
+    "navigation": {"yes": 0.3, "no": 0.3},
+    "networking": {"yes": 0.3, "no": 0.3},
+    "authentication": {"yes": 0.3, "no": 0.3},
+    "persistence": {"yes": 0.3, "no": 0.3},
+    "security-privacy": {"yes": 0.3, "no": 0.3},
+    "concurrency": {"yes": 0.3, "no": 0.3},
+    "lifecycle-extensions": {"yes": 0.3, "no": 0.3},
+    "accessibility": {"yes": 0.3, "no": 0.3},
+    "localization": {"yes": 0.3, "no": 0.3},
+    "performance": {"yes": 0.3, "no": 0.3},
+    "purchases-seams": {"yes": 0.3, "no": 0.3},
+    "release": {"yes": 0.3, "no": 0.3},
+    "migration": {"yes": 0.3, "no": 0.3},
+    "deviations": {"yes": 0.3, "no": 0.3},
+    "native-ui-patterns": {"yes": 0.3, "no": 0.3}
+  },
+  "actions": {
+    "<row>": "Read references/<row>.md. For native-ui-patterns, load the native-ui-patterns skill.",
+    "none": "No row applies. Mark the file out of bounds."
+  }
+}

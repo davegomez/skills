@@ -1,0 +1,132 @@
+#!/bin/sh
+# route: map changed files to the route table rows of SKILL.md.
+set -u
+here=$(cd "$(dirname "$0")" && pwd -P)
+. "$here/lib/common.sh"
+
+usage() {
+  cat <<'EOF'
+Usage: route [<project-dir>] [files...]
+
+Maps each file to the route table rows by path, imports, and content patterns.
+Files are paths relative to the project directory (default: the current directory).
+A planned file that does not exist yet routes by its path and name only.
+With no files, routes the modified, staged, and untracked files of the git work tree.
+Every Swift file adds testing. Every view adds accessibility. User-facing text adds localization.
+For a file that no pattern routes, route calls scripts/decide route <file>.
+
+Output: "# <file>: <rows>" per file, then 1 line per reference file to read, then
+"skill: native-ui-patterns" when that row applies, then 1 line per pending decision.
+Exit status: 0 routed, 2 usage error, 3 or 4 a pending decision (see scripts/decide).
+EOF
+}
+
+# Content rules: row~ERE
+CONTENT_RULES='architecture~@Observable|FeatureRegistry|FeatureContext|:[[:space:]]*Feature([^A-Za-z0-9_]|$)|@Environment\(|func reduce\(
+ui-framework~import[[:space:]]+(SwiftUI|UIKit|WebKit|RealityKit|Metal|MetalKit)([^A-Za-z0-9_]|$)|:[[:space:]]*View([^A-Za-z0-9_]|$)|some View|UIViewRepresentable|UIViewControllerRepresentable|UIHostingController|Canvas|TimelineView|WebView|WebPage
+navigation~NavigationStack|NavigationSplitView|NavigationPath|NavigationLink|navigationDestination|AppRoute|AppRouter|onOpenURL|onContinueUserActivity|CFBundleURLTypes|associated-domains
+networking~URLSession|URLRequest|HTTPClient|Endpoint<|WebSocket|NWPathMonitor|import[[:space:]]+Network([^A-Za-z0-9_]|$)|GraphQL|bytes\(for:
+authentication~import[[:space:]]+(AuthenticationServices|LocalAuthentication)([^A-Za-z0-9_]|$)|AuthClient|ASAuthorization|ASWebAuthenticationSession|LAContext|signIn|signOut|[Rr]efreshToken|accessToken|[Pp]asskey
+persistence~import[[:space:]]+(SwiftData|CoreData|GRDB|SQLiteData|CloudKit)([^A-Za-z0-9_]|$)|UserDefaults|@AppStorage|FileManager|@Model([^A-Za-z0-9_]|$)|ModelContainer|ModelContext|NSPersistent|VersionedSchema|SecItem|KeyValueStore|forSecurityApplicationGroupIdentifier
+security-privacy~Logger\(|os_log|import[[:space:]]+(os|OSLog|Security|CryptoKit|AppTrackingTransparency|DeviceCheck|FoundationModels)([^A-Za-z0-9_]|$)|SecItem|kSec|privacy:|UIPasteboard|DCAppAttestService|requestAuthorization|SecRandomCopyBytes|onOpenURL|LanguageModelSession|NS[A-Za-z]+UsageDescription|NSAppTransportSecurity
+concurrency~(^|[^A-Za-z0-9_])(async|await|actor|throws|catch)([^A-Za-z0-9_]|$)|Task[[:space:]]*[{(.]|Sendable|@MainActor|@concurrent|:[[:space:]]*Error([^A-Za-z0-9_]|$)|RandomNumberGenerator|\.random\(|UUID\(\)|Date\(\)|Clock|MetricKit|CloudKit
+lifecycle-extensions~scenePhase|BGTaskScheduler|BGAppRefreshTask|BGProcessingTask|UIApplicationDelegate|registerForRemoteNotifications|UNUserNotificationCenter|import[[:space:]]+(WidgetKit|ActivityKit|AppIntents|BackgroundTasks|UserNotifications)([^A-Za-z0-9_]|$)|AppIntent|TimelineProvider|NotificationClient|UIBackgroundModes|NSExtension
+accessibility~:[[:space:]]*View([^A-Za-z0-9_]|$)|some View|UIView([^A-Za-z0-9_]|$)|UIViewController|UIControl|accessibility
+localization~(Text|Label|Button|Toggle|TextField|SecureField|Section|Picker|Menu|Link|navigationTitle|alert|confirmationDialog|LocalizedStringResource|String\(localized:)\(?[[:space:]]*"|NSLocalizedString|\.formatted\(|FormatStyle|DateFormatter|NumberFormatter|MeasurementFormatter|Measurement<|\.text[[:space:]]*=[[:space:]]*"|setTitle\("
+performance~OSSignposter|signpost|LazyVStack|LazyHStack|LazyVGrid|LazyHGrid|(^|[^A-Za-z0-9_])List[[:space:]]*[({]|AsyncImage|UIImage\(|NSCache|ImageCache|drawingGroup|XCTMetric
+purchases-seams~import[[:space:]]+StoreKit([^A-Za-z0-9_]|$)|Transaction\.|AppStore\.|SubscriptionStoreView|ProductView|EntitlementService|AnalyticsClient|FeatureFlagProvider|DiagnosticsClient|AppTransaction
+release~CFBundleShortVersionString|CFBundleVersion|MARKETING_VERSION|CURRENT_PROJECT_VERSION|ITSAppUsesNonExemptEncryption
+migration~ObservableObject|@Published|import[[:space:]]+Combine([^A-Za-z0-9_]|$)|DispatchQueue|completionHandler|@objc|UIApplicationMain|UIStoryboard|NavigationView|NSLocalizedString
+deviations~import[[:space:]]+(ComposableArchitecture|RealityKit|Metal|MetalKit|GRDB|SQLiteData|CloudKit)([^A-Za-z0-9_]|$)|Canvas[[:space:]]*\{|NSPersistentCloudKitContainer
+native-ui-patterns~var[[:space:]]+body[[:space:]]*:[[:space:]]*some[[:space:]]+View|UIViewController'
+
+case ${1:-} in -h | --help) usage; exit 0 ;; esac
+dir=.
+if [ $# -gt 0 ] && [ -d "$1" ]; then dir=$1; shift; fi
+set_project "$dir"
+cd "$PROJECT" || exit 2
+tmp=$(mktemp -d) || exit 2
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+: >"$tmp/files"
+# Print planned path $1 relative to PROJECT.
+planned_path() {
+  case $1 in
+    /*) _p=${1#"$PROJECT"/}; [ "$_p" != "$1" ] || die "outside the project: $1" ;;
+    *) _p=${1#./} ;;
+  esac
+  case /$_p/ in */../* | */./* | *//*) die "invalid planned path: $1" ;; esac
+  printf '%s\n' "$_p"
+}
+
+if [ $# -gt 0 ]; then
+  for f; do
+    if [ -e "$f" ]; then rel_path "$f"; else planned_path "$f"; fi >>"$tmp/files" || exit 2
+  done
+else
+  change_set >"$tmp/files"
+fi
+
+rows_for() { # file
+  case $1 in
+    Package.swift | */Package.swift) printf '%s\n' project-setup architecture concurrency ;;
+    *.xcconfig | *.pbxproj | *.entitlements | *Package.resolved | *.swiftlint.yml | *.swift-format | *.xcscheme) echo project-setup ;;
+    Podfile* | */Podfile* | Cartfile* | */Cartfile*) printf '%s\n' project-setup migration ;;
+    *Info.plist) printf '%s\n' project-setup security-privacy ;;
+    *.xcprivacy) printf '%s\n' security-privacy release ;;
+    *.xcstrings | *.strings | *.stringsdict) echo localization ;;
+    *.xcassets/*) printf '%s\n' ui-framework accessibility ;;
+    *.xcdatamodel*) echo persistence ;;
+    *.storekit) echo purchases-seams ;;
+    *apple-app-site-association*) echo navigation ;;
+    *.xctestplan) echo testing ;;
+  esac
+  case /$1 in
+    */ci/* | */.github/workflows/* | */ci_scripts/* | */fastlane/*) printf '%s\n' release testing ;;
+    */Packages/DesignSystem/*) printf '%s\n' ui-framework accessibility ;;
+    */Packages/Networking/*) echo networking ;;
+    */Packages/Persistence/*) echo persistence ;;
+    *Widget*/* | *Extension/* | *Intents/*) echo lifecycle-extensions ;;
+  esac
+  case $1 in
+    *.swift)
+      echo testing
+      case $(target_of "$1") in *Domain | *Feature) echo architecture ;; esac ;;
+  esac
+  grep -Iq . "$1" 2>/dev/null || return 0
+  printf '%s\n' "$CONTENT_RULES" | while IFS='~' read -r row re; do
+    grep -qE -- "$re" "$1" && echo "$row"
+  done
+}
+
+: >"$tmp/rows"
+: >"$tmp/pending"
+while IFS= read -r f; do
+  rows=$(rows_for "$f" | sort -u)
+  if [ -z "$(printf '%s\n' "$rows" | grep -vx testing)" ]; then
+    case $f in
+      *.md | .ios-architecture/*) ;;
+      *)
+        if grep -Iq . "$f" 2>/dev/null; then
+          res=$("$here/decide" route "$f")
+          rc=$?
+          case $rc in
+            0) rows=$(printf '%s\n%s\n' "$rows" "$(printf '%s\n' "$res" | jq -r '.answer[]')" | grep . | sort -u) ;;
+            3 | 4)
+              printf '%s\n' "$res" | jq -r --arg f "$f" '"pending: \($f): \(.decision): escalate=\(.escalate)\(if .fallback_tier then " tier=" + .fallback_tier else "" end)\(if .reason then " reason=" + .reason else "" end); run scripts/decide route \($f)"' >>"$tmp/pending"
+              echo "$rc" >>"$tmp/rc" ;;
+            *) printf 'route: decide failed: %s\n' "$f" >&2; exit 2 ;;
+          esac
+        fi ;;
+    esac
+  fi
+  text=$(printf '%s\n' "$rows" | grep . | paste -sd' ' -)
+  printf '# %s: %s\n' "$f" "${text:-none}"
+  printf '%s\n' "$rows" | grep . >>"$tmp/rows"
+done <"$tmp/files"
+
+sort -u "$tmp/rows" | grep -vx native-ui-patterns | sed 's#.*#references/&.md#'
+grep -qx native-ui-patterns "$tmp/rows" && echo 'skill: native-ui-patterns'
+cat "$tmp/pending"
+grep -qx 4 "$tmp/rc" 2>/dev/null && exit 4
+grep -qx 3 "$tmp/rc" 2>/dev/null && exit 3
+exit 0

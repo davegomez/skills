@@ -1,0 +1,300 @@
+#!/bin/sh
+# decide: answer 1 decision point. This script is the only caller of Jev.
+set -u
+here=$(cd "$(dirname "$0")" && pwd -P)
+. "$here/lib/common.sh"
+
+ENDPOINT=https://api.typesafe.ai/v1/systemone
+MODEL=jev-latest
+MAX_BYTES=48000
+
+usage() {
+  cat <<'EOF'
+Usage: decide <decision-id> <file>
+       decide <decision-id> <text...>
+       decide --resolve <decision-id> <file|text...> --answer <json> --source fallback|orchestrator
+
+Answers 1 decision point from decisions/<decision-id>.json and prints 1 JSON result:
+  {decision, source, answer, probabilities, model?, escalate?, fallback_tier?, reason?, request?}
+
+Order: 1) the script pass in the decision file, 2) a recorded resolution, 3) Jev, 4) escalation.
+A choice decision with "no_match" asks 1 companion Noul in the same request. The answer
+is no_match when the Noul is at or below its "no" threshold. The Choice answer counts only
+when the Noul is at or above its "yes" threshold. "probabilities" holds the Choice options
+and the Noul.
+Jev gets only the 1 file (or the extracted lines) or the text, and only when the
+ios-architecture.json profile at or above the input sets "code_may_leave_machine": true.
+
+--resolve records the answer of the fallback model (after exit 3) or the orchestrator
+(after exit 4) in .ios-architecture/resolutions.jsonl of the project: the folder of the
+profile, else the git work tree. It runs the decision again first and refuses the answer
+when the decision is not pending, the source does not match the escalation, a label is
+not a label of the decision, or the answer drops a label that Jev flagged. A record keys
+to the decision id, the sha256 of the decision file, and the sha256 of the exact input,
+and replaces the record of the same decision and input. A record is stale when a key changes; decide ignores a stale record.
+
+Exit status:
+  0  decided (source "script", "jev", "fallback", or "orchestrator"), or recorded
+  2  usage or validation error
+  3  escalate to a fallback model of tier fallback_tier: ask it the questions in "request"
+  4  escalate to the orchestrator: Jev answered below a threshold
+
+API key: TYPESAFE_API_KEY, else the Keychain item named by TYPESAFE_KEYCHAIN_SERVICE
+(default typesafe-api-key).
+EOF
+}
+
+case ${1:-} in -h | --help) usage; exit 0 ;; esac
+mode=decide
+answer=
+src=
+if [ "${1:-}" = --resolve ]; then
+  mode=resolve
+  shift
+  # Take --answer and --source out of the arguments; the rest is the input.
+  n=$#
+  while [ "$n" -gt 0 ]; do
+    a=$1
+    shift
+    n=$((n - 1))
+    case $a in
+      --answer | --source)
+        [ "$n" -gt 0 ] || die "$a needs a value"
+        if [ "$a" = --answer ]; then answer=$1; else src=$1; fi
+        shift
+        n=$((n - 1)) ;;
+      *) set -- "$@" "$a" ;;
+    esac
+  done
+  [ -n "$answer" ] || die "--resolve needs --answer <json>"
+  case $src in fallback | orchestrator) ;; *) die "--resolve needs --source fallback or --source orchestrator" ;; esac
+fi
+[ $# -ge 2 ] || { usage >&2; exit 2; }
+id=$1
+shift
+case $id in '' | -* | *[!a-z0-9-]*) die "invalid decision id: $id" ;; esac
+spec=$here/../decisions/$id.json
+[ -f "$spec" ] || die "unknown decision: $id"
+jq -e '
+  def thresholds_ok:
+    . as $s
+    | if $s.primitive == "noul" then
+        all($s.questions | keys[]; . as $q
+          | $s.questions[$q].type == "noul"
+          and ($s.thresholds[$q].yes | type) == "number"
+          and ($s.thresholds[$q].no | type) == "number"
+          and $s.thresholds[$q].no <= $s.thresholds[$q].yes)
+      else
+        # 1 Choice, plus 1 companion Noul when "no_match" names the answer for a low Noul.
+        ([$s.questions[] | select(.type == "choice")] | length) == 1
+        and ([$s.questions[] | select(.type == "noul")] | length) == (if $s.no_match == null then 0 else 1 end)
+        and all($s.questions[]; .type == "choice" or .type == "noul")
+        and ($s.no_match == null or ($s.no_match | type) == "string")
+        and all($s.questions | keys[]; . as $q
+          | if $s.questions[$q].type == "choice" then
+              all($s.questions[$q].criteria | keys[]; ($s.thresholds[$q][.] | type) == "number")
+              and ($s.questions[$q].criteria | has($s.no_match // "") | not)
+            else
+              ($s.thresholds[$q].yes | type) == "number"
+              and ($s.thresholds[$q].no | type) == "number"
+              and $s.thresholds[$q].no <= $s.thresholds[$q].yes
+              and all($s.questions[] | select(.type == "choice"); .criteria | has($q) | not)
+            end)
+      end;
+  (.primitive == "noul" or .primitive == "choice")
+  and (.input == "file" or .input == "text")
+  and (.fallback_tier == "small" or .fallback_tier == "medium")
+  and (.questions | type) == "object" and (.questions | length) > 0
+  and thresholds_ok' "$spec" >/dev/null || die "invalid decision file: $spec"
+
+tmp=$(mktemp -d) || exit 2
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+tab=$(printf '\t')
+kind=$(jq -r .input "$spec")
+
+if [ "$kind" = file ]; then
+  [ $# -eq 1 ] || die "decision $id takes 1 file"
+  { [ -f "$1" ] && [ ! -L "$1" ]; } || die "not a regular file: $1"
+  start=$(cd "$(dirname "$1")" && pwd -P)
+  file=$start/$(basename "$1")
+else
+  start=$(pwd -P)
+fi
+
+# The profile is the nearest ios-architecture.json at or above the input.
+root=
+d=$start
+while :; do
+  if [ -f "$d/ios-architecture.json" ]; then root=$d; break; fi
+  [ "$d" = / ] && break
+  d=$(dirname "$d")
+done
+
+# The resolution store: in the folder of the profile, else in the git work tree.
+store_dir=$root
+[ -n "$store_dir" ] || store_dir=$(git -C "$start" rev-parse --show-toplevel 2>/dev/null) || store_dir=
+store=${store_dir:+$store_dir/.ios-architecture/resolutions.jsonl}
+
+result() { # source answer-json probabilities-json
+  jq -cn --arg d "$id" --arg s "$1" --argjson a "$2" --argjson p "$3" \
+    '{decision: $d, source: $s, answer: $a, probabilities: $p}'
+}
+
+sha256() { # file
+  if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1"; else shasum -a 256 "$1"; fi | cut -d' ' -f1
+}
+
+# Print answer $1 in its stored form when it uses the labels of the decision, as a Jev answer does.
+valid_answer() {
+  printf '%s' "$1" | jq -ces --slurpfile spec "$spec" '
+    $spec[0] as $s
+    | if length != 1 then error("1 value") else .[0] end
+    | if $s.primitive == "noul" then
+        if type == "array" and all(.[]; type == "string" and (. as $l | $s.questions | has($l)))
+        then unique else error("labels") end
+      else
+        . as $a
+        | if type == "string" and ($a == $s.no_match
+            or any($s.questions[] | select(.type == "choice"); .criteria | has($a)))
+          then . else error("label") end
+      end' 2>/dev/null
+}
+
+# Print the result in $tmp/out and exit with status $1, or in resolve mode record the answer.
+finish() {
+  if [ "$mode" = decide ]; then cat "$tmp/out"; exit "$1"; fi
+  case $1 in
+    3) need=fallback ;;
+    4) need=orchestrator ;;
+    *) die "decision $id is not pending: nothing to resolve" ;;
+  esac
+  [ "$src" = "$need" ] || die "decision $id escalates to $need: --source $src does not match"
+  ans=$(valid_answer "$answer") || die "invalid answer for $id: use the labels of decisions/$id.json"
+  if [ "$1" = 4 ] && [ "$(jq -r .primitive "$spec")" = noul ]; then
+    printf '%s' "$ans" | jq -e --slurpfile o "$tmp/out" '($o[0].answer - .) == []' >/dev/null ||
+      die "the answer drops a label that Jev flagged: $(jq -c .answer "$tmp/out")"
+  fi
+  [ -n "$store" ] || die "no project for the resolution: add ios-architecture.json or a git work tree"
+  mkdir -p "$(dirname "$store")" || exit 2
+  # 1 record per decision and input path or text: a new answer replaces the old one.
+  : >"$store.$$"
+  if [ -f "$store" ]; then
+    jq -c --arg d "$id" --arg in "$input" 'select((.decision == $d and .input == $in) | not)' "$store" >"$store.$$" ||
+      { rm -f "$store.$$"; die "invalid resolution store: $store"; }
+  fi
+  jq -cn --arg d "$id" --arg ds "$dsha" --arg i "$isha" --arg in "$input" --argjson a "$ans" --arg s "$src" \
+    '{decision: $d, decision_sha256: $ds, input_sha256: $i, input: $in, answer: $a, source: $s}' |
+    tee -a "$store.$$"
+  mv "$store.$$" "$store" || exit 2
+  exit 0
+}
+
+# 1) Script pass.
+if [ "$kind" = file ]; then
+  if [ -n "$root" ]; then rel=${file#"$root"/}; else rel=$(basename "$file"); fi
+  spath=$(jq -r '.script.path // empty' "$spec")
+  scontent=$(jq -r '.script.content // empty' "$spec")
+  if { [ -n "$spath" ] && ! printf '%s\n' "$rel" | grep -qE "$spath"; } ||
+    { [ -n "$scontent" ] && ! grep -qE "$scontent" "$file"; }; then
+    result script "$(jq -c '.script.answer' "$spec")" null >"$tmp/out"
+    finish 0
+  fi
+  if [ -n "$scontent" ] && [ "$(jq -r '.script.extract // false' "$spec")" = true ]; then
+    grep -nE "$scontent" "$file" >"$tmp/content"
+  else
+    cat "$file" >"$tmp/content"
+  fi
+  jq --arg path "$rel" --rawfile content "$tmp/content" \
+    '{state: {file: {path: $path, content: $content}}, questions}' "$spec" >"$tmp/req"
+else
+  text=$*
+  matches=$(jq -r '(.script.options // {}) | to_entries[] | "\(.key)\t\(.value)"' "$spec" |
+    while IFS=$tab read -r key re; do
+      printf '%s\n' "$text" | grep -qiE "$re" && printf '%s\n' "$key"
+    done)
+  if [ -n "$matches" ] && [ "$(printf '%s\n' "$matches" | wc -l | tr -d ' ')" = 1 ]; then
+    result script "$(jq -cn --arg m "$matches" '$m')" null >"$tmp/out"
+    finish 0
+  fi
+  printf '%s' "$text" >"$tmp/content"
+  jq --rawfile content "$tmp/content" '{state: {concern: $content}, questions}' "$spec" >"$tmp/req"
+fi
+
+escalate() { # fallback reason
+  jq -c --arg d "$id" --arg r "$1" --slurpfile req "$tmp/req" '{
+    decision: $d, source: "script", answer: null, probabilities: null,
+    escalate: "fallback", fallback_tier, reason: $r,
+    request: ($req[0] + {purpose, thresholds, actions})}' "$spec" >"$tmp/out"
+  finish 3
+}
+
+# 2) A recorded resolution of this decision file and this exact input.
+dsha=$(sha256 "$spec")
+isha=$(sha256 "$tmp/req")
+if [ "$kind" = file ]; then input=$rel; else input=$text; fi
+if [ "$mode" = decide ] && [ -n "$store" ] && [ -f "$store" ]; then
+  rec=$(jq -c --arg d "$id" --arg ds "$dsha" --arg i "$isha" \
+    'select(.decision == $d and .decision_sha256 == $ds and .input_sha256 == $i
+      and (.source == "fallback" or .source == "orchestrator"))' "$store" 2>/dev/null | tail -1)
+  if [ -n "$rec" ] && ans=$(valid_answer "$(printf '%s\n' "$rec" | jq -c .answer)"); then
+    result "$(printf '%s\n' "$rec" | jq -r .source)" "$ans" null
+    exit 0
+  fi
+fi
+
+# 3) Jev, only when the profile allows it and the input is safe to send.
+leave=false
+[ -n "$root" ] && leave=$(jq -r '.code_may_leave_machine == true' "$root/ios-architecture.json" 2>/dev/null)
+[ "$leave" = true ] || escalate code_may_not_leave_machine
+grep -qE "$SECRET_VALUE_ERE" "$tmp/content" && escalate secret_in_input
+[ "$(wc -c <"$tmp/content" | tr -d ' ')" -le "$MAX_BYTES" ] || escalate input_too_large
+
+key=${TYPESAFE_API_KEY:-}
+if [ -z "$key" ]; then
+  key=$(security find-generic-password -s "${TYPESAFE_KEYCHAIN_SERVICE:-typesafe-api-key}" -w 2>/dev/null) || key=
+fi
+case $key in
+  '') escalate no_api_key ;;
+  *[!A-Za-z0-9._~+/=-]*) escalate invalid_api_key ;;
+esac
+
+jq --arg m "$MODEL" '{model: $m, state, questions}' "$tmp/req" >"$tmp/body"
+# The key goes to curl on stdin (--config -), never in argv, a file, or the output.
+code=$(printf 'header = "Authorization: Bearer %s"\n' "$key" |
+  curl --config - -sS --proto =https --connect-timeout 10 --max-time 30 --retry 1 \
+    -X POST -H 'Content-Type: application/json' --data-binary @"$tmp/body" \
+    -o "$tmp/resp" -w '%{http_code}' "$ENDPOINT" 2>/dev/null) || escalate network
+key=
+[ "$code" = 200 ] || escalate "http_$code"
+
+# 4) Thresholds. A malformed answer counts as Jev unavailable.
+jq -c --arg d "$id" --slurpfile spec "$spec" --slurpfile req "$tmp/req" '
+  $spec[0] as $s | .answers as $a | ($s.questions | keys) as $qs
+  | if all($qs[]; $a[.].type == $s.questions[.].type) | not then error("answer types") else . end
+  | (if $s.primitive == "noul" then
+      ($qs | map({key: ., value: $a[.].noul}) | from_entries) as $p
+      | if all($p[]; type == "number" and . >= 0 and . <= 1) | not then error("noul") else . end
+      | {answer: ($qs | map(select($p[.] >= $s.thresholds[.].yes))),
+         probabilities: $p,
+         decided: all($qs[]; $p[.] >= $s.thresholds[.].yes or $p[.] <= $s.thresholds[.].no)}
+    else
+      ($qs | map(select($s.questions[.].type == "choice")) | .[0]) as $q | $a[$q] as $c
+      | if ($s.questions[$q].criteria | has($c.choice | tostring)) | not then error("choice") else . end
+      | ($qs | map(select($s.questions[.].type == "noul")) | .[0]) as $g
+      | (if $g == null then null else $a[$g].noul end) as $gp
+      | if $g != null and ($gp | type != "number" or . < 0 or . > 1) then error("noul") else . end
+      | ($c.probabilities + (if $g == null then {} else {($g): $gp} end)) as $p
+      | if $g != null and $gp <= $s.thresholds[$g].no then
+          {answer: $s.no_match, probabilities: $p, decided: true}
+        else
+          {answer: $c.choice, probabilities: $p,
+           decided: (($g == null or $gp >= $s.thresholds[$g].yes)
+             and ($c.probabilities[$c.choice] // 0) >= $s.thresholds[$q][$c.choice])}
+        end
+    end) as $r
+  | {decision: $d, source: "jev", model: (.model // null), answer: $r.answer, probabilities: $r.probabilities}
+    + (if $r.decided then {} else
+        {escalate: "orchestrator", request: ($req[0] + {purpose: $s.purpose, thresholds: $s.thresholds, actions: $s.actions})}
+      end)' "$tmp/resp" >"$tmp/out" 2>/dev/null || escalate bad_response
+jq -e 'has("escalate")' "$tmp/out" >/dev/null && finish 4
+finish 0
