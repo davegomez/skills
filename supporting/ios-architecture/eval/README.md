@@ -73,6 +73,16 @@ Run `python3 -I runner.py batch pilot2 --approved-cap 8`, then `review.py pack`,
 
 `pack` writes each valid run as `<case>/d<8 hex>.md` (test results, then the patch and the final message; for a review case, the diff under review, the files the reviewer wrote, from `review.diff`, and the final message) in `/tmp/iosev-review/<stage>/`, in random order; the key and the preselected adjudication sample stay in `runs/<stage>/review/key.json`. `review` runs 1 fresh Pi per item, tools off, with the case's `rubric.md` and `task.md`. `adjudicate` sends critical fails, incomplete or unverified items, and the sample to a second model, which sees the first lines and decides the final result.
 
+## Known limit: builders cannot verify their work
+
+In the pilots, the builder's sandbox blocked its own verification. In the pilot2 I02 run, `xcodebuild build-for-testing` failed while fetching packages (`permissionDenied`), `swift test` failed while compiling `Package.swift`, `xcodebuild test` lost the simulator service, and the host policy refused a second unsandboxed build command.
+
+So a builder can hand in code that never compiled. In pilot2 I02, one test called an internal default initializer; with `@testable import`, the 14 new tests ran and passed.
+
+Both arms had the same limits, so the old/new comparison stays fair. The absolute pass rates are probably lower than in real use.
+
+Before any new paid run, let the builder resolve local packages, reach the simulator, and run more than one build or test command. Add these as positive commands to the live probe.
+
 ## Not covered
 
 No 95% interval for the paired difference; no replay cache for `check` decisions; Pi reviewer cost is not measured (subscription).
