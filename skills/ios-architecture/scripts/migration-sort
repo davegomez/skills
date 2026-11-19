@@ -12,7 +12,9 @@ Sorts each Swift file (default: every Swift file of the project) into 1 layer:
 domain, feature, service, shell, test, or none. A grep pass sorts what it can.
 For a file with no clear layer, migration-sort calls scripts/decide migration-layer <file>.
 
-Output: "<file>: <layer> (script|jev)" per file, then 1 line per pending decision.
+Output: "<file>: <layer> (<source>)" per file, then 1 line per Jev result,
+"decided: <file>: migration-layer: jev model <model-id>", then 1 line per pending decision,
+"pending: <file>: migration-layer: escalate=...; next: <action>".
 Exit status: 0 sorted, 2 usage error, 3 or 4 a pending decision (see scripts/decide).
 EOF
 }
@@ -59,6 +61,7 @@ else
 fi
 
 : >"$tmp/pending"
+: >"$tmp/decided"
 while IFS= read -r f; do
   layer=$(layer_of "$f")
   if [ -n "$layer" ]; then
@@ -68,15 +71,17 @@ while IFS= read -r f; do
   res=$("$here/decide" migration-layer "$f")
   rc=$?
   case $rc in
-    0) printf '%s: %s (%s)\n' "$f" "$(printf '%s\n' "$res" | jq -r .answer)" "$(printf '%s\n' "$res" | jq -r .source)" ;;
+    0)
+      printf '%s: %s (%s)\n' "$f" "$(printf '%s\n' "$res" | jq -r .answer)" "$(printf '%s\n' "$res" | jq -r .source)"
+      jev_line "$f" "$res" >>"$tmp/decided" ;;
     3 | 4)
-      printf '%s\n' "$res" | jq -r --arg f "$f" '"pending: \($f): \(.decision): escalate=\(.escalate)\(if .fallback_tier then " tier=" + .fallback_tier else "" end)\(if .reason then " reason=" + .reason else "" end); run scripts/decide migration-layer \($f)"' >>"$tmp/pending"
+      pending_line "$f" "$res" migration-sort >>"$tmp/pending"
       echo "$rc" >>"$tmp/rc" ;;
     *) printf 'migration-sort: decide failed: %s\n' "$f" >&2; exit 2 ;;
   esac
 done <"$tmp/files"
 
-cat "$tmp/pending"
+cat "$tmp/decided" "$tmp/pending"
 grep -qx 4 "$tmp/rc" 2>/dev/null && exit 4
 grep -qx 3 "$tmp/rc" 2>/dev/null && exit 3
 exit 0

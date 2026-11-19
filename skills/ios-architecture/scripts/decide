@@ -24,6 +24,10 @@ when the Noul is at or above its "yes" threshold. "probabilities" holds the Choi
 and the Noul.
 Jev gets only the 1 file (or the extracted lines) or the text, and only when the
 ios-architecture.json profile at or above the input sets "code_may_leave_machine": true.
+decide reads only this field of the profile; a missing profile or field counts as false.
+
+--answer takes 1 label as a JSON string for a choice decision, for example '"feature"',
+or a JSON array of the flagged labels for a noul decision, for example '[]'.
 
 --resolve records the answer of the fallback model (after exit 3) or the orchestrator
 (after exit 4) in .ios-architecture/resolutions.jsonl of the project: the folder of the

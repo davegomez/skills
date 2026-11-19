@@ -16,7 +16,9 @@ Every Swift file adds testing. Every view adds accessibility. User-facing text a
 For a file that no pattern routes, route calls scripts/decide route <file>.
 
 Output: "# <file>: <rows>" per file, then 1 line per reference file to read, then
-"skill: native-ui-patterns" when that row applies, then 1 line per pending decision.
+"skill: native-ui-patterns" when that row applies, then 1 line per applied Jev result,
+"decided: <file>: route: jev model <model-id>", then 1 line per pending decision,
+"pending: <file>: route: escalate=...; next: <action>".
 Exit status: 0 routed, 2 usage error, 3 or 4 a pending decision (see scripts/decide).
 EOF
 }
@@ -100,19 +102,22 @@ rows_for() { # file
 
 : >"$tmp/rows"
 : >"$tmp/pending"
+: >"$tmp/decided"
 while IFS= read -r f; do
   rows=$(rows_for "$f" | sort -u)
   if [ -z "$(printf '%s\n' "$rows" | grep -vx testing)" ]; then
     case $f in
-      *.md | .ios-architecture/*) ;;
+      *.md | .ios-architecture/* | ios-architecture.json) ;;
       *)
         if grep -Iq . "$f" 2>/dev/null; then
           res=$("$here/decide" route "$f")
           rc=$?
           case $rc in
-            0) rows=$(printf '%s\n%s\n' "$rows" "$(printf '%s\n' "$res" | jq -r '.answer[]')" | grep . | sort -u) ;;
+            0)
+              rows=$(printf '%s\n%s\n' "$rows" "$(printf '%s\n' "$res" | jq -r '.answer[]')" | grep . | sort -u)
+              jev_line "$f" "$res" >>"$tmp/decided" ;;
             3 | 4)
-              printf '%s\n' "$res" | jq -r --arg f "$f" '"pending: \($f): \(.decision): escalate=\(.escalate)\(if .fallback_tier then " tier=" + .fallback_tier else "" end)\(if .reason then " reason=" + .reason else "" end); run scripts/decide route \($f)"' >>"$tmp/pending"
+              pending_line "$f" "$res" route >>"$tmp/pending"
               echo "$rc" >>"$tmp/rc" ;;
             *) printf 'route: decide failed: %s\n' "$f" >&2; exit 2 ;;
           esac
@@ -126,7 +131,7 @@ done <"$tmp/files"
 
 sort -u "$tmp/rows" | grep -vx native-ui-patterns | sed 's#.*#references/&.md#'
 grep -qx native-ui-patterns "$tmp/rows" && echo 'skill: native-ui-patterns'
-cat "$tmp/pending"
+cat "$tmp/decided" "$tmp/pending"
 grep -qx 4 "$tmp/rc" 2>/dev/null && exit 4
 grep -qx 3 "$tmp/rc" 2>/dev/null && exit 3
 exit 0

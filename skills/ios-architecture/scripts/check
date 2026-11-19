@@ -24,10 +24,13 @@ A resolution that scripts/decide --resolve recorded counts as the decided answer
 flag is a violation, and a recorded clear passes.
 
 Output: 1 line per violation, "file:line: rule-id: message (references/<file>.md)",
-then 1 line per pending decision, then 1 line per suppression,
-"suppressed: file:line: rule-id: deviation <threshold-id>", then 1 line per applied
-resolution, "resolved: file: decision-id: source <fallback|orchestrator>", then a summary line.
+then 1 line per pending decision, "pending: file: decision-id: escalate=...; next: <action>",
+then 1 line per suppression, "suppressed: file:line: rule-id: deviation <threshold-id>",
+then 1 line per applied resolution, "resolved: file: decision-id: source <fallback|orchestrator>",
+then 1 line per applied Jev result, "decided: file: decision-id: jev model <model-id>",
+then the summary line, "check: <n> violations, <n> pending decisions[, ...]".
 Exit status: 0 pass, 1 violation, 2 usage error, 3 or 4 a pending decision (see scripts/decide).
+A violation exits 1 also when a decision is pending.
 EOF
 }
 
@@ -121,6 +124,7 @@ out=$tmp/out
 : >"$out"
 : >"$tmp/pending"
 : >"$tmp/resolved"
+: >"$tmp/decided"
 
 if [ $# -gt 0 ]; then
   mode=files
@@ -379,6 +383,7 @@ grep -E '\.swift$' "$tmp/changed" 2>/dev/null | grep -vE '(^|/)Package\.swift$' 
     case $rc in 0 | 4)
       src=$(printf '%s\n' "$res" | jq -r .source)
       case $src in fallback | orchestrator) printf 'resolved: %s: %s: source %s\n' "$f" "$id" "$src" >>"$tmp/resolved" ;; esac
+      jev_line "$f" "$res" >>"$tmp/decided"
       # A flag is a violation, also when another question of the decision stays open.
       printf '%s\n' "$res" | jq -r '.answer[]?' | while IFS= read -r label; do
         ref=$(jq -r --arg l "$label" '.reference[$l]' "$spec")
@@ -392,7 +397,7 @@ grep -E '\.swift$' "$tmp/changed" 2>/dev/null | grep -vE '(^|/)Package\.swift$' 
     case $rc in
       0) ;;
       3 | 4)
-        printf '%s\n' "$res" | jq -r --arg f "$f" '"\($f): pending: \(.decision): escalate=\(.escalate)\(if .fallback_tier then " tier=" + .fallback_tier else "" end)\(if .reason then " reason=" + .reason else "" end); run scripts/decide \(.decision) \($f)"' >>"$tmp/pending"
+        pending_line "$f" "$res" check >>"$tmp/pending"
         echo "$rc" >>"$tmp/rc" ;;
       *) printf 'check: decide failed: %s %s\n' "$id" "$f" >&2; echo 2 >>"$tmp/rc" ;;
     esac
@@ -428,6 +433,7 @@ cat "$tmp/pending"
 sort -u "$tmp/suppressed" >"$tmp/suppressed.list"
 cat "$tmp/suppressed.list"
 cat "$tmp/resolved"
+cat "$tmp/decided"
 nv=$(wc -l <"$out" | tr -d ' ')
 np=$(wc -l <"$tmp/pending" | tr -d ' ')
 ns=$(wc -l <"$tmp/suppressed.list" | tr -d ' ')

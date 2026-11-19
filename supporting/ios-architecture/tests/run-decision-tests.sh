@@ -80,7 +80,8 @@ expect "check: file mode runs file rules only" "$rc:$got" "1:App/Legacy/AppDeleg
 view=Packages/Features/Checkout/Sources/CheckoutFeature/CheckoutView.swift
 out=$("$S/check" "$work/good" "$view")
 expect "check: no profile gives pending fallback decisions" "$?" 3
-has "check: pending line names the decide command" "$out" "$view: pending: check-personal-data-in-log: escalate=fallback tier=medium reason=code_may_not_leave_machine; run scripts/decide check-personal-data-in-log $view"
+has "check: a fallback pending line names its next action" "$out" "pending: $view: check-personal-data-in-log: escalate=fallback tier=medium reason=code_may_not_leave_machine; next: run scripts/decide check-personal-data-in-log $view, give only its request object to a subagent of tier medium, record that answer with scripts/decide --resolve check-personal-data-in-log $view --answer <json> --source fallback, then run scripts/check again"
+hasnt "check: no decided line without Jev" "$out" "decided:"
 
 cp -R "$fx/project-good" "$work/goodjev"
 profile "$work/goodjev" true
@@ -91,7 +92,10 @@ out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/check" "$wo
 expect "check: Jev flag is a violation" "$?" 1
 has "check: Jev violation line" "$out" "$view:7: check-business-rules-in-view: Move the rule into a pure function in the domain target, and call it from the view or the model. Jev p=0.98. (references/architecture.md)"
 has "check: a flag counts when another question stays open" "$out" "$view:5: check-personal-data-in-log: Mark the number privacy: .private, or remove it from the log. Jev p=0.99. (references/security-privacy.md)"
-has "check: the open question is pending" "$out" "$view: pending: check-personal-data-in-log: escalate=orchestrator; run scripts/decide check-personal-data-in-log $view"
+has "check: an orchestrator pending line names its next action" "$out" "pending: $view: check-personal-data-in-log: escalate=orchestrator; next: run scripts/decide check-personal-data-in-log $view, decide its request object in the orchestrator, record that answer with scripts/decide --resolve check-personal-data-in-log $view --answer <json> --source orchestrator, then run scripts/check again"
+has "check: a decided line names the Jev model" "$out" "decided: $view: check-business-rules-in-view: jev model jev-1.14.0"
+has "check: a pending Jev result whose flag applies names the Jev model" "$out" "decided: $view: check-personal-data-in-log: jev model jev-1.14.0"
+expect "check: the decided lines come before the summary" "$(printf '%s\n' "$out" | tail -3 | cut -d: -f1 | paste -sd' ' -)" "decided decided check"
 
 # ---------- deviation markers ----------
 cp -R "$fx/project-deviation" "$work/dev"
@@ -142,11 +146,12 @@ printf 'struct Helper {\n    let x = 1\n}\n' >"$work/good/Helper.swift"
 reset_stub
 out=$("$S/route" "$work/good" Helper.swift)
 expect "route: unrouted file without profile is pending" "$?:$(called)" "3:no"
-has "route: unrouted pending line" "$out" "pending: Helper.swift: route: escalate=fallback tier=small reason=code_may_not_leave_machine"
+has "route: unrouted pending line names its next action" "$out" "pending: Helper.swift: route: escalate=fallback tier=small reason=code_may_not_leave_machine; next: run scripts/decide route Helper.swift, give only its request object to a subagent of tier small, record that answer with scripts/decide --resolve route Helper.swift --answer <json> --source fallback, then run scripts/route again"
 
 cp "$work/good/Helper.swift" "$work/goodjev/Helper.swift"
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/route "$S/route" "$work/goodjev" Helper.swift)
 expect "route: Jev routes an unrouted file" "$?:$(rows "$out" Helper.swift)" "0:architecture concurrency localization security-privacy testing"
+has "route: a decided line names the Jev model" "$out" "decided: Helper.swift: route: jev model jev-1.14.0"
 
 cat >"$work/good/BookCache.swift" <<'EOF'
 struct BookCache {
@@ -206,7 +211,7 @@ store=.ios-architecture/resolutions.jsonl
 lines() { if [ -f "$1" ]; then wc -l <"$1" | tr -d ' '; else echo 0; fi; }
 # resolve_all <project> <check-output> <source> <answer>: record 1 answer for each pending decision.
 resolve_all() {
-  printf '%s\n' "$2" | sed -n 's/^\([^ ]*\): pending: \([a-z-]*\):.*/\2 \1/p' | while read -r id file; do
+  printf '%s\n' "$2" | sed -n 's/^pending: \([^ ]*\): \([a-z-]*\):.*/\2 \1/p' | while read -r id file; do
     (cd "$1" && "$S/decide" --resolve "$id" "$file" --answer "$4" --source "$3" >/dev/null) || echo "resolve failed: $id $file"
   done
 }
@@ -244,7 +249,7 @@ has "resolve: the violation names the recorded source" "$out" "$view:7: check-bu
 # A stale record: the file changes, so the input hash changes and the decision escalates again.
 printf '// logger.info("changed")\n' >>"$work/res3/$view"
 out=$("$S/check" "$work/res3" "$view")
-expect "resolve: a stale record escalates again" "$?:$(printf '%s\n' "$out" | grep -c ': pending: '):$(printf '%s\n' "$out" | grep -c '^resolved:')" "3:2:0"
+expect "resolve: a stale record escalates again" "$?:$(printf '%s\n' "$out" | grep -c '^pending: '):$(printf '%s\n' "$out" | grep -c '^resolved:')" "3:2:0"
 resolve_all "$work/res3" "$out" fallback '[]' >/dev/null
 expect "resolve: a new answer replaces the record of the same file" "$(lines "$work/res3/$store")" 2
 jq -c '.decision_sha256 = ("0" * 64)' "$work/res3/$store" >"$work/stale.jsonl"
@@ -276,7 +281,7 @@ expect "resolve: exit 4 needs the orchestrator as source" "$?:$err" "2:decision 
 expect "resolve: the orchestrator answer is recorded" "$?" 0
 reset_stub
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$mixed "$S/check" "$work/res4" "$view")
-expect "resolve: exit 4 then resolve then exit 0" "$?:$(called):$(printf '%s\n' "$out" | tail -2 | paste -sd'|' -)" "0:yes:resolved: $view: check-personal-data-in-log: source orchestrator|check: 0 violations, 0 pending decisions, 1 resolved by recorded answers"
+expect "resolve: exit 4 then resolve then exit 0" "$?:$(called):$(printf '%s\n' "$out" | tail -3 | paste -sd'|' -)" "0:yes:resolved: $view: check-personal-data-in-log: source orchestrator|decided: $view: check-business-rules-in-view: jev model jev-1.14.0|check: 0 violations, 0 pending decisions, 1 resolved by recorded answers"
 expect "resolve: the rerun asks Jev only the unresolved decision" "$(cat "$STUB_LOG.calls")" business_rule_in_ui
 cp "$fx/calibration/log/age-number.swift" "$work/res4/log.swift"
 err=$(cd "$work/res4" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/decide" --resolve check-personal-data-in-log log.swift --answer '[]' --source orchestrator 2>&1)
@@ -294,6 +299,31 @@ expect "resolve: decide returns the recorded answer" "$?:$(printf '%s\n' "$out" 
 reset_stub
 out=$("$S/route" "$work/clean")
 expect "route: the resolution store has no row and no decision" "$?:$(called):$(rows "$out" "$store")" "0:no:none"
+printf '{"code_may_leave_machine": false}\n' >"$work/clean/ios-architecture.json"
+out=$("$S/route" "$work/clean")
+expect "route: the profile has no row and no decision" "$?:$(called):$(rows "$out" ios-architecture.json):$(printf '%s\n' "$out" | grep -c '^pending:')" "0:no:none:0"
+rm "$work/clean/ios-architecture.json"
+
+# ---------- existing-app profile ----------
+# An existing project holds a profile with only code_may_leave_machine.
+cp -R "$fx/project-good" "$work/existing"
+printf '{"code_may_leave_machine": true}\n' >"$work/existing/ios-architecture.json"
+reset_stub
+out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/clear "$S/check" "$work/existing" "$view")
+expect "profile: check calls Jev with an existing-app profile" "$?:$(called):$(printf '%s\n' "$out" | tail -1)" "0:yes:check: 0 violations, 0 pending decisions"
+reset_stub
+out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/decide" check-business-rules-in-view "$work/existing/$view")
+expect "profile: decide calls Jev with an existing-app profile" "$?:$(called):$(printf '%s\n' "$out" | jq -r .source)" "0:yes:jev"
+printf '{"code_may_leave_machine": false}\n' >"$work/existing/ios-architecture.json"
+reset_stub
+out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/check" "$work/existing" "$view")
+expect "profile: false in an existing-app profile escalates without a call" "$?:$(called):$(printf '%s\n' "$out" | grep -c 'reason=code_may_not_leave_machine')" "3:no:2"
+printf '{}\n' >"$work/existing/ios-architecture.json"
+reset_stub
+out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/flag "$S/decide" check-business-rules-in-view "$work/existing/$view")
+expect "profile: a profile without the field escalates without a call" "$?:$(called):$(printf '%s\n' "$out" | jq -r .reason)" "3:no:code_may_not_leave_machine"
+(cd "$work/existing" && "$S/decide" --resolve check-business-rules-in-view "$view" --answer '[]' --source fallback >/dev/null)
+expect "profile: the resolution store is in the folder of an existing-app profile" "$?:$(lines "$work/existing/$store")" "0:1"
 
 # ---------- migration-sort ----------
 mkdir "$work/legacy"
@@ -301,10 +331,11 @@ cp "$fx/calibration/layer/"*.swift "$work/legacy/"
 out=$("$S/migration-sort" "$work/legacy")
 expect "migration-sort: exit 3 with 1 pending file" "$?" 3
 expect "migration-sort: grep pass" "$(printf '%s\n' "$out" | grep -v '^pending' | paste -sd' ' -)" "APIClient.swift: service (script) AppDelegate.swift: shell (script) CartTotalsTests.swift: test (script) Colors.generated.swift: none (script) Money.swift: domain (script) OrdersViewController.swift: feature (script)"
-has "migration-sort: ambiguous file goes to decide" "$out" "pending: CheckoutViewController.swift: migration-layer: escalate=fallback tier=small"
+has "migration-sort: ambiguous file goes to decide" "$out" "pending: CheckoutViewController.swift: migration-layer: escalate=fallback tier=small reason=code_may_not_leave_machine; next: run scripts/decide migration-layer CheckoutViewController.swift, give only its request object to a subagent of tier small, record that answer with scripts/decide --resolve migration-layer CheckoutViewController.swift --answer <json> --source fallback, then run scripts/migration-sort again"
 profile "$work/legacy" true
 out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/choice "$S/migration-sort" "$work/legacy" CheckoutViewController.swift)
-expect "migration-sort: Jev sorts the ambiguous file" "$?:$out" "0:CheckoutViewController.swift: feature (jev)"
+expect "migration-sort: Jev sorts the ambiguous file and names the model" "$?:$out" "0:CheckoutViewController.swift: feature (jev)
+decided: CheckoutViewController.swift: migration-layer: jev model jev-1.14.0"
 
 # ---------- decide ----------
 d=$work/dp

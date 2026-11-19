@@ -46,6 +46,24 @@ change_set() {
   done
 }
 
+# Print the "pending:" line of escalated decide result $2 for file $1, with its next action; $3 is the calling script.
+pending_line() {
+  printf '%s\n' "$2" | jq -r --arg f "$1" --arg s "$3" '
+    "pending: \($f): \(.decision): escalate=\(.escalate)"
+    + (if .fallback_tier then " tier=\(.fallback_tier)" else "" end)
+    + (if .reason then " reason=\(.reason)" else "" end)
+    + "; next: run scripts/decide \(.decision) \($f), "
+    + (if .escalate == "fallback" then "give only its request object to a subagent of tier \(.fallback_tier)"
+       else "decide its request object in the orchestrator" end)
+    + ", record that answer with scripts/decide --resolve \(.decision) \($f) --answer <json> --source \(.escalate)"
+    + ", then run scripts/\($s) again"'
+}
+
+# Print the "decided:" line of decide result $2 for file $1 when Jev gave the result.
+jev_line() {
+  printf '%s\n' "$2" | jq -r --arg f "$1" 'select(.source == "jev") | "decided: \($f): \(.decision): jev model \(.model // "unknown")"'
+}
+
 # Print the Swift package target that holds path $1, or nothing.
 target_of() {
   printf '%s\n' "$1" | sed -n 's#^\(.*/\)\{0,1\}Sources/\([^/]*\)/.*#\2#p'
