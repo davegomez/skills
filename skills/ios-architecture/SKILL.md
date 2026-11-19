@@ -34,14 +34,26 @@ When 2 goals conflict, the higher priority wins.
 
 Examples: Do not cache a token in `UserDefaults` to save a Keychain read. Do not draw a custom control in `Canvas` if it removes VoiceOver support.
 
+## Scripts
+
+The scripts are in the `scripts/` folder of this skill's base directory. Run each one as `<skill-dir>/scripts/<name>`, where `<skill-dir>` is that base directory. Each script has `--help`. A script result wins over your own judgment.
+
+**Escalation.** `route`, `check`, and `migration-sort` exit 3 or 4 when a decision is pending, and print 1 `pending:` line for each. Run the `scripts/decide` command that the line names to get the JSON result with the `request` object.
+
+- **Exit 3** (`escalate: fallback`): start a subagent on the smallest model of your own model family for `fallback_tier: small`, or on the mid-size model of your family for `fallback_tier: medium`. Give it only the `request` object, and require the answer in the same labels. The subagent answers, not the main context.
+- **Exit 4** (`escalate: orchestrator`): the orchestrator decides with the `request`, its thresholds, and its actions.
+- **Record.** Record each answer with `scripts/decide --resolve <decision-id> <file|text> --answer <json> --source fallback|orchestrator`, then run the script again. Record only the answer that the fallback subagent or the orchestrator gave, in the labels of the `request`. The record goes to `.ios-architecture/resolutions.jsonl`; keep that file in the change. `check` prints each recorded answer that it applies as a `resolved:` line.
+- Reach the TypeSafe API only through `scripts/decide`, and keep each file in `decisions/` as it is. Never call the API directly, and never change a decision file to get a different answer.
+
 ## Process
 
 1. **Gate.** Load this skill in every agent and subagent before it reads or edits iOS code. When you delegate iOS work, make this the first line of the subagent prompt: `Invoke the ios-architecture skill before you read or edit code.` The gate is complete when the skill is loaded in each context that edits code.
-2. **Route.** List every concern the change touches, and match each to a row of the route table. The step is complete when each concern has a row or is marked _out of bounds_.
-3. **Read.** Read each matched reference in full, and only the matched references.
-4. **Apply.** Write or review the change against the rules of each matched reference. Change a default only when a _threshold_ in [deviations](references/deviations.md) applies, and name that threshold in the reply. A default change with no matching threshold is _out of bounds_.
-5. **Out of bounds.** For each out-of-bounds concern, research the industry standard in primary sources: Apple developer documentation, the Human Interface Guidelines, Swift Evolution proposals, and WWDC sessions. Choose the pattern that keeps the invariants and follows the priority order. Write a short _decision record_ in the repository's decision record folder, for example `docs/adr/`. Record the problem, the pattern, the sources, and the priority the pattern serves. The step is complete when each out-of-bounds concern has a decision record with sources, named in the reply.
-6. **Check.** Before you report done, check the diff against every rule of each matched reference. The work is complete when each rule is met, or the reply names the rule and why it does not apply.
+2. **Scaffold.** For a new project, ask the user for each field of the _project profile_ (`scripts/scaffold --help`), including whether code can leave the machine (`code_may_leave_machine`). Write the answers to `ios-architecture.json` in the empty project folder, then run `scripts/scaffold <project-dir>`. For a new feature, run `scripts/new-feature <project-dir> <Name>`. These scripts write the project and feature files; you do not write them by hand.
+3. **Route.** Before you edit, run `scripts/route <project-dir> <file>...` with each existing file the change touches and each planned new path. After you edit, run `scripts/route <project-dir>` with no files, and read each new reference it prints. List each concern the change touches that the output does not cover, and match it to a row of the route table. For a concern with no row, run `scripts/decide out-of-bounds <concern>`: use the row it answers, or mark the concern _out of bounds_ when it answers `none`. The step is complete when each concern has a row or is marked _out of bounds_, and you read each reference that the run after the edit prints.
+4. **Read.** Read each reference that `route` prints or a row matches, in full, and only those references.
+5. **Apply.** Write or review the change against the rules of each matched reference. Change a default only when a _threshold_ in [deviations](references/deviations.md) applies, and name that threshold in the reply. A default change with no matching threshold is _out of bounds_.
+6. **Out of bounds.** For each out-of-bounds concern, research the industry standard in primary sources: Apple developer documentation, the Human Interface Guidelines, Swift Evolution proposals, and WWDC sessions. Choose the pattern that keeps the invariants and follows the priority order. Write a short _decision record_ in the repository's decision record folder, for example `docs/adr/`. Record the problem, the pattern, the sources, and the priority the pattern serves. The step is complete when each out-of-bounds concern has a decision record with sources, named in the reply.
+7. **Check.** Before you report done, run `scripts/check <project-dir>`, and check the diff against each rule of each matched reference that the script does not examine (`scripts/check --rules` lists the rules it examines). The work is complete when `check` exits 0, and each other rule is met or the reply names the rule and why it does not apply.
 
 ## Route table
 
@@ -63,6 +75,6 @@ Examples: Do not cache a token in `UserDefaults` to save a Keychain read. Do not
 | Launch time, scrolling, images, memory, performance budgets | [performance](references/performance.md) |
 | Purchases, entitlements, analytics, feature flags | [purchases and seams](references/purchases-seams.md) |
 | Versions, release builds, TestFlight, App Store submission | [release](references/release.md) |
-| An existing app, legacy code, CocoaPods, Swift 5, UIKit screens, a port from another technology | [migration](references/migration.md) |
+| An existing app, legacy code, CocoaPods, Swift 5, UIKit screens, a port from another technology | [migration](references/migration.md); run `scripts/migration-sort <project-dir>` first |
 | A change to a default, a choice between patterns or stores | [deviations](references/deviations.md) |
 | Screen layout, platform UI conventions, flow design | the `native-ui-patterns` skill |
