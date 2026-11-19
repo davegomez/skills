@@ -5,25 +5,26 @@
   python3 -I runner.py batch <stage> --approved-cap <usd>       every planned unit, pairs reserved before they start
   python3 -I runner.py selftest                                 offline policy checks
 """
-import json, os, random, re, secrets, shutil, signal, subprocess, sys, tarfile, threading, time
+import json, os, random, re, secrets, shlex, shutil, signal, subprocess, sys, tarfile, threading, time
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import (CASES, EVAL, OUT, REPO, SCRATCH, SKILL_SRC, Redactor, cfg, case_dirs, changed_files, die, find_case, git,
-                    is_review, load_case, lock, make_work, manifest, patch_of, sha256_bytes, snapshot, tree_files, tree_sha)
+                    is_review, load_case, lock, make_work, manifest, patch_of, sha256_bytes, simctl, snapshot, tree_files, tree_sha)
 import grade
 
 ARMS = ("old", "new", "none")
-WORK, TMP, PLUGIN, BIN, LOG, ZDOT = (SCRATCH / n for n in ("w/work", "t", "plugin", "bin", "log", "z"))
+WORK, TMP, PLUGIN, BIN, LOG, ZDOT, DEV_HOME = (SCRATCH / n for n in ("w/work", "t", "plugin", "bin", "log", "z", "h"))
 REPO_GIT = WORK.parent / ".git"  # the repository of a case with an empty fixture (make_work)
+# CFFIXED_USER_HOME of the builder: Xcode and SwiftPM put DerivedData and their caches here, not in the real home.
+SIM_SET = DEV_HOME / "Library/Developer/CoreSimulator/Devices"  # the run's own simulator device set
 SKILL_DIR = PLUGIN / "skills" / "ios-architecture"
 SKILL_NAME = "skills:ios-architecture"  # plugin "skills", skill "ios-architecture"
 ARMS_DIR = OUT / "arms"
 SCRIPTS = re.compile(r"scripts/(route|check|decide|scaffold|new-feature|migration-sort)\b")
 BUILD_TOOLS = re.compile(r"\b(xcodebuild|swift (?:build|test)|xcrun simctl)\b")
-# Unsandboxed commands the host allows: 1 build or simulator tool, no shell syntax that could chain a second command.
-UNSANDBOXED = re.compile(r"(?:xcodebuild|xcrun (?:simctl|xcresulttool|swift)|swift (?:build|test|package))(?:\s+[^;&|`$<>(){}\\\n\r]*)?")
+FILTERS = ("tail", "head", "grep")  # the only commands an unsandboxed xcodebuild may pipe into
 PROVIDER_ERROR = re.compile(r"API Error|authentication|unauthori[sz]ed|invalid api key|credit balance|billing|overloaded|rate limit|not logged in|please run /login", re.I)
 
 
@@ -101,14 +102,53 @@ cat "$out"; rm -f "$out"; exit $rc
     (BIN / "curl").chmod(0o755)
 
 
+def write_tool_shims():
+    """PATH shims so build tools work in the OS sandbox, which forbids a nested sandbox-exec: SwiftPM's manifest and macro
+    sandboxes are switched off (the code still runs in the OS sandbox), and xcodebuild and simctl use the run's device set.
+    A convenience, not a boundary: /usr/bin/xcodebuild bypasses them."""
+    BIN.mkdir(parents=True, exist_ok=True)
+    shims = {"xcodebuild": f"exec /usr/bin/xcodebuild -IDEPackageSupportDisableManifestSandbox=YES -DVTSimulatorSetLocation='{SIM_SET}' "
+                           'SWIFTC_DISABLE_SANDBOX=YES "$@"',
+             "swift": 'case $1 in build|test|run|package) s=$1; shift; exec /usr/bin/swift "$s" --disable-sandbox "$@";; esac\n'
+                      'exec /usr/bin/swift "$@"',
+             "xcrun": f'case $1 in simctl) shift; exec /usr/bin/xcrun simctl --set \'{SIM_SET}\' "$@";; xcodebuild) shift; exec \'{BIN}/xcodebuild\' "$@";; esac\n'
+                      'exec /usr/bin/xcrun "$@"'}
+    for name, body in shims.items():
+        (BIN / name).write_text(f"#!/bin/sh\n{body}\n"); (BIN / name).chmod(0o755)
+
+
+def user_temp() -> Path:
+    """The per-user temp folder (/var/folders/.../T). xcodebuild and Swift Build write there whatever TMPDIR says."""
+    return Path(subprocess.run(["getconf", "DARWIN_USER_TEMP_DIR"], capture_output=True, text=True, check=True).stdout.strip())
+
+
+def make_run_simulator(case: dict):
+    """1 simulator for the builder in the run's own device set; the shims make it the only one xcodebuild and simctl see.
+    Config simulator.udid (offline tests) skips it, as it skips the grading simulator."""
+    sim = cfg()["simulator"]
+    if sim.get("udid"): return
+    SIM_SET.mkdir(parents=True, exist_ok=True)
+    device = run_device(case)
+    simctl("--set", str(SIM_SET), "create", device, device, sim["runtime"])  # named after its type, as on a fresh Mac
+
+
+def drop_run_simulators():
+    if SIM_SET.is_dir():
+        simctl("--set", str(SIM_SET), "shutdown", "all", check=False); simctl("--set", str(SIM_SET), "delete", "all", check=False)
+
+
 def sandbox_settings(arm: str) -> dict:
     """Reads are open except denyRead. The run's folders (SCRATCH) sit under no denied root, so no allowRead carve-out is needed:
-    a denied /tmp blocks every path spelled through that symlink, allowRead or not. Writes: cwd (by default), git, tmp, and the curl log."""
+    a denied /tmp blocks every path spelled through that symlink, allowRead or not. Writes: cwd (by default), git, tmp, the curl log,
+    the builder's home for tools (DEV_HOME), and the per-user temp folder, which xcodebuild and Swift Build need (they ignore TMPDIR).
+    Mach lookups to CoreSimulator let a sandboxed xcodebuild or simctl find the run's simulator."""
     c = cfg()
     deny = sorted({p for d in (Path.home(), Path("/tmp"), Path("/Volumes"), REPO, OUT) for p in both(d)})
     return {"sandbox": {"enabled": True, "autoAllowBashIfSandboxed": True, "allowUnsandboxedCommands": True,
-                        "network": {"allowLocalBinding": True, "allowedDomains": [c["jev"]["host"]] if arm == "new" else []},
-                        "filesystem": {"denyRead": deny, "allowWrite": both(LOG) + both(REPO_GIT) + both(TMP)}}}
+                        "network": {"allowLocalBinding": True, "allowedDomains": [c["jev"]["host"]] if arm == "new" else [],
+                                    "allowMachLookup": ["com.apple.CoreSimulator.*"]},
+                        "filesystem": {"denyRead": deny,
+                                       "allowWrite": both(LOG) + both(REPO_GIT) + both(TMP) + both(DEV_HOME) + both(user_temp())}}}
 
 
 def inside(path, *roots) -> bool:
@@ -118,16 +158,29 @@ def inside(path, *roots) -> bool:
 
 
 def unsandboxed_ok(cmd: str) -> bool:
-    if "\n" in cmd or "\r" in cmd or not UNSANDBOXED.fullmatch(cmd.strip()): return False
-    for tok in cmd.split():
-        v = tok.split("=", 1)[-1].strip("'\"")
-        if ".." in v or v.startswith("~"): return False
-        if v.startswith("/") and not inside(v, WORK, TMP) and not v.startswith(("/Applications/Xcode", "/dev/null")): return False
+    """1 xcodebuild command (simulator tests need it: the sandbox has no pseudo-terminal), optionally `2>&1` and 1 pipe into
+    tail, head, or grep. Any other shell operator, expansion, or path out of the run's folders is refused."""
+    if "\n" in cmd or "\r" in cmd: return False
+    try:  # shlex splits unquoted operators into their own tokens; operator characters inside a word were quoted
+        lex = shlex.shlex(cmd, posix=True, punctuation_chars=True); lex.whitespace_split, lex.commenters = True, ""
+        toks = list(lex)
+    except ValueError: return False
+    k = toks.index("|") if "|" in toks else len(toks)
+    head, pipe = toks[:k], toks[k + 1:]
+    if head[-3:] == ["2", ">&", "1"]: head = head[:-3]
+    if not head or head[0] != "xcodebuild" or (k < len(toks) and (not pipe or pipe[0] not in FILTERS)): return False
+    for tok in head + pipe:
+        v = tok.split("=", 1)[-1]
+        if set(tok) <= set("();<>|&") or set(tok) & set("$`{}") or ".." in v or v.startswith("~"): return False
+        if v.startswith("/") and not inside(v, WORK, TMP, DEV_HOME) and not v.startswith(("/Applications/Xcode", "/dev/null")): return False
     return True
 
 
 DENY_NET = "Network access is not available in this environment."
-DENY_UNSANDBOXED = "Only 1 xcodebuild, swift, or xcrun command on this project can run outside the sandbox."
+DENY_UNSANDBOXED = ("Outside the sandbox, each call may run only 1 xcodebuild command (for simulator tests), optionally followed by "
+                    "`2>&1 | tail`, `| head`, or `| grep`: no `$`, `;`, `&&`, `cd`, `..`, `~`, or paths outside the working directory. "
+                    "Run `cd` in its own call. Everything else, including xcodebuild build, swift build, and swift test, runs in the sandbox. "
+                    "The simulator of this run is in `xcrun simctl list devices`.")
 DENY_READ = "Files outside the working directory are not available here."
 DENY_WRITE = "Only files in the working directory can change."
 
@@ -167,7 +220,7 @@ def builder_env(arm: str, key: str | None) -> dict:
     b = cfg()["builder"]
     env = {k: os.environ[k] for k in ("HOME", "USER", "LOGNAME", "LANG", "TERM") if k in os.environ}
     env |= {"PATH": f"{BIN}:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin", "SHELL": "/bin/zsh", "ZDOTDIR": str(ZDOT),
-            "CLAUDE_CODE_TMPDIR": str(TMP), "GIT_CONFIG_GLOBAL": str(SCRATCH / "gitconfig"), "GIT_CONFIG_NOSYSTEM": "1",
+            "CLAUDE_CODE_TMPDIR": str(TMP), "CFFIXED_USER_HOME": str(DEV_HOME), "GIT_CONFIG_GLOBAL": str(SCRATCH / "gitconfig"), "GIT_CONFIG_NOSYSTEM": "1",
             "TYPESAFE_KEYCHAIN_SERVICE": "ios-eval-no-keychain",
             "ANTHROPIC_DEFAULT_HAIKU_MODEL": b["fallback_small"], "ANTHROPIC_DEFAULT_SONNET_MODEL": b["fallback_medium"],
             "ANTHROPIC_DEFAULT_OPUS_MODEL": b["model"]}
@@ -183,9 +236,10 @@ def jev_key() -> str:
 
 
 def reset_scratch():
-    for d in (WORK.parent, TMP, PLUGIN, BIN, LOG, ZDOT):
+    drop_run_simulators()  # left by a killed run
+    for d in (WORK.parent, TMP, PLUGIN, BIN, LOG, ZDOT, DEV_HOME):
         shutil.rmtree(d, ignore_errors=True)
-    for d in (TMP, LOG, ZDOT): d.mkdir(parents=True)
+    for d in (TMP, LOG, ZDOT, DEV_HOME): d.mkdir(parents=True)
     (SCRATCH / "gitconfig").write_text("[user]\n\tname = Developer\n\temail = developer@example.invalid\n[commit]\n\tgpgsign = false\n")
 
 
@@ -345,7 +399,7 @@ def run_one(stage: str, unit: dict, arm: str, attempt: int = 1, key: str | None 
     reset_scratch()
     make_work(case, WORK, unit.get("variant"))
     skill_sha = install(arm)
-    write_curl_wrapper(c["jev"]["max_calls_per_run"], c["jev"]["host"])
+    write_curl_wrapper(c["jev"]["max_calls_per_run"], c["jev"]["host"]); write_tool_shims(); make_run_simulator(case)
     text = (case["dir"] / "task.md").read_text()
     before, start_tree = tree_sha(WORK), snapshot(WORK) if is_review(case) else None
     redact = Redactor(key)
@@ -353,7 +407,7 @@ def run_one(stage: str, unit: dict, arm: str, attempt: int = 1, key: str | None 
     run = execute(build_cmd(arm, c["caps"]["run_usd"], b["model"], b["effort"]), builder_env(arm, key), text, arm,
                   rdir / "stream.jsonl", rdir / "stderr.txt", c["caps"]["wall_s"], redact)
     stop = now()
-    kill_by_path(WORK, TMP)
+    kill_by_path(WORK, TMP); drop_run_simulators()
     after = tree_sha(WORK)
     meta = parse_stream(rdir / "stream.jsonl")
     if (LOG / "curl.log").exists(): (rdir / "curl.log").write_text(redact((LOG / "curl.log").read_text()))
@@ -523,7 +577,8 @@ def make_plan(stage: str) -> dict:
     """Pilot: 1 old/new pair per case (the I05-type case on its clean variant). Main: 6 pairs per case (seeded variant),
     2 clean pairs per review case, 1 control run per case. Old/new order balanced within case; units shuffled.
     A stage with "arms": 1 unit per case with those arms, block = the stage name (no clash with another stage's run ids),
-    and with "like": <stage>, each case's variant from that stage's plan, so the runs compare like for like."""
+    and with "like": <stage>, each case's variant from that stage's plan, so the runs compare like for like.
+    A stage with "cases": only those cases."""
     seed = secrets.randbits(32)
     rng, units = random.Random(seed), []
     st = cfg()["stages"][stage]
@@ -531,8 +586,9 @@ def make_plan(stage: str) -> dict:
     if "like" in st and not like_p.exists(): die(f"stage {stage} copies variants from {st['like']}, but {like_p} is missing")
     like = {u["case"]: u["variant"] for u in json.loads(like_p.read_text())["units"]} if "like" in st else {}
     if not set(st.get("arms", ARMS)) <= set(ARMS) or st.get("arms") == []: die(f"stage {stage}: arms must be a non-empty subset of {ARMS}")
-    for d in case_dirs():
-        case = load_case(d)
+    cases = [load_case(d) for d in case_dirs()]
+    if "cases" in st and (not st["cases"] or set(st["cases"]) - {c["id"] for c in cases}): die(f"stage {stage}: cases must name existing cases")
+    for case in (c for c in cases if c["id"] in st.get("cases", [c["id"]])):
         rv = is_review(case)
         if like and case["id"] not in like: die(f"case {case['id']} is not in the plan of {st['like']}")
         if "arms" in st:
@@ -593,9 +649,24 @@ DENIED = re.compile("Operation not permitted|Permission denied|<sandbox_violatio
                     + "|".join(map(re.escape, (DENY_NET, DENY_UNSANDBOXED, DENY_READ, DENY_WRITE))), re.I)  # zsh says "operation not permitted"
 
 
-def live_probes(arm: str) -> list[dict]:
+def run_device(case: dict | None = None) -> str:
+    return (case or {}).get("toolchain", {}).get("simulator_device_type") or cfg()["simulator"]["device_type"]
+
+
+def write_probe_package():
+    """A tiny Swift package in the work folder for the build probes: 1 library and 1 Swift Testing test."""
+    pkg = WORK / "ProbeKit"
+    for d in ("Sources/ProbeKit", "Tests/ProbeKitTests"): (pkg / d).mkdir(parents=True, exist_ok=True)
+    (pkg / "Package.swift").write_text('// swift-tools-version: 6.0\nimport PackageDescription\n\nlet package = Package(name: "ProbeKit", '
+                                       'targets: [.target(name: "ProbeKit"), .testTarget(name: "ProbeKitTests", dependencies: ["ProbeKit"])])\n')
+    (pkg / "Sources/ProbeKit/ProbeKit.swift").write_text("public func probe() -> Int { 1 }\n")
+    (pkg / "Tests/ProbeKitTests/ProbeKitTests.swift").write_text("import Testing\nimport ProbeKit\n\n@Test func probeIsOne() { #expect(probe() == 1) }\n")
+
+
+def live_probes(arm: str, device: str | None = None) -> list[dict]:
     """The shell commands of the live probe with the outcome each must have in this arm. An allowed result must print 'out'
-    when it is set; a command with sandbox False runs through the host-approved unsandboxed path, as builds do."""
+    when it is set; a command with sandbox False runs through the host-approved unsandboxed path, as simulator tests do.
+    The builds run in the sandbox, in the order a builder verifies its work: SwiftPM, then xcodebuild twice, then a simulator build."""
     def p(cmd, want, out=None, sandbox=True): return {"cmd": cmd, "want": want, "out": out, "sandbox": sandbox}
     rows = [p("ls ~", "denied"), p("cat ~/.claude/CLAUDE.md", "denied"), p(f"ls {REPO}", "denied"), p(f"ls {OUT}", "denied"),
             p("ls /tmp", "denied"), p("ls /Volumes", "denied"),
@@ -604,7 +675,13 @@ def live_probes(arm: str) -> list[dict]:
             p("echo probe > probe.txt && cat probe.txt", "allowed", "(?m)^probe$"),
             p('echo probe > "$TMPDIR/probe.txt" && cat "$TMPDIR/probe.txt"', "allowed", "(?m)^probe$"),
             p("git status --short", "allowed"), p("git config --get user.name", "allowed", "(?m)^Developer$"),
-            p("swift --version", "allowed", r"Swift version"), p("xcodebuild -version", "allowed", r"Xcode \d", sandbox=False)]
+            p("swift --version", "allowed", r"Swift version"),
+            p("swift build --package-path ProbeKit 2>&1 | tail -n 1", "allowed", r"Build complete!"),
+            p("swift test --package-path ProbeKit 2>&1 | tail -n 1", "allowed", r"Test run with 1 test .*passed"),
+            p("xcodebuild -version", "allowed", r"Xcode \d"), p("xcodebuild -version", "allowed", r"Xcode \d"),
+            p(f"(cd ProbeKit && xcodebuild build -scheme ProbeKit-Package -destination 'platform=iOS Simulator,name={device or run_device()}' "
+              "2>&1 | tail -n 3)", "allowed", r"\*\* BUILD SUCCEEDED \*\*"),
+            p("xcodebuild -version", "allowed", r"Xcode \d", sandbox=False)]
     if arm != "none": rows += [p(f"ls {SKILL_DIR}", "allowed", "SKILL.md"), p(f"touch {SKILL_DIR}/probe.txt", "denied")]
     if arm == "new":
         rows += [p(f"{SKILL_DIR}/scripts/route --help", "allowed", "Usage: route"),
@@ -648,12 +725,15 @@ def outcome(probe: dict, call: dict | None) -> str:
 
 
 def probe_table(probes: list[dict], calls: list[dict]) -> list[dict]:
-    """Each probe against the first Bash call of the same command and sandbox mode; ok when the outcome is the expected one."""
+    """Each probe against the first unused Bash call of the same command and sandbox mode (a probe listed twice needs 2 calls);
+    ok when the outcome is the expected one."""
     def norm(s): return " ".join(str(s).split())
-    rows = []
+    rows, used = [], set()
     for x in probes:
-        call = next((c for c in calls if c["name"] == "Bash" and norm(c["input"].get("command", "")) == norm(x["cmd"])
-                     and bool(c["input"].get("dangerouslyDisableSandbox")) != x["sandbox"]), None)
+        i = next((i for i, c in enumerate(calls) if i not in used and c["name"] == "Bash" and norm(c["input"].get("command", "")) == norm(x["cmd"])
+                  and bool(c["input"].get("dangerouslyDisableSandbox")) != x["sandbox"]), None)
+        used.add(i)
+        call = calls[i] if i is not None else None
         got = outcome(x, call)
         rows.append({"cmd": x["cmd"], "sandbox": x["sandbox"], "want": x["want"], "got": got, "ok": got == x["want"],
                      "result": ((call or {}).get("text") or "")[:200]})
@@ -677,9 +757,10 @@ def isolation(case_id: str | None, live: bool):
     key = jev_key() if live else "probe-key-not-real"  # the live probe makes 1 real decide call in the new arm
     for arm in ARMS:
         reset_scratch(); make_work(case, WORK); skill = install(arm)
-        write_curl_wrapper(1 if live else c["jev"]["max_calls_per_run"], c["jev"]["host"])
+        write_curl_wrapper(1 if live else c["jev"]["max_calls_per_run"], c["jev"]["host"]); write_tool_shims()
+        if live: make_run_simulator(case); write_probe_package()
         idir = OUT / "isolation" / arm; shutil.rmtree(idir, ignore_errors=True); idir.mkdir(parents=True)
-        probes = live_probes(arm) if live else []
+        probes = live_probes(arm, run_device(case)) if live else []
         if live and arm == "new":  # a tiny synthetic file in a project that lets code leave the machine
             (WORK / "Probe.swift").write_text("func load() throws -> Int { 1 }\nlet value = try? load()\n")
             (WORK / "ios-architecture.json").write_text('{"code_may_leave_machine": true}\n')
@@ -687,8 +768,8 @@ def isolation(case_id: str | None, live: bool):
             else (c["builder"]["model"], c["builder"]["effort"], c["caps"]["run_usd"], "/context")
         env = builder_env(arm, key if arm == "new" else None)
         redact = Redactor(key)
-        execute(build_cmd(arm, budget, model, effort), env, prompt, arm, idir / "stream.jsonl", idir / "stderr.txt", 180 if live else 120, redact)
-        kill_by_path(WORK, TMP)
+        execute(build_cmd(arm, budget, model, effort), env, prompt, arm, idir / "stream.jsonl", idir / "stderr.txt", 420 if live else 120, redact)
+        kill_by_path(WORK, TMP); drop_run_simulators()
         m = parse_stream(idir / "stream.jsonl")
         tables = context_tables(m["final_text"])
         report["arms"][arm] = {"skill_manifest_sha256": skill, "cwd": (m["init"] or {}).get("cwd"), "model": (m["init"] or {}).get("model"),
@@ -753,6 +834,19 @@ def policy_probes() -> list[dict]:
              ("Bash", {"command": "xcodebuild test\ncat /etc/hosts", "dangerouslyDisableSandbox": True}, "none", False),
              ("Bash", {"command": f"xcodebuild -workspace {REPO}/x.xcworkspace build", "dangerouslyDisableSandbox": True}, "none", False),
              ("Bash", {"command": "cat ~/.zshrc", "dangerouslyDisableSandbox": True}, "none", False),
+             ("Bash", {"command": "xcodebuild test -workspace S.xcworkspace -scheme S -destination 'platform=iOS Simulator,name=iPhone 17 Pro' "
+                                  '2>&1 | grep -E "error:|\\*\\* TEST (FAILED|SUCCEEDED)"', "dangerouslyDisableSandbox": True}, "new", True),
+             ("Bash", {"command": f"xcodebuild test -scheme S -resultBundlePath {DEV_HOME}/r.xcresult 2>&1|tail -n 40", "dangerouslyDisableSandbox": True}, "old", True),
+             ("Bash", {"command": "SIM=$(xcrun simctl list devices) && xcodebuild test -destination id=$SIM", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "xcodebuild test -derivedDataPath $TMPDIR/dd", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "xcodebuild test 2>&1 | cat ~/.zshrc", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "xcodebuild test 2>&1 | grep x /Users/x/.zshrc", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "xcodebuild test 2>&1 | tail | sh", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "xcodebuild test > ../out.txt", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "xcodebuild test -project {a,/Users/x}/p.xcodeproj", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "cd Packages/X && xcodebuild test", "dangerouslyDisableSandbox": True}, "new", False),
+             ("Bash", {"command": "swift test", "dangerouslyDisableSandbox": True}, "new", False),  # SwiftPM runs in the sandbox
+             ("Bash", {"command": "xcrun simctl erase all", "dangerouslyDisableSandbox": True}, "new", False),
              ("WebFetch", {"url": "https://example.com"}, "new", False)]
     for tool, inp, arm, want in cases:
         got = policy(tool, inp, arm)[0]

@@ -31,6 +31,13 @@
       "arms": ["new"],
       "like": "pilot",
       "note": "The tasks of I03, I04, I05, and I06 in the new runs have 1 added sentence: Code from this project may be sent to external services."
+    },
+    "pilot3": {
+      "cap_usd": 3,
+      "arms": ["new"],
+      "cases": ["I03"],
+      "like": "pilot",
+      "note": "The first run in which the builder can resolve packages, build, and test in its sandbox (F38)."
     }
   },
   "simulator": {

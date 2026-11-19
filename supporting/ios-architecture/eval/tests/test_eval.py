@@ -483,13 +483,56 @@ class Units(unittest.TestCase):
             fs = runner.sandbox_settings(arm)["sandbox"]["filesystem"]
             self.assertNotIn("allowRead", fs)
             for d in (Path.home(), "/tmp", "/private/tmp", "/Volumes", runner.REPO, runner.OUT): self.assertIn(str(d), fs["denyRead"])
-            for d in (runner.WORK, runner.REPO_GIT, runner.TMP, runner.SKILL_DIR, runner.SCRATCH / "gitconfig"):
+            for d in (runner.WORK, runner.REPO_GIT, runner.TMP, runner.SKILL_DIR, runner.SCRATCH / "gitconfig", runner.DEV_HOME):
                 self.assertFalse(runner.inside(d, *fs["denyRead"]), f"{d} is under a denied root")
-            self.assertTrue({str(runner.TMP), str(runner.REPO_GIT), str(runner.LOG)} <= set(fs["allowWrite"]))
+            self.assertTrue({str(runner.TMP), str(runner.REPO_GIT), str(runner.LOG), str(runner.DEV_HOME)} <= set(fs["allowWrite"]))
+            self.assertIn(os.path.realpath(runner.user_temp()), fs["allowWrite"])  # xcodebuild and Swift Build ignore TMPDIR
+            self.assertEqual(runner.sandbox_settings(arm)["sandbox"]["network"]["allowMachLookup"], ["com.apple.CoreSimulator.*"])
+        self.assertEqual(runner.builder_env("old", None)["CFFIXED_USER_HOME"], str(runner.DEV_HOME))  # tool caches stay in the run
         self.assertEqual(runner.sandbox_settings("new")["sandbox"]["network"]["allowedDomains"], ["api.typesafe.ai"])
         names = [p["cmd"] for p in runner.live_probes("new")]
         self.assertTrue(any("scripts/decide" in n for n in names) and not any("scripts/" in p["cmd"] for p in runner.live_probes("old")))
         self.assertFalse(any(str(runner.SKILL_DIR) in p["cmd"] for p in runner.live_probes("none")))
+
+    def test_stage_cases_list_limits_the_plan(self):
+        import runner
+        from unittest import mock
+        out = Path(tempfile.mkdtemp(prefix="iosev-plan-"))
+        c = json.loads((EVAL / "config.json").read_text())
+        c["stages"]["p3"] = {"cap_usd": 3, "arms": ["new"], "cases": ["T00"], "like": "pilot"}
+        c["stages"]["bad"] = {"cap_usd": 3, "arms": ["new"], "cases": ["T00", "X99"]}
+        toy = [TESTS / "fixtures/cases/R00", TESTS / "fixtures/cases/T00"]
+        try:
+            (out / "pilot").mkdir(); (out / "arms").mkdir()
+            (out / "pilot/plan.json").write_text(json.dumps({"units": [{"case": "T00", "variant": None}, {"case": "R00", "variant": "clean"}]}))
+            (out / "arms/MANIFEST.json").write_text(json.dumps({"frozen": "t"}))
+            with mock.patch.object(runner, "cfg", return_value=c), mock.patch.object(runner, "OUT", out), \
+                    mock.patch.object(runner, "ARMS_DIR", out / "arms"), mock.patch.object(runner, "case_dirs", return_value=toy):
+                self.assertEqual(runner.make_plan("p3")["units"], [{"case": "T00", "block": "p3", "variant": None, "arms": ["new"]}])
+                self.assertEqual(sorted(u["case"] for u in runner.make_plan("pilot")["units"]), ["R00", "T00"])  # no list: every case
+                with self.assertRaises(SystemExit): runner.make_plan("bad")
+        finally:
+            shutil.rmtree(out, ignore_errors=True)
+        real = json.loads((EVAL / "config.json").read_text())
+        self.assertEqual({k: real["stages"]["pilot3"][k] for k in ("arms", "cases", "like", "cap_usd")},
+                         {"arms": ["new"], "cases": ["I03"], "like": "pilot", "cap_usd": 3})
+        self.assertEqual(real["caps"]["total_usd"], 20)
+
+    def test_live_probe_verifies_builds_in_the_sandbox(self):
+        import runner
+        want = ["swift build --package-path ProbeKit", "swift test --package-path ProbeKit", "xcodebuild -version", "xcodebuild -version",
+                "xcodebuild build -scheme ProbeKit-Package -destination 'platform=iOS Simulator,name=iPhone 9'"]
+        for arm in runner.ARMS:
+            rows = [r for r in runner.live_probes(arm, "iPhone 9") if r["sandbox"] and r["want"] == "allowed"]
+            builds = [r for r in rows if any(w in r["cmd"] for w in want)]
+            self.assertEqual(len(builds), 5, arm)
+            for w, r in zip(want, builds): self.assertIn(w, r["cmd"]); self.assertTrue(r["out"])
+            self.assertEqual([r["want"] for r in runner.live_probes(arm) if not r["sandbox"]], ["denied", "allowed"])  # cat ~/.zshrc; xcodebuild -version
+        # 2 identical probes need 2 calls: 1 call leaves the second not run
+        v = {"cmd": "xcodebuild -version", "want": "allowed", "out": r"Xcode \d", "sandbox": True}
+        call = {"name": "Bash", "input": {"command": "xcodebuild -version"}, "is_error": False, "text": "Xcode 27.3"}
+        self.assertEqual([r["got"] for r in runner.probe_table([v, v], [call])], ["allowed", "not run"])
+        self.assertEqual([r["got"] for r in runner.probe_table([v, v], [call, call])], ["allowed", "allowed"])
 
     def test_policy_selftest(self):
         r = subprocess.run([sys.executable, "-I", str(EVAL / "runner.py"), "selftest"], capture_output=True, text=True)
