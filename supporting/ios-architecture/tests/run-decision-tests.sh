@@ -374,6 +374,53 @@ out=$(TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/trust-low "$S/decide
 expect "decide: trust-boundary check clears only at 0.05 or less" "$?:$(printf '%s\n' "$out" | jq -c '[.answer, .escalate, .fallback_tier]')" '3:[[],"fallback","medium"]'
 err=$(cd "$d" && TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/trust-low "$S/decide" --resolve check-trust-boundary-input trust.swift --answer '[]' --source orchestrator 2>&1)
 expect "decide: an orchestrator clear of the trust-boundary check is refused" "$?:$err" "2:decision check-trust-boundary-input is a security or privacy decision: the orchestrator can only flag it; a fallback subagent of tier medium that did not write the code clears it"
+# The trust-boundary pre-filter sends each incoming-input API to Jev and keeps outgoing request builders out.
+tb_source() { # swift-file: prints the decide source, jev or script
+  TYPESAFE_API_KEY=test-key-123 STUB_BODY=$fx/responses/trust-low "$S/decide" check-trust-boundary-input "$1" | jq -r .source
+}
+while IFS= read -r line; do
+  printf '%s\n' "$line" >"$d/tb.swift"
+  expect "decide: trust-boundary input routes to Jev: $line" "$(tb_source "$d/tb.swift")" jev
+done <<'EOF'
+.onOpenURL { url in router.open(url) }
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+let launchURL = connectionOptions.urlContexts.first?.url
+func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+.onContinueUserActivity("com.example.view") { activity in open(activity) }
+let activity = connectionOptions.userActivities.first
+let code = UIPasteboard.general.string ?? ""
+PasteButton(payloadType: String.self) { strings in redeem(strings) }
+.pasteDestination(for: String.self) { strings in redeem(strings) }
+.dropDestination(for: URL.self) { urls, _ in open(urls) }
+.onDrop(of: [.url], isTargeted: nil) { providers in load(providers) }
+func load(_ providers: [NSItemProvider]) {
+let items = extensionContext?.inputItems as? [NSExtensionItem] ?? []
+.fileImporter(isPresented: $importing, allowedContentTypes: [.json]) { result in load(result) }
+let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.json])
+init(configuration: ReadConfiguration) throws {
+struct OpenNoteIntent: AppIntent {
+@Parameter(title: "Note") var noteID: String
+struct NoteQuery: EntityQuery {
+init?(url: URL) {
+guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+let components = URLComponents(string: link)
+let components = URLComponents(url: userActivity.webpageURL!, resolvingAgainstBaseURL: true)
+EOF
+while IFS= read -r line; do
+  printf '%s\n' "$line" >"$d/tb.swift"
+  expect "decide: an outgoing request builder skips Jev: $line" "$(tb_source "$d/tb.swift")" script
+done <<'EOF'
+var components = URLComponents(url: baseURL.appending(path: endpoint.path), resolvingAgainstBaseURL: false)
+components?.queryItems = endpoint.query
+let components = URLComponents(string: "https://api.example.com/search")
+return endpoint.query.isEmpty ? url : url.appending(queryItems: endpoint.query)
+EOF
+for f in "$fx"/calibration/trust/*.swift; do
+  expect "decide: calibration fixture $(basename "$f") routes to Jev" "$(tb_source "$f")" jev
+done
+cp "$S/../template/Packages/Networking/Sources/Networking/LiveHTTPClient.swift" "$d/tb.swift"
+expect "decide: the template HTTP client skips Jev" "$(tb_source "$d/tb.swift")" script
 
 reset_stub
 out=$("$S/decide" check-personal-data-in-log "$d/log.swift")

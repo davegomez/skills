@@ -7,7 +7,7 @@
   "reference": {"unvalidated_input": "security-privacy", "link_side_effect": "navigation"},
   "script": {
     "path": "\\.swift$",
-    "content": "onOpenURL|onContinueUserActivity|openURLContexts|continue userActivity|open url|UIPasteboard|NSItemProvider|fileImporter|@Parameter|AppIntent|URLComponents|queryItems",
+    "content": "onOpenURL|open [A-Za-z_]+: URL|URLContexts|urlContexts|NSUserActivity|onContinueUserActivity|userActivities|UIPasteboard|PasteButton|pasteDestination|dropDestination|onDrop\\(|NSItemProvider|inputItems|fileImporter|UIDocumentPicker|ReadConfiguration|AppIntent|@Parameter|EntityQuery|init\\?\\([^)]*: URL[,)]|URLComponents\\((url|string):[[:space:]]*[A-Za-z_][A-Za-z0-9_.?!]*[[:space:]]*[,)]",
     "extract": false,
     "answer": []
   },
