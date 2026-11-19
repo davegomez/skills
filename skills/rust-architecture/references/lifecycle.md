@@ -28,7 +28,7 @@ async fn main() -> anyhow::Result<()> {
         )));
 
     let app = Router::new()
-        .route("/healthz", get(|| async { "ok" }))
+        .route("/health/live", get(|| async { "ok" }))
         .merge(registry.router(&ctx))
         .layer(tower_http::trace::TraceLayer::new_for_http());
 
@@ -67,7 +67,7 @@ async fn shutdown_signal() {
 }
 ```
 
-- `/healthz` reports that the process is alive. Add `/readyz` to report that dependencies are reachable.
+- `/health/live` reports that the process is alive. Add `/health/ready` to report that dependencies are reachable. Name each health route with a path that does not end in `z`: Cloud Run reserves some paths that end in `z`, and a request to `/healthz` there gets the 404 page of the platform and never reaches the container.
 - In containers, run as a non-root user and use a read-only root filesystem.
 
 **CLI composition root**

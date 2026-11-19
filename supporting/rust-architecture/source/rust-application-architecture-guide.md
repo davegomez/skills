@@ -498,7 +498,7 @@ Put every store behind a repository trait. Use SQLite for local data and Postgre
 | Server relational               | `sqlx` 0.9 PostgreSQL     | Compile-time checked queries and migrations. |
 
 - **sqlx 0.9:** `query*()` functions take a type that implements `SqlSafeStr`, which makes SQL injection harder.\[13\] The old `runtime-tokio-rustls` feature is gone. Use `runtime-tokio` plus the `tls-rustls-aws-lc-rs` feature.\[54\]
-- **sqlx-cli:** `cargo install --locked sqlx-cli` no longer works with 0.9.0, because the project removed its `Cargo.lock`.\[13\] In CI, pin the version with `cargo install sqlx-cli --version 0.9.0`. For a reproducible build, the announcement tells you to keep your own lockfile.
+- **sqlx-cli:** Install it with `cargo install --locked sqlx-cli@0.9.0`. The release announcement of 0.9.0 says that the project removed its `Cargo.lock` from Git and that `cargo install --locked sqlx-cli` no longer works.\[13\] It works: the crate on crates.io carries the `Cargo.lock` that Cargo wrote at publish time (the source lists of 0.8.6 and 0.9.0 on docs.rs have the file: [0.9.0](https://docs.rs/crate/sqlx-cli/0.9.0/source/), read 2026-11-19), and a run of `cargo install --locked sqlx-cli@0.9.0 --no-default-features --features postgres,rustls` on 2026-11-19 used it and installed the 2 programs. The project does not maintain that file: the same run warned that 4 packages of the lockfile are yanked (`chacha20` 0.10.0, `crypto-bigint` 0.7.3, `spin` 0.9.8, `der` 0.8.0). Read the warnings of the install.
 - **rusqlite and tokio-rusqlite:** `tokio-rusqlite` 0.8.0 requires rusqlite 0.40, and its bundled SQLite has RUSTSEC-2026-0459. `tokio-rusqlite` 0.9.0 (2026-11-11) requires rusqlite 0.42. `FromSql` for `u64` has needed the `fallible_uint` feature since rusqlite 0.38.\[55\]
 - Run server migrations as a separate, explicit step. Test every migration against production-shaped data in CI.
 - Use pools with a maximum size and an acquire timeout. Encrypt data at rest. Use SQLCipher if a local file holds regulated data. With rusqlite 0.41.x, the `bundled-sqlcipher` feature still builds a SQLite that RUSTSEC-2026-0459 affects.\[15\] Read the advisory before you ship it.
@@ -629,7 +629,7 @@ async fn main() -> anyhow::Result<()> {
         )));
 
     let app = Router::new()
-        .route("/healthz", get(|| async { "ok" }))
+        .route("/health/live", get(|| async { "ok" }))
         .merge(registry.router(&ctx))
         .layer(tower_http::trace::TraceLayer::new_for_http());
 
@@ -668,7 +668,7 @@ async fn shutdown_signal() {
 }
 ```
 
-- `/healthz` reports that the process is alive. Add `/readyz` to report that dependencies are reachable.
+- `/health/live` reports that the process is alive. Add `/health/ready` to report that dependencies are reachable. Name each health route with a path that does not end in `z`: Cloud Run reserves some paths that end in `z`, and a request to `/healthz` there gets the 404 page of the platform and never reaches the container. ([Cloud Run known issues](https://cloud.google.com/run/docs/known-issues), "Reserved URL paths", read 2026-11-19.)
 - In containers, run as a non-root user and use a read-only root filesystem.
 
 ### 13.2 CLI composition root
